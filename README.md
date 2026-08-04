@@ -11,7 +11,7 @@ npm install
 npm run dev
 ```
 
-The production build is created with `npm run build` and is compatible with Vercel's standard Next.js deployment flow.
+The Sites production build is created with `npm run build`. Vercel uses the dedicated `npm run vercel-build` command through `vercel.json`, preserving its standard Next.js deployment flow.
 
 ## Environment
 
