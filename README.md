@@ -41,4 +41,4 @@ After the successful circle transition, `OpenedState` reveals the Spain Residenc
 
 `AccessGateway` still accepts an optional `onOpened` callback and dispatches an `origen:opened` browser event after the circle zoom reaches its final black hold, allowing a future route transition or additional site shell to be connected later.
 
-The server-rendered page verifies the signed session cookie before rendering. A visitor who reloads after opening will skip the password form for the rest of that browser session.
+The signed HTTP-only session cookie is still created after successful validation for future protected routes. The gateway intentionally starts from its black opening frame on every page entry, so a reload never bypasses the cinematic animation or password form.

@@ -12,17 +12,15 @@ import {
 
 type ReducedMotionGatewayProps = {
   development: boolean;
-  initiallyAuthenticated: boolean;
   onOpened?: () => void;
 };
 
 export function ReducedMotionGateway({
   development,
-  initiallyAuthenticated,
   onOpened,
 }: ReducedMotionGatewayProps) {
   const [phase, setPhase] = useState<"ready" | "unlocking" | "opened">(
-    initiallyAuthenticated ? "opened" : "ready",
+    "ready",
   );
   const [errorPulse, setErrorPulse] = useState(0);
 

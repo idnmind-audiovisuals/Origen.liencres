@@ -12,7 +12,6 @@ import { GATEWAY_MOTION, ORGANIC_EASE } from "../lib/gateway-motion";
 
 type AccessGatewayProps = {
   development: boolean;
-  initiallyAuthenticated: boolean;
   onOpened?: () => void;
 };
 
@@ -32,7 +31,6 @@ function getReducedMotionPreference() {
 
 export function AccessGateway({
   development,
-  initiallyAuthenticated,
   onOpened,
 }: AccessGatewayProps) {
   const reduced = useSyncExternalStore(
@@ -40,14 +38,12 @@ export function AccessGateway({
     getReducedMotionPreference,
     () => false,
   );
-  const [state, setState] = useState<GatewayState>(
-    initiallyAuthenticated ? "opened" : "forming",
-  );
+  const [state, setState] = useState<GatewayState>("forming");
   const [errorPulse, setErrorPulse] = useState(0);
   const [keyboardOpen, setKeyboardOpen] = useState(false);
 
   useEffect(() => {
-    if (initiallyAuthenticated || reduced) return;
+    if (reduced) return;
 
     const reveal = window.setTimeout(
       () => setState("ready"),
@@ -55,7 +51,7 @@ export function AccessGateway({
     );
 
     return () => window.clearTimeout(reveal);
-  }, [initiallyAuthenticated, reduced]);
+  }, [reduced]);
 
   useEffect(() => {
     if (state !== "unlocking") return;
@@ -84,7 +80,6 @@ export function AccessGateway({
     return (
       <ReducedMotionGateway
         development={development}
-        initiallyAuthenticated={initiallyAuthenticated}
         onOpened={onOpened}
       />
     );
