@@ -35,8 +35,10 @@ The symbol shown in the gateway is rendered from responsive CSS circles, using t
 
 All phase delays, durations, easing, error feedback, success timing, and reduced-motion values live in `app/lib/gateway-motion.ts`.
 
-## Connecting the future site
+## Invitation page
 
-`AccessGateway` accepts an optional `onOpened` callback when it is mounted from a client component. It also dispatches an `origen:opened` browser event after the circle zoom reaches its final black hold. Replace `OpenedState` with the future site shell, call a router transition from `onOpened`, or listen for that event.
+After the successful circle transition, `OpenedState` reveals the Spain Residency invitation. Accommodation and map destinations are defined as constants at the top of `app/components/OpenedState.tsx` so they can be changed without touching the layout.
+
+`AccessGateway` still accepts an optional `onOpened` callback and dispatches an `origen:opened` browser event after the circle zoom reaches its final black hold, allowing a future route transition or additional site shell to be connected later.
 
 The server-rendered page verifies the signed session cookie before rendering. A visitor who reloads after opening will skip the password form for the rest of that browser session.

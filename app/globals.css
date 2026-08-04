@@ -57,7 +57,7 @@ button {
 }
 
 .gateway,
-.opened-state {
+.invitation-page {
   position: fixed;
   inset: 0;
   isolation: isolate;
@@ -389,19 +389,269 @@ button {
   will-change: transform;
 }
 
-.opened-state {
-  display: grid;
-  place-items: center;
+.invitation-page {
+  padding: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior-y: contain;
+  scroll-behavior: smooth;
+  scrollbar-color: rgb(36 35 31 / 0.36) transparent;
   color: var(--ink);
   background: var(--paper);
 }
 
-.opened-state p {
+.invitation-content {
+  --page-gutter: clamp(22px, 4.5vw, 72px);
+
+  position: relative;
+  min-height: 100dvh;
+  padding:
+    max(22px, env(safe-area-inset-top))
+    max(var(--page-gutter), env(safe-area-inset-right))
+    max(26px, env(safe-area-inset-bottom))
+    max(var(--page-gutter), env(safe-area-inset-left));
+}
+
+.invitation-header {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  min-height: 42px;
+}
+
+.invitation-brand {
+  display: block;
+  width: clamp(122px, 13vw, 184px);
+  outline: 0;
+}
+
+.invitation-brand img {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: invert(1);
+  user-select: none;
+}
+
+.invitation-brand:focus-visible {
+  box-shadow: 0 2px 0 var(--ink);
+}
+
+.invitation-availability {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   margin: 0;
-  font-size: clamp(11px, 1.25vw, 14px);
-  font-weight: 430;
-  letter-spacing: 0.24em;
-  text-transform: lowercase;
+  padding-top: 5px;
+  font-size: clamp(9px, 0.78vw, 11px);
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.invitation-availability span {
+  width: 7px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--ink);
+}
+
+.invitation-hero {
+  display: grid;
+  min-height: calc(100svh - 64px);
+  padding: clamp(118px, 17vh, 190px) 0 clamp(74px, 11vh, 120px);
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: clamp(12px, 1.7vw, 28px);
+  align-items: end;
+}
+
+.invitation-title-block {
+  grid-column: 1 / 10;
+}
+
+.invitation-eyebrow,
+.invitation-program-heading p {
+  margin: 0 0 clamp(18px, 2.3vw, 34px);
+  font-size: clamp(9px, 0.8vw, 12px);
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.invitation-title-block h1 {
+  margin: 0;
+  font-size: clamp(66px, 11vw, 176px);
+  font-weight: 300;
+  letter-spacing: -0.07em;
+  line-height: 0.79;
+}
+
+.invitation-title-block h1 span {
+  display: block;
+}
+
+.invitation-details {
+  grid-column: 10 / 13;
+  margin: 0;
+  padding-bottom: clamp(2px, 1vw, 12px);
+}
+
+.invitation-details div {
+  display: grid;
+  padding: 13px 0 14px;
+  border-top: 1px solid rgb(36 35 31 / 0.38);
+  grid-template-columns: minmax(72px, 0.8fr) 1.4fr;
+  gap: 12px;
+}
+
+.invitation-details div:last-child {
+  border-bottom: 1px solid rgb(36 35 31 / 0.38);
+}
+
+.invitation-details dt,
+.invitation-details dd {
+  margin: 0;
+  font-size: clamp(10px, 0.86vw, 13px);
+  line-height: 1.4;
+}
+
+.invitation-details dt {
+  color: rgb(36 35 31 / 0.54);
+  font-size: clamp(8px, 0.64vw, 10px);
+  font-weight: 500;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.invitation-details dd {
+  font-weight: 450;
+}
+
+.invitation-program {
+  display: grid;
+  padding: clamp(76px, 10vw, 150px) 0 clamp(92px, 12vw, 180px);
+  border-top: 1px solid var(--ink);
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: clamp(12px, 1.7vw, 28px);
+}
+
+.invitation-program-heading {
+  grid-column: 1 / 5;
+}
+
+.invitation-program-heading h2 {
+  max-width: 420px;
+  margin: 0;
+  font-size: clamp(34px, 4.3vw, 68px);
+  font-weight: 330;
+  letter-spacing: -0.05em;
+  line-height: 0.96;
+}
+
+.invitation-experiences {
+  grid-column: 6 / 13;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.invitation-experiences li {
+  display: grid;
+  min-height: clamp(64px, 6.5vw, 96px);
+  align-items: center;
+  border-top: 1px solid rgb(36 35 31 / 0.38);
+  font-size: clamp(18px, 2.15vw, 33px);
+  font-weight: 360;
+  letter-spacing: -0.025em;
+  grid-template-columns: clamp(44px, 5vw, 76px) 1fr;
+}
+
+.invitation-experiences li:last-child {
+  border-bottom: 1px solid rgb(36 35 31 / 0.38);
+}
+
+.invitation-experiences li span {
+  align-self: start;
+  padding-top: clamp(22px, 2.15vw, 32px);
+  color: rgb(36 35 31 / 0.48);
+  font-size: clamp(8px, 0.65vw, 10px);
+  font-weight: 500;
+  letter-spacing: 0.12em;
+}
+
+.invitation-links {
+  display: grid;
+  border-top: 1px solid var(--ink);
+  border-bottom: 1px solid var(--ink);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.invitation-links a {
+  display: flex;
+  min-height: clamp(180px, 22vw, 330px);
+  padding: clamp(24px, 3vw, 48px);
+  align-items: flex-end;
+  justify-content: space-between;
+  outline: 0;
+  color: var(--ink);
+  text-decoration: none;
+  transition: color 280ms ease, background-color 280ms ease;
+}
+
+.invitation-links a + a {
+  border-left: 1px solid var(--ink);
+}
+
+.invitation-links a > span:first-child {
+  display: flex;
+  flex-direction: column;
+  font-size: clamp(42px, 6.4vw, 102px);
+  font-weight: 310;
+  letter-spacing: -0.06em;
+  line-height: 0.84;
+}
+
+.invitation-links small {
+  margin-bottom: clamp(20px, 2.8vw, 42px);
+  font-size: clamp(8px, 0.65vw, 10px);
+  font-weight: 520;
+  letter-spacing: 0.17em;
+  text-transform: uppercase;
+}
+
+.invitation-links a > span:last-child {
+  align-self: flex-start;
+  font-size: clamp(16px, 1.8vw, 28px);
+  transition: transform 280ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.invitation-links a:hover,
+.invitation-links a:focus-visible {
+  color: var(--paper);
+  background: var(--ink);
+}
+
+.invitation-links a:hover > span:last-child,
+.invitation-links a:focus-visible > span:last-child {
+  transform: translate(4px, -4px);
+}
+
+.invitation-footer {
+  display: flex;
+  padding: clamp(32px, 4vw, 64px) 0 0;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.invitation-footer p {
+  margin: 0;
+  color: rgb(36 35 31 / 0.62);
+  font-size: clamp(8px, 0.66vw, 10px);
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
 }
 
 .session-reset {
@@ -426,6 +676,12 @@ button {
   box-shadow: 0 1px 0 var(--ink);
 }
 
+.invitation-session-reset {
+  position: static;
+  display: block;
+  margin: 28px 0 0 auto;
+}
+
 .gateway-reduced {
   color: var(--ink);
   background: var(--paper);
@@ -446,6 +702,96 @@ button {
 @keyframes reduced-reveal {
   from { opacity: 0; }
   to { opacity: 1; }
+}
+
+@media (max-width: 760px) {
+  .invitation-content {
+    --page-gutter: 20px;
+  }
+
+  .invitation-header {
+    min-height: 34px;
+  }
+
+  .invitation-brand {
+    width: 116px;
+  }
+
+  .invitation-availability {
+    max-width: 126px;
+    padding-top: 2px;
+    justify-content: flex-end;
+    font-size: 8px;
+    line-height: 1.45;
+    text-align: right;
+  }
+
+  .invitation-hero {
+    display: block;
+    min-height: 0;
+    padding: clamp(108px, 18vh, 150px) 0 84px;
+  }
+
+  .invitation-title-block h1 {
+    font-size: clamp(54px, 15vw, 106px);
+    line-height: 0.84;
+  }
+
+  .invitation-details {
+    margin-top: clamp(72px, 16vh, 118px);
+  }
+
+  .invitation-details div {
+    grid-template-columns: 92px 1fr;
+  }
+
+  .invitation-program {
+    display: block;
+    padding: 76px 0 104px;
+  }
+
+  .invitation-program-heading {
+    margin-bottom: 64px;
+  }
+
+  .invitation-program-heading h2 {
+    font-size: clamp(39px, 11vw, 64px);
+  }
+
+  .invitation-experiences li {
+    min-height: 72px;
+    font-size: clamp(18px, 5vw, 27px);
+    grid-template-columns: 42px 1fr;
+  }
+
+  .invitation-experiences li span {
+    padding-top: 25px;
+  }
+
+  .invitation-links {
+    grid-template-columns: 1fr;
+  }
+
+  .invitation-links a {
+    min-height: 190px;
+    padding: 24px 2px;
+  }
+
+  .invitation-links a + a {
+    border-top: 1px solid var(--ink);
+    border-left: 0;
+  }
+
+  .invitation-links a > span:first-child {
+    font-size: clamp(48px, 15vw, 76px);
+  }
+
+  .invitation-footer {
+    align-items: flex-end;
+    flex-direction: column;
+    gap: 10px;
+    text-align: right;
+  }
 }
 
 @media (max-height: 520px) {

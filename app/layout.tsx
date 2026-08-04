@@ -4,8 +4,8 @@ import "@fontsource-variable/montserrat";
 import "./globals.css";
 import { ORIGEN_SYMBOL_ASSET } from "./lib/brand";
 
-const title = "Origen — Key to open";
-const description = "A quiet gateway into Origen.";
+const title = "Origen — Spain Residency";
+const description = "Five days in Liencres, Spain. 9–14 September.";
 
 export async function generateMetadata(): Promise<Metadata> {
   const requestHeaders = await headers();
