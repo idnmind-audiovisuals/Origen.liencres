@@ -9,14 +9,17 @@ import {
   CINEMATIC_ENTRY_EASE,
   GATEWAY_MOTION,
 } from "../lib/gateway-motion";
+import type { Language } from "../lib/language";
 
 type ReducedMotionGatewayProps = {
   development: boolean;
+  initialLanguage: Language;
   onOpened?: () => void;
 };
 
 export function ReducedMotionGateway({
   development,
+  initialLanguage,
   onOpened,
 }: ReducedMotionGatewayProps) {
   const [phase, setPhase] = useState<"ready" | "unlocking" | "opened">(
@@ -42,7 +45,13 @@ export function ReducedMotionGateway({
   }
 
   if (phase === "opened") {
-    return <OpenedState development={development} onReset={resetSession} />;
+    return (
+      <OpenedState
+        development={development}
+        initialLanguage={initialLanguage}
+        onReset={resetSession}
+      />
+    );
   }
 
   const unlocking = phase === "unlocking";

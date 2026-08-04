@@ -57,6 +57,8 @@ export function AccessKeyForm({
       });
 
       if (response.ok) {
+        inputRef.current?.blur();
+        onFocusChange?.(false);
         setFeedback("Access accepted. The gateway is opening.");
         onSuccess();
         return;

@@ -37,7 +37,11 @@ All phase delays, durations, easing, error feedback, success timing, and reduced
 
 ## Invitation page
 
-After the successful circle transition, `OpenedState` reveals the Spain Residency invitation. Accommodation and map destinations are defined as constants at the top of `app/components/OpenedState.tsx` so they can be changed without touching the layout.
+After the successful circle transition, `OpenedState` reveals the Spain Residency invitation. Accommodation, map, and WhatsApp group destinations are defined as constants at the top of `app/components/OpenedState.tsx` so they can be changed without touching the layout.
+
+The invitation links to protected `/story` and `/vision` editorial pages. Both routes, along with `/residency`, verify the signed access cookie on the server and redirect unauthenticated visitors to the gateway.
+
+The unlocked invitation and editorial pages include an English/Spanish language control. English is the default, and the selected language is stored in the non-sensitive `origen_language` preference cookie so it remains consistent while navigating between pages. The password gateway itself remains unchanged.
 
 `AccessGateway` still accepts an optional `onOpened` callback and dispatches an `origen:opened` browser event after the circle zoom reaches its final black hold, allowing a future route transition or additional site shell to be connected later.
 

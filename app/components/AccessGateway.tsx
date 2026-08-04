@@ -9,9 +9,11 @@ import { OrigenWordmark } from "./OrigenWordmark";
 import { ReducedMotionGateway } from "./ReducedMotionGateway";
 import { SuccessTransition } from "./SuccessTransition";
 import { GATEWAY_MOTION, ORGANIC_EASE } from "../lib/gateway-motion";
+import type { Language } from "../lib/language";
 
 type AccessGatewayProps = {
   development: boolean;
+  initialLanguage: Language;
   onOpened?: () => void;
 };
 
@@ -31,6 +33,7 @@ function getReducedMotionPreference() {
 
 export function AccessGateway({
   development,
+  initialLanguage,
   onOpened,
 }: AccessGatewayProps) {
   const reduced = useSyncExternalStore(
@@ -80,13 +83,20 @@ export function AccessGateway({
     return (
       <ReducedMotionGateway
         development={development}
+        initialLanguage={initialLanguage}
         onOpened={onOpened}
       />
     );
   }
 
   if (state === "opened") {
-    return <OpenedState development={development} onReset={resetSession} />;
+    return (
+      <OpenedState
+        development={development}
+        initialLanguage={initialLanguage}
+        onReset={resetSession}
+      />
+    );
   }
 
   const formVisible = state === "ready";
