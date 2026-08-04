@@ -1,6 +1,6 @@
 # Origen access gateway
 
-A responsive, cinematic password gateway built with Next.js, TypeScript, Tailwind CSS, Framer Motion, and the official Origen symbol asset.
+A responsive, cinematic password gateway built with Next.js, TypeScript, Tailwind CSS, Framer Motion, and resolution-independent circle geometry.
 
 ## Installation
 
@@ -27,9 +27,9 @@ In development, authenticated sessions can be cleared with the subtle `reset ses
 
 ## Origen symbol
 
-The supplied official PNG is stored at `public/origen-symbol.png`. Only its empty outer canvas was cropped; the symbol pixels and proportions are unchanged.
+The symbol shown in the gateway is rendered from responsive CSS circles, using the official outer-circle, inner-circle, and centre-dot proportions. No raster image is displayed in the animated composition, so the mark remains sharp at every size and through the full zoom transition.
 
-If an official SVG is supplied later, place it at `public/origen-symbol.svg` and update `ORIGEN_SYMBOL_ASSET` in `app/lib/brand.ts`. That single constant controls both image preloading and rendering.
+`public/origen-symbol.png` remains only as the browser metadata icon. It is not used by the gateway artwork.
 
 ## Motion timing
 
@@ -37,6 +37,6 @@ All phase delays, durations, easing, error feedback, success timing, and reduced
 
 ## Connecting the future site
 
-`AccessGateway` accepts an optional `onOpened` callback when it is mounted from a client component. It also dispatches an `origen:opened` browser event after the white opening transition completes. Replace `OpenedState` with the future site shell, call a router transition from `onOpened`, or listen for that event.
+`AccessGateway` accepts an optional `onOpened` callback when it is mounted from a client component. It also dispatches an `origen:opened` browser event after the circle zoom reaches its final black hold. Replace `OpenedState` with the future site shell, call a router transition from `onOpened`, or listen for that event.
 
 The server-rendered page verifies the signed session cookie before rendering. A visitor who reloads after opening will skip the password form for the rest of that browser session.

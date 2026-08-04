@@ -58,9 +58,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head>
-        <link rel="preload" href={ORIGEN_SYMBOL_ASSET} as="image" type="image/png" />
-      </head>
       <body>{children}</body>
     </html>
   );

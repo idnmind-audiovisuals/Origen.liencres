@@ -2,8 +2,12 @@
 
 import { motion, useAnimationControls } from "framer-motion";
 import { ReactNode, useEffect } from "react";
-import { ORIGEN_SYMBOL_ASSET } from "../lib/brand";
-import { GATEWAY_MOTION, ORGANIC_EASE } from "../lib/gateway-motion";
+import {
+  CINEMATIC_ENTRY_EASE,
+  GATEWAY_MOTION,
+  LIGHT_EMERGENCE_EASE,
+  ORGANIC_EASE,
+} from "../lib/gateway-motion";
 
 type OrigenSymbolAnimationProps = {
   children?: ReactNode;
@@ -17,6 +21,9 @@ export function OrigenSymbolAnimation({
   unlocked,
 }: OrigenSymbolAnimationProps) {
   const feedbackControls = useAnimationControls();
+  const reactionProgress =
+    GATEWAY_MOTION.success.reactionDuration /
+    GATEWAY_MOTION.success.zoomDelay;
 
   useEffect(() => {
     if (errorPulse === 0) return;
@@ -35,101 +42,88 @@ export function OrigenSymbolAnimation({
       <motion.div
         className="first-light"
         aria-hidden="true"
-        initial={{ opacity: 0, scale: 0.001 }}
-        animate={{ opacity: [0, 0.18, 1], scale: GATEWAY_MOTION.firstLight.scale }}
+        initial={{ opacity: 0, scale: 0.0002 }}
+        animate={{ opacity: 1, scale: GATEWAY_MOTION.firstLight.scale }}
         transition={{
           delay: GATEWAY_MOTION.firstLight.delay,
           duration: GATEWAY_MOTION.firstLight.duration,
-          ease: ORGANIC_EASE,
-          opacity: { times: [0, 0.08, 1] },
+          ease: LIGHT_EMERGENCE_EASE,
         }}
       />
 
-      <motion.div
-        className="symbol-stage"
-        animate={feedbackControls}
-        aria-hidden={false}
-      >
+      <div className="symbol-positioner">
         <motion.div
-          className="unlock-response"
-          animate={
-            unlocked
-              ? { scale: [1, 1.018, 0.994, 1] }
-              : { scale: 1 }
-          }
-          transition={{
-            duration: GATEWAY_MOTION.success.symbolResponse,
-            ease: ORGANIC_EASE,
-          }}
+          className="symbol-stage"
+          animate={feedbackControls}
+          aria-hidden={false}
         >
-          <div className="forming-disc-shell" aria-hidden="true">
-            <motion.div
-              className="forming-disc"
-              initial={{ opacity: 0, scale: 0.02 }}
-              animate={{
-                opacity: [0, 1, 1, 1],
-                scale: [0.02, 1, 0.985, 1],
-              }}
-              transition={{
-                delay: GATEWAY_MOTION.darkCircle.delay,
-                duration: GATEWAY_MOTION.darkCircle.duration,
-                times: [0, 0.72, 0.9, 1],
-                ease: ORGANIC_EASE,
-              }}
-            />
-          </div>
+          <motion.div
+            className="unlock-response"
+            animate={
+              unlocked
+                ? {
+                    opacity: [1, 1, 0],
+                    scale: [1, 1.018, GATEWAY_MOTION.success.handoffScale],
+                  }
+                : { opacity: 1, scale: 1 }
+            }
+            transition={
+              unlocked
+                ? {
+                    duration: GATEWAY_MOTION.success.zoomDelay,
+                    ease: CINEMATIC_ENTRY_EASE,
+                    times: [0, reactionProgress, 1],
+                  }
+                : { duration: 0.2, ease: ORGANIC_EASE }
+            }
+          >
+            <div className="forming-disc-shell" aria-hidden="true">
+              <motion.div
+                className="forming-disc"
+                initial={{ opacity: 0, scale: 0.02 }}
+                animate={{
+                  opacity: [0, 1, 1, 1],
+                  scale: [0.02, 1, 0.985, 1],
+                }}
+                transition={{
+                  delay: GATEWAY_MOTION.darkCircle.delay,
+                  duration: GATEWAY_MOTION.darkCircle.duration,
+                  times: [0, 0.72, 0.9, 1],
+                  ease: ORGANIC_EASE,
+                }}
+              />
+            </div>
 
-          <div className="forming-inner-shell" aria-hidden="true">
+            <div className="forming-inner-shell" aria-hidden="true">
+              <motion.div
+                className="forming-inner"
+                initial={{ opacity: 0, scale: 0.02 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{
+                  delay: GATEWAY_MOTION.innerLight.delay,
+                  duration: GATEWAY_MOTION.innerLight.duration,
+                  ease: ORGANIC_EASE,
+                }}
+              />
+            </div>
+
             <motion.div
-              className="forming-inner"
-              initial={{ opacity: 0, scale: 0.02 }}
+              className="forming-dot"
+              aria-hidden="true"
+              initial={{ opacity: 0, scale: 0.15 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{
-                delay: GATEWAY_MOTION.innerLight.delay,
-                duration: GATEWAY_MOTION.innerLight.duration,
+                delay: GATEWAY_MOTION.centreDot.delay,
+                duration: GATEWAY_MOTION.centreDot.duration,
                 ease: ORGANIC_EASE,
               }}
             />
-          </div>
 
-          <motion.div
-            className="forming-dot"
-            aria-hidden="true"
-            initial={{ opacity: 0, scale: 0.15 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{
-              delay: GATEWAY_MOTION.centreDot.delay,
-              duration: GATEWAY_MOTION.centreDot.duration,
-              ease: ORGANIC_EASE,
-            }}
-          />
-
-          <motion.div
-            className="official-symbol"
-            aria-hidden="true"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{
-              delay: GATEWAY_MOTION.exactMark.delay,
-              duration: GATEWAY_MOTION.exactMark.duration,
-              ease: ORGANIC_EASE,
-            }}
-          >
-            {/* The official raster is intentionally rendered without recomposition. */}
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={ORIGEN_SYMBOL_ASSET}
-              width="283"
-              height="244"
-              alt=""
-              draggable="false"
-              fetchPriority="high"
-            />
           </motion.div>
-        </motion.div>
 
-        {children}
-      </motion.div>
+          {children}
+        </motion.div>
+      </div>
     </>
   );
 }

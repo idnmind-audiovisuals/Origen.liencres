@@ -1,12 +1,17 @@
 @import "tailwindcss";
 
 :root {
-  --ink: #1c1e1a;
-  --pure-black: #000000;
+  --ink: #24231f;
+  --black: #24231f;
   --paper: #f2efe8;
-  --white: #ffffff;
-  --symbol-size: min(68vmin, 260px);
+  --portal-center-y: 42.99dvh;
+  --portal-size: min(49.494dvh, calc(100vw - 32px));
+  --symbol-size: calc(var(--portal-size) * 0.689284);
   --symbol-ratio: 283 / 244;
+  --symbol-center-y: 40.258dvh;
+  --symbol-rest-offset-y: calc(var(--symbol-center-y) - 50dvh);
+  --wordmark-top: 76.706dvh;
+  --wordmark-width: calc(var(--portal-size) * 0.586968);
 }
 
 * {
@@ -20,7 +25,7 @@ body {
   margin: 0;
   overflow: hidden;
   overscroll-behavior: none;
-  background: var(--pure-black);
+  background: var(--black);
 }
 
 body {
@@ -70,30 +75,44 @@ button {
 .gateway {
   display: grid;
   place-items: center;
-  background: var(--pure-black);
+  background: var(--black);
 }
 
 .first-light {
   position: fixed;
-  z-index: -1;
-  top: 50%;
+  z-index: 0;
+  top: var(--portal-center-y);
   left: 50%;
-  width: 100vmax;
-  height: 100vmax;
-  margin-top: -50vmax;
-  margin-left: -50vmax;
+  width: var(--portal-size);
+  height: var(--portal-size);
+  margin-top: calc(var(--portal-size) * -0.5);
+  margin-left: calc(var(--portal-size) * -0.5);
   border-radius: 50%;
   background: var(--paper);
   transform-origin: 50% 50%;
   will-change: transform, opacity;
 }
 
+.symbol-positioner,
+.success-stage-positioner {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  transform: translateY(var(--symbol-rest-offset-y));
+  transform-origin: 50% 50%;
+}
+
+.symbol-positioner {
+  z-index: 2;
+}
+
 .symbol-stage {
   position: relative;
-  z-index: 2;
   width: var(--symbol-size);
   aspect-ratio: var(--symbol-ratio);
-  overflow: hidden;
+  overflow: visible;
   transform: translateZ(0);
   will-change: transform, opacity;
 }
@@ -107,9 +126,9 @@ button {
 
 .forming-disc-shell {
   position: absolute;
-  top: 3.28%;
-  left: 2.83%;
-  width: 94.35%;
+  top: 3.2787%;
+  left: 2.8269%;
+  width: 94.3463%;
   aspect-ratio: 1;
 }
 
@@ -128,9 +147,9 @@ button {
 .forming-inner-shell {
   position: absolute;
   z-index: 1;
-  top: 21.3%;
-  left: 8.3%;
-  width: 83.4%;
+  top: 21.7213%;
+  left: 8.1272%;
+  width: 83.7456%;
   aspect-ratio: 1;
 }
 
@@ -141,32 +160,56 @@ button {
 .forming-dot {
   position: absolute;
   z-index: 2;
-  top: 61%;
-  left: 42.6%;
-  width: 14.8%;
+  top: 61.0656%;
+  left: 42.5795%;
+  width: 14.841%;
   aspect-ratio: 1;
   border-radius: 50%;
-  background: var(--pure-black);
+  background: var(--black);
   transform-origin: 50% 50%;
   will-change: transform, opacity;
 }
 
-.official-symbol {
+.reduced-circle-geometry {
   position: absolute;
-  z-index: 3;
   inset: 0;
-  background: var(--paper);
   pointer-events: none;
-  will-change: opacity;
 }
 
-.official-symbol img,
-.reduced-symbol-image {
+.origen-wordmark {
+  position: fixed;
+  z-index: 2;
+  top: var(--wordmark-top);
+  left: 50%;
+  width: var(--wordmark-width);
+  pointer-events: none;
+  transform: translateX(-50%);
+  transform-origin: 50% 0;
+  white-space: nowrap;
+}
+
+.origen-wordmark-motion {
+  will-change: transform, opacity;
+}
+
+.origen-wordmark-image {
   display: block;
   width: 100%;
-  height: 100%;
+  height: auto;
   object-fit: contain;
   user-select: none;
+}
+
+.gateway-portal-static {
+  position: fixed;
+  z-index: 0;
+  top: var(--portal-center-y);
+  left: 50%;
+  width: var(--portal-size);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--paper);
+  transform: translate(-50%, -50%);
 }
 
 .access-form {
@@ -179,25 +222,11 @@ button {
 
 .access-credential {
   position: absolute;
-  top: 33%;
+  top: 49%;
   left: 50%;
-  display: flex;
   width: 56%;
   transform: translateX(-50%);
-  flex-direction: column;
-  align-items: center;
-  gap: clamp(5px, 1.2vmin, 9px);
   pointer-events: auto;
-}
-
-.access-credential label {
-  color: var(--ink);
-  font-size: clamp(9px, calc(var(--symbol-size) * 0.031), 12px);
-  font-weight: 480;
-  letter-spacing: 0.16em;
-  line-height: 1;
-  text-align: center;
-  text-transform: lowercase;
 }
 
 .access-credential input {
@@ -205,7 +234,7 @@ button {
   min-height: 28px;
   padding: 3px 2px 6px;
   border: 0;
-  border-bottom: 1px solid rgb(28 30 26 / 0.32);
+  border-bottom: 1px solid rgb(36 35 31 / 0.32);
   border-radius: 0;
   outline: 0;
   color: var(--ink);
@@ -220,6 +249,14 @@ button {
   transition: border-color 180ms ease, box-shadow 180ms ease;
 }
 
+.access-credential input::placeholder {
+  color: var(--ink);
+  font-size: clamp(9px, calc(var(--symbol-size) * 0.031), 12px);
+  font-weight: 480;
+  letter-spacing: 0.16em;
+  opacity: 1;
+}
+
 .access-credential input:focus-visible {
   border-bottom-color: var(--ink);
   box-shadow: 0 2px 0 -1px var(--ink);
@@ -231,10 +268,10 @@ button {
 
 .access-submit {
   position: absolute;
-  top: 69.25%;
+  top: 69.6721%;
   left: 50%;
   display: grid;
-  width: 14.8%;
+  width: 14.841%;
   min-width: 30px;
   max-width: 58px;
   aspect-ratio: 1;
@@ -245,7 +282,7 @@ button {
   border-radius: 50%;
   outline: 0;
   color: var(--paper);
-  background: var(--pure-black);
+  background: var(--black);
   cursor: pointer;
   pointer-events: auto;
   touch-action: manipulation;
@@ -281,29 +318,82 @@ button {
   opacity: 0.88;
 }
 
-.success-wash {
-  --success-origin-size: clamp(30px, 9vmin, 62px);
-
+.success-transition {
   position: fixed;
-  z-index: 12;
-  top: calc(50% + clamp(30px, 7vmin, 66px));
-  left: 50%;
-  width: var(--success-origin-size);
-  aspect-ratio: 1;
-  margin-top: calc(var(--success-origin-size) * -0.5);
-  margin-left: calc(var(--success-origin-size) * -0.5);
-  border-radius: 50%;
-  background: var(--white);
-  transform-origin: 50% 50%;
+  z-index: 3;
+  inset: 0;
+  display: grid;
+  overflow: hidden;
+  place-items: center;
   pointer-events: none;
+}
+
+.success-symbol-stage {
+  position: relative;
+  width: var(--symbol-size);
+  aspect-ratio: var(--symbol-ratio);
+  overflow: visible;
+}
+
+.transition-disc-shell,
+.transition-inner-shell {
+  position: absolute;
+  aspect-ratio: 1;
+}
+
+.transition-disc-shell {
+  z-index: 1;
+  top: 3.2787%;
+  left: 2.8269%;
+  width: 94.3463%;
+}
+
+.transition-inner-shell {
+  z-index: 2;
+  top: 21.7213%;
+  left: 8.1272%;
+  width: 83.7456%;
+}
+
+.transition-black-circle,
+.transition-white-circle {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  transform-origin: 50% 50%;
   will-change: transform, opacity;
+}
+
+.transition-black-circle,
+.transition-black-dot {
+  background: var(--black);
+}
+
+.transition-black-circle {
+  box-shadow: 0 0 0 2px var(--black);
+}
+
+.transition-white-circle {
+  background: var(--paper);
+}
+
+.transition-black-dot {
+  position: absolute;
+  z-index: 3;
+  top: 61.0656%;
+  left: 42.5795%;
+  width: 14.841%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  transform-origin: 50% 50%;
+  will-change: transform;
 }
 
 .opened-state {
   display: grid;
   place-items: center;
   color: var(--ink);
-  background: var(--white);
+  background: var(--paper);
 }
 
 .opened-state p {
@@ -312,7 +402,6 @@ button {
   font-weight: 430;
   letter-spacing: 0.24em;
   text-transform: lowercase;
-  animation: opened-reveal 500ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 .session-reset {
@@ -323,7 +412,7 @@ button {
   border: 0;
   border-radius: 0;
   outline: 0;
-  color: rgb(28 30 26 / 0.46);
+  color: rgb(36 35 31 / 0.46);
   background: transparent;
   font-size: 9px;
   font-weight: 460;
@@ -342,17 +431,16 @@ button {
   background: var(--paper);
 }
 
+.gateway-reduced[data-state="unlocking"] {
+  pointer-events: none;
+}
+
 .reduced-symbol {
   animation: reduced-reveal 200ms ease-out both;
 }
 
-.gateway-reduced[data-error] .reduced-symbol-image {
+.gateway-reduced[data-error] .reduced-circle-geometry {
   opacity: 0.82;
-}
-
-@keyframes opened-reveal {
-  from { opacity: 0; }
-  to { opacity: 1; }
 }
 
 @keyframes reduced-reveal {
@@ -360,28 +448,17 @@ button {
   to { opacity: 1; }
 }
 
-@media (min-width: 600px) {
-  :root {
-    --symbol-size: min(52vmin, 330px);
-  }
-}
-
-@media (min-width: 1024px) {
-  :root {
-    --symbol-size: min(44vmin, 420px);
-  }
-}
-
 @media (max-height: 520px) {
   :root {
-    --symbol-size: min(67vmin, 250px);
+    --portal-center-y: 50%;
+    --portal-size: min(72vmin, 280px);
+    --symbol-size: calc(var(--portal-size) * 0.689284);
+    --symbol-center-y: 50dvh;
+    --symbol-rest-offset-y: 0px;
   }
-}
 
-@media (max-width: 599px) {
-  .gateway.keyboard-open .symbol-stage {
-    transform: translateY(-6svh) translateZ(0);
-    transition: transform 280ms cubic-bezier(0.22, 1, 0.36, 1);
+  .origen-wordmark {
+    display: none;
   }
 }
 

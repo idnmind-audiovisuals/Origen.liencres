@@ -5,6 +5,7 @@ import { useEffect, useState, useSyncExternalStore } from "react";
 import { AccessKeyForm } from "./AccessKeyForm";
 import { OpenedState } from "./OpenedState";
 import { OrigenSymbolAnimation } from "./OrigenSymbolAnimation";
+import { OrigenWordmark } from "./OrigenWordmark";
 import { ReducedMotionGateway } from "./ReducedMotionGateway";
 import { SuccessTransition } from "./SuccessTransition";
 import { GATEWAY_MOTION, ORGANIC_EASE } from "../lib/gateway-motion";
@@ -15,7 +16,7 @@ type AccessGatewayProps = {
   onOpened?: () => void;
 };
 
-type GatewayState = "forming" | "ready" | "opening" | "opened";
+type GatewayState = "forming" | "ready" | "unlocking" | "opened";
 
 const reducedMotionQuery = "(prefers-reduced-motion: reduce)";
 
@@ -57,13 +58,19 @@ export function AccessGateway({
   }, [initiallyAuthenticated, reduced]);
 
   useEffect(() => {
-    if (state !== "opening") return;
+    if (state !== "unlocking") return;
 
-    const opened = window.setTimeout(() => {
-      setState("opened");
-      onOpened?.();
-      window.dispatchEvent(new CustomEvent("origen:opened"));
-    }, GATEWAY_MOTION.success.openedDelayMs);
+    const opened = window.setTimeout(
+      () => {
+        setState("opened");
+        onOpened?.();
+        window.dispatchEvent(new CustomEvent("origen:opened"));
+      },
+      (GATEWAY_MOTION.success.zoomDelay +
+        GATEWAY_MOTION.success.zoomDuration +
+        GATEWAY_MOTION.success.blackHold) *
+        1000,
+    );
 
     return () => window.clearTimeout(opened);
   }, [onOpened, state]);
@@ -88,7 +95,7 @@ export function AccessGateway({
   }
 
   const formVisible = state === "ready";
-  const opening = state === "opening";
+  const unlocking = state === "unlocking";
 
   return (
     <main
@@ -97,30 +104,32 @@ export function AccessGateway({
     >
       <h1 className="sr-only">Origen access gateway</h1>
 
-      <OrigenSymbolAnimation errorPulse={errorPulse} unlocked={opening}>
+      <OrigenSymbolAnimation errorPulse={errorPulse} unlocked={unlocking}>
         <AccessKeyForm
           visible={formVisible}
-          disabled={opening}
+          disabled={unlocking}
           onIncorrect={() => setErrorPulse((current) => current + 1)}
           onSuccess={() => {
             setKeyboardOpen(false);
-            setState("opening");
+            setState("unlocking");
           }}
           onFocusChange={setKeyboardOpen}
         />
       </OrigenSymbolAnimation>
 
-      <SuccessTransition active={opening} />
+      <OrigenWordmark visible={formVisible} />
+
+      <SuccessTransition active={unlocking} />
 
       <motion.p
         className="opening-status sr-only"
         role="status"
         aria-live="polite"
         initial={false}
-        animate={{ opacity: opening ? 1 : 0 }}
+        animate={{ opacity: unlocking ? 1 : 0 }}
         transition={{ duration: 0.2, ease: ORGANIC_EASE }}
       >
-        {opening ? "Access accepted. Origen is opening." : ""}
+        {unlocking ? "Access accepted. Entering Origen." : ""}
       </motion.p>
     </main>
   );

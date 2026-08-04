@@ -115,14 +115,21 @@ export function AccessKeyForm({
       data-attempt={attempt}
     >
       <div className="access-credential">
-        <label htmlFor="origen-access-key">key to open</label>
+        <label className="sr-only" htmlFor="origen-access-key">Key to open</label>
         <input
           ref={inputRef}
           id="origen-access-key"
           name="access-key"
           type="password"
+          placeholder="Key to open"
           value={accessKey}
           onChange={(event) => setAccessKey(event.target.value)}
+          onKeyDown={(event) => {
+            if (event.key !== "Enter" || event.nativeEvent.isComposing) return;
+
+            event.preventDefault();
+            event.currentTarget.form?.requestSubmit();
+          }}
           onFocus={() => onFocusChange?.(true)}
           onBlur={() => onFocusChange?.(false)}
           aria-invalid={attempt > 0}
