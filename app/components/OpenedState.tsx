@@ -24,6 +24,7 @@ type OpenedStateProps = {
 const SPACE_URL =
   "https://es-l.airbnb.com/rooms/23250801?source_impression_id=p3_1785061106_P3QhtYkp0415WTpb&modal=PHOTO_TOUR_SCROLLABLE";
 const MAPS_URL = "https://maps.app.goo.gl/CcDJ15DKT4QvTdW4A";
+const TYPEFORM_URL = "https://form.typeform.com/to/akvuhWjN";
 const WHATSAPP_URL =
   "https://chat.whatsapp.com/IKwsVlegd9w8vDQ4iW6EZa";
 
@@ -74,6 +75,18 @@ export function OpenedState({
       <p className="sr-only" role="status" aria-live="polite">
         {copy.status}
       </p>
+
+      <motion.div
+        className="invitation-texture"
+        aria-hidden="true"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{
+          delay: reducedMotion ? 0 : contentDelay * 0.55,
+          duration: reducedMotion ? 0.08 : 0.85,
+          ease: CINEMATIC_ENTRY_EASE,
+        }}
+      />
 
       <motion.div
         className="invitation-content"
@@ -189,7 +202,7 @@ export function OpenedState({
 
         <a
           className="invitation-join"
-          href={WHATSAPP_URL}
+          href={TYPEFORM_URL}
           target="_blank"
           rel="noreferrer"
         >
@@ -198,6 +211,19 @@ export function OpenedState({
           <span className="invitation-join-arrow" aria-hidden="true">
             ↗
           </span>
+        </a>
+
+        <a
+          className="invitation-interest"
+          href={WHATSAPP_URL}
+          target="_blank"
+          rel="noreferrer"
+        >
+          <span>
+            <small>{copy.interestEyebrow}</small>
+            <strong>{copy.interest}</strong>
+          </span>
+          <span aria-hidden="true">↗</span>
         </a>
 
         <footer className="invitation-footer">

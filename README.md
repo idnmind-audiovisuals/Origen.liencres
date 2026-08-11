@@ -37,7 +37,7 @@ All phase delays, durations, easing, error feedback, success timing, and reduced
 
 ## Invitation page
 
-After the successful circle transition, `OpenedState` reveals the Spain Residency invitation. Accommodation, map, and WhatsApp group destinations are defined as constants at the top of `app/components/OpenedState.tsx` so they can be changed without touching the layout.
+After the successful circle transition, `OpenedState` reveals the Spain Residency invitation. Accommodation, map, Typeform application, and WhatsApp interest destinations are defined as constants at the top of `app/components/OpenedState.tsx` so they can be changed without touching the layout.
 
 The invitation links to protected `/story` and `/vision` editorial pages. Both routes, along with `/residency`, verify the signed access cookie on the server and redirect unauthenticated visitors to the gateway.
 

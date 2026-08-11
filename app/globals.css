@@ -401,10 +401,24 @@ button {
   background: var(--black);
 }
 
+.invitation-texture {
+  position: fixed;
+  z-index: 0;
+  inset: 0;
+  background-color: var(--paper);
+  background-image: url("/costa-quebrada-porcelain.jpg");
+  background-position: center;
+  background-size: cover;
+  pointer-events: none;
+  transform: translateZ(0);
+  will-change: opacity;
+}
+
 .invitation-content {
   --page-gutter: clamp(22px, 4.5vw, 72px);
 
   position: relative;
+  z-index: 1;
   min-height: 100dvh;
   padding:
     max(22px, env(safe-area-inset-top))
@@ -751,6 +765,55 @@ button {
 .invitation-join:hover .invitation-join-arrow,
 .invitation-join:focus-visible .invitation-join-arrow {
   transform: translate(5px, -5px);
+}
+
+.invitation-interest {
+  display: flex;
+  min-height: clamp(104px, 10vw, 148px);
+  padding: clamp(24px, 3vw, 44px);
+  border-bottom: 1px solid var(--ink);
+  align-items: center;
+  justify-content: space-between;
+  outline: 0;
+  color: var(--ink);
+  text-decoration: none;
+  transition: color 280ms ease, background-color 280ms ease;
+}
+
+.invitation-interest > span:first-child {
+  display: flex;
+  align-items: baseline;
+  gap: clamp(18px, 2.4vw, 38px);
+}
+
+.invitation-interest small {
+  font-size: clamp(8px, 0.68vw, 10px);
+  font-weight: 520;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.invitation-interest strong {
+  font-size: clamp(28px, 4vw, 62px);
+  font-weight: 330;
+  letter-spacing: -0.045em;
+  line-height: 1;
+}
+
+.invitation-interest > span:last-child {
+  font-size: clamp(17px, 1.9vw, 30px);
+  transition: transform 280ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.invitation-interest:hover,
+.invitation-interest:focus-visible {
+  color: var(--paper);
+  background: var(--ink);
+}
+
+.invitation-interest:hover > span:last-child,
+.invitation-interest:focus-visible > span:last-child {
+  transform: translate(4px, -4px);
 }
 
 .invitation-footer {
