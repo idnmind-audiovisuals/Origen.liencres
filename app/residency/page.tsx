@@ -15,11 +15,11 @@ export async function generateMetadata({
   const language = await getRequestLanguage(getLanguageParam(params.lang));
   return language === "es"
     ? {
-        title: "Residencia en España — Origen",
+        title: "Residencia Origen — Liencres",
         description: "Cinco días en Liencres, España. 9–14 de septiembre.",
       }
     : {
-        title: "Spain Residency — Origen",
+        title: "Origen Residency — Liencres",
         description: "Five days in Liencres, Spain. 9–14 September.",
       };
 }

@@ -2,12 +2,12 @@ import type { Language } from "./language";
 
 export const RESIDENCY_COPY = {
   en: {
-    status: "Access opened. Spain Residency invitation.",
+    status: "Access opened. Origen Residency invitation.",
     brandLabel: "Origen — back to the top",
     availability: "10 spots available",
     tagline: "Surrendering to the human essence",
     eyebrow: "Origen presents",
-    title: ["Spain", "Residency"],
+    title: ["Origen", "Residency"],
     details: [
       { term: "Duration", value: "5 days" },
       {
@@ -42,12 +42,12 @@ export const RESIDENCY_COPY = {
     reset: "reset session",
   },
   es: {
-    status: "Acceso concedido. Invitación a la Residencia en España.",
+    status: "Acceso concedido. Invitación a la Residencia Origen.",
     brandLabel: "Origen — volver al inicio",
     availability: "10 plazas disponibles",
     tagline: "Un espacio para que la esencia emerja.",
     eyebrow: "Origen presenta",
-    title: ["Residencia", "España"],
+    title: ["Residencia", "Origen"],
     details: [
       { term: "Duración", value: "5 días" },
       {

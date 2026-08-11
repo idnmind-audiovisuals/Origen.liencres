@@ -59,8 +59,8 @@ export function OpenedState({
   useEffect(() => {
     document.title =
       language === "es"
-        ? "Residencia en España — Origen"
-        : "Spain Residency — Origen";
+        ? "Residencia Origen — Liencres"
+        : "Origen Residency — Liencres";
   }, [language]);
 
   return (

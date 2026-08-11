@@ -31,7 +31,7 @@ test("server-renders the Origen gateway", async () => {
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
 
   const html = await response.text();
-  assert.match(html, /<title>Origen — Spain Residency<\/title>/i);
+  assert.match(html, /<title>Origen Residency<\/title>/i);
   assert.match(html, /Origen access gateway/i);
   assert.match(html, /origen-symbol\.png/i);
   assert.doesNotMatch(html, /codex-preview|react-loading-skeleton/i);
