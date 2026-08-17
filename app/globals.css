@@ -541,7 +541,6 @@ button {
   grid-column: 1 / 10;
 }
 
-.invitation-eyebrow,
 .invitation-program-heading p {
   margin: 0 0 clamp(18px, 2.3vw, 34px);
   font-size: clamp(9px, 0.8vw, 12px);

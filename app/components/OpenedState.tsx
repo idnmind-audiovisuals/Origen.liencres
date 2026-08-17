@@ -131,7 +131,6 @@ export function OpenedState({
 
         <section className="invitation-hero" aria-labelledby="residency-title">
           <div className="invitation-title-block">
-            <p className="invitation-eyebrow">{copy.eyebrow}</p>
             <h1 id="residency-title">
               {copy.title.map((line) => (
                 <span key={line}>{line}</span>
