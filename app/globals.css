@@ -1149,31 +1149,6 @@ button {
   margin-top: 7px;
 }
 
-.bros-closing {
-  min-height: min(78vw, 950px);
-  padding: clamp(74px, 10vw, 150px) 0 clamp(56px, 7vw, 110px);
-  border-top: 1px solid var(--ink);
-  text-align: center;
-}
-
-.bros-closing p,
-.bros-closing span {
-  margin: 0;
-  font-size: clamp(8px, 0.72vw, 11px);
-  font-weight: 520;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-}
-
-.bros-closing h2 {
-  margin: clamp(32px, 4vw, 60px) 0 clamp(36px, 5vw, 72px);
-  font-size: clamp(126px, 28vw, 450px);
-  font-weight: 250;
-  letter-spacing: -0.085em;
-  line-height: 0.72;
-  text-transform: uppercase;
-}
-
 .bros-actions {
   display: grid;
   border-top: 1px solid var(--ink);
@@ -1635,16 +1610,6 @@ button {
 
   .bros-needs div > p {
     font-size: 17px;
-  }
-
-  .bros-closing {
-    min-height: 118vw;
-    padding: 78px 0 72px;
-  }
-
-  .bros-closing h2 {
-    margin: 58px 0;
-    font-size: clamp(116px, 40vw, 184px);
   }
 
   .bros-actions {

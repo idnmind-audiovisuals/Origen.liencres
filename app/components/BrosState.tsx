@@ -21,12 +21,11 @@ const MANIFESTO = [
   "No para competir.",
   "No para impresionar.",
   "No para tener todas las respuestas.",
-  "Sino hombres con los que podamos ser reales entre nosotros.",
-  "Origen es un espacio para expresar con honestidad, escuchar profundamente y explorar qué significa ser hombre hoy.",
+  "Sino otras personas con las que podamos ser reales entre nosotros.",
+  "Un espacio para expresar con honestidad, escuchar profundamente y explorar qué significa ser.",
   "Un lugar para la vulnerabilidad, la responsabilidad, los desafíos y el apoyo.",
   "Sin máscaras.",
-  "Sin necesidad de demostrar nada.",
-  "Simplemente hombres encontrándose con hombres.",
+  "Simplemente hombres encontrándose con otros hombres.",
 ] as const;
 
 const CIRCLE_PRACTICES = [
@@ -182,7 +181,7 @@ export function BrosState({ development, onReset }: BrosStateProps) {
         </section>
 
         <section className="bros-manifesto" aria-labelledby="manifesto-title">
-          <h2 id="manifesto-title">Necesitamos a otros hombres.</h2>
+          <h2 id="manifesto-title">Necesitamos a otros.</h2>
           <div className="bros-manifesto-copy">
             {MANIFESTO.map((paragraph, index) => (
               <p
@@ -227,7 +226,7 @@ export function BrosState({ development, onReset }: BrosStateProps) {
         <section className="bros-intentions" aria-labelledby="intentions-title">
           <div className="bros-section-heading">
             <p>Este espacio es para</p>
-            <h2 id="intentions-title">Hombres que quieren</h2>
+            <h2 id="intentions-title">Personas que quieren</h2>
           </div>
           <ol>
             {INTENTIONS.map((intention, index) => (
@@ -268,12 +267,6 @@ export function BrosState({ development, onReset }: BrosStateProps) {
               Solo necesitas la disposición de presentarte con honestidad.
             </p>
           </div>
-        </section>
-
-        <section className="bros-closing" aria-labelledby="closing-title">
-          <p>Origen</p>
-          <h2 id="closing-title">Men</h2>
-          <span>Liencres · Cantabria</span>
         </section>
 
         <nav className="bros-actions" aria-label="Solicitudes para Origen Bros">
