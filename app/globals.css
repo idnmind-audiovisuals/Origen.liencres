@@ -867,14 +867,14 @@ button {
 
 .bros-texture {
   position: fixed;
-  inset: -16vh -7vw;
+  inset: 0;
   background-color: var(--paper);
   background-image: url("/origen-bros-slate.png");
   background-position: center;
   background-size: cover;
   filter: brightness(0.82) saturate(0.9);
   backface-visibility: hidden;
-  will-change: opacity, transform;
+  will-change: opacity;
 }
 
 .bros-content {
@@ -1540,7 +1540,7 @@ button {
   }
 
   .bros-texture {
-    inset: -14vh -18vw;
+    inset: 0;
     background-position: 56% center;
   }
 

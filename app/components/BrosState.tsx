@@ -94,13 +94,7 @@ export function BrosState({ development, onReset }: BrosStateProps) {
   const pageRef = useRef<HTMLElement>(null);
   const reducedMotion = useReducedMotion();
   const { scrollYProgress } = useScroll({ container: pageRef });
-  const textureOffset = useTransform(scrollYProgress, [0, 1], [-56, 72]);
   const heroOffset = useTransform(scrollYProgress, [0, 0.3], [0, 96]);
-  const textureY = useSpring(textureOffset, {
-    stiffness: 34,
-    damping: 24,
-    mass: 1.2,
-  });
   const heroY = useSpring(heroOffset, {
     stiffness: 38,
     damping: 26,
@@ -153,7 +147,6 @@ export function BrosState({ development, onReset }: BrosStateProps) {
       <motion.div
         className="invitation-texture bros-texture"
         aria-hidden="true"
-        style={reducedMotion ? undefined : { y: textureY, scale: 1.06 }}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{
