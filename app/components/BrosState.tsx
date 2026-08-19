@@ -1,6 +1,12 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import {
+  motion,
+  useReducedMotion,
+  useScroll,
+  useSpring,
+  useTransform,
+} from "framer-motion";
 import { useEffect, useLayoutEffect, useRef } from "react";
 import { ORIGEN_WORDMARK_ASSET } from "../lib/brand";
 import {
@@ -22,10 +28,6 @@ const MANIFESTO = [
   "No para impresionar.",
   "No para tener todas las respuestas.",
   "Sino otras personas con las que podamos ser reales entre nosotros.",
-  "Un espacio para expresar con honestidad, escuchar profundamente y explorar qué significa ser.",
-  "Un lugar para la vulnerabilidad, la responsabilidad, los desafíos y el apoyo.",
-  "Sin máscaras.",
-  "Simplemente hombres encontrándose con otros hombres.",
 ] as const;
 
 const CIRCLE_PRACTICES = [
@@ -91,6 +93,24 @@ const AGREEMENTS = [
 export function BrosState({ development, onReset }: BrosStateProps) {
   const pageRef = useRef<HTMLElement>(null);
   const reducedMotion = useReducedMotion();
+  const { scrollYProgress } = useScroll({ container: pageRef });
+  const textureOffset = useTransform(scrollYProgress, [0, 1], [-56, 72]);
+  const heroOffset = useTransform(scrollYProgress, [0, 0.3], [0, 96]);
+  const textureY = useSpring(textureOffset, {
+    stiffness: 34,
+    damping: 24,
+    mass: 1.2,
+  });
+  const heroY = useSpring(heroOffset, {
+    stiffness: 38,
+    damping: 26,
+    mass: 1.15,
+  });
+  const progressScale = useSpring(scrollYProgress, {
+    stiffness: 72,
+    damping: 24,
+    mass: 0.45,
+  });
   const backgroundDuration = reducedMotion
     ? GATEWAY_MOTION.opened.reducedBackgroundDuration
     : GATEWAY_MOTION.opened.backgroundDuration;
@@ -122,9 +142,18 @@ export function BrosState({ development, onReset }: BrosStateProps) {
         Acceso concedido. Bienvenido a Origen Bros.
       </p>
 
+      {!reducedMotion ? (
+        <motion.div
+          className="bros-scroll-progress"
+          aria-hidden="true"
+          style={{ scaleX: progressScale }}
+        />
+      ) : null}
+
       <motion.div
         className="invitation-texture bros-texture"
         aria-hidden="true"
+        style={reducedMotion ? undefined : { y: textureY, scale: 1.06 }}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{
@@ -163,7 +192,11 @@ export function BrosState({ development, onReset }: BrosStateProps) {
           <p>Círculo de hombres · Liencres</p>
         </header>
 
-        <section className="bros-hero" aria-labelledby="bros-title">
+        <motion.section
+          className="bros-hero"
+          aria-labelledby="bros-title"
+          style={reducedMotion ? undefined : { y: heroY }}
+        >
           <div className="bros-hero-title">
             <p>Presencia · Responsabilidad · Crecimiento</p>
             <h1 id="bros-title">
@@ -178,9 +211,16 @@ export function BrosState({ development, onReset }: BrosStateProps) {
               Unirme al círculo <span aria-hidden="true">↗</span>
             </a>
           </div>
-        </section>
+        </motion.section>
 
-        <section className="bros-manifesto" aria-labelledby="manifesto-title">
+        <motion.section
+          className="bros-manifesto bros-section-reveal"
+          aria-labelledby="manifesto-title"
+          initial={reducedMotion ? false : { opacity: 0, y: 72 }}
+          whileInView={reducedMotion ? undefined : { opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.18, root: pageRef }}
+          transition={{ duration: 1.25, ease: CINEMATIC_ENTRY_EASE }}
+        >
           <h2 id="manifesto-title">Necesitamos a otros.</h2>
           <div className="bros-manifesto-copy">
             {MANIFESTO.map((paragraph, index) => (
@@ -192,9 +232,16 @@ export function BrosState({ development, onReset }: BrosStateProps) {
               </p>
             ))}
           </div>
-        </section>
+        </motion.section>
 
-        <section className="bros-circle" aria-labelledby="circle-title">
+        <motion.section
+          className="bros-circle bros-section-reveal"
+          aria-labelledby="circle-title"
+          initial={reducedMotion ? false : { opacity: 0, y: 72 }}
+          whileInView={reducedMotion ? undefined : { opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.12, root: pageRef }}
+          transition={{ duration: 1.3, ease: CINEMATIC_ENTRY_EASE }}
+        >
           <div className="bros-section-heading">
             <p>Encuentros regulares</p>
             <h2 id="circle-title">El círculo</h2>
@@ -207,7 +254,19 @@ export function BrosState({ development, onReset }: BrosStateProps) {
             </p>
             <ol className="bros-practices">
               {CIRCLE_PRACTICES.map((practice, index) => (
-                <li key={practice.title}>
+                <motion.li
+                  key={practice.title}
+                  initial={reducedMotion ? false : { opacity: 0, y: 48 }}
+                  whileInView={
+                    reducedMotion ? undefined : { opacity: 1, y: 0 }
+                  }
+                  viewport={{ once: true, amount: 0.32, root: pageRef }}
+                  transition={{
+                    duration: 1.05,
+                    delay: index * 0.1,
+                    ease: CINEMATIC_ENTRY_EASE,
+                  }}
+                >
                   <span aria-hidden="true">
                     {String(index + 1).padStart(2, "0")}
                   </span>
@@ -217,48 +276,93 @@ export function BrosState({ development, onReset }: BrosStateProps) {
                       <p key={paragraph}>{paragraph}</p>
                     ))}
                   </div>
-                </li>
+                </motion.li>
               ))}
             </ol>
           </div>
-        </section>
+        </motion.section>
 
-        <section className="bros-intentions" aria-labelledby="intentions-title">
+        <motion.section
+          className="bros-intentions bros-section-reveal"
+          aria-labelledby="intentions-title"
+          initial={reducedMotion ? false : { opacity: 0, y: 72 }}
+          whileInView={reducedMotion ? undefined : { opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.1, root: pageRef }}
+          transition={{ duration: 1.3, ease: CINEMATIC_ENTRY_EASE }}
+        >
           <div className="bros-section-heading">
             <p>Este espacio es para</p>
             <h2 id="intentions-title">Personas que quieren</h2>
           </div>
           <ol>
             {INTENTIONS.map((intention, index) => (
-              <li key={intention}>
+              <motion.li
+                key={intention}
+                initial={reducedMotion ? false : { opacity: 0, x: -34 }}
+                whileInView={
+                  reducedMotion ? undefined : { opacity: 1, x: 0 }
+                }
+                viewport={{ once: true, amount: 0.4, root: pageRef }}
+                transition={{
+                  duration: 0.95,
+                  delay: Math.min(index * 0.055, 0.22),
+                  ease: CINEMATIC_ENTRY_EASE,
+                }}
+              >
                 <span aria-hidden="true">
                   {String(index + 1).padStart(2, "0")}
                 </span>
                 <p>{intention}</p>
-              </li>
+              </motion.li>
             ))}
           </ol>
-        </section>
+        </motion.section>
 
-        <section className="bros-agreements" aria-labelledby="agreements-title">
+        <motion.section
+          className="bros-agreements bros-section-reveal"
+          aria-labelledby="agreements-title"
+          initial={reducedMotion ? false : { opacity: 0, y: 72 }}
+          whileInView={reducedMotion ? undefined : { opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.1, root: pageRef }}
+          transition={{ duration: 1.3, ease: CINEMATIC_ENTRY_EASE }}
+        >
           <div className="bros-section-heading">
             <p>Cómo nos encontramos</p>
             <h2 id="agreements-title">Nuestros acuerdos</h2>
           </div>
           <dl>
             {AGREEMENTS.map((agreement, index) => (
-              <div key={agreement.title}>
+              <motion.div
+                key={agreement.title}
+                initial={reducedMotion ? false : { opacity: 0, y: 38 }}
+                whileInView={
+                  reducedMotion ? undefined : { opacity: 1, y: 0 }
+                }
+                viewport={{ once: true, amount: 0.4, root: pageRef }}
+                transition={{
+                  duration: 0.95,
+                  delay: Math.min(index * 0.06, 0.2),
+                  ease: CINEMATIC_ENTRY_EASE,
+                }}
+              >
                 <span aria-hidden="true">
                   {String(index + 1).padStart(2, "0")}
                 </span>
                 <dt>{agreement.title}</dt>
                 <dd>{agreement.body}</dd>
-              </div>
+              </motion.div>
             ))}
           </dl>
-        </section>
+        </motion.section>
 
-        <section className="bros-needs" aria-labelledby="needs-title">
+        <motion.section
+          className="bros-needs bros-section-reveal"
+          aria-labelledby="needs-title"
+          initial={reducedMotion ? false : { opacity: 0, y: 72 }}
+          whileInView={reducedMotion ? undefined : { opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.18, root: pageRef }}
+          transition={{ duration: 1.3, ease: CINEMATIC_ENTRY_EASE }}
+        >
           <p>Necesidades</p>
           <div>
             <h2 id="needs-title">No necesitas tenerlo todo resuelto.</h2>
@@ -267,20 +371,39 @@ export function BrosState({ development, onReset }: BrosStateProps) {
               Solo necesitas la disposición de presentarte con honestidad.
             </p>
           </div>
-        </section>
+        </motion.section>
 
-        <nav className="bros-actions" aria-label="Solicitudes para Origen Bros">
-          <a href={TYPEFORM_URL} target="_blank" rel="noreferrer">
+        <motion.nav
+          className="bros-actions bros-section-reveal"
+          aria-label="Solicitudes para Origen Bros"
+          initial={reducedMotion ? false : { opacity: 0, y: 64 }}
+          whileInView={reducedMotion ? undefined : { opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2, root: pageRef }}
+          transition={{ duration: 1.3, ease: CINEMATIC_ENTRY_EASE }}
+        >
+          <motion.a
+            href={TYPEFORM_URL}
+            target="_blank"
+            rel="noreferrer"
+            whileHover={reducedMotion ? undefined : { y: -6 }}
+            transition={{ duration: 0.45, ease: CINEMATIC_ENTRY_EASE }}
+          >
             <small>Formulario Typeform</small>
             <strong>Aplication</strong>
             <span aria-hidden="true">↗</span>
-          </a>
-          <a href={WHATSAPP_URL} target="_blank" rel="noreferrer">
+          </motion.a>
+          <motion.a
+            href={WHATSAPP_URL}
+            target="_blank"
+            rel="noreferrer"
+            whileHover={reducedMotion ? undefined : { y: -6 }}
+            transition={{ duration: 0.45, ease: CINEMATIC_ENTRY_EASE }}
+          >
             <small>Grupo privado</small>
             <strong>Solicitar acceso al grupo de WhatsApp</strong>
             <span aria-hidden="true">↗</span>
-          </a>
-        </nav>
+          </motion.a>
+        </motion.nav>
 
         <footer className="bros-footer">
           <p>Origen Bros</p>
