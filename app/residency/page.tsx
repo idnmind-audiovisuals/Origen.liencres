@@ -29,7 +29,7 @@ export default async function ResidencyPage({
 }: {
   searchParams: LanguageSearchParams;
 }) {
-  await requireOrigenAccess();
+  await requireOrigenAccess("residency");
   const params = await searchParams;
   const initialLanguage = await getRequestLanguage(
     getLanguageParam(params.lang),

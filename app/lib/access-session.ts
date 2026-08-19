@@ -1,8 +1,16 @@
+import "server-only";
+
+import {
+  ACCESS_SCOPES,
+  isAccessScope,
+  type AccessScope,
+} from "./access-types";
+
 const encoder = new TextEncoder();
 
 export const ACCESS_COOKIE_NAME = "origen_access";
 
-const SESSION_MESSAGE = "origen-access:v1";
+const SESSION_VERSION = "v2";
 
 function bytesToHex(bytes: ArrayBuffer) {
   return Array.from(new Uint8Array(bytes), (byte) =>
@@ -39,39 +47,81 @@ async function sign(message: string, secret: string) {
   );
 }
 
-function getAccessKey() {
-  return process.env.ORIGEN_ACCESS_KEY?.trim() ?? "";
+function normalizeAccessKey(value: string) {
+  return value.trim().toLocaleLowerCase("en-US");
+}
+
+function getAccessKey(scope: AccessScope) {
+  const value =
+    scope === "residency"
+      ? process.env.ORIGEN_ACCESS_KEY
+      : process.env.ORIGEN_BROS_ACCESS_KEY;
+
+  return value?.trim() ?? "";
+}
+
+function sessionMessage(scope: AccessScope) {
+  return `origen-access:${SESSION_VERSION}:${scope}`;
 }
 
 export function isAccessKeyConfigured() {
-  return getAccessKey().length > 0;
+  return ACCESS_SCOPES.some((scope) => getAccessKey(scope).length > 0);
 }
 
-export async function matchesAccessKey(candidate: string) {
-  const expected = getAccessKey();
-  if (!expected) return false;
+export async function matchAccessKey(
+  candidate: string,
+): Promise<AccessScope | null> {
+  const candidateDigest = await digest(normalizeAccessKey(candidate));
+  const configuredKeys = ACCESS_SCOPES.map((scope) => ({
+    scope,
+    value: getAccessKey(scope),
+  }));
+  const expectedDigests = await Promise.all(
+    configuredKeys.map(({ value }) => digest(normalizeAccessKey(value))),
+  );
 
-  const normalizedCandidate = candidate.trim().toLocaleLowerCase("en-US");
-  const normalizedExpected = expected.toLocaleLowerCase("en-US");
-  const [candidateDigest, expectedDigest] = await Promise.all([
-    digest(normalizedCandidate),
-    digest(normalizedExpected),
-  ]);
+  let match: AccessScope | null = null;
+  configuredKeys.forEach(({ scope, value }, index) => {
+    if (value && safeEqual(candidateDigest, expectedDigests[index])) {
+      match = scope;
+    }
+  });
 
-  return safeEqual(candidateDigest, expectedDigest);
+  return match;
 }
 
-export async function createSessionToken() {
-  const secret = getAccessKey();
-  if (!secret) throw new Error("ORIGEN_ACCESS_KEY is not configured");
+export async function createSessionToken(scope: AccessScope) {
+  const secret = getAccessKey(scope);
+  if (!secret) throw new Error(`Access key is not configured for ${scope}`);
 
-  return `v1.${await sign(SESSION_MESSAGE, secret)}`;
+  const signature = await sign(sessionMessage(scope), secret);
+  return `${SESSION_VERSION}.${scope}.${signature}`;
 }
 
-export async function verifySessionToken(token: string | undefined) {
-  const secret = getAccessKey();
-  if (!secret || !token?.startsWith("v1.")) return false;
+export async function getAccessScopeFromSessionToken(
+  token: string | undefined,
+): Promise<AccessScope | null> {
+  const [version, rawScope, signature, ...remainder] = token?.split(".") ?? [];
+  if (
+    version !== SESSION_VERSION ||
+    remainder.length > 0 ||
+    !isAccessScope(rawScope) ||
+    !signature
+  ) {
+    return null;
+  }
 
-  const expected = `v1.${await sign(SESSION_MESSAGE, secret)}`;
-  return safeEqual(token, expected);
+  const secret = getAccessKey(rawScope);
+  if (!secret) return null;
+
+  const expected = await sign(sessionMessage(rawScope), secret);
+  return safeEqual(signature, expected) ? rawScope : null;
+}
+
+export async function verifySessionToken(
+  token: string | undefined,
+  requiredScope?: AccessScope,
+) {
+  const scope = await getAccessScopeFromSessionToken(token);
+  return scope !== null && (!requiredScope || scope === requiredScope);
 }

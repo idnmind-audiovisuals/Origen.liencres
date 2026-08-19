@@ -3,12 +3,14 @@
 import { motion } from "framer-motion";
 import { useEffect, useState, useSyncExternalStore } from "react";
 import { AccessKeyForm } from "./AccessKeyForm";
+import { BrosState } from "./BrosState";
 import { OpenedState } from "./OpenedState";
 import { OrigenSymbolAnimation } from "./OrigenSymbolAnimation";
 import { OrigenWordmark } from "./OrigenWordmark";
 import { ReducedMotionGateway } from "./ReducedMotionGateway";
 import { SuccessTransition } from "./SuccessTransition";
 import { GATEWAY_MOTION, ORGANIC_EASE } from "../lib/gateway-motion";
+import type { AccessDestination } from "../lib/access-types";
 import type { Language } from "../lib/language";
 
 type AccessGatewayProps = {
@@ -42,6 +44,8 @@ export function AccessGateway({
     () => false,
   );
   const [state, setState] = useState<GatewayState>("forming");
+  const [destination, setDestination] =
+    useState<AccessDestination | null>(null);
   const [errorPulse, setErrorPulse] = useState(0);
   const [keyboardOpen, setKeyboardOpen] = useState(false);
 
@@ -74,9 +78,14 @@ export function AccessGateway({
     return () => window.clearTimeout(opened);
   }, [onOpened, state]);
 
+  useEffect(() => {
+    if (state !== "opened" || !destination) return;
+    window.history.replaceState(window.history.state, "", destination);
+  }, [destination, state]);
+
   async function resetSession() {
     await fetch("/api/access", { method: "DELETE" });
-    window.location.reload();
+    window.location.replace("/");
   }
 
   if (reduced) {
@@ -89,7 +98,11 @@ export function AccessGateway({
     );
   }
 
-  if (state === "opened") {
+  if (state === "opened" && destination === "/bros") {
+    return <BrosState development={development} onReset={resetSession} />;
+  }
+
+  if (state === "opened" && destination === "/residency") {
     return (
       <OpenedState
         development={development}
@@ -114,8 +127,9 @@ export function AccessGateway({
           visible={formVisible}
           disabled={unlocking}
           onIncorrect={() => setErrorPulse((current) => current + 1)}
-          onSuccess={() => {
+          onSuccess={(nextDestination) => {
             setKeyboardOpen(false);
+            setDestination(nextDestination);
             setState("unlocking");
           }}
           onFocusChange={setKeyboardOpen}

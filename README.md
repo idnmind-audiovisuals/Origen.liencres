@@ -15,13 +15,14 @@ The Sites production build is created with `npm run build`. Vercel uses the dedi
 
 ## Environment
 
-Copy `.env.example` to `.env.local` and set the private access key:
+Copy `.env.example` to `.env.local` and set both private access keys:
 
 ```env
-ORIGEN_ACCESS_KEY=your-private-key
+ORIGEN_ACCESS_KEY=your-residency-key
+ORIGEN_BROS_ACCESS_KEY=your-bros-key
 ```
 
-Do not prefix this variable with `NEXT_PUBLIC_`. Validation and cookie signing run only on the server. The access cookie is HTTP-only, signed, same-site, and lasts for the current browser session.
+Do not prefix either variable with `NEXT_PUBLIC_`. Validation and cookie signing run only on the server. `ORIGEN_ACCESS_KEY` opens `/residency`; `ORIGEN_BROS_ACCESS_KEY` opens `/bros`. The access cookie is HTTP-only, signed, same-site, scoped to the selected destination, and lasts for the current browser session. A session for one destination cannot open the other protected destination.
 
 In development, authenticated sessions can be cleared with the subtle `reset session` control on the opened screen. The reset endpoint is unavailable in production.
 
@@ -29,7 +30,7 @@ In development, authenticated sessions can be cleared with the subtle `reset ses
 
 The symbol shown in the gateway is rendered from responsive CSS circles, using the official outer-circle, inner-circle, and centre-dot proportions. No raster image is displayed in the animated composition, so the mark remains sharp at every size and through the full zoom transition.
 
-`public/origen-symbol.png` remains only as the browser metadata icon. It is not used by the gateway artwork.
+`public/origen-favicon.png` is the browser metadata icon. It is not used by the gateway artwork.
 
 ## Motion timing
 
@@ -39,10 +40,10 @@ All phase delays, durations, easing, error feedback, success timing, and reduced
 
 After the successful circle transition, `OpenedState` reveals the Origen Residency invitation. Accommodation, map, Typeform application, and WhatsApp interest destinations are defined as constants at the top of `app/components/OpenedState.tsx` so they can be changed without touching the layout.
 
-The invitation links to protected `/story` and `/vision` editorial pages. Both routes, along with `/residency`, verify the signed access cookie on the server and redirect unauthenticated visitors to the gateway.
+The invitation links to protected `/story` and `/vision` editorial pages. Both routes, along with `/residency`, require the Residency-scoped signed cookie. The separate Spanish-only `/bros` page requires its own Bros-scoped signed cookie and includes the Typeform application and private WhatsApp group destinations.
 
 The unlocked invitation and editorial pages include an English/Spanish language control. English is the default, and the selected language is stored in the non-sensitive `origen_language` preference cookie so it remains consistent while navigating between pages. The password gateway itself remains unchanged.
 
-`AccessGateway` still accepts an optional `onOpened` callback and dispatches an `origen:opened` browser event after the circle zoom reaches its final black hold, allowing a future route transition or additional site shell to be connected later.
+`AccessGateway` accepts an optional `onOpened` callback and dispatches an `origen:opened` browser event after the circle zoom reaches its final black hold. The server response selects the authorized destination while the gateway keeps the same formation and zoom animations for both access keys.
 
-The signed HTTP-only session cookie is still created after successful validation for future protected routes. The gateway intentionally starts from its black opening frame on every page entry, so a reload never bypasses the cinematic animation or password form.
+Visitors without a valid session always begin at the black gateway frame. During the current browser session, returning to `/` redirects to the destination authorized by the signed cookie.

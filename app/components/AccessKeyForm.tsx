@@ -7,6 +7,10 @@ import {
   useRef,
   useState,
 } from "react";
+import {
+  isAccessDestination,
+  type AccessDestination,
+} from "../lib/access-types";
 import { GATEWAY_MOTION, ORGANIC_EASE } from "../lib/gateway-motion";
 
 type AccessKeyFormProps = {
@@ -14,7 +18,7 @@ type AccessKeyFormProps = {
   disabled: boolean;
   reducedMotion?: boolean;
   onIncorrect: () => void;
-  onSuccess: () => void;
+  onSuccess: (destination: AccessDestination) => void;
   onFocusChange?: (focused: boolean) => void;
 };
 
@@ -55,12 +59,19 @@ export function AccessKeyForm({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ key: accessKey }),
       });
+      const result: unknown = await response.json().catch(() => null);
 
-      if (response.ok) {
+      if (
+        response.ok &&
+        typeof result === "object" &&
+        result !== null &&
+        "destination" in result &&
+        isAccessDestination(result.destination)
+      ) {
         inputRef.current?.blur();
         onFocusChange?.(false);
         setFeedback("Access accepted. The gateway is opening.");
-        onSuccess();
+        onSuccess(result.destination);
         return;
       }
 

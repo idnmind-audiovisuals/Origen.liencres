@@ -3,12 +3,14 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { AccessKeyForm } from "./AccessKeyForm";
+import { BrosState } from "./BrosState";
 import { OpenedState } from "./OpenedState";
 import { OrigenWordmark } from "./OrigenWordmark";
 import {
   CINEMATIC_ENTRY_EASE,
   GATEWAY_MOTION,
 } from "../lib/gateway-motion";
+import type { AccessDestination } from "../lib/access-types";
 import type { Language } from "../lib/language";
 
 type ReducedMotionGatewayProps = {
@@ -25,6 +27,8 @@ export function ReducedMotionGateway({
   const [phase, setPhase] = useState<"ready" | "unlocking" | "opened">(
     "ready",
   );
+  const [destination, setDestination] =
+    useState<AccessDestination | null>(null);
   const [errorPulse, setErrorPulse] = useState(0);
 
   useEffect(() => {
@@ -39,12 +43,21 @@ export function ReducedMotionGateway({
     return () => window.clearTimeout(opened);
   }, [onOpened, phase]);
 
+  useEffect(() => {
+    if (phase !== "opened" || !destination) return;
+    window.history.replaceState(window.history.state, "", destination);
+  }, [destination, phase]);
+
   async function resetSession() {
     await fetch("/api/access", { method: "DELETE" });
-    window.location.reload();
+    window.location.replace("/");
   }
 
-  if (phase === "opened") {
+  if (phase === "opened" && destination === "/bros") {
+    return <BrosState development={development} onReset={resetSession} />;
+  }
+
+  if (phase === "opened" && destination === "/residency") {
     return (
       <OpenedState
         development={development}
@@ -105,7 +118,8 @@ export function ReducedMotionGateway({
             disabled={unlocking}
             reducedMotion
             onIncorrect={() => setErrorPulse((current) => current + 1)}
-            onSuccess={() => {
+            onSuccess={(nextDestination) => {
+              setDestination(nextDestination);
               setPhase("unlocking");
             }}
           />

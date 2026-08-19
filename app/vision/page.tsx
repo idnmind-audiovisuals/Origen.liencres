@@ -30,7 +30,7 @@ export default async function VisionPage({
 }: {
   searchParams: LanguageSearchParams;
 }) {
-  await requireOrigenAccess();
+  await requireOrigenAccess("residency");
   const params = await searchParams;
   const initialLanguage = await getRequestLanguage(
     getLanguageParam(params.lang),

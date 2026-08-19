@@ -3,8 +3,9 @@ import {
   ACCESS_COOKIE_NAME,
   createSessionToken,
   isAccessKeyConfigured,
-  matchesAccessKey,
+  matchAccessKey,
 } from "../../lib/access-session";
+import { ACCESS_DESTINATION_BY_SCOPE } from "../../lib/access-types";
 
 export async function POST(request: Request) {
   if (!isAccessKeyConfigured()) {
@@ -29,14 +30,18 @@ export async function POST(request: Request) {
       ? body.key
       : "";
 
-  if (!(await matchesAccessKey(candidate))) {
+  const scope = await matchAccessKey(candidate);
+  if (!scope) {
     return NextResponse.json({ ok: false }, { status: 401 });
   }
 
-  const response = NextResponse.json({ ok: true });
+  const response = NextResponse.json({
+    ok: true,
+    destination: ACCESS_DESTINATION_BY_SCOPE[scope],
+  });
   response.cookies.set({
     name: ACCESS_COOKIE_NAME,
-    value: await createSessionToken(),
+    value: await createSessionToken(scope),
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "strict",
