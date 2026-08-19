@@ -2,7 +2,10 @@ import type { Metadata } from "next";
 import { headers } from "next/headers";
 import "@fontsource-variable/montserrat";
 import "./globals.css";
-import { ORIGEN_SYMBOL_ASSET } from "./lib/brand";
+import {
+  ORIGEN_FAVICON_ASSET,
+  ORIGEN_SYMBOL_ASSET,
+} from "./lib/brand";
 
 const title = "Origen Residency";
 const description = "Five days in Liencres, Spain. 9–14 September.";
@@ -32,8 +35,15 @@ export async function generateMetadata(): Promise<Metadata> {
     title,
     description,
     icons: {
-      icon: ORIGEN_SYMBOL_ASSET,
-      shortcut: ORIGEN_SYMBOL_ASSET,
+      icon: [
+        {
+          url: ORIGEN_FAVICON_ASSET,
+          type: "image/png",
+          sizes: "595x595",
+        },
+      ],
+      shortcut: ORIGEN_FAVICON_ASSET,
+      apple: ORIGEN_FAVICON_ASSET,
     },
     openGraph: {
       type: "website",
