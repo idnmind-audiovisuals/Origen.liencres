@@ -115,7 +115,7 @@ export function BrosState({ development, onReset }: BrosStateProps) {
       className="bros-page"
       lang="es"
       initial={{ backgroundColor: "#24231f" }}
-      animate={{ backgroundColor: "#f2efe8" }}
+      animate={{ backgroundColor: "#151411" }}
       transition={{ duration: backgroundDuration, ease: CINEMATIC_ENTRY_EASE }}
     >
       <p className="sr-only" role="status" aria-live="polite">
