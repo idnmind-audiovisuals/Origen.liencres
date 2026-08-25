@@ -126,7 +126,9 @@ export function OpenedState({
           </div>
         </header>
 
-        <p className="invitation-tagline">{copy.tagline}</p>
+        {copy.tagline ? (
+          <p className="invitation-tagline">{copy.tagline}</p>
+        ) : null}
 
         <section className="invitation-hero" aria-labelledby="invitation-title">
           <div className="invitation-title-block">
