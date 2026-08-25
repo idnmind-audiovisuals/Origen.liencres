@@ -52,16 +52,12 @@ export async function POST(request: Request) {
 }
 
 export async function DELETE() {
-  if (process.env.NODE_ENV !== "development") {
-    return NextResponse.json({ ok: false }, { status: 404 });
-  }
-
   const response = NextResponse.json({ ok: true });
   response.cookies.set({
     name: ACCESS_COOKIE_NAME,
     value: "",
     httpOnly: true,
-    secure: false,
+    secure: process.env.NODE_ENV === "production",
     sameSite: "strict",
     path: "/",
     maxAge: 0,

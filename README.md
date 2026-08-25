@@ -15,16 +15,17 @@ The Sites production build is created with `npm run build`. Vercel uses the dedi
 
 ## Environment
 
-Copy `.env.example` to `.env.local` and set both private access keys:
+Copy `.env.example` to `.env.local` and set the three private access keys:
 
 ```env
 ORIGEN_ACCESS_KEY=your-residency-key
 ORIGEN_BROS_ACCESS_KEY=your-bros-key
+ORIGEN_SPACE_ACCESS_KEY=your-space-key
 ```
 
-Do not prefix either variable with `NEXT_PUBLIC_`. Validation and cookie signing run only on the server. `ORIGEN_ACCESS_KEY` opens `/residency`; `ORIGEN_BROS_ACCESS_KEY` opens `/bros`. The access cookie is HTTP-only, signed, same-site, scoped to the selected destination, and lasts for the current browser session. A session for one destination cannot open the other protected destination.
+Do not prefix these variables with `NEXT_PUBLIC_`. Validation and cookie signing run only on the server. `ORIGEN_ACCESS_KEY` opens `/residency`; `ORIGEN_BROS_ACCESS_KEY` opens `/bros`; and `ORIGEN_SPACE_ACCESS_KEY` opens `/space`. The access cookie is HTTP-only, signed, same-site, scoped to the selected destination, and lasts for the current browser session. A session for one destination cannot open another protected destination.
 
-In development, authenticated sessions can be cleared with the subtle `reset session` control on the opened screen. The reset endpoint is unavailable in production.
+The Origen wordmark in the top-left corner securely clears the active session and returns to the opening gateway in development and production. Development builds also include the subtle `reset session` control.
 
 ## Origen symbol
 
@@ -40,7 +41,7 @@ All phase delays, durations, easing, error feedback, success timing, and reduced
 
 After the successful circle transition, `OpenedState` reveals the Origen Residency invitation. Accommodation, map, Typeform application, and WhatsApp interest destinations are defined as constants at the top of `app/components/OpenedState.tsx` so they can be changed without touching the layout.
 
-The invitation links to protected `/story` and `/vision` editorial pages. Both routes, along with `/residency`, require the Residency-scoped signed cookie. The separate Spanish-only `/bros` page requires its own Bros-scoped signed cookie and includes the Typeform application and private WhatsApp group destinations.
+The Residency and Space invitations link to the protected `/story` and `/vision` editorial pages. Those editorial routes accept either a Residency- or Space-scoped session and return to the invitation that opened them. The separate Spanish-only `/bros` page requires its own Bros-scoped signed cookie and includes the Typeform application and private WhatsApp group destinations.
 
 The unlocked invitation and editorial pages include an English/Spanish language control. English is the default, and the selected language is stored in the non-sensitive `origen_language` preference cookie so it remains consistent while navigating between pages. The password gateway itself remains unchanged.
 

@@ -63,6 +63,18 @@ export function ReducedMotionGateway({
         development={development}
         initialLanguage={initialLanguage}
         onReset={resetSession}
+        variant="residency"
+      />
+    );
+  }
+
+  if (phase === "opened" && destination === "/space") {
+    return (
+      <OpenedState
+        development={development}
+        initialLanguage={initialLanguage}
+        onReset={resetSession}
+        variant="space"
       />
     );
   }

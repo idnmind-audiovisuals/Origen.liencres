@@ -7,7 +7,7 @@ import {
   LanguageToggle,
   usePersistentLanguage,
 } from "./LanguageToggle";
-import { ORIGEN_WORDMARK_ASSET } from "../lib/brand";
+import { GatewayBrandLink } from "./GatewayBrandLink";
 import { CINEMATIC_ENTRY_EASE } from "../lib/gateway-motion";
 import { localizedHref, type Language } from "../lib/language";
 import {
@@ -18,17 +18,21 @@ import {
 type EditorialPageProps = {
   initialLanguage: Language;
   page: keyof typeof EDITORIAL_COPY;
+  origin: "residency" | "space";
 };
 
 export function EditorialPage({
   initialLanguage,
   page,
+  origin,
 }: EditorialPageProps) {
   const reducedMotion = useReducedMotion();
   const { language, changeLanguage } =
     usePersistentLanguage(initialLanguage);
   const copy = EDITORIAL_COPY[page][language];
   const shared = SHARED_EDITORIAL_COPY[language];
+  const originPath = origin === "space" ? "/space" : "/residency";
+  const originLabel = origin === "space" ? shared.space : shared.residency;
 
   useEffect(() => {
     document.title = `${copy.title} — Origen`;
@@ -47,29 +51,18 @@ export function EditorialPage({
         }}
       >
         <header className="editorial-header">
-          <Link
+          <GatewayBrandLink
             className="editorial-brand"
-            href={localizedHref("/residency", language)}
-            aria-label={shared.brandLabel}
-          >
-            {/* Preserve the approved wordmark at its original proportions. */}
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={ORIGEN_WORDMARK_ASSET}
-              width="1090"
-              height="296"
-              alt="Origen"
-              draggable="false"
-            />
-          </Link>
+            label={shared.brandLabel}
+          />
 
           <div className="editorial-header-actions">
             <Link
               className="editorial-return"
-              href={localizedHref("/residency", language)}
+              href={localizedHref(originPath, language)}
             >
               <span aria-hidden="true">←</span>
-              {shared.returnTop}
+              {originLabel}
             </Link>
             <LanguageToggle
               language={language}
@@ -92,9 +85,9 @@ export function EditorialPage({
         </article>
 
         <nav className="editorial-navigation" aria-label={shared.navigationLabel}>
-          <Link href={localizedHref("/residency", language)}>
+          <Link href={localizedHref(originPath, language)}>
             <small>{shared.returnTo}</small>
-            <span>{shared.residency}</span>
+            <span>{originLabel}</span>
           </Link>
           <Link href={localizedHref(`/${copy.nextPage}`, language)}>
             <small>{shared.continueTo}</small>

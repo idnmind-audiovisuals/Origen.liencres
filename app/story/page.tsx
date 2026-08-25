@@ -30,11 +30,17 @@ export default async function StoryPage({
 }: {
   searchParams: LanguageSearchParams;
 }) {
-  await requireOrigenAccess("residency");
+  const accessScope = await requireOrigenAccess(["residency", "space"]);
   const params = await searchParams;
   const initialLanguage = await getRequestLanguage(
     getLanguageParam(params.lang),
   );
 
-  return <EditorialPage initialLanguage={initialLanguage} page="story" />;
+  return (
+    <EditorialPage
+      initialLanguage={initialLanguage}
+      origin={accessScope}
+      page="story"
+    />
+  );
 }

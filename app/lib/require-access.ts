@@ -5,9 +5,14 @@ import { redirect } from "next/navigation";
 import {
   ACCESS_COOKIE_NAME,
   getAccessScopeFromSessionToken,
-  verifySessionToken,
 } from "./access-session";
 import type { AccessScope } from "./access-types";
+
+type RequiredAccessScope<T> = T extends readonly AccessScope[]
+  ? T[number]
+  : T extends AccessScope
+    ? T
+    : never;
 
 export async function getOrigenAccessScope() {
   const cookieStore = await cookies();
@@ -16,12 +21,16 @@ export async function getOrigenAccessScope() {
   );
 }
 
-export async function requireOrigenAccess(requiredScope: AccessScope) {
+export async function requireOrigenAccess<
+  const T extends AccessScope | readonly AccessScope[],
+>(requiredScope: T): Promise<RequiredAccessScope<T>> {
   const cookieStore = await cookies();
-  const authenticated = await verifySessionToken(
+  const scope = await getAccessScopeFromSessionToken(
     cookieStore.get(ACCESS_COOKIE_NAME)?.value,
-    requiredScope,
   );
+  const requiredScopes: readonly AccessScope[] =
+    typeof requiredScope === "string" ? [requiredScope] : requiredScope;
 
-  if (!authenticated) redirect("/");
+  if (!scope || !requiredScopes.includes(scope)) redirect("/");
+  return scope as RequiredAccessScope<T>;
 }

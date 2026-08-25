@@ -8,7 +8,7 @@ import {
   useTransform,
 } from "framer-motion";
 import { useEffect, useLayoutEffect, useRef } from "react";
-import { ORIGEN_WORDMARK_ASSET } from "../lib/brand";
+import { GatewayBrandLink } from "./GatewayBrandLink";
 import {
   CINEMATIC_ENTRY_EASE,
   GATEWAY_MOTION,
@@ -167,21 +167,10 @@ export function BrosState({ development, onReset }: BrosStateProps) {
         }}
       >
         <header className="bros-header">
-          <a
+          <GatewayBrandLink
             className="bros-brand"
-            href="#bros-top"
-            aria-label="Origen Bros — volver al inicio"
-          >
-            {/* Preserve the approved wordmark at its original proportions. */}
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={ORIGEN_WORDMARK_ASSET}
-              width="1090"
-              height="296"
-              alt="Origen"
-              draggable="false"
-            />
-          </a>
+            label="Origen Bros — volver al acceso"
+          />
           <p>Círculo de hombres · Liencres</p>
         </header>
 

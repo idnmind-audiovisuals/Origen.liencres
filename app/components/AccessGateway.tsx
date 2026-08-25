@@ -108,6 +108,18 @@ export function AccessGateway({
         development={development}
         initialLanguage={initialLanguage}
         onReset={resetSession}
+        variant="residency"
+      />
+    );
+  }
+
+  if (state === "opened" && destination === "/space") {
+    return (
+      <OpenedState
+        development={development}
+        initialLanguage={initialLanguage}
+        onReset={resetSession}
+        variant="space"
       />
     );
   }

@@ -7,18 +7,19 @@ import {
   LanguageToggle,
   usePersistentLanguage,
 } from "./LanguageToggle";
-import { ORIGEN_WORDMARK_ASSET } from "../lib/brand";
+import { GatewayBrandLink } from "./GatewayBrandLink";
 import {
   CINEMATIC_ENTRY_EASE,
   GATEWAY_MOTION,
 } from "../lib/gateway-motion";
 import { localizedHref, type Language } from "../lib/language";
-import { RESIDENCY_COPY } from "../lib/site-copy";
+import { RESIDENCY_COPY, SPACE_COPY } from "../lib/site-copy";
 
 type OpenedStateProps = {
   development: boolean;
   initialLanguage: Language;
   onReset?: () => void;
+  variant: "residency" | "space";
 };
 
 const SPACE_URL =
@@ -32,12 +33,14 @@ export function OpenedState({
   development,
   initialLanguage,
   onReset,
+  variant,
 }: OpenedStateProps) {
   const pageRef = useRef<HTMLElement>(null);
   const reducedMotion = useReducedMotion();
   const { language, changeLanguage } =
     usePersistentLanguage(initialLanguage);
-  const copy = RESIDENCY_COPY[language];
+  const copy =
+    variant === "space" ? SPACE_COPY[language] : RESIDENCY_COPY[language];
   const backgroundDuration = reducedMotion
     ? GATEWAY_MOTION.opened.reducedBackgroundDuration
     : GATEWAY_MOTION.opened.backgroundDuration;
@@ -57,11 +60,18 @@ export function OpenedState({
   }, []);
 
   useEffect(() => {
-    document.title =
-      language === "es"
-        ? "Residencia Origen — Liencres"
-        : "Origen Residency — Liencres";
-  }, [language]);
+    if (variant === "space") {
+      document.title =
+        language === "es"
+          ? "Espacio Origen — Liencres"
+          : "Origen Space — Liencres";
+      return;
+    }
+
+    document.title = language === "es"
+      ? "Residencia Origen — Liencres"
+      : "Origen Residency — Liencres";
+  }, [language, variant]);
 
   return (
     <motion.main
@@ -99,21 +109,10 @@ export function OpenedState({
         }}
       >
         <header className="invitation-header">
-          <a
+          <GatewayBrandLink
             className="invitation-brand"
-            href="#invitation-top"
-            aria-label={copy.brandLabel}
-          >
-            {/* The approved wordmark is preserved at its original proportions. */}
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={ORIGEN_WORDMARK_ASSET}
-              width="1090"
-              height="296"
-              alt="Origen"
-              draggable="false"
-            />
-          </a>
+            label={copy.brandLabel}
+          />
 
           <div className="invitation-header-actions">
             <p className="invitation-availability">
@@ -129,9 +128,9 @@ export function OpenedState({
 
         <p className="invitation-tagline">{copy.tagline}</p>
 
-        <section className="invitation-hero" aria-labelledby="residency-title">
+        <section className="invitation-hero" aria-labelledby="invitation-title">
           <div className="invitation-title-block">
-            <h1 id="residency-title">
+            <h1 id="invitation-title">
               {copy.title.map((line) => (
                 <span key={line}>{line}</span>
               ))}
@@ -156,16 +155,23 @@ export function OpenedState({
             <h2 id="program-title">{copy.programTitle}</h2>
           </div>
 
-          <ol className="invitation-experiences">
-            {copy.experiences.map((experience, index) => (
-              <li key={index}>
-                <span aria-hidden="true">
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-                {experience}
-              </li>
-            ))}
-          </ol>
+          <div className="invitation-program-content">
+            {"programDescription" in copy ? (
+              <p className="invitation-program-description">
+                {copy.programDescription}
+              </p>
+            ) : null}
+            <ol className="invitation-experiences">
+              {copy.experiences.map((experience, index) => (
+                <li key={index}>
+                  <span aria-hidden="true">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  {experience}
+                </li>
+              ))}
+            </ol>
+          </div>
         </section>
 
         <nav className="invitation-links" aria-label={copy.linksLabel}>

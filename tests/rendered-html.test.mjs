@@ -37,8 +37,8 @@ test("server-renders the Origen gateway", async () => {
   assert.doesNotMatch(html, /codex-preview|react-loading-skeleton/i);
 });
 
-test("keeps both access keys server-only and destination-scoped", async () => {
-  const [client, route, session, example, bros, brosPage, residencyPage] = await Promise.all([
+test("keeps all access keys server-only and destination-scoped", async () => {
+  const [client, route, session, example, bros, brosPage, residencyPage, spacePage] = await Promise.all([
     readFile(new URL("../app/components/AccessKeyForm.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/api/access/route.ts", import.meta.url), "utf8"),
     readFile(new URL("../app/lib/access-session.ts", import.meta.url), "utf8"),
@@ -46,22 +46,25 @@ test("keeps both access keys server-only and destination-scoped", async () => {
     readFile(new URL("../app/components/BrosState.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/bros/page.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/residency/page.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/space/page.tsx", import.meta.url), "utf8"),
   ]);
 
-  assert.doesNotMatch(client, /ORIGEN_(?:BROS_)?ACCESS_KEY|Esencia/i);
+  assert.doesNotMatch(client, /ORIGEN_(?:BROS_|SPACE_)?ACCESS_KEY|Esencia/i);
   assert.match(route, /matchAccessKey/);
   assert.match(route, /destination/);
   assert.match(session, /process\.env\.ORIGEN_ACCESS_KEY/);
   assert.match(session, /process\.env\.ORIGEN_BROS_ACCESS_KEY/);
-  assert.doesNotMatch(session, /["'](?:Esencia|Bros)["']/i);
+  assert.match(session, /process\.env\.ORIGEN_SPACE_ACCESS_KEY/);
+  assert.doesNotMatch(session, /["'](?:Esencia|Bros|Espacio)["']/i);
   assert.equal(
     example,
-    "ORIGEN_ACCESS_KEY=\nORIGEN_BROS_ACCESS_KEY=\n",
+    "ORIGEN_ACCESS_KEY=\nORIGEN_BROS_ACCESS_KEY=\nORIGEN_SPACE_ACCESS_KEY=\n",
   );
   assert.match(bros, /https:\/\/form\.typeform\.com\/to\/AItAiCHI/);
   assert.match(bros, /https:\/\/chat\.whatsapp\.com\/F7Yg8F7zx1R3jA5ltgvKwS/);
   assert.match(brosPage, /requireOrigenAccess\("bros"\)/);
   assert.match(residencyPage, /requireOrigenAccess\("residency"\)/);
+  assert.match(spacePage, /requireOrigenAccess\("space"\)/);
 
   const packageJson = await readFile(new URL("package.json", templateRoot), "utf8");
   assert.match(packageJson, /framer-motion/);

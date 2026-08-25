@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { EditorialPage } from "../components/EditorialPage";
+import { OpenedState } from "../components/OpenedState";
 import {
   getLanguageParam,
   type LanguageSearchParams,
@@ -14,33 +14,41 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const params = await searchParams;
   const language = await getRequestLanguage(getLanguageParam(params.lang));
-  return language === "es"
-    ? {
-        title: "Visión — Origen",
-        description: "La visión de Origen en Costa Quebrada, España.",
-      }
-    : {
-        title: "Vision — Origen",
-        description: "The vision behind Origen in Costa Quebrada, Spain.",
-      };
+  const title =
+    language === "es"
+      ? "Espacio Origen — Liencres"
+      : "Origen Space — Liencres";
+  const description =
+    language === "es"
+      ? "Un espacio de retiro entre el océano, el bosque y la naturaleza viva de Liencres."
+      : "A retreat space held by the ocean, forest and living landscape of Liencres.";
+
+  return {
+    title,
+    description,
+    openGraph: { title, description, images: [] },
+    twitter: { card: "summary", title, description, images: [] },
+  };
 }
 
-export default async function VisionPage({
+export const dynamic = "force-dynamic";
+
+export default async function SpacePage({
   searchParams,
 }: {
   searchParams: LanguageSearchParams;
 }) {
-  const accessScope = await requireOrigenAccess(["residency", "space"]);
+  await requireOrigenAccess("space");
   const params = await searchParams;
   const initialLanguage = await getRequestLanguage(
     getLanguageParam(params.lang),
   );
 
   return (
-    <EditorialPage
+    <OpenedState
+      development={false}
       initialLanguage={initialLanguage}
-      origin={accessScope}
-      page="vision"
+      variant="space"
     />
   );
 }

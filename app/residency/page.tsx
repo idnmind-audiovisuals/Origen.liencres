@@ -36,6 +36,10 @@ export default async function ResidencyPage({
   );
 
   return (
-    <OpenedState development={false} initialLanguage={initialLanguage} />
+    <OpenedState
+      development={false}
+      initialLanguage={initialLanguage}
+      variant="residency"
+    />
   );
 }

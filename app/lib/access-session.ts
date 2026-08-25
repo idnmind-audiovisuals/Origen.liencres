@@ -52,10 +52,11 @@ function normalizeAccessKey(value: string) {
 }
 
 function getAccessKey(scope: AccessScope) {
-  const value =
-    scope === "residency"
-      ? process.env.ORIGEN_ACCESS_KEY
-      : process.env.ORIGEN_BROS_ACCESS_KEY;
+  const value = {
+    residency: process.env.ORIGEN_ACCESS_KEY,
+    bros: process.env.ORIGEN_BROS_ACCESS_KEY,
+    space: process.env.ORIGEN_SPACE_ACCESS_KEY,
+  }[scope];
 
   return value?.trim() ?? "";
 }
