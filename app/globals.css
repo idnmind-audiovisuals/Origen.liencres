@@ -670,6 +670,10 @@ button {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
+.invitation-links-secondary {
+  border-top: 0;
+}
+
 .invitation-links a {
   display: flex;
   min-height: clamp(180px, 22vw, 330px);

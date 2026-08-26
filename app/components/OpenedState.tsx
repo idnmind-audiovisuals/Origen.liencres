@@ -183,49 +183,54 @@ export function OpenedState({
           </div>
         </section>
 
-        <nav className="invitation-links" aria-label={copy.linksLabel}>
-          <a href={SPACE_URL} target="_blank" rel="noreferrer">
-            <span>
-              <small>{copy.stay}</small>
-              {copy.space}
-            </span>
-            <span aria-hidden="true">↗</span>
-          </a>
-          <a href={MAPS_URL} target="_blank" rel="noreferrer">
-            <span>
-              <small>{copy.location}</small>
-              {copy.maps}
-            </span>
-            <span aria-hidden="true">↗</span>
-          </a>
-          <Link href={localizedHref("/story", language)}>
-            <span>
-              <small>Origen</small>
-              {copy.story}
-            </span>
-            <span aria-hidden="true">→</span>
-          </Link>
-          <Link href={localizedHref("/vision", language)}>
-            <span>
-              <small>Origen</small>
-              {copy.vision}
-            </span>
-            <span aria-hidden="true">→</span>
-          </Link>
-        </nav>
+        <nav className="invitation-action-stack" aria-label={copy.linksLabel}>
+          <div className="invitation-links">
+            <a href={SPACE_URL} target="_blank" rel="noreferrer">
+              <span>
+                <small>{copy.stay}</small>
+                {copy.space}
+              </span>
+              <span aria-hidden="true">↗</span>
+            </a>
+            <a href={MAPS_URL} target="_blank" rel="noreferrer">
+              <span>
+                <small>{copy.location}</small>
+                {copy.maps}
+              </span>
+              <span aria-hidden="true">↗</span>
+            </a>
+          </div>
 
-        <a
-          className="invitation-join"
-          href={applicationFormUrl}
-          target="_blank"
-          rel="noreferrer"
-        >
-          <small>{copy.joinEyebrow}</small>
-          <span className="invitation-join-label">{copy.join}</span>
-          <span className="invitation-join-arrow" aria-hidden="true">
-            ↗
-          </span>
-        </a>
+          <a
+            className="invitation-join"
+            href={applicationFormUrl}
+            target="_blank"
+            rel="noreferrer"
+          >
+            <small>{copy.joinEyebrow}</small>
+            <span className="invitation-join-label">{copy.join}</span>
+            <span className="invitation-join-arrow" aria-hidden="true">
+              ↗
+            </span>
+          </a>
+
+          <div className="invitation-links invitation-links-secondary">
+            <Link href={localizedHref("/story", language)}>
+              <span>
+                <small>Origen</small>
+                {copy.story}
+              </span>
+              <span aria-hidden="true">→</span>
+            </Link>
+            <Link href={localizedHref("/vision", language)}>
+              <span>
+                <small>Origen</small>
+                {copy.vision}
+              </span>
+              <span aria-hidden="true">→</span>
+            </Link>
+          </div>
+        </nav>
 
         <a
           className="invitation-interest"

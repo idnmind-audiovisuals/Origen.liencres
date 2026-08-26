@@ -74,6 +74,10 @@ test("keeps all access keys server-only and destination-scoped", async () => {
   );
   assert.match(invitation, /variant === "space"[\s\S]*SPACE_APPLICATION_FORM_URL/);
   assert.match(
+    invitation,
+    /href=\{MAPS_URL\}[\s\S]*className="invitation-join"[\s\S]*localizedHref\("\/story"/,
+  );
+  assert.match(
     instagram,
     /https:\/\/www\.instagram\.com\/origen\.liencres\//,
   );
