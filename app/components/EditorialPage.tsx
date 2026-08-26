@@ -8,6 +8,7 @@ import {
   usePersistentLanguage,
 } from "./LanguageToggle";
 import { GatewayBrandLink } from "./GatewayBrandLink";
+import { InstagramLink } from "./InstagramLink";
 import { CINEMATIC_ENTRY_EASE } from "../lib/gateway-motion";
 import { localizedHref, type Language } from "../lib/language";
 import {
@@ -99,6 +100,8 @@ export function EditorialPage({
           <p>Origen · Liencres</p>
           <p>{shared.footer}</p>
         </footer>
+
+        <InstagramLink />
       </motion.div>
     </main>
   );

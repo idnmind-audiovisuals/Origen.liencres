@@ -8,6 +8,7 @@ import {
   usePersistentLanguage,
 } from "./LanguageToggle";
 import { GatewayBrandLink } from "./GatewayBrandLink";
+import { InstagramLink } from "./InstagramLink";
 import {
   CINEMATIC_ENTRY_EASE,
   GATEWAY_MOTION,
@@ -243,6 +244,8 @@ export function OpenedState({
           <p>{copy.footerLocation}</p>
           <p>{copy.footerDate}</p>
         </footer>
+
+        <InstagramLink />
 
         {development && onReset ? (
           <button

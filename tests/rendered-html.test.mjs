@@ -38,13 +38,15 @@ test("server-renders the Origen gateway", async () => {
 });
 
 test("keeps all access keys server-only and destination-scoped", async () => {
-  const [client, route, session, example, bros, invitation, brosPage, residencyPage, spacePage] = await Promise.all([
+  const [client, route, session, example, bros, invitation, editorial, instagram, brosPage, residencyPage, spacePage] = await Promise.all([
     readFile(new URL("../app/components/AccessKeyForm.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/api/access/route.ts", import.meta.url), "utf8"),
     readFile(new URL("../app/lib/access-session.ts", import.meta.url), "utf8"),
     readFile(new URL("../.env.example", import.meta.url), "utf8"),
     readFile(new URL("../app/components/BrosState.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/components/OpenedState.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/components/EditorialPage.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/components/InstagramLink.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/bros/page.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/residency/page.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/space/page.tsx", import.meta.url), "utf8"),
@@ -71,6 +73,13 @@ test("keeps all access keys server-only and destination-scoped", async () => {
     /https:\/\/docs\.google\.com\/forms\/d\/e\/1FAIpQLScHDNpewNDGJQalw3Dvpz3hm2RzsIV1bdzRrpRHZ3ShApJJEA\/viewform\?usp=publish-editor["']/,
   );
   assert.match(invitation, /variant === "space"[\s\S]*SPACE_APPLICATION_FORM_URL/);
+  assert.match(
+    instagram,
+    /https:\/\/www\.instagram\.com\/origen\.liencres\//,
+  );
+  assert.match(invitation, /<InstagramLink \/>/);
+  assert.match(bros, /<InstagramLink \/>/);
+  assert.match(editorial, /<InstagramLink \/>/);
   assert.match(brosPage, /requireOrigenAccess\("bros"\)/);
   assert.match(residencyPage, /requireOrigenAccess\("residency"\)/);
   assert.match(spacePage, /requireOrigenAccess\("space"\)/);

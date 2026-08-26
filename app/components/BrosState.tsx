@@ -9,6 +9,7 @@ import {
 } from "framer-motion";
 import { useEffect, useLayoutEffect, useRef } from "react";
 import { GatewayBrandLink } from "./GatewayBrandLink";
+import { InstagramLink } from "./InstagramLink";
 import {
   CINEMATIC_ENTRY_EASE,
   GATEWAY_MOTION,
@@ -392,6 +393,8 @@ export function BrosState({ development, onReset }: BrosStateProps) {
           <p>Origen Bros</p>
           <p>Liencres · Cantabria</p>
         </footer>
+
+        <InstagramLink />
 
         {development && onReset ? (
           <button
