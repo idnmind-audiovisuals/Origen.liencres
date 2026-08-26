@@ -38,7 +38,7 @@ test("server-renders the Origen gateway", async () => {
 });
 
 test("keeps all access keys server-only and destination-scoped", async () => {
-  const [client, route, session, example, bros, invitation, editorial, instagram, siteCopy, styles, brosPage, residencyPage, spacePage] = await Promise.all([
+  const [client, route, session, example, bros, invitation, editorial, instagram, experience, siteCopy, styles, brosPage, residencyPage, spacePage, experiencePage] = await Promise.all([
     readFile(new URL("../app/components/AccessKeyForm.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/api/access/route.ts", import.meta.url), "utf8"),
     readFile(new URL("../app/lib/access-session.ts", import.meta.url), "utf8"),
@@ -47,11 +47,13 @@ test("keeps all access keys server-only and destination-scoped", async () => {
     readFile(new URL("../app/components/OpenedState.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/components/EditorialPage.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/components/InstagramLink.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/components/ExperienceState.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/lib/site-copy.ts", import.meta.url), "utf8"),
     readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
     readFile(new URL("../app/bros/page.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/residency/page.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/space/page.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/experience/page.tsx", import.meta.url), "utf8"),
   ]);
 
   assert.doesNotMatch(client, /ORIGEN_(?:BROS_|SPACE_)?ACCESS_KEY|Esencia/i);
@@ -60,10 +62,11 @@ test("keeps all access keys server-only and destination-scoped", async () => {
   assert.match(session, /process\.env\.ORIGEN_ACCESS_KEY/);
   assert.match(session, /process\.env\.ORIGEN_BROS_ACCESS_KEY/);
   assert.match(session, /process\.env\.ORIGEN_SPACE_ACCESS_KEY/);
-  assert.doesNotMatch(session, /["'](?:Esencia|Bros|Espacio)["']/i);
+  assert.match(session, /process\.env\.ORIGEN_EXPERIENCE_ACCESS_KEY/);
+  assert.doesNotMatch(session, /["'](?:Esencia|Bros|Espacio|Experiencia)["']/i);
   assert.equal(
     example,
-    "ORIGEN_ACCESS_KEY=\nORIGEN_BROS_ACCESS_KEY=\nORIGEN_SPACE_ACCESS_KEY=\n",
+    "ORIGEN_ACCESS_KEY=\nORIGEN_BROS_ACCESS_KEY=\nORIGEN_SPACE_ACCESS_KEY=\nORIGEN_EXPERIENCE_ACCESS_KEY=\n",
   );
   assert.match(
     bros,
@@ -105,9 +108,17 @@ test("keeps all access keys server-only and destination-scoped", async () => {
   assert.match(invitation, /<InstagramLink \/>/);
   assert.match(bros, /<InstagramLink \/>/);
   assert.match(editorial, /<InstagramLink \/>/);
+  assert.match(experience, /import\("lenis"\)/);
+  assert.match(experience, /import\("gsap"\)/);
+  assert.match(experience, /import\("gsap\/ScrollTrigger"\)/);
+  assert.match(styles, /experience-atlantic\.webp/);
+  assert.match(styles, /experience-rock\.webp/);
+  assert.match(styles, /experience-coast\.webp/);
+  assert.match(styles, /experience-forest\.webp/);
   assert.match(brosPage, /requireOrigenAccess\("bros"\)/);
   assert.match(residencyPage, /requireOrigenAccess\("residency"\)/);
   assert.match(spacePage, /requireOrigenAccess\("space"\)/);
+  assert.match(experiencePage, /requireOrigenAccess\("experience"\)/);
 
   const packageJson = await readFile(new URL("package.json", templateRoot), "utf8");
   assert.match(packageJson, /framer-motion/);

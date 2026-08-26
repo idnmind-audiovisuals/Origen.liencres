@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { useEffect, useState, useSyncExternalStore } from "react";
 import { AccessKeyForm } from "./AccessKeyForm";
 import { BrosState } from "./BrosState";
+import { ExperienceState } from "./ExperienceState";
 import { OpenedState } from "./OpenedState";
 import { OrigenSymbolAnimation } from "./OrigenSymbolAnimation";
 import { OrigenWordmark } from "./OrigenWordmark";
@@ -122,6 +123,10 @@ export function AccessGateway({
         variant="space"
       />
     );
+  }
+
+  if (state === "opened" && destination === "/experience") {
+    return <ExperienceState development={development} onReset={resetSession} />;
   }
 
   const formVisible = state === "ready";

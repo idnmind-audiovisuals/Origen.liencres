@@ -56,6 +56,7 @@ function getAccessKey(scope: AccessScope) {
     residency: process.env.ORIGEN_ACCESS_KEY,
     bros: process.env.ORIGEN_BROS_ACCESS_KEY,
     space: process.env.ORIGEN_SPACE_ACCESS_KEY,
+    experience: process.env.ORIGEN_EXPERIENCE_ACCESS_KEY,
   }[scope];
 
   return value?.trim() ?? "";

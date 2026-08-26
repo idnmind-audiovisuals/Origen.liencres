@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { AccessKeyForm } from "./AccessKeyForm";
 import { BrosState } from "./BrosState";
+import { ExperienceState } from "./ExperienceState";
 import { OpenedState } from "./OpenedState";
 import { OrigenWordmark } from "./OrigenWordmark";
 import {
@@ -77,6 +78,10 @@ export function ReducedMotionGateway({
         variant="space"
       />
     );
+  }
+
+  if (phase === "opened" && destination === "/experience") {
+    return <ExperienceState development={development} onReset={resetSession} />;
   }
 
   const unlocking = phase === "unlocking";
