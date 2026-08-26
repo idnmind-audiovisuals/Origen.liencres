@@ -3,6 +3,7 @@
 import { useEffect, useLayoutEffect, useRef } from "react";
 import { GatewayBrandLink } from "./GatewayBrandLink";
 import { InstagramLink } from "./InstagramLink";
+import { ExperienceSculpture } from "./ExperienceSculpture";
 
 type ExperienceStateProps = {
   development: boolean;
@@ -16,6 +17,11 @@ const COAST_WORDS = [
   "A place to connect.",
   "A place to be human.",
 ] as const;
+
+const HOST_FORM_URL =
+  "https://docs.google.com/forms/d/e/1FAIpQLSf9DrIbIV4OKiswKQhuKsssMyVvuP_l8CROR0ijH0_WUQSpIw/viewform?usp=publish-editor";
+const JOIN_WHATSAPP_URL =
+  "https://chat.whatsapp.com/IKwsVlegd9w8vDQ4iW6EZa";
 
 export function ExperienceState({
   development,
@@ -34,6 +40,77 @@ export function ExperienceState({
   useEffect(() => {
     document.documentElement.lang = "en";
     document.title = "Origen — The Experience";
+  }, []);
+
+  useEffect(() => {
+    const page = pageRef.current;
+    if (!page) return;
+
+    const reducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    );
+    const finePointer = window.matchMedia("(pointer: fine)");
+    if (reducedMotion.matches || !finePointer.matches) return;
+
+    let targetX = 0;
+    let targetY = 0;
+    let currentX = 0;
+    let currentY = 0;
+    let frame = 0;
+
+    const render = () => {
+      currentX += (targetX - currentX) * 0.075;
+      currentY += (targetY - currentY) * 0.075;
+
+      page.style.setProperty(
+        "--experience-tilt-x",
+        `${(-7 - currentY * 11).toFixed(3)}deg`,
+      );
+      page.style.setProperty(
+        "--experience-tilt-y",
+        `${(9 + currentX * 15).toFixed(3)}deg`,
+      );
+      page.style.setProperty(
+        "--experience-shift-x",
+        `${(currentX * 12).toFixed(3)}px`,
+      );
+      page.style.setProperty(
+        "--experience-shift-y",
+        `${(currentY * 9).toFixed(3)}px`,
+      );
+      page.style.setProperty(
+        "--experience-light-x",
+        `${(42 + currentX * 25).toFixed(2)}%`,
+      );
+      page.style.setProperty(
+        "--experience-light-y",
+        `${(30 + currentY * 20).toFixed(2)}%`,
+      );
+
+      frame = window.requestAnimationFrame(render);
+    };
+
+    const trackPointer = (event: PointerEvent) => {
+      targetX = Math.max(-1, Math.min(1, (event.clientX / window.innerWidth - 0.5) * 2));
+      targetY = Math.max(-1, Math.min(1, (event.clientY / window.innerHeight - 0.5) * 2));
+    };
+
+    const settle = () => {
+      targetX = 0;
+      targetY = 0;
+    };
+
+    page.addEventListener("pointermove", trackPointer, { passive: true });
+    page.addEventListener("pointerleave", settle);
+    window.addEventListener("blur", settle);
+    frame = window.requestAnimationFrame(render);
+
+    return () => {
+      window.cancelAnimationFrame(frame);
+      page.removeEventListener("pointermove", trackPointer);
+      page.removeEventListener("pointerleave", settle);
+      window.removeEventListener("blur", settle);
+    };
   }, []);
 
   useEffect(() => {
@@ -340,8 +417,7 @@ export function ExperienceState({
         >
           <div className="experience-scene-sticky">
             <div className="experience-source-mark" aria-hidden="true">
-              <span className="experience-source-orbit" />
-              <span className="experience-source-dot" />
+              <ExperienceSculpture variant="source" sourceCore />
             </div>
             <div className="experience-source-copy">
               <p>Origen</p>
@@ -451,7 +527,7 @@ export function ExperienceState({
           <div className="experience-return-shade" aria-hidden="true" />
           <div className="experience-return-content">
             <div className="experience-return-symbol" aria-hidden="true">
-              <span />
+              <ExperienceSculpture variant="return" />
             </div>
             <p>Origen</p>
             <h2 id="experience-return-title">
@@ -461,14 +537,24 @@ export function ExperienceState({
               Returning to the origin is not going backwards. It is removing
               layers until what is essential can emerge.
             </blockquote>
-            <nav className="experience-return-links" aria-label="Origen links">
-              <a href="#experience-source">Return to the source</a>
+            <nav className="experience-return-links" aria-label="Origen calls to action">
               <a
-                href="https://www.instagram.com/origen.liencres/"
+                href={HOST_FORM_URL}
                 target="_blank"
                 rel="noreferrer"
               >
-                Follow the journey <span aria-hidden="true">↗</span>
+                <small>Application form</small>
+                <strong>HOST</strong>
+                <span aria-hidden="true">↗</span>
+              </a>
+              <a
+                href={JOIN_WHATSAPP_URL}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <small>WhatsApp group</small>
+                <strong>JOIN</strong>
+                <span aria-hidden="true">↗</span>
               </a>
             </nav>
             <InstagramLink />

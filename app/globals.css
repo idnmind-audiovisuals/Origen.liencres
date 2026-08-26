@@ -80,6 +80,12 @@ button {
   --experience-gold: #a58b58;
   --experience-green: #152019;
   --experience-blue: #172832;
+  --experience-tilt-x: -7deg;
+  --experience-tilt-y: 9deg;
+  --experience-shift-x: 0px;
+  --experience-shift-y: 0px;
+  --experience-light-x: 42%;
+  --experience-light-y: 30%;
 
   padding: 0;
   overflow-x: hidden;
@@ -242,6 +248,153 @@ button {
   box-shadow: 0 0 24px rgb(165 139 88 / 0.28);
   transform-origin: 50% 50%;
   will-change: transform;
+}
+
+.experience-sculpture {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  left: 50%;
+  aspect-ratio: 1;
+  pointer-events: none;
+  perspective: 1100px;
+  transform:
+    translate(-50%, -50%)
+    translate3d(var(--experience-shift-x), var(--experience-shift-y), 0);
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.experience-sculpture--source {
+  width: 270%;
+}
+
+.experience-sculpture--return {
+  width: 178%;
+}
+
+.experience-sculpture-rig {
+  position: absolute;
+  inset: 0;
+  transform:
+    rotateX(var(--experience-tilt-x))
+    rotateY(var(--experience-tilt-y));
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.experience-sculpture-ring,
+.experience-sculpture-rim,
+.experience-sculpture-halo,
+.experience-sculpture-core {
+  position: absolute;
+  border-radius: 50%;
+  transform-style: preserve-3d;
+}
+
+.experience-sculpture-ring,
+.experience-sculpture-rim {
+  inset: 9%;
+  background-image:
+    radial-gradient(
+      circle at var(--experience-light-x) var(--experience-light-y),
+      rgb(242 239 232 / 0.84),
+      rgb(165 139 88 / 0.64) 30%,
+      rgb(36 35 31 / 0.88) 72%
+    ),
+    url("/experience-rock.webp");
+  background-position: center;
+  background-size: cover;
+  filter: drop-shadow(0 24px 34px rgb(0 0 0 / 0.34));
+  -webkit-mask-image:
+    radial-gradient(circle, transparent 0 54%, #000 55% 100%),
+    conic-gradient(#000 0 144deg, transparent 144deg 216deg, #000 216deg 360deg);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    radial-gradient(circle, transparent 0 54%, #000 55% 100%),
+    conic-gradient(#000 0 144deg, transparent 144deg 216deg, #000 216deg 360deg);
+  mask-composite: intersect;
+}
+
+.experience-sculpture-ring--back {
+  opacity: 0.34;
+  filter: blur(1.5px) brightness(0.55);
+  transform: translate3d(0, 10px, -68px) scale(0.965) rotateZ(-1.5deg);
+}
+
+.experience-sculpture-ring--middle {
+  opacity: 0.72;
+  filter: brightness(0.76) saturate(0.65);
+  transform: translate3d(-2px, 5px, -30px) scale(0.985) rotateZ(-0.7deg);
+}
+
+.experience-sculpture-ring--face {
+  opacity: 0.96;
+  background-blend-mode: soft-light, normal;
+  transform: translate3d(0, 0, 10px);
+}
+
+.experience-sculpture-rim {
+  opacity: 0.48;
+  background: linear-gradient(
+    118deg,
+    transparent 16%,
+    rgb(242 239 232 / 0.82) 34%,
+    transparent 55%,
+    rgb(165 139 88 / 0.48) 78%,
+    transparent 92%
+  );
+  filter: blur(0.4px);
+  transform: translate3d(0, -1px, 24px) scale(1.006);
+}
+
+.experience-sculpture-halo {
+  top: 50%;
+  left: 50%;
+  border: 1px solid rgb(165 139 88 / 0.24);
+}
+
+.experience-sculpture-halo--wide {
+  width: 96%;
+  aspect-ratio: 1;
+  transform: translate3d(-50%, -50%, -88px) rotateX(69deg) rotateZ(13deg);
+}
+
+.experience-sculpture-halo--tight {
+  width: 66%;
+  aspect-ratio: 1;
+  border-color: rgb(242 239 232 / 0.16);
+  transform: translate3d(-50%, -50%, -42px) rotateX(72deg) rotateZ(-18deg);
+}
+
+.experience-sculpture-core {
+  z-index: 4;
+  top: 52%;
+  left: 50%;
+  width: 14%;
+  aspect-ratio: 1;
+  background:
+    radial-gradient(
+      circle at var(--experience-light-x) var(--experience-light-y),
+      #d0b879 0%,
+      #8f7548 36%,
+      #2a2923 74%,
+      #11120f 100%
+    );
+  box-shadow:
+    0 18px 28px rgb(0 0 0 / 0.42),
+    inset -7px -9px 14px rgb(0 0 0 / 0.34),
+    inset 5px 5px 12px rgb(242 239 232 / 0.13);
+  transform: translate3d(-50%, -50%, 72px);
+}
+
+.experience-sculpture-core .experience-source-dot {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  background: inherit;
+  box-shadow: inherit;
 }
 
 .experience-source-copy {
@@ -642,32 +795,8 @@ button {
   width: clamp(110px, 13vw, 190px);
   aspect-ratio: 1;
   margin-bottom: clamp(42px, 6vw, 80px);
-  border: clamp(14px, 1.7vw, 24px) solid var(--experience-gold);
-  border-radius: 50%;
   transform-origin: 50% 50%;
   will-change: transform, opacity;
-}
-
-.experience-return-symbol::after {
-  position: absolute;
-  right: -10%;
-  bottom: -15%;
-  left: -10%;
-  height: 43%;
-  background: #080b08;
-  content: "";
-}
-
-.experience-return-symbol span {
-  position: absolute;
-  z-index: 2;
-  bottom: 13%;
-  left: 50%;
-  width: 14%;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  background: var(--experience-gold);
-  transform: translateX(-50%);
 }
 
 .experience-return-content h2 {
@@ -692,26 +821,50 @@ button {
 
 .experience-return-links {
   display: grid;
-  width: min(680px, 100%);
+  width: min(880px, 100%);
   border-top: 1px solid rgb(242 239 232 / 0.38);
   border-bottom: 1px solid rgb(242 239 232 / 0.38);
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .experience-return-links a {
+  position: relative;
   display: flex;
-  min-height: 96px;
-  padding: 24px;
+  min-height: clamp(136px, 14vw, 184px);
+  padding: clamp(28px, 3.4vw, 48px);
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 12px;
   outline: 0;
   color: var(--experience-ink);
-  font-size: clamp(9px, 0.76vw, 11px);
   font-weight: 540;
-  letter-spacing: 0.13em;
   text-decoration: none;
   text-transform: uppercase;
-  transition: color 320ms ease, background-color 320ms ease;
+  transition:
+    color 420ms cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 420ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.experience-return-links small {
+  font-size: clamp(8px, 0.68vw, 10px);
+  font-weight: 520;
+  letter-spacing: 0.18em;
+  opacity: 0.62;
+}
+
+.experience-return-links strong {
+  font-size: clamp(38px, 5.2vw, 72px);
+  font-weight: 285;
+  letter-spacing: -0.045em;
+  line-height: 0.9;
+}
+
+.experience-return-links a > span {
+  position: absolute;
+  top: 22px;
+  right: 24px;
+  font-size: 13px;
 }
 
 .experience-return-links a + a {
@@ -2740,6 +2893,14 @@ button {
     width: 106px;
   }
 
+  .experience-sculpture--source {
+    width: 242%;
+  }
+
+  .experience-sculpture--return {
+    width: 160%;
+  }
+
   .experience-ocean-line {
     width: calc(100% - 40px);
     font-size: clamp(38px, 11vw, 58px);
@@ -2817,7 +2978,17 @@ button {
   }
 
   .experience-return-links a {
-    min-height: 76px;
+    min-height: 118px;
+    padding: 26px 22px;
+  }
+
+  .experience-return-links strong {
+    font-size: clamp(40px, 12vw, 56px);
+  }
+
+  .experience-return-links a > span {
+    top: 18px;
+    right: 18px;
   }
 
   .experience-return-links a + a {
@@ -2848,6 +3019,14 @@ button {
   .experience-source-mark,
   .experience-return-symbol {
     transform: none !important;
+  }
+
+  .experience-sculpture {
+    transform: translate(-50%, -50%) !important;
+  }
+
+  .experience-sculpture-rig {
+    transform: rotateX(-7deg) rotateY(9deg) !important;
   }
 
   .experience-ocean-copy,
