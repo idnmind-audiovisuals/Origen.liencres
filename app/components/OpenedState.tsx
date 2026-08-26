@@ -28,7 +28,8 @@ const SPACE_URL =
 const MAPS_URL = "https://maps.app.goo.gl/CcDJ15DKT4QvTdW4A";
 const RESIDENCY_APPLICATION_FORM_URL =
   "https://docs.google.com/forms/d/e/1FAIpQLScHDNpewNDGJQalw3Dvpz3hm2RzsIV1bdzRrpRHZ3ShApJJEA/viewform?usp=publish-editor";
-const SPACE_APPLICATION_FORM_URL = "https://form.typeform.com/to/akvuhWjN";
+const SPACE_APPLICATION_FORM_URL =
+  "https://docs.google.com/forms/d/e/1FAIpQLSf9DrIbIV4OKiswKQhuKsssMyVvuP_l8CROR0ijH0_WUQSpIw/viewform?usp=publish-editor";
 const WHATSAPP_URL =
   "https://chat.whatsapp.com/IKwsVlegd9w8vDQ4iW6EZa";
 

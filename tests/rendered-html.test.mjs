@@ -38,7 +38,7 @@ test("server-renders the Origen gateway", async () => {
 });
 
 test("keeps all access keys server-only and destination-scoped", async () => {
-  const [client, route, session, example, bros, invitation, editorial, instagram, brosPage, residencyPage, spacePage] = await Promise.all([
+  const [client, route, session, example, bros, invitation, editorial, instagram, siteCopy, brosPage, residencyPage, spacePage] = await Promise.all([
     readFile(new URL("../app/components/AccessKeyForm.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/api/access/route.ts", import.meta.url), "utf8"),
     readFile(new URL("../app/lib/access-session.ts", import.meta.url), "utf8"),
@@ -47,6 +47,7 @@ test("keeps all access keys server-only and destination-scoped", async () => {
     readFile(new URL("../app/components/OpenedState.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/components/EditorialPage.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/components/InstagramLink.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/lib/site-copy.ts", import.meta.url), "utf8"),
     readFile(new URL("../app/bros/page.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/residency/page.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/space/page.tsx", import.meta.url), "utf8"),
@@ -72,7 +73,15 @@ test("keeps all access keys server-only and destination-scoped", async () => {
     invitation,
     /https:\/\/docs\.google\.com\/forms\/d\/e\/1FAIpQLScHDNpewNDGJQalw3Dvpz3hm2RzsIV1bdzRrpRHZ3ShApJJEA\/viewform\?usp=publish-editor["']/,
   );
+  assert.match(
+    invitation,
+    /https:\/\/docs\.google\.com\/forms\/d\/e\/1FAIpQLSf9DrIbIV4OKiswKQhuKsssMyVvuP_l8CROR0ijH0_WUQSpIw\/viewform\?usp=publish-editor["']/,
+  );
   assert.match(invitation, /variant === "space"[\s\S]*SPACE_APPLICATION_FORM_URL/);
+  assert.match(
+    siteCopy,
+    /export const RESIDENCY_COPY =[\s\S]*join: "JOIN"[\s\S]*export const SPACE_COPY =[\s\S]*join: "HOST"/,
+  );
   assert.match(
     invitation,
     /href=\{MAPS_URL\}[\s\S]*className="invitation-join"[\s\S]*localizedHref\("\/story"/,
