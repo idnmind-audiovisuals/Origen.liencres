@@ -19,7 +19,8 @@ type BrosStateProps = {
   onReset?: () => void;
 };
 
-const TYPEFORM_URL = "https://form.typeform.com/to/AItAiCHI";
+const APPLICATION_FORM_URL =
+  "https://docs.google.com/forms/d/e/1FAIpQLSd2uhreU_NDgC3-H9wOfcsP2w9Q_lixIq4Er_BsEMTTNB7W5g/viewform";
 const WHATSAPP_URL =
   "https://chat.whatsapp.com/F7Yg8F7zx1R3jA5ltgvKwS?s=cl&p=i&mlu=4";
 
@@ -189,7 +190,7 @@ export function BrosState({ development, onReset }: BrosStateProps) {
           <div className="bros-hero-aside">
             <p>Un espacio para reunirse en autenticidad.</p>
             <p className="bros-place">Liencres, Cantabria</p>
-            <a href={TYPEFORM_URL} target="_blank" rel="noreferrer">
+            <a href={APPLICATION_FORM_URL} target="_blank" rel="noreferrer">
               Unirme al círculo <span aria-hidden="true">↗</span>
             </a>
           </div>
@@ -364,13 +365,13 @@ export function BrosState({ development, onReset }: BrosStateProps) {
           transition={{ duration: 1.3, ease: CINEMATIC_ENTRY_EASE }}
         >
           <motion.a
-            href={TYPEFORM_URL}
+            href={APPLICATION_FORM_URL}
             target="_blank"
             rel="noreferrer"
             whileHover={reducedMotion ? undefined : { y: -6 }}
             transition={{ duration: 0.45, ease: CINEMATIC_ENTRY_EASE }}
           >
-            <small>Formulario Typeform</small>
+            <small>Formulario Google</small>
             <strong>Aplication</strong>
             <span aria-hidden="true">↗</span>
           </motion.a>

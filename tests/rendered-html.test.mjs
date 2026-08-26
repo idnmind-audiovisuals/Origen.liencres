@@ -60,7 +60,10 @@ test("keeps all access keys server-only and destination-scoped", async () => {
     example,
     "ORIGEN_ACCESS_KEY=\nORIGEN_BROS_ACCESS_KEY=\nORIGEN_SPACE_ACCESS_KEY=\n",
   );
-  assert.match(bros, /https:\/\/form\.typeform\.com\/to\/AItAiCHI/);
+  assert.match(
+    bros,
+    /https:\/\/docs\.google\.com\/forms\/d\/e\/1FAIpQLSd2uhreU_NDgC3-H9wOfcsP2w9Q_lixIq4Er_BsEMTTNB7W5g\/viewform["']/,
+  );
   assert.match(bros, /https:\/\/chat\.whatsapp\.com\/F7Yg8F7zx1R3jA5ltgvKwS/);
   assert.match(brosPage, /requireOrigenAccess\("bros"\)/);
   assert.match(residencyPage, /requireOrigenAccess\("residency"\)/);
