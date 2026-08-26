@@ -1502,24 +1502,52 @@ button {
 
 .site-instagram-link {
   display: grid;
-  width: 2.9rem;
-  height: 2.9rem;
+  width: 3.5rem;
+  height: 3.5rem;
   margin: clamp(2.75rem, 6vw, 5.5rem) auto 0;
   place-items: center;
-  border: 1px solid rgb(36 35 31 / 32%);
+  border: 1px solid rgb(36 35 31 / 52%);
   border-radius: 50%;
   color: #24231f;
-  font-size: 0.66rem;
-  font-weight: 500;
-  letter-spacing: 0.12em;
-  line-height: 1;
+  background: rgb(36 35 31 / 4%);
   text-decoration: none;
-  text-indent: 0.12em;
   transition:
     background-color 450ms cubic-bezier(0.65, 0, 0.2, 1),
     border-color 450ms cubic-bezier(0.65, 0, 0.2, 1),
     color 450ms cubic-bezier(0.65, 0, 0.2, 1),
     transform 450ms cubic-bezier(0.65, 0, 0.2, 1);
+}
+
+.site-instagram-icon {
+  position: relative;
+  display: block;
+  width: 1.45rem;
+  height: 1.45rem;
+  border: 2px solid currentColor;
+  border-radius: 28%;
+}
+
+.site-instagram-icon::before {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0.58rem;
+  height: 0.58rem;
+  border: 2px solid currentColor;
+  border-radius: 50%;
+  content: "";
+  transform: translate(-50%, -50%);
+}
+
+.site-instagram-icon::after {
+  position: absolute;
+  top: 0.22rem;
+  right: 0.22rem;
+  width: 0.22rem;
+  height: 0.22rem;
+  border-radius: 50%;
+  background: currentColor;
+  content: "";
 }
 
 .site-instagram-link:hover,
@@ -1536,8 +1564,9 @@ button {
 }
 
 .bros-page .site-instagram-link {
-  border-color: rgb(242 239 232 / 38%);
+  border-color: rgb(242 239 232 / 58%);
   color: #f2efe8;
+  background: rgb(242 239 232 / 7%);
 }
 
 .bros-page .site-instagram-link:hover,

@@ -77,6 +77,7 @@ test("keeps all access keys server-only and destination-scoped", async () => {
     instagram,
     /https:\/\/www\.instagram\.com\/origen\.liencres\//,
   );
+  assert.match(instagram, /site-instagram-icon/);
   assert.match(invitation, /<InstagramLink \/>/);
   assert.match(bros, /<InstagramLink \/>/);
   assert.match(editorial, /<InstagramLink \/>/);

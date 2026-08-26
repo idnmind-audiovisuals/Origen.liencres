@@ -9,7 +9,7 @@ export function InstagramLink() {
       rel="noreferrer"
       aria-label="Instagram — Origen Liencres (opens in a new tab)"
     >
-      IG
+      <span className="site-instagram-icon" aria-hidden="true" />
     </a>
   );
 }
