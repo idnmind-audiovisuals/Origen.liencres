@@ -2297,6 +2297,10 @@ button {
 }
 
 @media (max-width: 760px) {
+  .access-credential {
+    top: 43%;
+  }
+
   .access-credential input {
     /* Prevent iOS focus zoom while keeping pinch-to-zoom available. */
     font-size: 16px;
