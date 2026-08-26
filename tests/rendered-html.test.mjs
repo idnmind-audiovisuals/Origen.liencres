@@ -82,6 +82,11 @@ test("keeps all access keys server-only and destination-scoped", async () => {
     siteCopy,
     /export const RESIDENCY_COPY =[\s\S]*join: "JOIN"[\s\S]*export const SPACE_COPY =[\s\S]*join: "HOST"/,
   );
+  assert.match(siteCopy, /A retreat space rooted in a privileged landscape/);
+  assert.match(siteCopy, /A home for 8ppl retreats/);
+  assert.match(siteCopy, /25 min from the airport/);
+  assert.match(siteCopy, /2 nudist beaches walk distance/);
+  assert.match(siteCopy, /A wide opened to nature practice shala/);
   assert.match(
     invitation,
     /href=\{MAPS_URL\}[\s\S]*className="invitation-join"[\s\S]*localizedHref\("\/story"/,
