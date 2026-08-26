@@ -87,7 +87,7 @@ export const SPACE_COPY = {
   en: {
     status: "Access opened. Welcome to Origen Space.",
     brandLabel: "Origen — return to the opening gateway",
-    availability: "Private retreat space",
+    availability: "Retreat space",
     tagline: "",
     title: ["Origen", "Space"],
     details: [
@@ -124,7 +124,7 @@ export const SPACE_COPY = {
   es: {
     status: "Acceso concedido. Bienvenido al Espacio Origen.",
     brandLabel: "Origen — volver al acceso inicial",
-    availability: "Espacio de retiro privado",
+    availability: "Espacio de retiro",
     tagline: "",
     title: ["Espacio", "Origen"],
     details: [

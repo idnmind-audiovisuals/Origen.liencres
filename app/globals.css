@@ -493,7 +493,7 @@ button {
   width: 7px;
   aspect-ratio: 1;
   border-radius: 50%;
-  background: var(--ink);
+  background: #68763d;
 }
 
 .language-toggle {

@@ -38,7 +38,7 @@ test("server-renders the Origen gateway", async () => {
 });
 
 test("keeps all access keys server-only and destination-scoped", async () => {
-  const [client, route, session, example, bros, invitation, editorial, instagram, siteCopy, brosPage, residencyPage, spacePage] = await Promise.all([
+  const [client, route, session, example, bros, invitation, editorial, instagram, siteCopy, styles, brosPage, residencyPage, spacePage] = await Promise.all([
     readFile(new URL("../app/components/AccessKeyForm.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/api/access/route.ts", import.meta.url), "utf8"),
     readFile(new URL("../app/lib/access-session.ts", import.meta.url), "utf8"),
@@ -48,6 +48,7 @@ test("keeps all access keys server-only and destination-scoped", async () => {
     readFile(new URL("../app/components/EditorialPage.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/components/InstagramLink.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/lib/site-copy.ts", import.meta.url), "utf8"),
+    readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
     readFile(new URL("../app/bros/page.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/residency/page.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/space/page.tsx", import.meta.url), "utf8"),
@@ -87,6 +88,11 @@ test("keeps all access keys server-only and destination-scoped", async () => {
   assert.match(siteCopy, /25 min from the airport/);
   assert.match(siteCopy, /2 nudist beaches walk distance/);
   assert.match(siteCopy, /A wide opened to nature practice shala/);
+  assert.match(siteCopy, /availability: "Retreat space"/);
+  assert.match(
+    styles,
+    /\.invitation-availability span \{[\s\S]*background: #68763d;/,
+  );
   assert.match(
     invitation,
     /href=\{MAPS_URL\}[\s\S]*className="invitation-join"[\s\S]*localizedHref\("\/story"/,
