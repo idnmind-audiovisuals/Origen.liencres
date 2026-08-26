@@ -39,7 +39,7 @@ All phase delays, durations, easing, error feedback, success timing, and reduced
 
 ## Invitation page
 
-After the successful circle transition, `OpenedState` reveals the Origen Residency invitation. Accommodation, map, Typeform application, and WhatsApp interest destinations are defined as constants at the top of `app/components/OpenedState.tsx` so they can be changed without touching the layout.
+After the successful circle transition, `OpenedState` reveals the Origen Residency invitation. Accommodation, map, Residency Google Forms application, Space application, and WhatsApp interest destinations are defined as constants at the top of `app/components/OpenedState.tsx` so they can be changed without touching the layout.
 
 The Residency and Space invitations link to the protected `/story` and `/vision` editorial pages. Those editorial routes accept either a Residency- or Space-scoped session and return to the invitation that opened them. The separate Spanish-only `/bros` page requires its own Bros-scoped signed cookie and includes the Google Forms application and private WhatsApp group destinations.
 

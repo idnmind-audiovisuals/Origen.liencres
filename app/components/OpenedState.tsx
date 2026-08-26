@@ -25,7 +25,9 @@ type OpenedStateProps = {
 const SPACE_URL =
   "https://es-l.airbnb.com/rooms/23250801?source_impression_id=p3_1785061106_P3QhtYkp0415WTpb&modal=PHOTO_TOUR_SCROLLABLE";
 const MAPS_URL = "https://maps.app.goo.gl/CcDJ15DKT4QvTdW4A";
-const TYPEFORM_URL = "https://form.typeform.com/to/akvuhWjN";
+const RESIDENCY_APPLICATION_FORM_URL =
+  "https://docs.google.com/forms/d/e/1FAIpQLScHDNpewNDGJQalw3Dvpz3hm2RzsIV1bdzRrpRHZ3ShApJJEA/viewform?usp=publish-editor";
+const SPACE_APPLICATION_FORM_URL = "https://form.typeform.com/to/akvuhWjN";
 const WHATSAPP_URL =
   "https://chat.whatsapp.com/IKwsVlegd9w8vDQ4iW6EZa";
 
@@ -41,6 +43,10 @@ export function OpenedState({
     usePersistentLanguage(initialLanguage);
   const copy =
     variant === "space" ? SPACE_COPY[language] : RESIDENCY_COPY[language];
+  const applicationFormUrl =
+    variant === "space"
+      ? SPACE_APPLICATION_FORM_URL
+      : RESIDENCY_APPLICATION_FORM_URL;
   const backgroundDuration = reducedMotion
     ? GATEWAY_MOTION.opened.reducedBackgroundDuration
     : GATEWAY_MOTION.opened.backgroundDuration;
@@ -209,7 +215,7 @@ export function OpenedState({
 
         <a
           className="invitation-join"
-          href={TYPEFORM_URL}
+          href={applicationFormUrl}
           target="_blank"
           rel="noreferrer"
         >
