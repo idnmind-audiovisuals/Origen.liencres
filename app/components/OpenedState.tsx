@@ -147,16 +147,33 @@ export function OpenedState({
             </h1>
           </div>
 
-          <dl className="invitation-details">
-            {copy.details.map((detail) => (
-              <div key={detail.term}>
-                <dt>{detail.term}</dt>
-                <dd aria-label={"ariaLabel" in detail ? detail.ariaLabel : undefined}>
-                  {detail.value}
-                </dd>
-              </div>
-            ))}
-          </dl>
+          <div className="invitation-details-column">
+            <dl className="invitation-details">
+              {copy.details.map((detail) => (
+                <div key={detail.term}>
+                  <dt>{detail.term}</dt>
+                  <dd aria-label={"ariaLabel" in detail ? detail.ariaLabel : undefined}>
+                    {detail.value}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+
+            {variant === "space" ? (
+              <a
+                className="invitation-hero-host"
+                href={SPACE_APPLICATION_FORM_URL}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <span>
+                  <small>{copy.joinEyebrow}</small>
+                  <strong>{copy.join}</strong>
+                </span>
+                <span aria-hidden="true">↗</span>
+              </a>
+            ) : null}
+          </div>
         </section>
 
         <section className="invitation-program" aria-labelledby="program-title">
