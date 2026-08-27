@@ -38,7 +38,7 @@ test("server-renders the Origen gateway", async () => {
 });
 
 test("keeps all access keys server-only and destination-scoped", async () => {
-  const [client, route, session, example, bros, invitation, editorial, instagram, experience, siteCopy, styles, brosPage, residencyPage, spacePage, experiencePage] = await Promise.all([
+  const [client, route, session, example, bros, invitation, editorial, instagram, experience, siteCopy, styles, brosPage, legacyBrosPage, residencyPage, spacePage, experiencePage] = await Promise.all([
     readFile(new URL("../app/components/AccessKeyForm.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/api/access/route.ts", import.meta.url), "utf8"),
     readFile(new URL("../app/lib/access-session.ts", import.meta.url), "utf8"),
@@ -50,6 +50,7 @@ test("keeps all access keys server-only and destination-scoped", async () => {
     readFile(new URL("../app/components/ExperienceState.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/lib/site-copy.ts", import.meta.url), "utf8"),
     readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
+    readFile(new URL("../app/circulo-de-hombres/page.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/bros/page.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/residency/page.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/space/page.tsx", import.meta.url), "utf8"),
@@ -73,6 +74,9 @@ test("keeps all access keys server-only and destination-scoped", async () => {
     /https:\/\/docs\.google\.com\/forms\/d\/e\/1FAIpQLSd2uhreU_NDgC3-H9wOfcsP2w9Q_lixIq4Er_BsEMTTNB7W5g\/viewform["']/,
   );
   assert.match(bros, /https:\/\/chat\.whatsapp\.com\/F7Yg8F7zx1R3jA5ltgvKwS/);
+  assert.match(bros, /Un espacio de autenticidad para hombres\./);
+  assert.match(bros, />\s*UNIRME\s*</);
+  assert.match(bros, /<strong>Solicitar acceso<\/strong>/);
   assert.match(
     invitation,
     /https:\/\/docs\.google\.com\/forms\/d\/e\/1FAIpQLScHDNpewNDGJQalw3Dvpz3hm2RzsIV1bdzRrpRHZ3ShApJJEA\/viewform\?usp=publish-editor["']/,
@@ -81,7 +85,7 @@ test("keeps all access keys server-only and destination-scoped", async () => {
     invitation,
     /https:\/\/docs\.google\.com\/forms\/d\/e\/1FAIpQLSf9DrIbIV4OKiswKQhuKsssMyVvuP_l8CROR0ijH0_WUQSpIw\/viewform\?usp=publish-editor["']/,
   );
-  assert.match(invitation, /variant === "space"[\s\S]*SPACE_APPLICATION_FORM_URL/);
+  assert.match(invitation, /href=\{applicationFormUrl\}[\s\S]*variant === "residency" \? "JOIN" : copy\.join/);
   assert.match(
     siteCopy,
     /export const RESIDENCY_COPY =[\s\S]*join: "JOIN"[\s\S]*export const SPACE_COPY =[\s\S]*join: "HOST"/,
@@ -115,7 +119,10 @@ test("keeps all access keys server-only and destination-scoped", async () => {
   assert.match(styles, /experience-rock\.webp/);
   assert.match(styles, /experience-coast\.webp/);
   assert.match(styles, /experience-forest\.webp/);
+  assert.doesNotMatch(`${bros}${invitation}${experience}`, /↗/);
+  assert.match(styles, /\.external-link-dot/);
   assert.match(brosPage, /requireOrigenAccess\("bros"\)/);
+  assert.match(legacyBrosPage, /redirect\("\/circulo-de-hombres"\)/);
   assert.match(residencyPage, /requireOrigenAccess\("residency"\)/);
   assert.match(spacePage, /requireOrigenAccess\("space"\)/);
   assert.match(experiencePage, /requireOrigenAccess\("experience"\)/);

@@ -44,6 +44,15 @@ button {
   -webkit-tap-highlight-color: transparent;
 }
 
+.external-link-dot {
+  display: inline-block;
+  width: clamp(9px, 0.9vw, 14px);
+  height: clamp(9px, 0.9vw, 14px);
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: currentColor;
+}
+
 .sr-only {
   position: absolute !important;
   width: 1px !important;
@@ -1908,6 +1917,13 @@ button {
   text-transform: uppercase;
 }
 
+.bros-hero-aside .bros-primary-action {
+  padding: clamp(20px, 2.1vw, 28px) 0;
+  font-size: clamp(20px, 2.15vw, 34px);
+  font-weight: 430;
+  letter-spacing: 0.08em;
+}
+
 .bros-hero-aside a span {
   transition: transform 280ms cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -2113,6 +2129,10 @@ button {
 
 .bros-actions a + a {
   border-left: 1px solid var(--ink);
+}
+
+.bros-actions .bros-whatsapp-action {
+  justify-content: flex-end;
 }
 
 .bros-actions small {

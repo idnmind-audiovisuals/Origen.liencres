@@ -121,7 +121,7 @@ export function BrosState({ development, onReset }: BrosStateProps) {
 
   useEffect(() => {
     document.documentElement.lang = "es";
-    document.title = "Origen Bros — Liencres";
+    document.title = "Círculo de hombres — Origen";
   }, []);
 
   return (
@@ -189,10 +189,16 @@ export function BrosState({ development, onReset }: BrosStateProps) {
             </h1>
           </div>
           <div className="bros-hero-aside">
-            <p>Un espacio para reunirse en autenticidad.</p>
+            <p>Un espacio de autenticidad para hombres.</p>
             <p className="bros-place">Liencres, Cantabria</p>
-            <a href={APPLICATION_FORM_URL} target="_blank" rel="noreferrer">
-              Unirme al círculo <span aria-hidden="true">↗</span>
+            <a
+              className="bros-primary-action"
+              href={APPLICATION_FORM_URL}
+              target="_blank"
+              rel="noreferrer"
+            >
+              UNIRME
+              <span className="external-link-dot" aria-hidden="true" />
             </a>
           </div>
         </motion.section>
@@ -374,18 +380,18 @@ export function BrosState({ development, onReset }: BrosStateProps) {
           >
             <small>Formulario Google</small>
             <strong>Aplication</strong>
-            <span aria-hidden="true">↗</span>
+            <span className="external-link-dot" aria-hidden="true" />
           </motion.a>
           <motion.a
+            className="bros-whatsapp-action"
             href={WHATSAPP_URL}
             target="_blank"
             rel="noreferrer"
             whileHover={reducedMotion ? undefined : { y: -6 }}
             transition={{ duration: 0.45, ease: CINEMATIC_ENTRY_EASE }}
           >
-            <small>Grupo privado</small>
-            <strong>Solicitar acceso al grupo de WhatsApp</strong>
-            <span aria-hidden="true">↗</span>
+            <strong>Solicitar acceso</strong>
+            <span className="external-link-dot" aria-hidden="true" />
           </motion.a>
         </motion.nav>
 

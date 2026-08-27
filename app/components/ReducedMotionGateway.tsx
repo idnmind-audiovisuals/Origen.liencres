@@ -54,7 +54,7 @@ export function ReducedMotionGateway({
     window.location.replace("/");
   }
 
-  if (phase === "opened" && destination === "/bros") {
+  if (phase === "opened" && destination === "/circulo-de-hombres") {
     return <BrosState development={development} onReset={resetSession} />;
   }
 

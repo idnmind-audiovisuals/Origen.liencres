@@ -545,7 +545,7 @@ export function ExperienceState({
               >
                 <small>Application form</small>
                 <strong>HOST</strong>
-                <span aria-hidden="true">↗</span>
+                <span className="external-link-dot" aria-hidden="true" />
               </a>
               <a
                 href={JOIN_WHATSAPP_URL}
@@ -554,7 +554,7 @@ export function ExperienceState({
               >
                 <small>WhatsApp group</small>
                 <strong>JOIN</strong>
-                <span aria-hidden="true">↗</span>
+                <span className="external-link-dot" aria-hidden="true" />
               </a>
             </nav>
             <InstagramLink />

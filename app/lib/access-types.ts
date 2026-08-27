@@ -9,7 +9,7 @@ export type AccessScope = (typeof ACCESS_SCOPES)[number];
 
 export const ACCESS_DESTINATION_BY_SCOPE = {
   residency: "/residency",
-  bros: "/bros",
+  bros: "/circulo-de-hombres",
   space: "/space",
   experience: "/experience",
 } as const satisfies Record<AccessScope, string>;

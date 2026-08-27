@@ -99,7 +99,7 @@ export function AccessGateway({
     );
   }
 
-  if (state === "opened" && destination === "/bros") {
+  if (state === "opened" && destination === "/circulo-de-hombres") {
     return <BrosState development={development} onReset={resetSession} />;
   }
 

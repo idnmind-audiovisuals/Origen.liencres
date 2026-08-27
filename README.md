@@ -24,7 +24,7 @@ ORIGEN_SPACE_ACCESS_KEY=your-space-key
 ORIGEN_EXPERIENCE_ACCESS_KEY=your-experience-key
 ```
 
-Do not prefix these variables with `NEXT_PUBLIC_`. Validation and cookie signing run only on the server. `ORIGEN_ACCESS_KEY` opens `/residency`; `ORIGEN_BROS_ACCESS_KEY` opens `/bros`; `ORIGEN_SPACE_ACCESS_KEY` opens `/space`; and `ORIGEN_EXPERIENCE_ACCESS_KEY` opens `/experience`. The access cookie is HTTP-only, signed, same-site, scoped to the selected destination, and lasts for the current browser session. A session for one destination cannot open another protected destination.
+Do not prefix these variables with `NEXT_PUBLIC_`. Validation and cookie signing run only on the server. `ORIGEN_ACCESS_KEY` opens `/residency`; `ORIGEN_BROS_ACCESS_KEY` opens `/circulo-de-hombres`; `ORIGEN_SPACE_ACCESS_KEY` opens `/space`; and `ORIGEN_EXPERIENCE_ACCESS_KEY` opens `/experience`. The access cookie is HTTP-only, signed, same-site, scoped to the selected destination, and lasts for the current browser session. A session for one destination cannot open another protected destination.
 
 The Origen wordmark in the top-left corner securely clears the active session and returns to the opening gateway in development and production. Development builds also include the subtle `reset session` control.
 
@@ -42,7 +42,7 @@ All phase delays, durations, easing, error feedback, success timing, and reduced
 
 After the successful circle transition, `OpenedState` reveals the Origen Residency invitation. Accommodation, map, Residency Google Forms application, Space application, and WhatsApp interest destinations are defined as constants at the top of `app/components/OpenedState.tsx` so they can be changed without touching the layout.
 
-The Residency and Space invitations link to the protected `/story` and `/vision` editorial pages. Those editorial routes accept either a Residency- or Space-scoped session and return to the invitation that opened them. The separate Spanish-only `/bros` page requires its own Bros-scoped signed cookie and includes the Google Forms application and private WhatsApp group destinations.
+The Residency and Space invitations link to the protected `/story` and `/vision` editorial pages. Those editorial routes accept either a Residency- or Space-scoped session and return to the invitation that opened them. The separate Spanish-only `/circulo-de-hombres` page requires its own Bros-scoped signed cookie and includes the Google Forms application and private WhatsApp group destinations. The legacy `/bros` address redirects to it.
 
 The `/experience` route is a separate cinematic journey through Atlantic water, Costa Quebrada rock and coastline, and the pine forest of Liencres. Its scroll animation uses GSAP ScrollTrigger with Lenis, reverses naturally when scrolling upward, and falls back to a simplified static sequence for reduced-motion visitors.
 

@@ -159,20 +159,18 @@ export function OpenedState({
               ))}
             </dl>
 
-            {variant === "space" ? (
-              <a
-                className="invitation-hero-host"
-                href={SPACE_APPLICATION_FORM_URL}
-                target="_blank"
-                rel="noreferrer"
-              >
-                <span>
-                  <small>{copy.joinEyebrow}</small>
-                  <strong>{copy.join}</strong>
-                </span>
-                <span aria-hidden="true">↗</span>
-              </a>
-            ) : null}
+            <a
+              className="invitation-hero-host"
+              href={applicationFormUrl}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <span>
+                <small>{copy.joinEyebrow}</small>
+                <strong>{variant === "residency" ? "JOIN" : copy.join}</strong>
+              </span>
+              <span className="external-link-dot" aria-hidden="true" />
+            </a>
           </div>
         </section>
 
@@ -208,14 +206,14 @@ export function OpenedState({
                 <small>{copy.stay}</small>
                 {copy.space}
               </span>
-              <span aria-hidden="true">↗</span>
+              <span className="external-link-dot" aria-hidden="true" />
             </a>
             <a href={MAPS_URL} target="_blank" rel="noreferrer">
               <span>
                 <small>{copy.location}</small>
                 {copy.maps}
               </span>
-              <span aria-hidden="true">↗</span>
+              <span className="external-link-dot" aria-hidden="true" />
             </a>
           </div>
 
@@ -227,9 +225,10 @@ export function OpenedState({
           >
             <small>{copy.joinEyebrow}</small>
             <span className="invitation-join-label">{copy.join}</span>
-            <span className="invitation-join-arrow" aria-hidden="true">
-              ↗
-            </span>
+            <span
+              className="invitation-join-arrow external-link-dot"
+              aria-hidden="true"
+            />
           </a>
 
           <div className="invitation-links invitation-links-secondary">
@@ -260,7 +259,7 @@ export function OpenedState({
             <small>{copy.interestEyebrow}</small>
             <strong>{copy.interest}</strong>
           </span>
-          <span aria-hidden="true">↗</span>
+          <span className="external-link-dot" aria-hidden="true" />
         </a>
 
         <footer className="invitation-footer">
