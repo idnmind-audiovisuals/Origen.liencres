@@ -13,10 +13,8 @@ export function ExperienceSculpture({ variant }: ExperienceSculptureProps) {
           <span className="experience-emblem-layer experience-emblem-layer--back" />
           <span className="experience-emblem-layer experience-emblem-layer--middle" />
           <span className="experience-emblem-layer experience-emblem-layer--face" />
-          <span className="experience-emblem-highlight" />
-          <span className="experience-emblem-core">
-            <span className="experience-source-dot" />
-          </span>
+          <span className="experience-emblem-core" />
+          <span className="experience-source-dot" />
         </div>
       </div>
     );

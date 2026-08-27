@@ -250,11 +250,16 @@ button {
 }
 
 .experience-source-dot {
-  width: 8px;
+  position: absolute;
+  z-index: 4;
+  top: 51.4%;
+  left: 50%;
+  width: 100vmax;
   aspect-ratio: 1;
   border-radius: 50%;
-  background: var(--experience-gold);
-  box-shadow: 0 0 24px rgb(165 139 88 / 0.28);
+  background: #f2efe8;
+  backface-visibility: hidden;
+  transform: translate(-50%, -50%) scale(0);
   transform-origin: 50% 50%;
   will-change: transform;
 }
@@ -292,12 +297,10 @@ button {
   will-change: transform;
 }
 
-.experience-emblem-layer,
-.experience-emblem-highlight {
+.experience-emblem-layer {
   position: absolute;
   inset: 0;
-  background-position: center;
-  background-size: cover;
+  background: #f2efe8;
   transform-style: preserve-3d;
   -webkit-mask-image: url("/origen-favicon.png");
   -webkit-mask-position: center;
@@ -310,48 +313,25 @@ button {
 }
 
 .experience-emblem-layer {
-  background-image:
-    radial-gradient(
-      circle at var(--experience-light-x) var(--experience-light-y),
-      rgb(242 239 232 / 0.98),
-      rgb(185 163 113 / 0.9) 32%,
-      rgb(69 66 56 / 0.96) 70%,
-      rgb(19 19 17 / 0.98) 100%
-    ),
-    url("/experience-rock.webp");
-  background-blend-mode: soft-light, normal;
   filter: drop-shadow(0 28px 38px rgb(0 0 0 / 0.42));
 }
 
 .experience-emblem-layer--back {
-  opacity: 0.36;
-  filter: blur(1.2px) brightness(0.48);
+  opacity: 0.3;
+  filter: blur(1px) brightness(0.22);
   transform: translate3d(0, 11px, -76px) scale(0.97);
 }
 
 .experience-emblem-layer--middle {
-  opacity: 0.72;
-  filter: brightness(0.72) saturate(0.72);
+  opacity: 0.64;
+  filter: brightness(0.58);
   transform: translate3d(-2px, 6px, -34px) scale(0.988);
 }
 
 .experience-emblem-layer--face {
-  opacity: 0.98;
+  opacity: 1;
+  background: #f2efe8;
   transform: translate3d(0, 0, 14px);
-}
-
-.experience-emblem-highlight {
-  opacity: 0.52;
-  background: linear-gradient(
-    124deg,
-    transparent 18%,
-    rgb(242 239 232 / 0.9) 36%,
-    transparent 53%,
-    rgb(165 139 88 / 0.5) 76%,
-    transparent 91%
-  );
-  filter: blur(0.35px);
-  transform: translate3d(0, -1px, 30px) scale(1.004);
 }
 
 .experience-emblem-core {
@@ -365,29 +345,17 @@ button {
   background:
     radial-gradient(
       circle at var(--experience-light-x) var(--experience-light-y),
-      #f2efe8 0%,
-      #c9b27b 25%,
-      #6f5e3e 55%,
-      #24231f 82%,
-      #10110e 100%
+      #ffffff 0%,
+      #f2efe8 46%,
+      #ddd8ce 72%,
+      #aaa69e 100%
     );
   box-shadow:
-    0 18px 30px rgb(0 0 0 / 0.5),
-    inset -8px -10px 15px rgb(0 0 0 / 0.38),
-    inset 6px 6px 14px rgb(242 239 232 / 0.22);
+    0 18px 30px rgb(0 0 0 / 0.42),
+    inset -7px -9px 14px rgb(36 35 31 / 0.16),
+    inset 6px 6px 14px rgb(255 255 255 / 0.5);
   transform: translate3d(-50%, -50%, 88px);
   transform-style: preserve-3d;
-}
-
-.experience-emblem-core .experience-source-dot {
-  display: block;
-  width: 100%;
-  height: 100%;
-  border-radius: inherit;
-  background: inherit;
-  box-shadow: inherit;
-  transform-origin: 50% 50%;
-  will-change: transform;
 }
 
 .experience-sculpture-ring,

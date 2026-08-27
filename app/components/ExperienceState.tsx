@@ -155,16 +155,38 @@ export function ExperienceState({
       const context = gsap.context(() => {
         ScrollTrigger.defaults({ scroller: scrollContainer });
 
-        gsap.to(".experience-source-dot", {
-          scale: 13,
-          ease: "none",
-          scrollTrigger: {
-            trigger: "#experience-source",
-            start: "top top",
-            end: "bottom top",
-            scrub: 1.3,
-          },
-        });
+        const sourceDot = scrollContent.querySelector<HTMLElement>(
+          ".experience-source-dot",
+        );
+        const sourceCore = scrollContent.querySelector<HTMLElement>(
+          ".experience-emblem-core",
+        );
+
+        if (sourceDot && sourceCore) {
+          const requiredDiameter =
+            Math.hypot(window.innerWidth, window.innerHeight) * 1.08;
+          const initialScale =
+            sourceCore.getBoundingClientRect().width / requiredDiameter;
+
+          gsap.set(sourceDot, {
+            width: requiredDiameter,
+            height: requiredDiameter,
+            xPercent: -50,
+            yPercent: -50,
+            scale: initialScale,
+          });
+
+          gsap.to(sourceDot, {
+            scale: 1,
+            ease: "none",
+            scrollTrigger: {
+              trigger: "#experience-source",
+              start: "top top",
+              end: "bottom top",
+              scrub: 1.3,
+            },
+          });
+        }
 
         gsap.to(".experience-source-mark", {
           scale: 2.7,

@@ -119,6 +119,8 @@ test("keeps all access keys server-only and destination-scoped", async () => {
   assert.match(experience, /className="experience-source-wordmark"/);
   assert.match(styles, /\.experience-emblem-layer[\s\S]*origen-favicon\.png/);
   assert.match(styles, /\.experience-emblem-core/);
+  assert.match(styles, /\.experience-source-dot[\s\S]*background: #f2efe8/);
+  assert.doesNotMatch(styles, /\.experience-emblem-layer[\s\S]{0,800}experience-rock\.webp/);
   assert.match(styles, /experience-atlantic\.webp/);
   assert.match(styles, /experience-rock\.webp/);
   assert.match(styles, /experience-coast\.webp/);
