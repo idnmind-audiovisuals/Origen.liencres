@@ -1,12 +1,27 @@
 type ExperienceSculptureProps = {
-  sourceCore?: boolean;
   variant: "source" | "return";
 };
 
-export function ExperienceSculpture({
-  sourceCore = false,
-  variant,
-}: ExperienceSculptureProps) {
+export function ExperienceSculpture({ variant }: ExperienceSculptureProps) {
+  if (variant === "source") {
+    return (
+      <div
+        className="experience-sculpture experience-sculpture--source"
+        aria-hidden="true"
+      >
+        <div className="experience-sculpture-rig">
+          <span className="experience-emblem-layer experience-emblem-layer--back" />
+          <span className="experience-emblem-layer experience-emblem-layer--middle" />
+          <span className="experience-emblem-layer experience-emblem-layer--face" />
+          <span className="experience-emblem-highlight" />
+          <span className="experience-emblem-core">
+            <span className="experience-source-dot" />
+          </span>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div
       className={`experience-sculpture experience-sculpture--${variant}`}
@@ -19,9 +34,7 @@ export function ExperienceSculpture({
         <span className="experience-sculpture-ring experience-sculpture-ring--middle" />
         <span className="experience-sculpture-ring experience-sculpture-ring--face" />
         <span className="experience-sculpture-rim" />
-        <span className="experience-sculpture-core">
-          {sourceCore ? <span className="experience-source-dot" /> : null}
-        </span>
+        <span className="experience-sculpture-core" />
       </div>
     </div>
   );

@@ -115,6 +115,10 @@ test("keeps all access keys server-only and destination-scoped", async () => {
   assert.match(experience, /import\("lenis"\)/);
   assert.match(experience, /import\("gsap"\)/);
   assert.match(experience, /import\("gsap\/ScrollTrigger"\)/);
+  assert.match(experience, /ORIGEN_WORDMARK_ASSET/);
+  assert.match(experience, /className="experience-source-wordmark"/);
+  assert.match(styles, /\.experience-emblem-layer[\s\S]*origen-favicon\.png/);
+  assert.match(styles, /\.experience-emblem-core/);
   assert.match(styles, /experience-atlantic\.webp/);
   assert.match(styles, /experience-rock\.webp/);
   assert.match(styles, /experience-coast\.webp/);

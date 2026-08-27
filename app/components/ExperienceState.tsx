@@ -4,6 +4,7 @@ import { useEffect, useLayoutEffect, useRef } from "react";
 import { GatewayBrandLink } from "./GatewayBrandLink";
 import { InstagramLink } from "./InstagramLink";
 import { ExperienceSculpture } from "./ExperienceSculpture";
+import { ORIGEN_WORDMARK_ASSET } from "../lib/brand";
 
 type ExperienceStateProps = {
   development: boolean;
@@ -417,10 +418,19 @@ export function ExperienceState({
         >
           <div className="experience-scene-sticky">
             <div className="experience-source-mark" aria-hidden="true">
-              <ExperienceSculpture variant="source" sourceCore />
+              <ExperienceSculpture variant="source" />
             </div>
             <div className="experience-source-copy">
-              <p>Origen</p>
+              {/* Match the official wordmark used in the fixed header. */}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                className="experience-source-wordmark"
+                src={ORIGEN_WORDMARK_ASSET}
+                width="1090"
+                height="296"
+                alt="Origen"
+                draggable="false"
+              />
               <h1 id="experience-source-title">Volviendo a la esencia.</h1>
             </div>
             <p className="experience-scroll-cue">Scroll to enter</p>
