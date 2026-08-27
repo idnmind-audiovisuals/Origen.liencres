@@ -38,7 +38,7 @@ test("server-renders the Origen gateway", async () => {
 });
 
 test("keeps all access keys server-only and destination-scoped", async () => {
-  const [client, route, session, example, bros, invitation, editorial, instagram, experience, siteCopy, styles, brosPage, legacyBrosPage, residencyPage, spacePage, experiencePage] = await Promise.all([
+  const [client, route, session, example, bros, invitation, editorial, instagram, experience, environment, siteCopy, styles, brosPage, legacyBrosPage, residencyPage, spacePage, experiencePage] = await Promise.all([
     readFile(new URL("../app/components/AccessKeyForm.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/api/access/route.ts", import.meta.url), "utf8"),
     readFile(new URL("../app/lib/access-session.ts", import.meta.url), "utf8"),
@@ -48,6 +48,7 @@ test("keeps all access keys server-only and destination-scoped", async () => {
     readFile(new URL("../app/components/EditorialPage.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/components/InstagramLink.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/components/ExperienceState.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/components/ExperienceEnvironment.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/lib/site-copy.ts", import.meta.url), "utf8"),
     readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
     readFile(new URL("../app/circulo-de-hombres/page.tsx", import.meta.url), "utf8"),
@@ -117,14 +118,16 @@ test("keeps all access keys server-only and destination-scoped", async () => {
   assert.match(experience, /import\("gsap\/ScrollTrigger"\)/);
   assert.match(experience, /ORIGEN_WORDMARK_ASSET/);
   assert.match(experience, /className="experience-source-wordmark"/);
-  assert.match(styles, /\.experience-emblem-layer[\s\S]*origen-favicon\.png/);
-  assert.match(styles, /\.experience-emblem-core/);
+  assert.match(styles, /\.experience-emblem-layer[\s\S]*origen-experience-ring-mask\.png/);
+  assert.doesNotMatch(styles, /\.experience-emblem-core/);
   assert.match(styles, /\.experience-source-dot[\s\S]*background: #f2efe8/);
   assert.doesNotMatch(styles, /\.experience-emblem-layer[\s\S]{0,800}experience-rock\.webp/);
-  assert.match(styles, /experience-atlantic\.webp/);
-  assert.match(styles, /experience-rock\.webp/);
-  assert.match(styles, /experience-coast\.webp/);
-  assert.match(styles, /experience-forest\.webp/);
+  assert.match(experience, /<ExperienceEnvironment variant="ocean"/);
+  assert.match(experience, /<ExperienceEnvironment variant="rock"/);
+  assert.match(experience, /<ExperienceEnvironment variant="forest"/);
+  assert.match(environment, /experience-world-depth--far/);
+  assert.match(environment, /experience-world-depth--near/);
+  assert.doesNotMatch(styles, /experience-(?:atlantic|rock|coast|forest)\.webp/);
   assert.doesNotMatch(`${bros}${invitation}${experience}`, /↗/);
   assert.match(styles, /\.external-link-dot/);
   assert.match(brosPage, /requireOrigenAccess\("bros"\)/);

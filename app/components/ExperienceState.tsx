@@ -4,6 +4,7 @@ import { useEffect, useLayoutEffect, useRef } from "react";
 import { GatewayBrandLink } from "./GatewayBrandLink";
 import { InstagramLink } from "./InstagramLink";
 import { ExperienceSculpture } from "./ExperienceSculpture";
+import { ExperienceEnvironment } from "./ExperienceEnvironment";
 import { ORIGEN_WORDMARK_ASSET } from "../lib/brand";
 
 type ExperienceStateProps = {
@@ -87,6 +88,38 @@ export function ExperienceState({
         "--experience-light-y",
         `${(30 + currentY * 20).toFixed(2)}%`,
       );
+      page.style.setProperty(
+        "--experience-world-tilt-x",
+        `${(-currentY * 3.8).toFixed(3)}deg`,
+      );
+      page.style.setProperty(
+        "--experience-world-tilt-y",
+        `${(currentX * 5.4).toFixed(3)}deg`,
+      );
+      page.style.setProperty(
+        "--experience-far-x",
+        `${(currentX * 7).toFixed(3)}px`,
+      );
+      page.style.setProperty(
+        "--experience-far-y",
+        `${(currentY * 5).toFixed(3)}px`,
+      );
+      page.style.setProperty(
+        "--experience-mid-x",
+        `${(currentX * 17).toFixed(3)}px`,
+      );
+      page.style.setProperty(
+        "--experience-mid-y",
+        `${(currentY * 12).toFixed(3)}px`,
+      );
+      page.style.setProperty(
+        "--experience-near-x",
+        `${(currentX * 32).toFixed(3)}px`,
+      );
+      page.style.setProperty(
+        "--experience-near-y",
+        `${(currentY * 22).toFixed(3)}px`,
+      );
 
       frame = window.requestAnimationFrame(render);
     };
@@ -158,15 +191,16 @@ export function ExperienceState({
         const sourceDot = scrollContent.querySelector<HTMLElement>(
           ".experience-source-dot",
         );
-        const sourceCore = scrollContent.querySelector<HTMLElement>(
-          ".experience-emblem-core",
+        const sourceSculpture = scrollContent.querySelector<HTMLElement>(
+          ".experience-sculpture--source",
         );
 
-        if (sourceDot && sourceCore) {
+        if (sourceDot && sourceSculpture) {
           const requiredDiameter =
             Math.hypot(window.innerWidth, window.innerHeight) * 1.08;
           const initialScale =
-            sourceCore.getBoundingClientRect().width / requiredDiameter;
+            (sourceSculpture.getBoundingClientRect().width * 0.121) /
+            requiredDiameter;
 
           gsap.set(sourceDot, {
             width: requiredDiameter,
@@ -200,7 +234,7 @@ export function ExperienceState({
           },
         });
 
-        gsap.to(".experience-ocean-image", {
+        gsap.to(".experience-world--ocean .experience-world-scroll", {
           scale: 1.16,
           yPercent: 5,
           ease: "none",
@@ -233,7 +267,7 @@ export function ExperienceState({
             );
           });
 
-        gsap.to(".experience-rock-image", {
+        gsap.to(".experience-world--rock .experience-world-scroll", {
           scale: 1.2,
           xPercent: -3,
           ease: "none",
@@ -261,7 +295,7 @@ export function ExperienceState({
         );
 
         gsap.fromTo(
-          ".experience-emergence-light",
+          ".experience-emergence-world",
           { scaleX: 0.015, opacity: 0.45 },
           {
             scaleX: 1,
@@ -276,7 +310,7 @@ export function ExperienceState({
           },
         );
 
-        gsap.to(".experience-coast-image", {
+        gsap.to(".experience-world--coast .experience-world-scroll", {
           xPercent: -7,
           scale: 1.14,
           ease: "none",
@@ -345,7 +379,7 @@ export function ExperienceState({
           },
         );
 
-        gsap.to(".experience-forest-image", {
+        gsap.to(".experience-world--forest .experience-world-scroll", {
           scale: 1.17,
           yPercent: -4,
           ease: "none",
@@ -464,8 +498,7 @@ export function ExperienceState({
           className="experience-scene experience-ocean"
           aria-labelledby="experience-ocean-title"
         >
-          <div className="experience-scene-image experience-ocean-image" aria-hidden="true" />
-          <div className="experience-particles" aria-hidden="true" />
+          <ExperienceEnvironment variant="ocean" />
           <h2 id="experience-ocean-title" className="sr-only">Under the Atlantic</h2>
           <div className="experience-ocean-copy">
             <p className="experience-ocean-line">Before the noise.</p>
@@ -481,7 +514,7 @@ export function ExperienceState({
           className="experience-scene experience-rock"
           aria-labelledby="experience-rock-title"
         >
-          <div className="experience-scene-image experience-rock-image" aria-hidden="true" />
+          <ExperienceEnvironment variant="rock" />
           <div className="experience-rock-overlay" aria-hidden="true" />
           <div className="experience-rock-copy">
             <p>Layer by layer.</p>
@@ -496,7 +529,10 @@ export function ExperienceState({
           className="experience-scene experience-emergence"
           aria-labelledby="experience-emergence-title"
         >
-          <div className="experience-emergence-light" aria-hidden="true" />
+          <ExperienceEnvironment
+            variant="emergence"
+            className="experience-emergence-world"
+          />
           <div className="experience-emergence-copy">
             <h2 id="experience-emergence-title">Come back to what is essential.</h2>
             <p>Liencres · Cantabria</p>
@@ -508,7 +544,7 @@ export function ExperienceState({
           className="experience-scene experience-coast"
           aria-labelledby="experience-coast-title"
         >
-          <div className="experience-scene-image experience-coast-image" aria-hidden="true" />
+          <ExperienceEnvironment variant="coast" />
           <div className="experience-coast-shade" aria-hidden="true" />
           <h2 id="experience-coast-title" className="sr-only">Costa Quebrada</h2>
           <div className="experience-coast-copy">
@@ -522,7 +558,7 @@ export function ExperienceState({
 
         <section id="experience-cliff" className="experience-cliff">
           <div className="experience-cliff-inner">
-            <div className="experience-scene-image experience-cliff-image" aria-hidden="true" />
+            <ExperienceEnvironment variant="cliff" />
             <p className="experience-cliff-question">
               What happens when we give ourselves permission to simply be?
             </p>
@@ -530,8 +566,7 @@ export function ExperienceState({
         </section>
 
         <section id="experience-crossing" className="experience-crossing" aria-label="From ocean to forest">
-          <div className="experience-scene-image experience-crossing-coast" aria-hidden="true" />
-          <div className="experience-scene-image experience-crossing-forest" aria-hidden="true" />
+          <ExperienceEnvironment variant="crossing" />
           <div className="experience-mist" aria-hidden="true" />
         </section>
 
@@ -540,7 +575,7 @@ export function ExperienceState({
           className="experience-scene experience-forest"
           aria-labelledby="experience-forest-title"
         >
-          <div className="experience-scene-image experience-forest-image" aria-hidden="true" />
+          <ExperienceEnvironment variant="forest" />
           <div className="experience-forest-shade" aria-hidden="true" />
           <h2 id="experience-forest-title" className="sr-only">The forest</h2>
           <div className="experience-forest-words">
@@ -555,7 +590,7 @@ export function ExperienceState({
           className="experience-scene experience-return"
           aria-labelledby="experience-return-title"
         >
-          <div className="experience-scene-image experience-return-forest" aria-hidden="true" />
+          <ExperienceEnvironment variant="return" />
           <div className="experience-return-shade" aria-hidden="true" />
           <div className="experience-return-content">
             <div className="experience-return-symbol" aria-hidden="true">
