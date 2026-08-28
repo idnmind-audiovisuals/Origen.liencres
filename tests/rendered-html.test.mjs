@@ -127,6 +127,11 @@ test("keeps all access keys server-only and destination-scoped", async () => {
   assert.match(experience, /<ExperienceEnvironment variant="forest"/);
   assert.match(environment, /experience-world-depth--far/);
   assert.match(environment, /experience-world-depth--near/);
+  assert.match(environment, /experience-sea-stacks/);
+  assert.match(environment, /experience-rock-strata/);
+  assert.match(environment, /experience-forest-path/);
+  assert.match(environment, /experience-forest-canopy/);
+  assert.match(environment, /experience-forest-branches/);
   assert.doesNotMatch(styles, /experience-(?:atlantic|rock|coast|forest)\.webp/);
   assert.doesNotMatch(`${bros}${invitation}${experience}`, /↗/);
   assert.match(styles, /\.external-link-dot/);

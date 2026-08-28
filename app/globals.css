@@ -778,17 +778,250 @@ button {
   box-shadow: none;
 }
 
+/* Sculpted coast and forest volumes — code-built, image-free geometry */
+.experience-coast-geometry,
+.experience-forest-geometry,
+.experience-sea-stacks,
+.experience-rock-strata,
+.experience-forest-canopy,
+.experience-forest-branches {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  pointer-events: none;
+}
+
+.experience-tidal-surface {
+  position: absolute;
+  z-index: -1;
+  top: 52%;
+  left: -14%;
+  display: block;
+  width: 128%;
+  height: 84%;
+  overflow: hidden;
+  border: 1px solid rgb(242 239 232 / 0.09);
+  border-radius: 50% 50% 3% 4% / 8% 8% 3% 4%;
+  background:
+    repeating-radial-gradient(
+      ellipse at 50% 2%,
+      rgb(242 239 232 / 0.16) 0 1px,
+      transparent 2px 25px
+    ),
+    linear-gradient(180deg, #4d7075 0%, #25484f 46%, #10292e 100%);
+  box-shadow:
+    inset 0 12px 40px rgb(242 239 232 / 0.08),
+    0 -12px 54px rgb(167 189 184 / 0.08);
+  transform:
+    translate3d(var(--experience-far-x), var(--experience-far-y), -72px)
+    rotateX(73deg);
+  transform-origin: 50% 0;
+}
+
+.experience-tidal-surface::before,
+.experience-tidal-surface::after {
+  position: absolute;
+  content: "";
+  pointer-events: none;
+}
+
+.experience-tidal-surface::before {
+  inset: 7% -10% 0;
+  opacity: 0.42;
+  background:
+    repeating-linear-gradient(
+      176deg,
+      transparent 0 22px,
+      rgb(242 239 232 / 0.12) 23px 24px,
+      transparent 25px 48px
+    );
+  transform: skewX(-8deg);
+}
+
+.experience-tidal-surface::after {
+  top: -12%;
+  left: 56%;
+  width: 18%;
+  height: 112%;
+  opacity: 0.5;
+  background: linear-gradient(180deg, rgb(221 188 140 / 0.42), transparent 78%);
+  filter: blur(22px);
+  transform: rotateZ(8deg);
+}
+
+.experience-sea-stacks {
+  z-index: 2;
+  transform: translate3d(var(--experience-mid-x), var(--experience-mid-y), 0);
+}
+
+.experience-sea-stacks > span {
+  position: absolute;
+  top: var(--stack-y);
+  left: var(--stack-x);
+  display: block;
+  width: var(--stack-width);
+  height: var(--stack-height);
+  border-radius: 38% 55% 20% 18% / 16% 24% 8% 10%;
+  background:
+    repeating-linear-gradient(
+      101deg,
+      rgb(242 239 232 / 0.06) 0 1px,
+      transparent 1px 9px
+    ),
+    linear-gradient(112deg, #696559 0%, #353832 45%, #111917 100%);
+  box-shadow:
+    inset 11px 0 18px rgb(242 239 232 / 0.08),
+    inset -16px -8px 22px rgb(4 8 7 / 0.36),
+    20px 26px 34px rgb(5 11 10 / 0.3);
+  clip-path: polygon(28% 0, 68% 8%, 89% 34%, 100% 100%, 4% 100%, 12% 30%);
+  transform:
+    translate3d(-50%, -50%, var(--stack-z))
+    rotateY(var(--stack-turn))
+    rotateZ(var(--stack-lean));
+  transform-origin: 50% 100%;
+}
+
+.experience-sea-stacks > span:nth-child(3n + 1) {
+  clip-path: polygon(40% 0, 72% 17%, 94% 61%, 82% 100%, 8% 100%, 18% 28%);
+}
+
+.experience-sea-stacks > span:nth-child(3n + 2) {
+  border-radius: 58% 35% 18% 22% / 20% 18% 8% 10%;
+  clip-path: polygon(18% 12%, 58% 0, 86% 28%, 100% 100%, 0 100%);
+}
+
+.experience-rock-strata {
+  z-index: 1;
+  transform: translate3d(var(--experience-near-x), var(--experience-near-y), 80px);
+}
+
+.experience-rock-strata > span {
+  position: absolute;
+  top: var(--strata-y);
+  left: -24%;
+  display: block;
+  width: 88%;
+  height: clamp(34px, 5vw, 78px);
+  border-top: 1px solid rgb(225 214 190 / 0.14);
+  border-radius: 0 68% 42% 0 / 0 64% 36% 0;
+  background:
+    repeating-linear-gradient(
+      8deg,
+      rgb(242 239 232 / 0.045) 0 1px,
+      transparent 1px 8px
+    ),
+    linear-gradient(102deg, #1e2420, #4b4b42 58%, #181e1b 100%);
+  box-shadow:
+    inset 0 8px 18px rgb(242 239 232 / 0.025),
+    0 18px 24px rgb(5 9 7 / 0.34);
+  clip-path: polygon(0 18%, 72% 0, 100% 30%, 90% 82%, 14% 100%, 0 76%);
+  transform:
+    translate3d(0, -50%, var(--strata-z))
+    rotateX(61deg)
+    rotateZ(var(--strata-turn));
+  transform-origin: 0 50%;
+}
+
+.experience-forest-path {
+  position: absolute;
+  z-index: 0;
+  top: 49%;
+  left: 50%;
+  display: block;
+  width: min(58vw, 780px);
+  height: 96%;
+  border-radius: 48% 52% 4% 5% / 8% 9% 3% 4%;
+  background:
+    repeating-linear-gradient(
+      104deg,
+      rgb(217 206 179 / 0.06) 0 1px,
+      transparent 1px 22px
+    ),
+    linear-gradient(180deg, #59614b 0%, #303829 42%, #141a12 100%);
+  box-shadow:
+    inset 0 10px 30px rgb(242 239 232 / 0.06),
+    0 0 72px rgb(84 105 67 / 0.12);
+  clip-path: polygon(43% 0, 57% 0, 90% 100%, 7% 100%);
+  transform:
+    translate3d(calc(-50% + var(--experience-far-x)), var(--experience-far-y), -92px)
+    rotateX(72deg);
+  transform-origin: 50% 0;
+}
+
+.experience-forest-canopy {
+  z-index: 1;
+  transform: translate3d(var(--experience-far-x), var(--experience-far-y), -40px);
+}
+
+.experience-forest-canopy > span {
+  position: absolute;
+  top: var(--canopy-y);
+  left: var(--canopy-x);
+  display: block;
+  width: var(--canopy-size);
+  aspect-ratio: 1.5;
+  border-radius: 56% 44% 62% 38% / 48% 60% 40% 52%;
+  background:
+    radial-gradient(circle at 34% 28%, rgb(126 149 95 / 0.5), transparent 28%),
+    radial-gradient(circle at 70% 48%, #334b2e, #0a150c 72%);
+  box-shadow:
+    inset -28px -22px 48px rgb(2 7 3 / 0.32),
+    0 20px 54px rgb(2 8 4 / 0.32);
+  filter: blur(0.2px);
+  opacity: 0.78;
+  transform:
+    translate3d(-50%, -50%, var(--canopy-z))
+    rotateY(var(--canopy-turn));
+}
+
+.experience-forest-branches {
+  z-index: 4;
+  transform: translate3d(var(--experience-near-x), var(--experience-near-y), 110px);
+}
+
+.experience-forest-branches > span {
+  position: absolute;
+  top: var(--branch-top);
+  left: var(--branch-left);
+  display: block;
+  width: var(--branch-width);
+  height: clamp(7px, 0.75vw, 13px);
+  border-radius: 999px;
+  background: linear-gradient(180deg, #4b4638, #171c15 72%);
+  box-shadow:
+    inset 0 2px rgb(242 239 232 / 0.05),
+    0 10px 24px rgb(2 7 3 / 0.34);
+  transform:
+    translate3d(0, -50%, var(--branch-z))
+    rotateZ(var(--branch-turn));
+  transform-origin: 0 50%;
+}
+
+.experience-forest-branches > span::after {
+  position: absolute;
+  top: 40%;
+  left: 44%;
+  width: 42%;
+  height: 48%;
+  border-radius: inherit;
+  background: inherit;
+  content: "";
+  transform: rotateZ(var(--twig-turn));
+  transform-origin: 0 50%;
+}
+
 /* Abstract Costa Quebrada */
 .experience-world--coast,
 .experience-world--cliff {
-  background: #6f7f80;
+  background: #53676c;
 }
 
 .experience-world--coast .experience-world-ambient,
 .experience-world--cliff .experience-world-ambient {
   background:
-    radial-gradient(circle at 78% 18%, rgb(242 239 232 / 0.52), transparent 24%),
-    linear-gradient(180deg, #9eaeaa 0%, #718789 46%, #243a3e 100%);
+    radial-gradient(circle at 74% 19%, rgb(227 181 126 / 0.42), transparent 18%),
+    radial-gradient(ellipse at 50% 27%, rgb(128 103 128 / 0.24), transparent 45%),
+    linear-gradient(180deg, #8e9b9a 0%, #61797d 42%, #263d42 100%);
 }
 
 .experience-world--coast .experience-world-plane,
@@ -809,7 +1042,13 @@ button {
   aspect-ratio: auto;
   border: 0;
   border-radius: 0;
-  background: linear-gradient(118deg, #5d5f55, #292c27 54%, #101713);
+  background:
+    repeating-linear-gradient(
+      102deg,
+      rgb(242 239 232 / 0.07) 0 1px,
+      transparent 1px 11px
+    ),
+    linear-gradient(118deg, #686558, #343731 54%, #111917);
   box-shadow:
     inset 18px 0 34px rgb(242 239 232 / 0.08),
     22px 34px 70px rgb(5 11 10 / 0.46);
@@ -848,8 +1087,18 @@ button {
 
 .experience-world--crossing .experience-world-ambient {
   background:
-    radial-gradient(ellipse at 50% 45%, rgb(214 221 211 / 0.2), transparent 46%),
-    linear-gradient(180deg, #496264 0%, #263f37 46%, #0d1711 100%);
+    radial-gradient(ellipse at 50% 38%, rgb(214 221 211 / 0.26), transparent 42%),
+    radial-gradient(circle at 70% 18%, rgb(213 174 118 / 0.16), transparent 24%),
+    linear-gradient(180deg, #506a68 0%, #2b4438 46%, #0c1710 100%);
+}
+
+.experience-world--crossing .experience-coast-geometry {
+  opacity: 0.34;
+  transform: translate3d(0, -8%, -120px) scale(1.05);
+}
+
+.experience-world--crossing .experience-forest-geometry {
+  opacity: 0.82;
 }
 
 .experience-world--crossing .experience-world-depth--far .experience-world-form {
@@ -881,8 +1130,9 @@ button {
 .experience-world--forest .experience-world-ambient,
 .experience-world--return .experience-world-ambient {
   background:
-    radial-gradient(ellipse at 48% 8%, rgb(129 153 104 / 0.26), transparent 42%),
-    linear-gradient(180deg, #263b2a 0%, #14251a 45%, #07100a 100%);
+    radial-gradient(ellipse at 50% 4%, rgb(175 189 158 / 0.34), transparent 37%),
+    radial-gradient(ellipse at 52% 51%, rgb(84 115 73 / 0.2), transparent 48%),
+    linear-gradient(180deg, #344a35 0%, #192b1e 45%, #071009 100%);
 }
 
 .experience-world--forest .experience-world-plane,
@@ -902,6 +1152,11 @@ button {
   border: 0;
   border-radius: 46% 54% 16% 13%;
   background:
+    repeating-linear-gradient(
+      92deg,
+      rgb(242 239 232 / 0.045) 0 1px,
+      transparent 1px 8px
+    ),
     linear-gradient(90deg, #0c150e, #526047 38%, #273526 66%, #0a130c);
   box-shadow:
     inset 8px 0 20px rgb(242 239 232 / 0.07),
@@ -3393,6 +3648,29 @@ button {
 
   .experience-sculpture--return {
     width: 160%;
+  }
+
+  .experience-tidal-surface {
+    top: 55%;
+    left: -30%;
+    width: 160%;
+  }
+
+  .experience-rock-strata > span {
+    left: -48%;
+    width: 116%;
+  }
+
+  .experience-forest-path {
+    width: 88vw;
+  }
+
+  .experience-forest-canopy > span {
+    max-width: 230px;
+  }
+
+  .experience-forest-branches > span {
+    height: 6px;
   }
 
   .experience-ocean-line {
