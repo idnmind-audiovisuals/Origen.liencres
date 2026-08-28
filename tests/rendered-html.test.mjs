@@ -38,7 +38,7 @@ test("server-renders the Origen gateway", async () => {
 });
 
 test("keeps all access keys server-only and destination-scoped", async () => {
-  const [client, route, session, example, bros, invitation, editorial, instagram, experience, environment, siteCopy, styles, brosPage, legacyBrosPage, residencyPage, spacePage, experiencePage] = await Promise.all([
+  const [client, route, session, example, bros, invitation, editorial, instagram, experience, environment, sculpture, siteCopy, styles, brosPage, legacyBrosPage, residencyPage, spacePage, experiencePage] = await Promise.all([
     readFile(new URL("../app/components/AccessKeyForm.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/api/access/route.ts", import.meta.url), "utf8"),
     readFile(new URL("../app/lib/access-session.ts", import.meta.url), "utf8"),
@@ -49,6 +49,7 @@ test("keeps all access keys server-only and destination-scoped", async () => {
     readFile(new URL("../app/components/InstagramLink.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/components/ExperienceState.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/components/ExperienceEnvironment.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/components/ExperienceSculpture.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/lib/site-copy.ts", import.meta.url), "utf8"),
     readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
     readFile(new URL("../app/circulo-de-hombres/page.tsx", import.meta.url), "utf8"),
@@ -132,6 +133,9 @@ test("keeps all access keys server-only and destination-scoped", async () => {
   assert.match(environment, /experience-forest-path/);
   assert.match(environment, /experience-forest-canopy/);
   assert.match(environment, /experience-forest-branches/);
+  assert.match(sculpture, /experience-emblem-layer--back/);
+  assert.match(sculpture, /experience-return-dot/);
+  assert.doesNotMatch(sculpture, /experience-sculpture-(?:halo|ring|core)/);
   assert.doesNotMatch(styles, /experience-(?:atlantic|rock|coast|forest)\.webp/);
   assert.doesNotMatch(`${bros}${invitation}${experience}`, /↗/);
   assert.match(styles, /\.external-link-dot/);

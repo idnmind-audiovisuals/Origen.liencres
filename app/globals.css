@@ -265,6 +265,24 @@ button {
   will-change: transform;
 }
 
+.experience-return-dot {
+  position: absolute;
+  z-index: 4;
+  top: 56.47%;
+  left: 50%;
+  display: block;
+  width: 12.1%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: #f2efe8;
+  box-shadow:
+    0 18px 28px rgb(0 0 0 / 0.28),
+    inset -5px -6px 11px rgb(36 35 31 / 0.08),
+    inset 4px 4px 9px rgb(255 255 255 / 0.28);
+  backface-visibility: hidden;
+  transform: translate3d(-50%, -50%, 28px);
+}
+
 .experience-sculpture {
   position: absolute;
   z-index: 1;
@@ -632,6 +650,67 @@ button {
     translate3d(-50%, -50%, var(--z))
     rotateY(var(--turn));
   backface-visibility: hidden;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.experience-world-form::before,
+.experience-world-form::after {
+  position: absolute;
+  inset: 0;
+  display: block;
+  border-radius: inherit;
+  content: "";
+  pointer-events: none;
+}
+
+.experience-world-form::before {
+  z-index: 1;
+  opacity: 0.42;
+  background:
+    repeating-radial-gradient(
+      ellipse at 34% 28%,
+      rgb(242 239 232 / 0.08) 0 1px,
+      transparent 1px 8px
+    ),
+    radial-gradient(circle at 28% 22%, rgb(242 239 232 / 0.18), transparent 38%);
+  mix-blend-mode: soft-light;
+  transform: translateZ(2px);
+}
+
+.experience-world-form::after {
+  z-index: 2;
+  opacity: 0.5;
+  background: linear-gradient(
+    112deg,
+    rgb(242 239 232 / 0.14),
+    transparent 28% 68%,
+    rgb(0 0 0 / 0.24)
+  );
+  transform: translateZ(4px);
+}
+
+.experience-world-ambient::before,
+.experience-world-ambient::after {
+  position: absolute;
+  inset: 0;
+  display: block;
+  content: "";
+  pointer-events: none;
+}
+
+.experience-world-ambient::before {
+  opacity: 0.48;
+  background:
+    radial-gradient(ellipse at 18% 64%, rgb(242 239 232 / 0.08), transparent 34%),
+    radial-gradient(ellipse at 82% 42%, rgb(242 239 232 / 0.065), transparent 32%);
+  filter: blur(24px);
+  transform: translate3d(var(--experience-far-x), var(--experience-far-y), 24px);
+}
+
+.experience-world-ambient::after {
+  background: radial-gradient(ellipse at 50% 44%, transparent 22%, rgb(3 7 5 / 0.2) 74%, rgb(2 4 3 / 0.48));
+  transform: translateZ(32px);
 }
 
 .experience-world-lines {
@@ -676,24 +755,72 @@ button {
 
 .experience-world--ocean .experience-world-ambient {
   background:
-    radial-gradient(ellipse at 50% -10%, rgb(110 153 169 / 0.68), transparent 54%),
-    linear-gradient(180deg, #294853 0%, #152c35 38%, #081319 100%);
+    radial-gradient(ellipse at 48% -8%, rgb(180 204 203 / 0.58), transparent 34%),
+    radial-gradient(ellipse at 18% 58%, rgb(43 91 98 / 0.32), transparent 44%),
+    linear-gradient(180deg, #486c73 0%, #21434c 34%, #102932 66%, #061217 100%);
+}
+
+.experience-world--ocean .experience-world-light {
+  top: -8%;
+  width: min(72vw, 980px);
+  height: 92%;
+  opacity: 0.34;
+  background:
+    linear-gradient(164deg, transparent 18%, rgb(216 230 225 / 0.28) 48%, transparent 72%);
+  filter: blur(28px);
+  clip-path: polygon(28% 0, 60% 0, 92% 100%, 0 100%);
+  transform: translate3d(-50%, 0, -42px) rotateZ(-7deg);
+}
+
+.experience-world--ocean .experience-world-plane {
+  border-color: rgb(205 218 208 / 0.08);
+  background:
+    repeating-radial-gradient(
+      ellipse at 46% 12%,
+      rgb(230 225 203 / 0.075) 0 1px,
+      transparent 2px 24px
+    ),
+    linear-gradient(180deg, #334a43 0%, #152820 52%, #07110d 100%);
+  box-shadow: inset 0 18px 48px rgb(182 203 190 / 0.05);
 }
 
 .experience-world--ocean .experience-world-form {
-  opacity: var(--form-opacity);
+  aspect-ratio: 1.38;
+  border-color: rgb(214 224 215 / 0.08);
+  border-radius: 54% 46% 58% 42% / 44% 60% 40% 56%;
+  background:
+    radial-gradient(circle at 34% 24%, rgb(189 204 187 / 0.22), transparent 25%),
+    radial-gradient(ellipse at 60% 68%, #233a35, #0b1c1c 68%);
+  box-shadow:
+    inset -24px -30px 42px rgb(2 10 10 / 0.36),
+    inset 12px 10px 22px rgb(219 229 217 / 0.055),
+    0 34px 54px rgb(2 8 8 / 0.25);
+  opacity: calc(var(--form-opacity) + 0.08);
   filter: blur(var(--form-blur));
 }
 
 .experience-world--ocean .experience-world-lines {
-  opacity: 0.42;
+  opacity: 0.5;
+  filter: drop-shadow(0 0 12px rgb(183 215 210 / 0.12));
   transform: translate3d(-50%, 4%, 10px) rotateX(76deg);
+}
+
+.experience-world--ocean .experience-world-lines > span {
+  border-color: rgb(202 226 220 / var(--line-alpha));
+  border-radius: 54% 46% 51% 49% / 44% 56% 46% 54%;
+}
+
+.experience-world--ocean .experience-world-particles > span {
+  background: rgb(210 226 218 / 0.5);
+  box-shadow: 0 0 14px rgb(171 211 204 / 0.26);
 }
 
 /* Geological chamber */
 .experience-world--rock,
 .experience-world--rock .experience-world-ambient {
-  background: #11110f;
+  background:
+    radial-gradient(ellipse at 74% 20%, rgb(151 122 73 / 0.12), transparent 31%),
+    linear-gradient(152deg, #24231e 0%, #121310 48%, #080907 100%);
 }
 
 .experience-world--rock .experience-world-light {
@@ -705,8 +832,14 @@ button {
 
 .experience-world--rock .experience-world-plane {
   background:
-    repeating-linear-gradient(0deg, rgb(199 175 126 / 0.08) 0 1px, transparent 1px 36px),
-    linear-gradient(180deg, #24241f, #0d0d0b);
+    repeating-linear-gradient(
+      2deg,
+      rgb(199 175 126 / 0.09) 0 1px,
+      transparent 1px 24px,
+      rgb(242 239 232 / 0.025) 25px 26px,
+      transparent 27px 43px
+    ),
+    linear-gradient(180deg, #343127, #151610 60%, #090a08);
 }
 
 .experience-world--rock .experience-world-form {
@@ -716,7 +849,13 @@ button {
   border-color: rgb(198 176 128 / 0.12);
   border-radius: 42% 58% 46% 54% / 34% 42% 58% 66%;
   background:
-    linear-gradient(165deg, rgb(95 91 78 / 0.92), rgb(29 29 25 / 0.96) 58%, #11110f);
+    repeating-linear-gradient(
+      4deg,
+      rgb(222 203 161 / 0.08) 0 1px,
+      transparent 1px 10px
+    ),
+    radial-gradient(circle at 26% 18%, rgb(134 124 99 / 0.88), transparent 32%),
+    linear-gradient(165deg, rgb(95 91 78 / 0.96), rgb(29 29 25 / 0.98) 58%, #0c0d0a);
   box-shadow:
     inset 0 1px rgb(242 239 232 / 0.1),
     0 34px 46px rgb(0 0 0 / 0.48);
@@ -739,6 +878,18 @@ button {
   border-radius: 44% 56% 61% 39%;
 }
 
+.experience-world--rock .experience-world-form::before {
+  opacity: 0.68;
+  background:
+    repeating-linear-gradient(
+      3deg,
+      transparent 0 7px,
+      rgb(231 218 186 / 0.075) 8px 9px,
+      transparent 10px 18px
+    ),
+    radial-gradient(circle at 22% 18%, rgb(242 239 232 / 0.13), transparent 34%);
+}
+
 /* The opening into light */
 .experience-world--emergence {
   background: #f2efe8;
@@ -746,7 +897,7 @@ button {
 
 .experience-world--emergence .experience-world-ambient {
   background:
-    radial-gradient(circle at 50% 44%, #fff, #f2efe8 42%, #d9d5ca 100%);
+    radial-gradient(circle at 50% 42%, #fff 0%, #f2efe8 35%, #dfdbd2 68%, #c8c3b8 100%);
 }
 
 .experience-world--emergence .experience-world-light {
@@ -765,8 +916,13 @@ button {
 
 .experience-world--emergence .experience-world-form {
   border-color: rgb(36 35 31 / 0.08);
-  background: radial-gradient(circle at 38% 30%, #fff, #e8e4dc 56%, #c8c3b9);
-  box-shadow: 0 24px 64px rgb(36 35 31 / 0.1);
+  border-radius: 56% 44% 64% 36% / 48% 62% 38% 52%;
+  background:
+    radial-gradient(circle at 34% 24%, #fff, transparent 30%),
+    radial-gradient(ellipse at 62% 68%, #e7e3da, #c1bcb1 74%);
+  box-shadow:
+    inset -18px -24px 36px rgb(74 68 58 / 0.08),
+    0 24px 64px rgb(36 35 31 / 0.1);
 }
 
 .experience-world--emergence .experience-world-lines > span {
@@ -827,13 +983,19 @@ button {
 
 .experience-tidal-surface::before {
   inset: 7% -10% 0;
-  opacity: 0.42;
+  opacity: 0.58;
   background:
     repeating-linear-gradient(
       176deg,
       transparent 0 22px,
       rgb(242 239 232 / 0.12) 23px 24px,
       transparent 25px 48px
+    ),
+    repeating-radial-gradient(
+      ellipse at 54% 4%,
+      transparent 0 17px,
+      rgb(197 220 216 / 0.09) 18px 19px,
+      transparent 20px 38px
     );
   transform: skewX(-8deg);
 }
@@ -890,6 +1052,29 @@ button {
   clip-path: polygon(18% 12%, 58% 0, 86% 28%, 100% 100%, 0 100%);
 }
 
+.experience-sea-stacks > span::before,
+.experience-sea-stacks > span::after {
+  position: absolute;
+  inset: 0;
+  display: block;
+  content: "";
+}
+
+.experience-sea-stacks > span::before {
+  opacity: 0.72;
+  background:
+    linear-gradient(74deg, transparent 48%, rgb(235 218 183 / 0.1) 49% 50%, transparent 51%),
+    linear-gradient(111deg, transparent 63%, rgb(8 15 13 / 0.28) 64%);
+  mix-blend-mode: overlay;
+}
+
+.experience-sea-stacks > span::after {
+  opacity: 0.5;
+  background:
+    radial-gradient(circle at 28% 18%, rgb(242 239 232 / 0.12), transparent 20%),
+    repeating-linear-gradient(99deg, transparent 0 7px, rgb(5 10 8 / 0.11) 8px 9px);
+}
+
 .experience-rock-strata {
   z-index: 1;
   transform: translate3d(var(--experience-near-x), var(--experience-near-y), 80px);
@@ -922,6 +1107,17 @@ button {
   transform-origin: 0 50%;
 }
 
+.experience-rock-strata > span::before {
+  position: absolute;
+  inset: 0;
+  display: block;
+  opacity: 0.56;
+  background:
+    radial-gradient(ellipse at 72% 16%, rgb(228 199 154 / 0.1), transparent 25%),
+    repeating-linear-gradient(174deg, transparent 0 10px, rgb(9 13 11 / 0.12) 11px 12px);
+  content: "";
+}
+
 .experience-forest-path {
   position: absolute;
   z-index: 0;
@@ -932,6 +1128,8 @@ button {
   height: 96%;
   border-radius: 48% 52% 4% 5% / 8% 9% 3% 4%;
   background:
+    radial-gradient(circle at 22% 65%, rgb(114 100 72 / 0.16) 0 2px, transparent 3px),
+    radial-gradient(circle at 74% 38%, rgb(182 168 128 / 0.1) 0 1px, transparent 2px),
     repeating-linear-gradient(
       104deg,
       rgb(217 206 179 / 0.06) 0 1px,
@@ -974,6 +1172,34 @@ button {
     rotateY(var(--canopy-turn));
 }
 
+.experience-forest-canopy > span::before,
+.experience-forest-canopy > span::after {
+  position: absolute;
+  inset: 0;
+  display: block;
+  border-radius: inherit;
+  content: "";
+}
+
+.experience-forest-canopy > span::before {
+  opacity: 0.76;
+  background:
+    radial-gradient(circle at 18% 42%, #526848 0 5%, transparent 6%),
+    radial-gradient(circle at 38% 22%, #6e8058 0 4%, transparent 5%),
+    radial-gradient(circle at 56% 55%, #40583b 0 6%, transparent 7%),
+    radial-gradient(circle at 78% 30%, #657752 0 5%, transparent 6%),
+    radial-gradient(circle at 72% 72%, #2f4932 0 7%, transparent 8%);
+  filter: blur(0.7px);
+}
+
+.experience-forest-canopy > span::after {
+  opacity: 0.62;
+  background:
+    radial-gradient(ellipse at 30% 18%, rgb(218 222 192 / 0.15), transparent 25%),
+    linear-gradient(126deg, transparent 42%, rgb(1 8 3 / 0.32));
+  mix-blend-mode: soft-light;
+}
+
 .experience-forest-branches {
   z-index: 4;
   transform: translate3d(var(--experience-near-x), var(--experience-near-y), 110px);
@@ -1010,6 +1236,24 @@ button {
   transform-origin: 0 50%;
 }
 
+.experience-forest-branches > span::before {
+  position: absolute;
+  top: -130%;
+  right: 2%;
+  left: 18%;
+  height: 360%;
+  border-radius: 50%;
+  opacity: 0.58;
+  background:
+    radial-gradient(ellipse at 12% 48%, #516743 0 4%, transparent 5%),
+    radial-gradient(ellipse at 29% 24%, #304b32 0 5%, transparent 6%),
+    radial-gradient(ellipse at 46% 68%, #5d7049 0 4%, transparent 5%),
+    radial-gradient(ellipse at 65% 26%, #3b5638 0 5%, transparent 6%),
+    radial-gradient(ellipse at 82% 58%, #647551 0 4%, transparent 5%);
+  content: "";
+  filter: blur(0.45px);
+}
+
 /* Abstract Costa Quebrada */
 .experience-world--coast,
 .experience-world--cliff {
@@ -1019,9 +1263,20 @@ button {
 .experience-world--coast .experience-world-ambient,
 .experience-world--cliff .experience-world-ambient {
   background:
-    radial-gradient(circle at 74% 19%, rgb(227 181 126 / 0.42), transparent 18%),
-    radial-gradient(ellipse at 50% 27%, rgb(128 103 128 / 0.24), transparent 45%),
-    linear-gradient(180deg, #8e9b9a 0%, #61797d 42%, #263d42 100%);
+    radial-gradient(circle at 74% 19%, rgb(236 190 132 / 0.46), transparent 17%),
+    radial-gradient(ellipse at 44% 18%, rgb(128 103 128 / 0.27), transparent 42%),
+    radial-gradient(ellipse at 18% 34%, rgb(55 70 78 / 0.3), transparent 34%),
+    linear-gradient(180deg, #969e9b 0%, #687c80 39%, #314d52 68%, #172c31 100%);
+}
+
+.experience-world--coast .experience-world-ambient::before,
+.experience-world--cliff .experience-world-ambient::before {
+  opacity: 0.68;
+  background:
+    radial-gradient(ellipse at 28% 22%, rgb(48 55 60 / 0.22), transparent 25%),
+    radial-gradient(ellipse at 66% 31%, rgb(221 207 196 / 0.15), transparent 26%),
+    radial-gradient(ellipse at 52% 48%, rgb(88 77 91 / 0.14), transparent 38%);
+  filter: blur(28px);
 }
 
 .experience-world--coast .experience-world-plane,
@@ -1057,6 +1312,14 @@ button {
     translate3d(-50%, -50%, var(--z))
     rotateY(var(--turn))
     rotateZ(var(--lean));
+}
+
+.experience-world--coast .experience-world-form::before,
+.experience-world--cliff .experience-world-form::before {
+  opacity: 0.66;
+  background:
+    repeating-linear-gradient(101deg, transparent 0 8px, rgb(222 206 173 / 0.08) 9px 10px),
+    radial-gradient(ellipse at 24% 17%, rgb(242 239 232 / 0.13), transparent 32%);
 }
 
 .experience-world--coast .experience-world-lines,
@@ -1165,6 +1428,30 @@ button {
     translate3d(-50%, -50%, var(--z))
     rotateY(var(--turn))
     rotateZ(var(--lean));
+}
+
+.experience-world--forest .experience-world-form::before,
+.experience-world--return .experience-world-form::before,
+.experience-world--crossing :is(.experience-world-depth--mid, .experience-world-depth--near) .experience-world-form::before {
+  opacity: 0.72;
+  background:
+    repeating-linear-gradient(
+      88deg,
+      transparent 0 5px,
+      rgb(200 188 157 / 0.065) 6px 7px,
+      transparent 8px 14px,
+      rgb(1 8 3 / 0.12) 15px 16px
+    ),
+    radial-gradient(ellipse at 30% 18%, rgb(216 221 188 / 0.1), transparent 22%);
+}
+
+.experience-world--forest .experience-world-form::after,
+.experience-world--return .experience-world-form::after,
+.experience-world--crossing :is(.experience-world-depth--mid, .experience-world-depth--near) .experience-world-form::after {
+  opacity: 0.58;
+  background:
+    linear-gradient(90deg, rgb(1 7 3 / 0.38), transparent 28% 62%, rgb(1 7 3 / 0.42)),
+    radial-gradient(ellipse at 40% 14%, rgb(242 239 232 / 0.11), transparent 24%);
 }
 
 .experience-world--forest .experience-world-lines,
