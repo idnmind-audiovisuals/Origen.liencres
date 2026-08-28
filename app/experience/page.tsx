@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { ExperienceState } from "../components/ExperienceState";
 import { requireOrigenAccess } from "../lib/require-access";
+import { PROTECTED_PAGE_ROBOTS } from "../lib/seo";
 
 const title = "Origen — The Experience";
 const description =
@@ -11,6 +12,7 @@ export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title,
   description,
+  robots: PROTECTED_PAGE_ROBOTS,
   openGraph: {
     type: "website",
     title,

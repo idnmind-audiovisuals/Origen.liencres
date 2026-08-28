@@ -4,13 +4,13 @@ import test from "node:test";
 
 const templateRoot = new URL("../", import.meta.url);
 
-async function render() {
+async function render(pathname = "/") {
   const workerUrl = new URL("../dist/server/index.js", import.meta.url);
   workerUrl.searchParams.set("test", `${process.pid}-${Date.now()}`);
   const { default: worker } = await import(workerUrl.href);
 
   return worker.fetch(
-    new Request("http://localhost/", {
+    new Request(`http://localhost${pathname}`, {
       headers: { accept: "text/html" },
     }),
     {
@@ -25,20 +25,46 @@ async function render() {
   );
 }
 
+test("publishes focused SEO crawl directives", async () => {
+  const [robotsResponse, sitemapResponse] = await Promise.all([
+    render("/robots.txt"),
+    render("/sitemap.xml"),
+  ]);
+
+  assert.equal(robotsResponse.status, 200);
+  assert.match(robotsResponse.headers.get("content-type") ?? "", /^text\/plain\b/i);
+  const robots = await robotsResponse.text();
+  assert.match(robots, /Sitemap: https:\/\/www\.origenliencres\.com\/sitemap\.xml/i);
+  assert.match(robots, /Disallow: \/residency/i);
+
+  assert.equal(sitemapResponse.status, 200);
+  assert.match(sitemapResponse.headers.get("content-type") ?? "", /xml/i);
+  const sitemap = await sitemapResponse.text();
+  assert.match(sitemap, /https:\/\/www\.origenliencres\.com\//i);
+  assert.match(sitemap, /hreflang="es-ES"/i);
+});
+
 test("server-renders the Origen gateway", async () => {
   const response = await render();
   assert.equal(response.status, 200);
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
 
   const html = await response.text();
-  assert.match(html, /<title>Origen Residency<\/title>/i);
+  assert.match(
+    html,
+    /<title>Origen Liencres \| Retiros en el norte de España<\/title>/i,
+  );
   assert.match(html, /Origen access gateway/i);
   assert.match(html, /origen-favicon\.png/i);
+  assert.match(html, /rel="canonical" href="https:\/\/www\.origenliencres\.com\/"/i);
+  assert.match(html, /application\/ld\+json/i);
+  assert.match(html, /Espacio para retiros, residencias y experiencias de bienestar/i);
+  assert.match(html, /Retiros en el norte de España/i);
   assert.doesNotMatch(html, /codex-preview|react-loading-skeleton/i);
 });
 
 test("keeps all access keys server-only and destination-scoped", async () => {
-  const [client, route, session, example, bros, invitation, editorial, instagram, experience, environment, sculpture, siteCopy, styles, brosPage, legacyBrosPage, residencyPage, spacePage, experiencePage] = await Promise.all([
+  const [client, route, session, example, bros, invitation, editorial, instagram, experience, environment, sculpture, siteCopy, styles, robots, sitemap, brosPage, legacyBrosPage, residencyPage, spacePage, experiencePage] = await Promise.all([
     readFile(new URL("../app/components/AccessKeyForm.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/api/access/route.ts", import.meta.url), "utf8"),
     readFile(new URL("../app/lib/access-session.ts", import.meta.url), "utf8"),
@@ -52,6 +78,8 @@ test("keeps all access keys server-only and destination-scoped", async () => {
     readFile(new URL("../app/components/ExperienceSculpture.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/lib/site-copy.ts", import.meta.url), "utf8"),
     readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
+    readFile(new URL("../app/robots.ts", import.meta.url), "utf8"),
+    readFile(new URL("../app/sitemap.ts", import.meta.url), "utf8"),
     readFile(new URL("../app/circulo-de-hombres/page.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/bros/page.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/residency/page.tsx", import.meta.url), "utf8"),
@@ -139,6 +167,10 @@ test("keeps all access keys server-only and destination-scoped", async () => {
   assert.doesNotMatch(styles, /experience-(?:atlantic|rock|coast|forest)\.webp/);
   assert.doesNotMatch(`${bros}${invitation}${experience}`, /↗/);
   assert.match(styles, /\.external-link-dot/);
+  assert.match(robots, /sitemap\.xml/);
+  assert.match(robots, /\/api\//);
+  assert.match(sitemap, /https:\/\/www\.origenliencres\.com/);
+  assert.match(sitemap, /"es-ES"/);
   assert.match(brosPage, /requireOrigenAccess\("bros"\)/);
   assert.match(legacyBrosPage, /redirect\("\/circulo-de-hombres"\)/);
   assert.match(residencyPage, /requireOrigenAccess\("residency"\)/);

@@ -6,6 +6,7 @@ import {
 } from "../lib/language";
 import { requireOrigenAccess } from "../lib/require-access";
 import { getRequestLanguage } from "../lib/request-language";
+import { PROTECTED_PAGE_ROBOTS } from "../lib/seo";
 
 export async function generateMetadata({
   searchParams,
@@ -26,6 +27,7 @@ export async function generateMetadata({
   return {
     title,
     description,
+    robots: PROTECTED_PAGE_ROBOTS,
     openGraph: { title, description, images: [] },
     twitter: { card: "summary", title, description, images: [] },
   };

@@ -6,6 +6,7 @@ import {
 } from "../lib/language";
 import { requireOrigenAccess } from "../lib/require-access";
 import { getRequestLanguage } from "../lib/request-language";
+import { PROTECTED_PAGE_ROBOTS } from "../lib/seo";
 
 export async function generateMetadata({
   searchParams,
@@ -15,13 +16,15 @@ export async function generateMetadata({
   const params = await searchParams;
   const language = await getRequestLanguage(getLanguageParam(params.lang));
   return language === "es"
-    ? {
+      ? {
         title: "Historia — Origen",
         description: "La historia de Origen en Liencres, España.",
+        robots: PROTECTED_PAGE_ROBOTS,
       }
     : {
         title: "Story — Origen",
         description: "The story behind Origen in Liencres, Spain.",
+        robots: PROTECTED_PAGE_ROBOTS,
       };
 }
 
