@@ -1,4 +1,8 @@
 import type { CSSProperties } from "react";
+import {
+  ExperienceNaturalWorld,
+  type NaturalWorldVariant,
+} from "./ExperienceNaturalWorld";
 
 type ExperienceEnvironmentVariant =
   | "ocean"
@@ -121,6 +125,14 @@ export function ExperienceEnvironment({
 }: ExperienceEnvironmentProps) {
   const hasCoastGeometry = ["coast", "cliff", "crossing"].includes(variant);
   const hasForestGeometry = ["forest", "return", "crossing"].includes(variant);
+  const hasNaturalWorld = [
+    "ocean",
+    "coast",
+    "cliff",
+    "crossing",
+    "forest",
+    "return",
+  ].includes(variant);
 
   return (
     <div
@@ -131,6 +143,10 @@ export function ExperienceEnvironment({
         <div className="experience-world-camera">
           <span className="experience-world-ambient" />
           <span className="experience-world-light" />
+
+          {hasNaturalWorld ? (
+            <ExperienceNaturalWorld variant={variant as NaturalWorldVariant} />
+          ) : null}
 
           {hasCoastGeometry ? (
             <div className="experience-coast-geometry">
