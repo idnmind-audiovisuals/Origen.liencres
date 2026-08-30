@@ -570,12 +570,11 @@ button {
   display: block;
   width: 100% !important;
   height: 100% !important;
-  filter: saturate(0.9) contrast(1.04);
+  filter: saturate(1.04) contrast(1.07) brightness(0.97);
 }
 
 .experience-natural-world--ocean {
-  opacity: 0.82;
-  mix-blend-mode: screen;
+  opacity: 1;
   transform: translateZ(18px) scale(1.08);
 }
 
@@ -609,11 +608,11 @@ button {
 
 .experience-world:has(.experience-natural-world) .experience-coast-geometry,
 .experience-world:has(.experience-natural-world) .experience-forest-geometry {
-  opacity: 0.42;
+  opacity: 0.18;
 }
 
 .experience-world:has(.experience-natural-world) .experience-world-depth {
-  opacity: 0.34;
+  opacity: 0.12;
 }
 
 .experience-world-depth {
