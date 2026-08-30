@@ -2571,6 +2571,31 @@ button {
   letter-spacing: 0.12em;
 }
 
+.invitation-experiences li > a {
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  gap: 14px;
+  color: inherit;
+  text-decoration: none;
+  transition: opacity 220ms ease;
+}
+
+.invitation-experiences li > a:hover,
+.invitation-experiences li > a:focus-visible {
+  opacity: 0.56;
+}
+
+.invitation-experiences li > a .external-link-dot {
+  width: 8px;
+  height: 8px;
+  flex: 0 0 auto;
+  align-self: center;
+  padding: 0;
+  border-radius: 50%;
+  background: currentColor;
+}
+
 .invitation-links {
   display: grid;
   border-top: 1px solid var(--ink);

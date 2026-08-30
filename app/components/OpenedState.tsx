@@ -187,14 +187,25 @@ export function OpenedState({
               </p>
             ) : null}
             <ol className="invitation-experiences">
-              {copy.experiences.map((experience, index) => (
-                <li key={index}>
-                  <span aria-hidden="true">
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
-                  {experience}
-                </li>
-              ))}
+              {copy.experiences.map((experience, index) => {
+                const isAvailabilityLink = variant === "space" && index === 5;
+
+                return (
+                  <li key={index}>
+                    <span aria-hidden="true">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    {isAvailabilityLink ? (
+                      <a href={SPACE_URL} target="_blank" rel="noreferrer">
+                        {experience}
+                        <span className="external-link-dot" aria-hidden="true" />
+                      </a>
+                    ) : (
+                      experience
+                    )}
+                  </li>
+                );
+              })}
             </ol>
           </div>
         </section>

@@ -120,12 +120,17 @@ test("keeps all access keys server-only and destination-scoped", async () => {
     siteCopy,
     /export const RESIDENCY_COPY =[\s\S]*join: "JOIN"[\s\S]*export const SPACE_COPY =[\s\S]*join: "HOST"/,
   );
-  assert.match(siteCopy, /A retreat space rooted in a privileged landscape/);
+  assert.match(siteCopy, /A retreat space designed for deep connection/);
   assert.match(siteCopy, /A home for 8ppl retreats/);
   assert.match(siteCopy, /25 min from the airport/);
   assert.match(siteCopy, /2 nudist beaches walk distance/);
   assert.match(siteCopy, /A wide opened to nature practice shala/);
+  assert.match(siteCopy, /View available dates on Airbnb/);
   assert.match(siteCopy, /availability: "Retreat space"/);
+  assert.match(
+    invitation,
+    /isAvailabilityLink[\s\S]*href=\{SPACE_URL\}/,
+  );
   assert.match(
     styles,
     /\.invitation-availability span \{[\s\S]*background: #68763d;/,
