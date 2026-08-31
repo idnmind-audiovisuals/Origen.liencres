@@ -65,6 +65,39 @@ button {
   border: 0 !important;
 }
 
+.gateway-public-entry {
+  position: absolute;
+  z-index: 8;
+  right: max(22px, env(safe-area-inset-right));
+  bottom: max(20px, env(safe-area-inset-bottom));
+  display: grid;
+  max-width: 290px;
+  gap: 5px;
+  color: var(--paper);
+  text-align: right;
+  text-decoration: none;
+}
+
+.gateway-public-entry span {
+  opacity: 0.56;
+  font-size: 8px;
+  font-weight: 560;
+  letter-spacing: 0.17em;
+  text-transform: uppercase;
+}
+
+.gateway-public-entry strong {
+  font-size: 9px;
+  font-weight: 430;
+  letter-spacing: 0.08em;
+  line-height: 1.45;
+}
+
+.gateway-public-entry:focus-visible {
+  outline: 1px solid currentColor;
+  outline-offset: 7px;
+}
+
 .gateway,
 .invitation-page,
 .bros-page,
@@ -3983,6 +4016,638 @@ button {
   .bros-agreements dl > div {
     backface-visibility: visible;
     will-change: auto;
+  }
+}
+
+/* Public retreat discovery pages */
+.retreat-public-page {
+  position: fixed;
+  inset: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior-y: contain;
+  color: #24231f;
+  background:
+    linear-gradient(rgb(242 239 232 / 0.92), rgb(242 239 232 / 0.96)),
+    url("/costa-quebrada-porcelain.jpg") center top / cover fixed;
+  scrollbar-color: rgb(36 35 31 / 0.25) transparent;
+}
+
+.retreat-public-page :where(h1, h2, p, figure, dl, dd, ol) {
+  margin: 0;
+}
+
+.retreat-public-page :where(a) {
+  color: inherit;
+  text-decoration: none;
+}
+
+.retreat-public-header {
+  position: relative;
+  z-index: 4;
+  display: flex;
+  width: min(1480px, calc(100% - 64px));
+  min-height: 112px;
+  margin: 0 auto;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgb(36 35 31 / 0.18);
+}
+
+.retreat-public-brand {
+  display: block;
+  width: clamp(116px, 11vw, 166px);
+}
+
+.retreat-public-brand img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.retreat-public-header nav {
+  display: flex;
+  align-items: center;
+  gap: clamp(18px, 2.2vw, 34px);
+  font-size: 10px;
+  font-weight: 540;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.retreat-public-header nav a:not(.retreat-language-link) {
+  padding: 9px 0;
+  border-bottom: 1px solid transparent;
+  transition: border-color 180ms ease;
+}
+
+.retreat-public-header nav a:not(.retreat-language-link):hover,
+.retreat-public-header nav a:not(.retreat-language-link):focus-visible {
+  border-color: currentColor;
+}
+
+.retreat-language-link {
+  display: grid;
+  width: 38px;
+  aspect-ratio: 1;
+  color: #f2efe8 !important;
+  border-radius: 50%;
+  background: #68763d;
+  place-items: center;
+}
+
+.retreat-public-hero,
+.retreat-public-intro,
+.retreat-public-features,
+.retreat-public-host,
+.retreat-public-footer {
+  width: min(1480px, calc(100% - 64px));
+  margin-inline: auto;
+}
+
+.retreat-public-hero {
+  display: grid;
+  min-height: calc(100svh - 112px);
+  grid-template-columns: minmax(0, 0.92fr) minmax(460px, 1.08fr);
+  align-items: center;
+  gap: clamp(38px, 6vw, 110px);
+  padding: clamp(64px, 8vw, 128px) 0;
+}
+
+.retreat-public-hero-copy {
+  max-width: 690px;
+}
+
+.retreat-public-eyebrow {
+  margin-bottom: clamp(22px, 2.6vw, 38px) !important;
+  color: #68763d;
+  font-size: 10px;
+  font-weight: 620;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.retreat-public-hero h1 {
+  max-width: 780px;
+  font-size: clamp(50px, 6.4vw, 110px);
+  font-weight: 300;
+  letter-spacing: -0.065em;
+  line-height: 0.93;
+  text-wrap: balance;
+}
+
+.retreat-public-lead {
+  max-width: 650px;
+  margin-top: clamp(34px, 4vw, 62px) !important;
+  font-size: clamp(18px, 1.55vw, 25px);
+  font-weight: 360;
+  line-height: 1.58;
+}
+
+.retreat-public-primary {
+  display: inline-flex;
+  min-height: 58px;
+  margin-top: 38px;
+  padding: 0 22px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+  border: 1px solid #24231f;
+  font-size: 10px;
+  font-weight: 620;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  transition: color 220ms ease, background-color 220ms ease;
+}
+
+.retreat-public-primary:hover,
+.retreat-public-primary:focus-visible {
+  color: #f2efe8;
+  background: #24231f;
+}
+
+.retreat-public-primary .external-link-dot {
+  width: 9px;
+  height: 9px;
+  color: #68763d;
+}
+
+.retreat-public-hero-media {
+  position: relative;
+  overflow: hidden;
+  min-height: min(72svh, 880px);
+  background: #4b5048;
+}
+
+.retreat-public-hero-media img,
+.retreat-public-features figure img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.retreat-public-hero-media img {
+  position: absolute;
+  inset: 0;
+}
+
+.retreat-public-hero-media::after,
+.retreat-public-features figure::after {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 55%, rgb(13 17 14 / 0.42));
+  content: "";
+  pointer-events: none;
+}
+
+.retreat-public-hero-media figcaption {
+  position: absolute;
+  z-index: 2;
+  right: 24px;
+  bottom: 22px;
+  color: #f2efe8;
+  font-size: 9px;
+  font-weight: 560;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.retreat-public-intro {
+  display: grid;
+  padding: clamp(100px, 13vw, 210px) 0;
+  grid-template-columns: minmax(0, 1fr) minmax(360px, 0.72fr);
+  gap: clamp(50px, 10vw, 190px);
+  border-top: 1px solid rgb(36 35 31 / 0.18);
+}
+
+.retreat-public-intro h2,
+.retreat-public-features h2,
+.retreat-public-host h2 {
+  font-size: clamp(38px, 4.9vw, 78px);
+  font-weight: 310;
+  letter-spacing: -0.055em;
+  line-height: 1.02;
+  text-wrap: balance;
+}
+
+.retreat-public-prose {
+  display: grid;
+  align-content: end;
+  gap: 26px;
+}
+
+.retreat-public-prose p,
+.retreat-public-host > div:last-child > p {
+  font-size: clamp(16px, 1.25vw, 20px);
+  font-weight: 390;
+  line-height: 1.75;
+}
+
+.retreat-public-facts {
+  display: grid;
+  width: min(1480px, calc(100% - 64px));
+  margin: 0 auto clamp(100px, 12vw, 190px);
+  grid-template-columns: repeat(3, 1fr);
+  border-block: 1px solid rgb(36 35 31 / 0.18);
+}
+
+.retreat-public-facts div {
+  min-height: 180px;
+  padding: 34px clamp(24px, 3vw, 48px);
+}
+
+.retreat-public-facts div + div {
+  border-left: 1px solid rgb(36 35 31 / 0.18);
+}
+
+.retreat-public-facts dt {
+  margin-bottom: 40px;
+  color: #68763d;
+  font-size: 9px;
+  font-weight: 620;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.retreat-public-facts dd {
+  font-size: clamp(18px, 1.65vw, 27px);
+  font-weight: 390;
+  line-height: 1.35;
+}
+
+.retreat-public-features {
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(420px, 1.05fr);
+  gap: clamp(50px, 8vw, 130px);
+  align-items: stretch;
+  padding-bottom: clamp(110px, 14vw, 220px);
+}
+
+.retreat-public-feature-copy {
+  padding: clamp(12px, 2vw, 30px) 0;
+}
+
+.retreat-public-feature-copy ol {
+  margin-top: clamp(52px, 6vw, 92px);
+  padding: 0;
+  border-top: 1px solid rgb(36 35 31 / 0.18);
+  list-style: none;
+}
+
+.retreat-public-feature-copy li {
+  display: grid;
+  min-height: 70px;
+  padding: 20px 0;
+  grid-template-columns: 42px 1fr;
+  align-items: center;
+  border-bottom: 1px solid rgb(36 35 31 / 0.18);
+  font-size: clamp(14px, 1.1vw, 18px);
+  line-height: 1.5;
+}
+
+.retreat-public-feature-copy li > span {
+  color: #68763d;
+  font-size: 9px;
+  font-weight: 620;
+  letter-spacing: 0.13em;
+}
+
+.retreat-public-features figure {
+  position: relative;
+  overflow: hidden;
+  min-height: 760px;
+  background: #263025;
+}
+
+.retreat-public-host {
+  display: grid;
+  padding: clamp(90px, 11vw, 170px) clamp(28px, 7vw, 110px);
+  color: #f2efe8;
+  background: #24231f;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 0.72fr);
+  gap: clamp(48px, 10vw, 180px);
+}
+
+.retreat-public-host .retreat-public-eyebrow {
+  color: #aab58a;
+}
+
+.retreat-public-host > div:last-child {
+  align-self: end;
+}
+
+.retreat-public-primary--light {
+  color: #f2efe8 !important;
+  border-color: #f2efe8;
+}
+
+.retreat-public-primary--light:hover,
+.retreat-public-primary--light:focus-visible {
+  color: #24231f !important;
+  background: #f2efe8;
+}
+
+.retreat-public-links {
+  display: grid;
+  width: min(1480px, calc(100% - 64px));
+  margin: 0 auto;
+  grid-template-columns: repeat(3, 1fr);
+  border-bottom: 1px solid rgb(36 35 31 / 0.18);
+}
+
+.retreat-public-links a {
+  display: flex;
+  min-height: 112px;
+  padding: 28px clamp(20px, 2.8vw, 42px);
+  align-items: center;
+  border-right: 1px solid rgb(36 35 31 / 0.18);
+  font-size: 11px;
+  font-weight: 560;
+  letter-spacing: 0.08em;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+
+.retreat-public-links a:last-child {
+  border-right: 0;
+}
+
+.retreat-public-links a::after {
+  width: 8px;
+  height: 8px;
+  margin-left: auto;
+  border-radius: 50%;
+  background: #68763d;
+  content: "";
+}
+
+.retreat-public-footer {
+  display: flex;
+  min-height: 270px;
+  padding: 70px 0 max(50px, env(safe-area-inset-bottom));
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 50px;
+}
+
+.retreat-public-footer address,
+.retreat-public-footer p,
+.retreat-public-footer a {
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 520;
+  letter-spacing: 0.1em;
+  line-height: 1.9;
+  text-transform: uppercase;
+}
+
+.retreat-public-footer > div {
+  text-align: right;
+}
+
+.retreat-public-footer > div a {
+  display: inline-block;
+  margin-top: 16px;
+  border-bottom: 1px solid currentColor;
+}
+
+@media (max-width: 900px) {
+  .retreat-public-header,
+  .retreat-public-hero,
+  .retreat-public-intro,
+  .retreat-public-facts,
+  .retreat-public-features,
+  .retreat-public-host,
+  .retreat-public-links,
+  .retreat-public-footer {
+    width: min(100% - 36px, 720px);
+  }
+
+  .retreat-public-header {
+    min-height: 88px;
+  }
+
+  .retreat-public-header nav {
+    gap: 14px;
+  }
+
+  .retreat-public-header nav > a:not(.retreat-language-link):first-child {
+    display: none;
+  }
+
+  .retreat-public-hero,
+  .retreat-public-intro,
+  .retreat-public-features,
+  .retreat-public-host {
+    grid-template-columns: 1fr;
+  }
+
+  .retreat-public-hero {
+    min-height: auto;
+    gap: 58px;
+    padding: 72px 0 100px;
+  }
+
+  .retreat-public-hero h1 {
+    font-size: clamp(48px, 13.5vw, 78px);
+  }
+
+  .retreat-public-hero-media {
+    min-height: 68svh;
+  }
+
+  .retreat-public-intro {
+    gap: 48px;
+  }
+
+  .retreat-public-facts {
+    grid-template-columns: 1fr;
+  }
+
+  .retreat-public-facts div {
+    min-height: 140px;
+    padding-inline: 0;
+  }
+
+  .retreat-public-facts div + div {
+    border-top: 1px solid rgb(36 35 31 / 0.18);
+    border-left: 0;
+  }
+
+  .retreat-public-facts dt {
+    margin-bottom: 28px;
+  }
+
+  .retreat-public-features figure {
+    min-height: 70svh;
+    order: -1;
+  }
+
+  .retreat-public-host {
+    gap: 42px;
+    padding: 74px 28px;
+  }
+
+  .retreat-public-links {
+    grid-template-columns: 1fr;
+  }
+
+  .retreat-public-links a {
+    min-height: 84px;
+    padding-inline: 0;
+    border-right: 0;
+    border-bottom: 1px solid rgb(36 35 31 / 0.18);
+  }
+
+  .retreat-public-footer {
+    min-height: 330px;
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .retreat-public-footer > div {
+    text-align: left;
+  }
+}
+
+@media (max-width: 520px) {
+  .retreat-public-brand {
+    width: 108px;
+  }
+
+  .retreat-public-header nav a[href*="maps"] {
+    display: none;
+  }
+
+  .retreat-public-primary {
+    width: 100%;
+  }
+
+  .retreat-public-hero-media,
+  .retreat-public-features figure {
+    min-height: 58svh;
+  }
+}
+
+.retreat-faq-hero,
+.retreat-faq-list {
+  width: min(1180px, calc(100% - 64px));
+  margin-inline: auto;
+}
+
+.retreat-faq-hero {
+  padding: clamp(100px, 13vw, 190px) 0 clamp(90px, 11vw, 160px);
+}
+
+.retreat-faq-hero h1 {
+  max-width: 1050px;
+  font-size: clamp(54px, 7.5vw, 118px);
+  font-weight: 300;
+  letter-spacing: -0.065em;
+  line-height: 0.94;
+  text-wrap: balance;
+}
+
+.retreat-faq-hero > p:last-child,
+.retreat-host-hero > p:nth-of-type(2) {
+  max-width: 720px;
+  margin-top: clamp(42px, 5vw, 72px) !important;
+  font-size: clamp(18px, 1.55vw, 24px);
+  font-weight: 370;
+  line-height: 1.65;
+}
+
+.retreat-faq-list {
+  padding-bottom: clamp(110px, 14vw, 220px);
+  border-top: 1px solid rgb(36 35 31 / 0.18);
+}
+
+.retreat-faq-list article {
+  display: grid;
+  padding: clamp(38px, 5vw, 74px) 0;
+  grid-template-columns: 70px minmax(0, 1fr);
+  border-bottom: 1px solid rgb(36 35 31 / 0.18);
+}
+
+.retreat-faq-list article > span {
+  padding-top: 8px;
+  color: #68763d;
+  font-size: 9px;
+  font-weight: 620;
+  letter-spacing: 0.16em;
+}
+
+.retreat-faq-list article > div {
+  display: grid;
+  grid-template-columns: minmax(280px, 0.9fr) minmax(320px, 1.1fr);
+  gap: clamp(44px, 8vw, 130px);
+}
+
+.retreat-faq-list h2 {
+  margin: 0;
+  font-size: clamp(24px, 2.5vw, 40px);
+  font-weight: 360;
+  letter-spacing: -0.04em;
+  line-height: 1.18;
+  text-wrap: balance;
+}
+
+.retreat-faq-list article p {
+  margin: 0;
+  font-size: clamp(15px, 1.15vw, 18px);
+  line-height: 1.75;
+}
+
+.retreat-faq-host {
+  margin-bottom: clamp(32px, 4vw, 64px);
+}
+
+.retreat-host-hero .retreat-public-primary {
+  margin-top: 48px;
+}
+
+.retreat-host-process-heading {
+  padding: clamp(80px, 10vw, 150px) 0 clamp(58px, 7vw, 98px);
+}
+
+.retreat-host-process-heading h2 {
+  max-width: 800px;
+  margin: 0;
+  font-size: clamp(38px, 4.9vw, 76px);
+  font-weight: 310;
+  letter-spacing: -0.055em;
+  line-height: 1.02;
+}
+
+.retreat-host-map {
+  display: inline-block;
+  margin-top: 28px;
+  border-bottom: 1px solid currentColor;
+  font-size: 9px;
+  font-weight: 560;
+  letter-spacing: 0.12em;
+  line-height: 1.8;
+  text-transform: uppercase;
+}
+
+@media (max-width: 900px) {
+  .retreat-faq-hero,
+  .retreat-faq-list {
+    width: min(100% - 36px, 720px);
+  }
+
+  .retreat-faq-list article {
+    grid-template-columns: 42px minmax(0, 1fr);
+  }
+
+  .retreat-faq-list article > div {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .retreat-host-facts {
+    margin-bottom: 0;
   }
 }
 

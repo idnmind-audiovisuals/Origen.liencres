@@ -155,6 +155,17 @@ export function AccessGateway({
 
       <OrigenWordmark visible={formVisible} />
 
+      <motion.a
+        className="gateway-public-entry"
+        href="/retiros-cantabria"
+        initial={false}
+        animate={{ opacity: formVisible && !unlocking ? 1 : 0 }}
+        transition={{ duration: 0.48, ease: ORGANIC_EASE }}
+      >
+        <span>Origen Liencres</span>
+        <strong>Espacio para organizar retiros en Cantabria</strong>
+      </motion.a>
+
       <SuccessTransition active={unlocking} />
 
       <motion.p

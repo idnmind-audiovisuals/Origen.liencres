@@ -36,12 +36,55 @@ test("publishes focused SEO crawl directives", async () => {
   const robots = await robotsResponse.text();
   assert.match(robots, /Sitemap: https:\/\/www\.origenliencres\.com\/sitemap\.xml/i);
   assert.match(robots, /Disallow: \/residency/i);
+  assert.match(robots, /User-Agent: OAI-SearchBot/i);
+  assert.match(robots, /User-Agent: Googlebot/i);
+  assert.match(robots, /User-Agent: Bingbot/i);
 
   assert.equal(sitemapResponse.status, 200);
   assert.match(sitemapResponse.headers.get("content-type") ?? "", /xml/i);
   const sitemap = await sitemapResponse.text();
   assert.match(sitemap, /https:\/\/www\.origenliencres\.com\//i);
+  assert.match(sitemap, /\/retiros-cantabria/i);
+  assert.match(sitemap, /\/retreats-spain/i);
+  assert.match(sitemap, /\/host-your-retreat/i);
   assert.match(sitemap, /hreflang="es-ES"/i);
+});
+
+test("publishes indexable Spanish and English retreat pages", async () => {
+  const [spanishResponse, englishResponse, spanishFaqResponse, englishFaqResponse, hostResponse] =
+    await Promise.all([
+      render("/retiros-cantabria"),
+      render("/retreats-spain"),
+      render("/retiros-cantabria/preguntas-frecuentes"),
+      render("/retreats-spain/faq"),
+      render("/host-your-retreat"),
+    ]);
+
+  for (const response of [spanishResponse, englishResponse, spanishFaqResponse, englishFaqResponse, hostResponse]) {
+    assert.equal(response.status, 200);
+    assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
+  }
+
+  const [spanish, english, spanishFaq, englishFaq, host] = await Promise.all([
+    spanishResponse.text(),
+    englishResponse.text(),
+    spanishFaqResponse.text(),
+    englishFaqResponse.text(),
+    hostResponse.text(),
+  ]);
+
+  assert.match(spanish, /Espacio para organizar retiros en Cantabria/i);
+  assert.match(spanish, /Origen es un espacio para organizar retiros en Cantabria/i);
+  assert.match(spanish, /rel="canonical" href="https:\/\/www\.origenliencres\.com\/retiros-cantabria"/i);
+  assert.match(spanish, /hreflang="en" href="https:\/\/www\.origenliencres\.com\/retreats-spain"/i);
+  assert.match(english, /Retreat venue in Cantabria, Northern Spain/i);
+  assert.match(english, /private retreat venue in Liencres/i);
+  assert.match(spanishFaq, /¿Dónde puedo organizar un retiro cerca de Santander\?/i);
+  assert.match(spanishFaq, /"@type":"FAQPage"/i);
+  assert.match(englishFaq, /Where can I host a retreat near Santander\?/i);
+  assert.match(englishFaq, /"@type":"FAQPage"/i);
+  assert.match(host, /Host your retreat in Cantabria/i);
+  assert.match(host, /Private retreat venue hire at Origen Liencres/i);
 });
 
 test("server-renders the Origen gateway", async () => {
@@ -58,8 +101,11 @@ test("server-renders the Origen gateway", async () => {
   assert.match(html, /origen-favicon\.png/i);
   assert.match(html, /rel="canonical" href="https:\/\/www\.origenliencres\.com\/"/i);
   assert.match(html, /application\/ld\+json/i);
-  assert.match(html, /Espacio para retiros, residencias y experiencias de bienestar/i);
+  assert.match(html, /Espacio privado para organizar retiros, residencias creativas/i);
   assert.match(html, /Retiros en el norte de España/i);
+  assert.match(html, /Espacio para organizar retiros en Cantabria/i);
+  assert.match(html, /"latitude":43\.4571267/i);
+  assert.match(html, /"telephone":"\+34622181691"/i);
   assert.doesNotMatch(html, /codex-preview|react-loading-skeleton/i);
 });
 

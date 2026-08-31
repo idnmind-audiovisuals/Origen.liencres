@@ -2,8 +2,13 @@ import type { Metadata } from "next";
 import "@fontsource-variable/montserrat";
 import "./globals.css";
 import { ORIGEN_FAVICON_ASSET } from "./lib/brand";
+import {
+  ORIGEN_INSTAGRAM_URL,
+  ORIGEN_MAPS_URL,
+  PUBLIC_SITE_URL,
+} from "./lib/public-retreat-content";
 
-const SITE_URL = "https://www.origenliencres.com";
+const SITE_URL = PUBLIC_SITE_URL;
 const title = "Origen Liencres | Retiros en el norte de España";
 const description =
   "Retiros y experiencias de bienestar en Liencres, Cantabria, junto al océano y los bosques de Costa Quebrada. Un espacio para volver a la esencia.";
@@ -26,22 +31,46 @@ const structuredData = {
       name: "Origen Liencres",
       url: `${SITE_URL}/`,
       logo: `${SITE_URL}${ORIGEN_FAVICON_ASSET}`,
-      sameAs: ["https://www.instagram.com/origen.liencres/"],
-    },
-    {
-      "@type": "LodgingBusiness",
-      "@id": `${SITE_URL}/#retreat-space`,
-      name: "Origen Liencres",
-      url: `${SITE_URL}/`,
-      image: `${SITE_URL}/og.png`,
-      description:
-        "Espacio para retiros, residencias y experiencias de bienestar en Liencres, Cantabria, en el norte de España.",
+      telephone: "+34622181691",
       address: {
         "@type": "PostalAddress",
+        streetAddress: "Barrio Liencres, 585",
+        postalCode: "39120",
         addressLocality: "Liencres",
         addressRegion: "Cantabria",
         addressCountry: "ES",
       },
+      sameAs: [ORIGEN_MAPS_URL, ORIGEN_INSTAGRAM_URL],
+    },
+    {
+      "@type": ["LodgingBusiness", "LocalBusiness"],
+      "@id": `${SITE_URL}/#retreat-space`,
+      name: "Origen Liencres",
+      url: `${SITE_URL}/retiros-cantabria`,
+      image: [
+        `${SITE_URL}/og.png`,
+        `${SITE_URL}/experience-coast.webp`,
+        `${SITE_URL}/experience-forest.webp`,
+      ],
+      description:
+        "Espacio privado para organizar retiros, residencias creativas y experiencias de embodiment en Liencres, Cantabria, cerca de Santander, el mar y el bosque.",
+      telephone: "+34622181691",
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: "Barrio Liencres, 585",
+        postalCode: "39120",
+        addressLocality: "Liencres",
+        addressRegion: "Cantabria",
+        addressCountry: "ES",
+      },
+      geo: {
+        "@type": "GeoCoordinates",
+        latitude: 43.4571267,
+        longitude: -3.9472047,
+      },
+      hasMap: ORIGEN_MAPS_URL,
+      sameAs: [ORIGEN_MAPS_URL, ORIGEN_INSTAGRAM_URL],
+      maximumAttendeeCapacity: 8,
       areaServed: {
         "@type": "AdministrativeArea",
         name: "Norte de España",
@@ -66,6 +95,14 @@ const structuredData = {
       parentOrganization: {
         "@id": `${SITE_URL}/#organization`,
       },
+      makesOffer: {
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "Service",
+          name: "Alquiler privado de espacio para retiros",
+          serviceType: "Retreat venue hire",
+        },
+      },
     },
   ],
 };
@@ -89,6 +126,11 @@ export async function generateMetadata(): Promise<Metadata> {
       "retiros Costa Quebrada",
       "residencia de bienestar Cantabria",
       "retiros junto al mar",
+      "alojamiento para retiros Cantabria",
+      "organizar retiro Cantabria",
+      "retiros cerca de Santander",
+      "retreat venue Northern Spain",
+      "retreat venue near Santander",
       "Origen Liencres",
     ],
     alternates: {
