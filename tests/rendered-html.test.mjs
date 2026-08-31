@@ -73,7 +73,7 @@ test("publishes indexable Spanish and English retreat pages", async () => {
     hostResponse.text(),
   ]);
 
-  assert.match(spanish, /Espacio para organizar retiros en Cantabria/i);
+  assert.match(spanish, /Espacio para retiros en Cantabria/i);
   assert.match(spanish, /Origen es un espacio para organizar retiros en Cantabria/i);
   assert.match(spanish, /rel="canonical" href="https:\/\/www\.origenliencres\.com\/retiros-cantabria"/i);
   assert.match(spanish, /hreflang="en" href="https:\/\/www\.origenliencres\.com\/retreats-spain"/i);

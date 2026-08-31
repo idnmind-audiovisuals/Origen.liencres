@@ -16,7 +16,7 @@ export const retreatLandingCopy = {
     faqLabel: "Preguntas",
     faqHref: "/retiros-cantabria/preguntas-frecuentes",
     eyebrow: "Origen Liencres · Cantabria",
-    title: "Espacio para organizar retiros en Cantabria",
+    title: "Espacio para retiros en Cantabria",
     lead:
       "Origen es un espacio para organizar retiros en Cantabria, en Liencres, cerca de Santander. Un lugar privado para grupos pequeños entre el océano, el bosque y los acantilados de Costa Quebrada.",
     cta: "Consultar disponibilidad",
