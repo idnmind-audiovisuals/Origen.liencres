@@ -152,6 +152,9 @@ export async function generateMetadata(): Promise<Metadata> {
         "max-video-preview": -1,
       },
     },
+    verification: {
+      google: "WpjJXx8VxwnC-rTiTjIE9Xn6ApkUet-3bI5YyU23RME",
+    },
     icons: {
       icon: [
         {
