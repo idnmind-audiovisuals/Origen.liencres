@@ -137,8 +137,6 @@ export function AccessGateway({
       className={`gateway${keyboardOpen ? " keyboard-open" : ""}`}
       data-state={state}
     >
-      <h1 className="sr-only">Origen access gateway</h1>
-
       <OrigenSymbolAnimation errorPulse={errorPulse} unlocked={unlocking}>
         <AccessKeyForm
           visible={formVisible}
@@ -155,16 +153,25 @@ export function AccessGateway({
 
       <OrigenWordmark visible={formVisible} />
 
-      <motion.a
+      <motion.section
         className="gateway-public-entry"
-        href="/retiros-cantabria"
         initial={false}
         animate={{ opacity: formVisible && !unlocking ? 1 : 0 }}
         transition={{ duration: 0.48, ease: ORGANIC_EASE }}
       >
-        <span>Origen Liencres</span>
-        <strong>Espacio para organizar retiros en Cantabria</strong>
-      </motion.a>
+        <span>Origen Liencres · Costa Quebrada</span>
+        <h1>Origen Liencres — Espacio y alojamiento para retiros en Cantabria</h1>
+        <p>
+          Origen es un espacio para retiros y grupos privados en Liencres,
+          Cantabria, dentro del paisaje costero de Costa Quebrada y cerca de
+          Santander.
+        </p>
+        <p>
+          La casa reúne naturaleza, playa y bosque para retiros íntimos,
+          residencias creativas y encuentros con alojamiento.
+        </p>
+        <a href="/retiros-cantabria">Conocer el espacio</a>
+      </motion.section>
 
       <SuccessTransition active={unlocking} />
 

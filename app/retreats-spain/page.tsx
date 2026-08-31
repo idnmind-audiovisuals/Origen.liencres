@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import { PublicRetreatLanding } from "../components/PublicRetreatLanding";
 
-const title = "Retreat venue in Northern Spain | Origen Liencres";
+const title = "Retreat Venue in Northern Spain | Origen Liencres";
 const description =
-  "Private retreat venue in Cantabria near Santander, the Atlantic Ocean and coastal forest. Accommodation for small groups of up to 8 guests.";
+  "Small coastal retreat venue in Northern Spain near Santander, with private accommodation for up to 8 guests, practice space, beaches and forest.";
 
 export const metadata: Metadata = {
   title,

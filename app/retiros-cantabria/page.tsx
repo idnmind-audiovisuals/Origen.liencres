@@ -3,7 +3,7 @@ import { PublicRetreatLanding } from "../components/PublicRetreatLanding";
 
 const title = "Espacio para retiros en Cantabria | Origen Liencres";
 const description =
-  "Espacio privado para organizar retiros en Cantabria, cerca de Santander, junto al mar y al bosque. Alojamiento para grupos de hasta 8 personas.";
+  "Alojamiento para retiros en Cantabria, cerca de Santander, las playas y el bosque de Costa Quebrada. Espacio privado para grupos de hasta 8 personas.";
 
 export const metadata: Metadata = {
   title,

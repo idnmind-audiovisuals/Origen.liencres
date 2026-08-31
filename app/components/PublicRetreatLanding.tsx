@@ -113,6 +113,22 @@ export function PublicRetreatLanding({
         </figure>
       </section>
 
+      <section className="retreat-public-details" aria-labelledby="retreat-details-title">
+        <div className="retreat-public-details-heading">
+          <p className="retreat-public-eyebrow">{copy.detailsEyebrow}</p>
+          <h2 id="retreat-details-title">{copy.detailsTitle}</h2>
+        </div>
+        <div className="retreat-public-details-grid">
+          {copy.detailSections.map(([heading, paragraph], index) => (
+            <article key={heading}>
+              <span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+              <h3>{heading}</h3>
+              <p>{paragraph}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
       <section className="retreat-public-host" id="host" aria-labelledby="retreat-host-title">
         <div>
           <p className="retreat-public-eyebrow">{copy.hostEyebrow}</p>

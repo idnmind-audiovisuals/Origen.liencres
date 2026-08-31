@@ -9,9 +9,9 @@ import {
 } from "./lib/public-retreat-content";
 
 const SITE_URL = PUBLIC_SITE_URL;
-const title = "Origen Liencres | Retiros en el norte de España";
+const title = "Origen Liencres | Espacio para retiros en Cantabria";
 const description =
-  "Retiros y experiencias de bienestar en Liencres, Cantabria, junto al océano y los bosques de Costa Quebrada. Un espacio para volver a la esencia.";
+  "Alojamiento turístico y espacio para retiros, residencias y grupos privados en Liencres, Cantabria, entre la costa, las playas y el bosque.";
 
 const structuredData = {
   "@context": "https://schema.org",
@@ -53,7 +53,7 @@ const structuredData = {
         `${SITE_URL}/experience-forest.webp`,
       ],
       description:
-        "Espacio privado para organizar retiros, residencias creativas y experiencias de embodiment en Liencres, Cantabria, cerca de Santander, el mar y el bosque.",
+        "Alojamiento turístico y espacio privado para organizar retiros, residencias creativas y experiencias de embodiment en Liencres, Cantabria, cerca de Santander, las playas, el mar y el bosque de Costa Quebrada.",
       telephone: "+34622181691",
       address: {
         "@type": "PostalAddress",

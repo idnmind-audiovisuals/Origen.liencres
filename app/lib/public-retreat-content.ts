@@ -42,6 +42,34 @@ export const retreatLandingCopy = {
       "Retiros, residencias creativas y embodiment",
       "Dos playas a distancia caminable",
     ],
+    detailsEyebrow: "Espacio, ubicación y grupos",
+    detailsTitle: "Todo lo necesario para organizar un retiro cerca de Santander.",
+    detailSections: [
+      [
+        "Ubicación",
+        "Origen está en Liencres, Cantabria, cerca de Santander y a unos 25 minutos de su aeropuerto. Es una base tranquila y accesible para organizar un retiro en el norte de España.",
+      ],
+      [
+        "Entorno natural",
+        "Costa Quebrada reúne acantilados, playas y senderos junto al mar. El entorno de las Dunas de Liencres combina costa, dunas y bosque de pino marítimo para vivir un retiro en contacto real con la naturaleza.",
+      ],
+      [
+        "Capacidad y alojamiento",
+        "La casa ofrece alojamiento para retiros de hasta 8 personas. Un solo grupo puede reservar el espacio completo y mantener la intimidad necesaria durante toda la experiencia.",
+      ],
+      [
+        "Espacios de práctica",
+        "Las habitaciones, las zonas compartidas y una amplia sala de práctica abierta al paisaje permiten alternar descanso, movimiento, conversación y trabajo de grupo.",
+      ],
+      [
+        "Para quién es",
+        "Origen acoge facilitadores de bienestar, embodiment, yoga, danza, creatividad y procesos de grupo que buscan un espacio pequeño, privado y cercano al mar.",
+      ],
+      [
+        "Cómo organizar tu retiro",
+        "Comparte las fechas, el tamaño del grupo y la práctica que quieres facilitar. Confirmaremos disponibilidad, alojamiento y necesidades para ayudarte a dar forma al retiro.",
+      ],
+    ],
     hostEyebrow: "Organiza tu retiro",
     hostTitle: "Trae tu grupo a Origen.",
     hostBody:
@@ -59,15 +87,15 @@ export const retreatLandingCopy = {
     faqLabel: "Questions",
     faqHref: "/retreats-spain/faq",
     eyebrow: "Origen Liencres · Cantabria",
-    title: "Retreat venue in Cantabria, Northern Spain",
+    title: "Retreat Venue in Northern Spain",
     lead:
-      "Origen is a private retreat venue in Liencres, Cantabria, near Santander. A place for small groups where the Atlantic Ocean, coastal forest and the cliffs of Costa Quebrada meet.",
+      "Origen is a small coastal retreat venue in Spain, located in Liencres, Cantabria, near Santander. It is designed for private groups seeking accommodation, nature and dedicated practice space by the Atlantic Ocean.",
     cta: "Check availability",
     introEyebrow: "What Origen is",
     introTitle: "A place created to gather, practise and return to what is essential.",
     introParagraphs: [
-      "Origen Liencres hosts wellness retreats, creative residencies, embodiment gatherings and cocreated experiences in Northern Spain.",
-      "The house offers accommodation for groups of up to 8 people, shared spaces and a spacious practice room open to nature. The full venue can be privately hired for one group.",
+      "For international facilitators looking for a retreat venue in Northern Spain, Origen offers a distinctive combination of coast, beach, forest and the geological landscape of Costa Quebrada.",
+      "The house accommodates groups of up to 8 guests, with shared living areas and a spacious nature-facing practice room. One group can privately hire the entire venue for a focused retreat or creative residency.",
     ],
     facts: [
       ["Capacity", "Up to 8 guests"],
@@ -84,6 +112,34 @@ export const retreatLandingCopy = {
       "25 minutes from Santander Airport",
       "Retreats, creative residencies and embodiment",
       "Two beaches within walking distance",
+    ],
+    detailsEyebrow: "A practical home for private retreats",
+    detailsTitle: "A small coastal retreat venue with everything your group needs.",
+    detailSections: [
+      [
+        "Location and access",
+        "Origen is based in Liencres on Spain’s northern coast, close to Santander and around 25 minutes from Santander Airport. It is easy to reach while still feeling removed from the pace of the city.",
+      ],
+      [
+        "Coastal setting",
+        "The venue sits between the beaches, cliffs and maritime pine forest of Costa Quebrada. This Atlantic landscape gives each retreat direct contact with the sea, walking paths and the changing northern light.",
+      ],
+      [
+        "Capacity and accommodation",
+        "Origen is intentionally small, with accommodation for up to 8 guests. The full house can be reserved for one private group, creating continuity and intimacy throughout the stay.",
+      ],
+      [
+        "Spaces to practise",
+        "Comfortable bedrooms, shared living spaces and a generous practice room facing nature support movement, embodiment, reflection, conversation and rest.",
+      ],
+      [
+        "Who it is for",
+        "The venue welcomes international retreat leaders, creative residencies and facilitators working with wellbeing, yoga, dance, embodiment and small-group experiences.",
+      ],
+      [
+        "Planning your retreat",
+        "Share your preferred dates, group size and the experience you want to host. We will help you assess availability, accommodation and practical needs before you travel to Cantabria.",
+      ],
     ],
     hostEyebrow: "Host your retreat",
     hostTitle: "Bring your group to Origen.",

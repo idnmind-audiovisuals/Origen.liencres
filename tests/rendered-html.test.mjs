@@ -77,8 +77,10 @@ test("publishes indexable Spanish and English retreat pages", async () => {
   assert.match(spanish, /Origen es un espacio para organizar retiros en Cantabria/i);
   assert.match(spanish, /rel="canonical" href="https:\/\/www\.origenliencres\.com\/retiros-cantabria"/i);
   assert.match(spanish, /hreflang="en" href="https:\/\/www\.origenliencres\.com\/retreats-spain"/i);
-  assert.match(english, /Retreat venue in Cantabria, Northern Spain/i);
-  assert.match(english, /private retreat venue in Liencres/i);
+  assert.match(english, /Retreat Venue in Northern Spain/i);
+  assert.match(english, /small coastal retreat venue in Spain/i);
+  assert.match(english, /Planning your retreat/i);
+  assert.match(spanish, /Cómo organizar tu retiro/i);
   assert.match(spanishFaq, /¿Dónde puedo organizar un retiro cerca de Santander\?/i);
   assert.match(spanishFaq, /"@type":"FAQPage"/i);
   assert.match(englishFaq, /Where can I host a retreat near Santander\?/i);
@@ -95,15 +97,14 @@ test("server-renders the Origen gateway", async () => {
   const html = await response.text();
   assert.match(
     html,
-    /<title>Origen Liencres \| Retiros en el norte de España<\/title>/i,
+    /<title>Origen Liencres \| Espacio para retiros en Cantabria<\/title>/i,
   );
-  assert.match(html, /Origen access gateway/i);
+  assert.match(html, /Origen Liencres — Espacio y alojamiento para retiros en Cantabria/i);
+  assert.match(html, /dentro del paisaje costero de Costa Quebrada y cerca de Santander/i);
   assert.match(html, /origen-favicon\.png/i);
   assert.match(html, /rel="canonical" href="https:\/\/www\.origenliencres\.com\/"/i);
   assert.match(html, /application\/ld\+json/i);
-  assert.match(html, /Espacio privado para organizar retiros, residencias creativas/i);
-  assert.match(html, /Retiros en el norte de España/i);
-  assert.match(html, /Espacio para organizar retiros en Cantabria/i);
+  assert.match(html, /Alojamiento turístico y espacio privado para organizar retiros/i);
   assert.match(html, /"latitude":43\.4571267/i);
   assert.match(html, /"telephone":"\+34622181691"/i);
   assert.doesNotMatch(html, /codex-preview|react-loading-skeleton/i);
