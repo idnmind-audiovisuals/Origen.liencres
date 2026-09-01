@@ -4090,6 +4090,10 @@ button {
   filter: brightness(0);
 }
 
+.retreat-public-page--esencia .retreat-public-brand img {
+  filter: none;
+}
+
 .retreat-public-header nav {
   display: flex;
   align-items: center;

@@ -28,9 +28,13 @@ export function PublicRetreatLanding({
         </Link>
         <nav aria-label={language === "es" ? "Navegación" : "Navigation"}>
           <Link href={copy.faqHref}>{copy.faqLabel}</Link>
-          <Link href={language === "en" ? "/host-your-retreat" : "/retiros-cantabria#host"}>
-            {language === "en" ? "Host" : "Organizar"}
-          </Link>
+          {language === "es" ? (
+            <a href={HOST_APPLICATION_URL} target="_blank" rel="noreferrer">
+              Organizar
+            </a>
+          ) : (
+            <Link href="/host-your-retreat">Host</Link>
+          )}
           <a href={ORIGEN_MAPS_URL} target="_blank" rel="noreferrer">Maps</a>
           <Link className="retreat-language-link" href={copy.alternateHref}>
             {copy.alternateLabel}
