@@ -105,16 +105,34 @@ button {
 }
 
 .gateway-public-entry a {
-  margin-top: 3px;
-  padding-bottom: 2px;
+  display: inline-flex;
+  margin-top: 5px;
+  padding: 8px 11px;
+  align-items: center;
+  gap: 9px;
   pointer-events: auto;
   color: inherit;
-  border-bottom: 1px solid rgb(242 239 232 / 0.5);
+  border: 1px solid rgb(242 239 232 / 0.42);
   font-size: 8px;
   font-weight: 560;
   letter-spacing: 0.14em;
   text-decoration: none;
   text-transform: uppercase;
+  transition:
+    color 360ms ease,
+    background-color 360ms ease,
+    border-color 360ms ease;
+}
+
+.gateway-public-entry a .external-link-dot {
+  width: 5px;
+  height: 5px;
+}
+
+.gateway-public-entry a:hover {
+  color: var(--black);
+  border-color: var(--paper);
+  background: var(--paper);
 }
 
 .gateway-public-entry a:focus-visible {

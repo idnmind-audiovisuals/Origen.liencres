@@ -143,6 +143,23 @@ export function ReducedMotionGateway({
         </motion.section>
       </div>
       <OrigenWordmark visible={!unlocking} reducedMotion />
+      <motion.section
+        className="gateway-public-entry"
+        initial={false}
+        animate={{ opacity: unlocking ? 0 : 1 }}
+        transition={{ duration: 0.2, ease: CINEMATIC_ENTRY_EASE }}
+      >
+        <span>Origen Liencres · Costa Quebrada</span>
+        <h1>Espacio para residencias y retiros en Cantabria</h1>
+        <p>
+          La casa reúne naturaleza, playa y bosque para retiros íntimos y
+          residencias creativas.
+        </p>
+        <a href="/retiros-cantabria">
+          Retiros Cantabria
+          <i className="external-link-dot" aria-hidden="true" />
+        </a>
+      </motion.section>
       <p className="sr-only" role="status" aria-live="polite">
         {unlocking ? "Access accepted. Entering Origen." : ""}
       </p>

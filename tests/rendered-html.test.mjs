@@ -122,8 +122,9 @@ test("server-renders the Origen gateway", async () => {
 });
 
 test("keeps all access keys server-only and destination-scoped", async () => {
-  const [client, route, session, example, bros, invitation, editorial, instagram, experience, environment, sculpture, siteCopy, styles, robots, sitemap, brosPage, legacyBrosPage, residencyPage, spacePage, experiencePage] = await Promise.all([
+  const [client, gateway, route, session, example, bros, invitation, editorial, instagram, experience, environment, sculpture, siteCopy, styles, robots, sitemap, brosPage, legacyBrosPage, residencyPage, spacePage, experiencePage] = await Promise.all([
     readFile(new URL("../app/components/AccessKeyForm.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/components/AccessGateway.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/api/access/route.ts", import.meta.url), "utf8"),
     readFile(new URL("../app/lib/access-session.ts", import.meta.url), "utf8"),
     readFile(new URL("../.env.example", import.meta.url), "utf8"),
@@ -146,6 +147,8 @@ test("keeps all access keys server-only and destination-scoped", async () => {
   ]);
 
   assert.doesNotMatch(client, /ORIGEN_(?:BROS_|SPACE_)?ACCESS_KEY|Esencia/i);
+  assert.match(gateway, /href="\/retiros-cantabria"/);
+  assert.match(gateway, /Retiros Cantabria/);
   assert.match(route, /matchAccessKey/);
   assert.match(route, /destination/);
   assert.match(session, /process\.env\.ORIGEN_ACCESS_KEY/);

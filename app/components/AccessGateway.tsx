@@ -165,6 +165,10 @@ export function AccessGateway({
           La casa reúne naturaleza, playa y bosque para retiros íntimos y
           residencias creativas.
         </p>
+        <a href="/retiros-cantabria">
+          Retiros Cantabria
+          <i className="external-link-dot" aria-hidden="true" />
+        </a>
       </motion.section>
 
       <SuccessTransition active={unlocking} />
