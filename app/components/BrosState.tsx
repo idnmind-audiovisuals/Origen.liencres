@@ -238,9 +238,9 @@ export function BrosState({ development, onReset }: BrosStateProps) {
           </div>
           <div className="bros-circle-content">
             <p className="bros-circle-schedule">
-              Nos reunimos regularmente en Liencres. Cada dos semanas, de 19:00
-              a 21:00. Cada círculo tendrá diferentes temáticas, pero una
-              estructura similar:
+              Nos reunimos regularmente cada semana (Para el horario exacto,
+              confirma en el group). Y cada círculo tendrá diferentes
+              temáticas, pero una estructura similar:
             </p>
             <ol className="bros-practices">
               {CIRCLE_PRACTICES.map((practice, index) => (

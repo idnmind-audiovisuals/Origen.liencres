@@ -229,6 +229,9 @@ test("keeps all access keys server-only and destination-scoped", async () => {
   assert.doesNotMatch(sculpture, /experience-sculpture-(?:halo|ring|core)/);
   assert.doesNotMatch(styles, /experience-(?:atlantic|rock|coast|forest)\.webp/);
   assert.doesNotMatch(`${bros}${invitation}${experience}`, /↗/);
+  assert.match(bros, /Nos reunimos regularmente cada semana/);
+  assert.match(bros, /confirma en el group/);
+  assert.doesNotMatch(bros, /Cada dos semanas/);
   assert.match(styles, /\.external-link-dot/);
   assert.match(robots, /sitemap\.xml/);
   assert.match(robots, /\/api\//);
