@@ -75,9 +75,9 @@ export const retreatLandingCopy = {
     hostBody:
       "Cuéntanos qué experiencia quieres facilitar, las fechas que imaginas y las necesidades de tu grupo. Te ayudaremos a valorar si Origen es el lugar adecuado.",
     hostCta: "Enviar propuesta",
-    mapCta: "Abrir en Google Maps",
+    mapCta: "Google Maps",
     airbnbCta: "Ver el alojamiento",
-    faqCta: "Resolver preguntas frecuentes",
+    faqCta: "Preguntas frecuentes",
     footerLine: "Retreat space · Liencres · Cantabria · Northern Spain",
   },
   en: {
