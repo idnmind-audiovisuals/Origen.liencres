@@ -160,17 +160,11 @@ export function AccessGateway({
         transition={{ duration: 0.48, ease: ORGANIC_EASE }}
       >
         <span>Origen Liencres · Costa Quebrada</span>
-        <h1>Origen Liencres — Espacio y alojamiento para retiros en Cantabria</h1>
+        <h1>Espacio para residencias y retiros en Cantabria</h1>
         <p>
-          Origen es un espacio para retiros y grupos privados en Liencres,
-          Cantabria, dentro del paisaje costero de Costa Quebrada y cerca de
-          Santander.
+          La casa reúne naturaleza, playa y bosque para retiros íntimos y
+          residencias creativas.
         </p>
-        <p>
-          La casa reúne naturaleza, playa y bosque para retiros íntimos,
-          residencias creativas y encuentros con alojamiento.
-        </p>
-        <a href="/retiros-cantabria">Conocer el espacio</a>
       </motion.section>
 
       <SuccessTransition active={unlocking} />

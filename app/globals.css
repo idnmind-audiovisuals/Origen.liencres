@@ -4087,6 +4087,7 @@ button {
   display: block;
   width: 100%;
   height: auto;
+  filter: brightness(0);
 }
 
 .retreat-public-header nav {
@@ -4437,16 +4438,17 @@ button {
 }
 
 .retreat-public-links a {
+  position: relative;
   display: flex;
-  min-height: 112px;
+  min-height: clamp(180px, 22vw, 330px);
   padding: 28px clamp(20px, 2.8vw, 42px);
-  align-items: center;
+  align-items: flex-end;
   border-right: 1px solid rgb(36 35 31 / 0.18);
-  font-size: 11px;
-  font-weight: 560;
-  letter-spacing: 0.08em;
-  line-height: 1.5;
-  text-transform: uppercase;
+  font-size: clamp(30px, 4.2vw, 68px);
+  font-weight: 310;
+  letter-spacing: -0.055em;
+  line-height: 0.96;
+  transition: color 280ms ease, background-color 280ms ease;
 }
 
 .retreat-public-links a:last-child {
@@ -4454,12 +4456,25 @@ button {
 }
 
 .retreat-public-links a::after {
+  position: absolute;
+  top: clamp(24px, 3vw, 44px);
+  right: clamp(20px, 2.8vw, 42px);
   width: 8px;
   height: 8px;
-  margin-left: auto;
   border-radius: 50%;
   background: #68763d;
   content: "";
+}
+
+.retreat-public-links a:hover,
+.retreat-public-links a:focus-visible {
+  color: #f2efe8;
+  background: #24231f;
+}
+
+.retreat-public-links a:hover::after,
+.retreat-public-links a:focus-visible::after {
+  background: #aab58a;
 }
 
 .retreat-public-footer {
@@ -4490,6 +4505,138 @@ button {
   display: inline-block;
   margin-top: 16px;
   border-bottom: 1px solid currentColor;
+}
+
+/* Spanish discovery page — shares the open, editorial language of Esencia. */
+.retreat-public-page--esencia {
+  background: #f2efe8 url("/costa-quebrada-porcelain.jpg") center / cover fixed;
+}
+
+.retreat-public-page--esencia .retreat-public-header,
+.retreat-public-page--esencia .retreat-public-hero,
+.retreat-public-page--esencia .retreat-public-intro,
+.retreat-public-page--esencia .retreat-public-features,
+.retreat-public-page--esencia .retreat-public-details,
+.retreat-public-page--esencia .retreat-public-host,
+.retreat-public-page--esencia .retreat-public-links,
+.retreat-public-page--esencia .retreat-public-footer {
+  width: min(100% - clamp(44px, 9vw, 144px), 1600px);
+}
+
+.retreat-public-page--esencia .retreat-public-header {
+  min-height: 86px;
+  align-items: flex-start;
+  padding-top: max(22px, env(safe-area-inset-top));
+}
+
+.retreat-public-page--esencia .retreat-public-hero {
+  display: grid;
+  min-height: calc(100svh - 86px);
+  padding: clamp(118px, 16vh, 190px) 0 clamp(76px, 11vh, 126px);
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: clamp(12px, 1.7vw, 28px);
+  align-items: end;
+}
+
+.retreat-public-page--esencia .retreat-public-hero-copy {
+  max-width: none;
+  grid-column: 1 / 10;
+}
+
+.retreat-public-page--esencia .retreat-public-hero h1 {
+  max-width: 1160px;
+  font-size: clamp(66px, 10.2vw, 164px);
+  letter-spacing: -0.072em;
+  line-height: 0.82;
+}
+
+.retreat-public-page--esencia .retreat-public-lead {
+  max-width: 720px;
+  margin-top: clamp(48px, 6vw, 88px) !important;
+  font-size: clamp(17px, 1.42vw, 23px);
+  line-height: 1.58;
+}
+
+.retreat-public-hero-meta {
+  padding-bottom: clamp(2px, 1vw, 12px);
+  grid-column: 10 / 13;
+}
+
+.retreat-public-hero-meta dl {
+  margin: 0;
+}
+
+.retreat-public-hero-meta dl > div {
+  display: grid;
+  padding: 13px 0 14px;
+  border-top: 1px solid rgb(36 35 31 / 0.38);
+  grid-template-columns: minmax(72px, 0.8fr) 1.4fr;
+  gap: 12px;
+}
+
+.retreat-public-hero-meta dl > div:last-child {
+  border-bottom: 1px solid rgb(36 35 31 / 0.38);
+}
+
+.retreat-public-hero-meta dt,
+.retreat-public-hero-meta dd {
+  margin: 0;
+  font-size: clamp(10px, 0.86vw, 13px);
+  line-height: 1.4;
+}
+
+.retreat-public-hero-meta dt {
+  color: rgb(36 35 31 / 0.54);
+  font-size: clamp(8px, 0.64vw, 10px);
+  font-weight: 500;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.retreat-public-hero-meta dd {
+  font-weight: 450;
+}
+
+.retreat-public-page--esencia .retreat-public-hero-meta .retreat-public-primary {
+  width: 100%;
+  min-height: clamp(86px, 7vw, 110px);
+  margin-top: clamp(18px, 2vw, 30px);
+  font-size: clamp(18px, 1.8vw, 30px);
+  font-weight: 330;
+  letter-spacing: -0.035em;
+  text-transform: none;
+}
+
+.retreat-public-page--esencia .retreat-public-intro {
+  padding: clamp(90px, 11vw, 170px) 0;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: clamp(12px, 1.7vw, 28px);
+}
+
+.retreat-public-page--esencia .retreat-public-intro > div:first-child {
+  grid-column: 1 / 5;
+}
+
+.retreat-public-page--esencia .retreat-public-intro > div:last-child {
+  grid-column: 6 / 13;
+}
+
+.retreat-public-page--esencia .retreat-public-features {
+  padding: clamp(90px, 11vw, 170px) 0;
+  border-top: 1px solid rgb(36 35 31 / 0.38);
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: clamp(12px, 1.7vw, 28px);
+}
+
+.retreat-public-page--esencia .retreat-public-feature-copy {
+  padding: 0;
+  grid-column: 5 / 13;
+}
+
+.retreat-public-page--esencia .retreat-public-feature-copy li {
+  min-height: clamp(66px, 6.3vw, 94px);
+  font-size: clamp(18px, 2vw, 31px);
+  letter-spacing: -0.025em;
 }
 
 @media (max-width: 900px) {
@@ -4593,8 +4740,8 @@ button {
   }
 
   .retreat-public-links a {
-    min-height: 84px;
-    padding-inline: 0;
+    min-height: 180px;
+    padding-inline: 26px;
     border-right: 0;
     border-bottom: 1px solid rgb(36 35 31 / 0.18);
   }
@@ -4607,6 +4754,47 @@ button {
 
   .retreat-public-footer > div {
     text-align: left;
+  }
+
+  .retreat-public-page--esencia .retreat-public-header,
+  .retreat-public-page--esencia .retreat-public-hero,
+  .retreat-public-page--esencia .retreat-public-intro,
+  .retreat-public-page--esencia .retreat-public-features,
+  .retreat-public-page--esencia .retreat-public-details,
+  .retreat-public-page--esencia .retreat-public-host,
+  .retreat-public-page--esencia .retreat-public-links,
+  .retreat-public-page--esencia .retreat-public-footer {
+    width: min(100% - 36px, 720px);
+  }
+
+  .retreat-public-page--esencia .retreat-public-hero {
+    display: block;
+    min-height: 0;
+    padding: clamp(108px, 18vh, 150px) 0 84px;
+  }
+
+  .retreat-public-page--esencia .retreat-public-hero h1 {
+    font-size: clamp(54px, 15vw, 106px);
+    line-height: 0.84;
+  }
+
+  .retreat-public-page--esencia .retreat-public-hero-meta {
+    margin-top: clamp(72px, 14vh, 112px);
+  }
+
+  .retreat-public-page--esencia .retreat-public-intro,
+  .retreat-public-page--esencia .retreat-public-features {
+    display: block;
+  }
+
+  .retreat-public-page--esencia .retreat-public-intro > div:first-child,
+  .retreat-public-page--esencia .retreat-public-intro > div:last-child,
+  .retreat-public-page--esencia .retreat-public-feature-copy {
+    grid-column: auto;
+  }
+
+  .retreat-public-page--esencia .retreat-public-intro > div:first-child {
+    margin-bottom: 54px;
   }
 }
 

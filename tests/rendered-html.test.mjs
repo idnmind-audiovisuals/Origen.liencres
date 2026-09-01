@@ -75,6 +75,9 @@ test("publishes indexable Spanish and English retreat pages", async () => {
 
   assert.match(spanish, /Espacio para retiros en Cantabria/i);
   assert.match(spanish, /Origen es un espacio para organizar retiros en Cantabria/i);
+  assert.match(spanish, /Host your retreat/i);
+  assert.match(spanish, /retreat-public-page--esencia/i);
+  assert.doesNotMatch(spanish, /<figure\b/i);
   assert.match(spanish, /rel="canonical" href="https:\/\/www\.origenliencres\.com\/retiros-cantabria"/i);
   assert.match(spanish, /hreflang="en" href="https:\/\/www\.origenliencres\.com\/retreats-spain"/i);
   assert.match(english, /Retreat Venue in Northern Spain/i);
@@ -99,8 +102,9 @@ test("server-renders the Origen gateway", async () => {
     html,
     /<title>Origen Liencres \| Espacio para retiros en Cantabria<\/title>/i,
   );
-  assert.match(html, /Origen Liencres — Espacio y alojamiento para retiros en Cantabria/i);
-  assert.match(html, /dentro del paisaje costero de Costa Quebrada y cerca de Santander/i);
+  assert.match(html, /Espacio para residencias y retiros en Cantabria/i);
+  assert.match(html, /La casa reúne naturaleza, playa y bosque para retiros íntimos y residencias creativas/i);
+  assert.doesNotMatch(html, /Conocer el espacio/i);
   assert.match(html, /origen-favicon\.png/i);
   assert.match(html, /rel="canonical" href="https:\/\/www\.origenliencres\.com\/"/i);
   assert.match(html, /application\/ld\+json/i);

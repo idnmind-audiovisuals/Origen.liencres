@@ -17,7 +17,10 @@ export function PublicRetreatLanding({
   const copy = retreatLandingCopy[language];
 
   return (
-    <main className="retreat-public-page" lang={copy.htmlLang}>
+    <main
+      className={`retreat-public-page${language === "es" ? " retreat-public-page--esencia" : ""}`}
+      lang={copy.htmlLang}
+    >
       <header className="retreat-public-header">
         <Link className="retreat-public-brand" href="/" aria-label="Origen Liencres">
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -40,26 +43,41 @@ export function PublicRetreatLanding({
           <p className="retreat-public-eyebrow">{copy.eyebrow}</p>
           <h1 id="retreat-public-title">{copy.title}</h1>
           <p className="retreat-public-lead">{copy.lead}</p>
-          <a className="retreat-public-primary" href={HOST_APPLICATION_URL} target="_blank" rel="noreferrer">
-            {copy.cta}
-            <span className="external-link-dot" aria-hidden="true" />
-          </a>
+          {language === "en" ? (
+            <a className="retreat-public-primary" href={HOST_APPLICATION_URL} target="_blank" rel="noreferrer">
+              {copy.cta}
+              <span className="external-link-dot" aria-hidden="true" />
+            </a>
+          ) : null}
         </div>
 
-        <figure className="retreat-public-hero-media">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/experience-coast.webp"
-            width="1536"
-            height="1024"
-            alt={
-              language === "es"
-                ? "Acantilados de Costa Quebrada junto al mar en Liencres, Cantabria"
-                : "Costa Quebrada cliffs beside the sea in Liencres, Cantabria"
-            }
-          />
-          <figcaption>{copy.landscapeCaption}</figcaption>
-        </figure>
+        {language === "es" ? (
+          <div className="retreat-public-hero-meta">
+            <dl>
+              {copy.facts.map(([term, value]) => (
+                <div key={term}>
+                  <dt>{term}</dt>
+                  <dd>{value}</dd>
+                </div>
+              ))}
+            </dl>
+            <a className="retreat-public-primary" href={HOST_APPLICATION_URL} target="_blank" rel="noreferrer">
+              {copy.cta}
+              <span className="external-link-dot" aria-hidden="true" />
+            </a>
+          </div>
+        ) : (
+          <figure className="retreat-public-hero-media">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/experience-coast.webp"
+              width="1536"
+              height="1024"
+              alt="Costa Quebrada cliffs beside the sea in Liencres, Cantabria"
+            />
+            <figcaption>{copy.landscapeCaption}</figcaption>
+          </figure>
+        )}
       </section>
 
       <section className="retreat-public-intro" aria-labelledby="retreat-intro-title">
@@ -74,14 +92,16 @@ export function PublicRetreatLanding({
         </div>
       </section>
 
-      <dl className="retreat-public-facts">
-        {copy.facts.map(([term, value]) => (
-          <div key={term}>
-            <dt>{term}</dt>
-            <dd>{value}</dd>
-          </div>
-        ))}
-      </dl>
+      {language === "en" ? (
+        <dl className="retreat-public-facts">
+          {copy.facts.map(([term, value]) => (
+            <div key={term}>
+              <dt>{term}</dt>
+              <dd>{value}</dd>
+            </div>
+          ))}
+        </dl>
+      ) : null}
 
       <section className="retreat-public-features" aria-labelledby="retreat-features-title">
         <div className="retreat-public-feature-copy">
@@ -97,20 +117,18 @@ export function PublicRetreatLanding({
           </ol>
         </div>
 
-        <figure>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/experience-forest.webp"
-            width="1536"
-            height="1024"
-            loading="lazy"
-            alt={
-              language === "es"
-                ? "Sendero entre el bosque costero de Liencres"
-                : "A path through the coastal forest of Liencres"
-            }
-          />
-        </figure>
+        {language === "en" ? (
+          <figure>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/experience-forest.webp"
+              width="1536"
+              height="1024"
+              loading="lazy"
+              alt="A path through the coastal forest of Liencres"
+            />
+          </figure>
+        ) : null}
       </section>
 
       <section className="retreat-public-details" aria-labelledby="retreat-details-title">
