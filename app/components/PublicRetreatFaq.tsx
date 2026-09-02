@@ -39,7 +39,7 @@ export function PublicRetreatFaq({ language }: { language: RetreatLanguage }) {
         <p>{copy.intro}</p>
       </section>
 
-      <section className="retreat-faq-list" aria-label={language === "es" ? "Preguntas frecuentes" : "Frequently asked questions"}>
+      <section className="retreat-faq-list scroll-reveal-list" aria-label={language === "es" ? "Preguntas frecuentes" : "Frequently asked questions"}>
         {copy.questions.map(({ question, answer }, index) => (
           <article key={question}>
             <span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
@@ -51,7 +51,7 @@ export function PublicRetreatFaq({ language }: { language: RetreatLanguage }) {
         ))}
       </section>
 
-      <section className="retreat-public-host retreat-faq-host">
+      <section className="retreat-public-host retreat-faq-host scroll-reveal">
         <div>
           <p className="retreat-public-eyebrow">{copy.hostEyebrow}</p>
           <h2>{copy.hostTitle}</h2>

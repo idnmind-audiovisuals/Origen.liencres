@@ -147,7 +147,7 @@ test("keeps all access keys server-only and destination-scoped", async () => {
   ]);
 
   assert.doesNotMatch(client, /ORIGEN_(?:BROS_|SPACE_)?ACCESS_KEY|Esencia/i);
-  assert.match(gateway, /href="\/retiros-cantabria"/);
+  assert.match(gateway, /href="https:\/\/www\.origenliencres\.com\/retiros-cantabria"/);
   assert.match(gateway, /Retiros Cantabria/);
   assert.match(route, /matchAccessKey/);
   assert.match(route, /destination/);
@@ -232,6 +232,9 @@ test("keeps all access keys server-only and destination-scoped", async () => {
   assert.doesNotMatch(sculpture, /experience-sculpture-(?:halo|ring|core)/);
   assert.doesNotMatch(styles, /experience-(?:atlantic|rock|coast|forest)\.webp/);
   assert.doesNotMatch(`${bros}${invitation}${experience}`, /↗/);
+  assert.match(invitation, /scroll-reveal/);
+  assert.match(editorial, /scroll-reveal-list/);
+  assert.match(styles, /@keyframes origen-scroll-reveal/);
   assert.match(bros, /Nos reunimos regularmente cada semana/);
   assert.match(bros, /confirma en el group/);
   assert.doesNotMatch(bros, /Cada dos semanas/);

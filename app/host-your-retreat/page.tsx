@@ -67,13 +67,13 @@ export default function HostYourRetreatPage() {
         </a>
       </section>
 
-      <dl className="retreat-public-facts retreat-host-facts">
+      <dl className="retreat-public-facts retreat-host-facts scroll-reveal-list">
         <div><dt>Group size</dt><dd>Up to 8 guests</dd></div>
         <div><dt>Journey</dt><dd>25 min from Santander Airport</dd></div>
         <div><dt>Landscape</dt><dd>Ocean, forest and Costa Quebrada</dd></div>
       </dl>
 
-      <section className="retreat-faq-list retreat-host-steps" aria-labelledby="host-process-title">
+      <section className="retreat-faq-list retreat-host-steps scroll-reveal-list" aria-labelledby="host-process-title">
         <div className="retreat-host-process-heading">
           <p className="retreat-public-eyebrow">The process</p>
           <h2 id="host-process-title">From your idea to the gathering.</h2>
@@ -90,7 +90,7 @@ export default function HostYourRetreatPage() {
         ))}
       </section>
 
-      <section className="retreat-public-host retreat-faq-host">
+      <section className="retreat-public-host retreat-faq-host scroll-reveal">
         <div>
           <p className="retreat-public-eyebrow">Origen Liencres</p>
           <h2>A private place for work that matters.</h2>

@@ -77,7 +77,7 @@ export function EditorialPage({
           <h1 id="editorial-title">{copy.title}</h1>
         </section>
 
-        <article className="editorial-copy">
+        <article className="editorial-copy scroll-reveal-list">
           {copy.paragraphs.map((paragraph, index) => (
             <p key={paragraph} className={index === 0 ? "editorial-lede" : undefined}>
               {paragraph}
@@ -85,7 +85,7 @@ export function EditorialPage({
           ))}
         </article>
 
-        <nav className="editorial-navigation" aria-label={shared.navigationLabel}>
+        <nav className="editorial-navigation scroll-reveal" aria-label={shared.navigationLabel}>
           <Link href={localizedHref(originPath, language)}>
             <small>{shared.returnTo}</small>
             <span>{originLabel}</span>
@@ -96,7 +96,7 @@ export function EditorialPage({
           </Link>
         </nav>
 
-        <footer className="editorial-footer">
+        <footer className="editorial-footer scroll-reveal">
           <p>Origen · Liencres</p>
           <p>{shared.footer}</p>
         </footer>

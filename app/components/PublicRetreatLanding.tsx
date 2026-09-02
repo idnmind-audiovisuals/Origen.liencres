@@ -84,7 +84,7 @@ export function PublicRetreatLanding({
         )}
       </section>
 
-      <section className="retreat-public-intro" aria-labelledby="retreat-intro-title">
+      <section className="retreat-public-intro scroll-reveal" aria-labelledby="retreat-intro-title">
         <div>
           <p className="retreat-public-eyebrow">{copy.introEyebrow}</p>
           <h2 id="retreat-intro-title">{copy.introTitle}</h2>
@@ -97,7 +97,7 @@ export function PublicRetreatLanding({
       </section>
 
       {language === "en" ? (
-        <dl className="retreat-public-facts">
+        <dl className="retreat-public-facts scroll-reveal-list">
           {copy.facts.map(([term, value]) => (
             <div key={term}>
               <dt>{term}</dt>
@@ -107,11 +107,11 @@ export function PublicRetreatLanding({
         </dl>
       ) : null}
 
-      <section className="retreat-public-features" aria-labelledby="retreat-features-title">
+      <section className="retreat-public-features scroll-reveal" aria-labelledby="retreat-features-title">
         <div className="retreat-public-feature-copy">
           <p className="retreat-public-eyebrow">{copy.featuresEyebrow}</p>
           <h2 id="retreat-features-title">{copy.featuresTitle}</h2>
-          <ol>
+          <ol className="scroll-reveal-list">
             {copy.features.map((feature, index) => (
               <li key={feature}>
                 <span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
@@ -136,11 +136,11 @@ export function PublicRetreatLanding({
       </section>
 
       <section className="retreat-public-details" aria-labelledby="retreat-details-title">
-        <div className="retreat-public-details-heading">
+        <div className="retreat-public-details-heading scroll-reveal">
           <p className="retreat-public-eyebrow">{copy.detailsEyebrow}</p>
           <h2 id="retreat-details-title">{copy.detailsTitle}</h2>
         </div>
-        <div className="retreat-public-details-grid">
+        <div className="retreat-public-details-grid scroll-reveal-list">
           {copy.detailSections.map(([heading, paragraph], index) => (
             <article key={heading}>
               <span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
@@ -151,7 +151,7 @@ export function PublicRetreatLanding({
         </div>
       </section>
 
-      <section className="retreat-public-host" id="host" aria-labelledby="retreat-host-title">
+      <section className="retreat-public-host scroll-reveal" id="host" aria-labelledby="retreat-host-title">
         <div>
           <p className="retreat-public-eyebrow">{copy.hostEyebrow}</p>
           <h2 id="retreat-host-title">{copy.hostTitle}</h2>
@@ -165,13 +165,13 @@ export function PublicRetreatLanding({
         </div>
       </section>
 
-      <nav className="retreat-public-links" aria-label={language === "es" ? "Enlaces de Origen" : "Origen links"}>
+      <nav className="retreat-public-links scroll-reveal" aria-label={language === "es" ? "Enlaces de Origen" : "Origen links"}>
         <a href={ORIGEN_MAPS_URL} target="_blank" rel="noreferrer">{copy.mapCta}</a>
         <a href={ORIGEN_AIRBNB_URL} target="_blank" rel="noreferrer">{copy.airbnbCta}</a>
         <Link href={copy.faqHref}>{copy.faqCta}</Link>
       </nav>
 
-      <footer className="retreat-public-footer">
+      <footer className="retreat-public-footer scroll-reveal">
         <address>
           Origen Liencres<br />
           Barrio Liencres, 585<br />

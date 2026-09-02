@@ -174,7 +174,7 @@ export function OpenedState({
           </div>
         </section>
 
-        <section className="invitation-program" aria-labelledby="program-title">
+        <section className="invitation-program scroll-reveal" aria-labelledby="program-title">
           <div className="invitation-program-heading">
             <p>{copy.programEyebrow}</p>
             <h2 id="program-title">{copy.programTitle}</h2>
@@ -186,7 +186,7 @@ export function OpenedState({
                 {copy.programDescription}
               </p>
             ) : null}
-            <ol className="invitation-experiences">
+            <ol className="invitation-experiences scroll-reveal-list">
               {copy.experiences.map((experience, index) => {
                 const isAvailabilityLink = variant === "space" && index === 5;
 
@@ -210,7 +210,7 @@ export function OpenedState({
           </div>
         </section>
 
-        <nav className="invitation-action-stack" aria-label={copy.linksLabel}>
+        <nav className="invitation-action-stack scroll-reveal" aria-label={copy.linksLabel}>
           <div className="invitation-links">
             <a href={SPACE_URL} target="_blank" rel="noreferrer">
               <span>
@@ -261,7 +261,7 @@ export function OpenedState({
         </nav>
 
         <a
-          className="invitation-interest"
+          className="invitation-interest scroll-reveal"
           href={WHATSAPP_URL}
           target="_blank"
           rel="noreferrer"
@@ -273,7 +273,7 @@ export function OpenedState({
           <span className="external-link-dot" aria-hidden="true" />
         </a>
 
-        <footer className="invitation-footer">
+        <footer className="invitation-footer scroll-reveal">
           <p>{copy.footerLocation}</p>
           <p>{copy.footerDate}</p>
         </footer>

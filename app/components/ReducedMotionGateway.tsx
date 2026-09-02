@@ -155,7 +155,7 @@ export function ReducedMotionGateway({
           La casa reúne naturaleza, playa y bosque para retiros íntimos y
           residencias creativas.
         </p>
-        <a href="/retiros-cantabria">
+        <a href="https://www.origenliencres.com/retiros-cantabria">
           Retiros Cantabria
           <i className="external-link-dot" aria-hidden="true" />
         </a>
