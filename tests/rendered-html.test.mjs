@@ -75,7 +75,8 @@ test("publishes indexable Spanish and English retreat pages", async () => {
 
   assert.match(spanish, /Espacio para retiros en Cantabria/i);
   assert.match(spanish, /Origen es un espacio para organizar retiros en Cantabria/i);
-  assert.match(spanish, /Host your retreat/i);
+  assert.match(spanish, /Organiza tu retiro/i);
+  assert.doesNotMatch(spanish, /Host your retreat/i);
   assert.match(spanish, />Organizar</i);
   assert.match(
     spanish,
