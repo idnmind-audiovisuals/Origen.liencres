@@ -139,7 +139,45 @@ test("connects the existing discovery pages to all organiser pages", async () =>
     for (const { slug } of organizerRoutes.filter((route) => route.language === language)) {
       assert.ok(html.includes(`href="/${slug}"`), `${path} links to /${slug}`);
     }
+    assert.match(html, /href="\/retreat-organizers-circle"/);
   }
+});
+
+test("publishes the monthly organisers' circle in the Bros style without a password", async () => {
+  const response = await render("/retreat-organizers-circle");
+  assert.equal(response.status, 200);
+  const html = await response.text();
+  assert.match(html, /<main class="bros-page hosts-circle-page" lang="en"/);
+  assert.match(html, /invitation-texture bros-texture/);
+  assert.match(html, /class="bros-brand"/);
+  assert.match(html, /<h1 id="hosts-title"><span>Origen<\/span><span>Hosts<\/span><\/h1>/);
+  assert.equal([...html.matchAll(/<h1\b/g)].length, 1);
+  assert.match(html, /First Tuesday of every month/);
+  assert.match(html, /<time dateTime="17:00">5pm/);
+  assert.match(html, /Europe\/Madrid/);
+  assert.match(html, /daylight-saving changes/);
+  assert.match(html, /A suggested (?:<!-- -->)?90(?:<!-- -->)?-minute structure/);
+  const flowMinutes = [...html.matchAll(/class="hosts-step-duration">(\d+)(?:<!-- -->)? minutes/g)].map((match) => Number(match[1]));
+  assert.equal(flowMinutes.length, 5);
+  assert.equal(flowMinutes.reduce((total, minutes) => total + minutes, 0), 90);
+  assert.match(html, /Confidentiality/);
+  assert.match(html, /Listening before advice/);
+  assert.match(html, /One win\./);
+  assert.match(html, /One challenge\./);
+  assert.match(html, /One offer\./);
+  assert.match(html, /href="#join"/);
+  assert.match(html, /id="join"/);
+  assert.match(html, /href="https:\/\/www\.instagram\.com\/origen\.liencres\/" target="_blank" rel="noreferrer"/);
+  assert.match(html, /Opening Instagram does not register you/);
+  assert.doesNotMatch(html, /type="password"|forms\.gle|docs\.google\.com\/forms|chat\.whatsapp\.com|zoom\.us/);
+  assert.equal(meta(html, "og:url"), `${publicOrigin}/retreat-organizers-circle`);
+  assert.equal(meta(html, "og:title"), "Retreat Organisers Circle — Origen Hosts");
+  assert.equal(meta(html, "twitter:title"), meta(html, "og:title"));
+  assert.match(html, /rel="canonical" href="https:\/\/www\.origenliencres\.com\/retreat-organizers-circle"/);
+  assert.match(html, /"audienceType":"Retreat venue owners and organisers"/);
+  assert.doesNotMatch(meta(html, "robots"), /noindex/);
+  const sitemap = await (await render("/sitemap.xml")).text();
+  assert.match(sitemap, /<loc>https:\/\/www\.origenliencres\.com\/retreat-organizers-circle<\/loc>/);
 });
 
 test("keeps the existing private destinations behind the gateway", async () => {

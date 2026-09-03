@@ -43,6 +43,8 @@ Content and page metadata live in `app/lib/organizer-content.ts`; `OrganizerLand
 
 Enquiries use the existing host form and do not create bookings. Do not add pricing, services, grant funding or availability guarantees without confirmation from Origen.
 
+`/retreat-organizers-circle` is a public English invitation to **Origen Hosts**, a monthly online peer circle for retreat venue owners and organisers. It reuses the Bros slate theme, fixed background and scroll reveals without changing Bros access. Meetings are on the first Tuesday of each month at 17:00 **Europe/Madrid** (mainland Spain local time, including daylight-saving changes). `app/lib/hosts-circle.ts` contains the proposed 90-minute flow and shared agreements. The joining enquiry currently points to the existing Origen Instagram profile; no registration, video-call link, price or confirmed start date is invented. Replace that contact destination when a dedicated circle form or group is supplied. No reminder or recurring automation is created.
+
 ## Origen symbol
 
 The symbol shown in the gateway is rendered from responsive CSS circles, using the official outer-circle, inner-circle, and centre-dot proportions. No raster image is displayed in the animated composition, so the mark remains sharp at every size and through the full zoom transition.

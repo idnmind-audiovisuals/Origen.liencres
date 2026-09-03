@@ -73,5 +73,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
         ...(languages ? { alternates: { languages } } : {}),
       };
     }),
+    {
+      url: `${SITE_URL}/retreat-organizers-circle`,
+      lastModified: new Date("2026-09-03T00:00:00+02:00"),
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
   ];
 }

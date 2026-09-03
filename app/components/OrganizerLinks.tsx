@@ -14,6 +14,13 @@ export function OrganizerLinks({ language, current }: { language: RetreatLanguag
           </Link>
         ))}
       </div>
+      <Link className="organizer-circle-link" href="/retreat-organizers-circle" hrefLang="en">
+        <span>
+          <strong>{language === "es" ? "Círculo mensual de organizadores · EN" : "A monthly circle for retreat organisers"}</strong>
+          <small>{language === "es" ? "Encuentros online · Apoyo entre profesionales" : "Online gatherings · Shared experience · Mutual support"}</small>
+        </span>
+        <span className="external-link-dot" aria-hidden="true" />
+      </Link>
     </nav>
   );
 }
