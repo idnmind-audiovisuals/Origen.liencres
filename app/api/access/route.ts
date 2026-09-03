@@ -5,7 +5,8 @@ import {
   isAccessKeyConfigured,
   matchAccessKey,
 } from "../../lib/access-session";
-import { ACCESS_DESTINATION_BY_SCOPE } from "../../lib/access-types";
+import { ACCESS_DESTINATION_BY_SCOPE, getHostsCircleLanguage } from "../../lib/access-types";
+import { LANGUAGE_COOKIE_NAME } from "../../lib/language";
 
 export async function POST(request: Request) {
   if (!isAccessKeyConfigured()) {
@@ -35,9 +36,10 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: false }, { status: 401 });
   }
 
+  const destination = ACCESS_DESTINATION_BY_SCOPE[scope];
   const response = NextResponse.json({
     ok: true,
-    destination: ACCESS_DESTINATION_BY_SCOPE[scope],
+    destination,
   });
   response.cookies.set({
     name: ACCESS_COOKIE_NAME,
@@ -47,6 +49,18 @@ export async function POST(request: Request) {
     sameSite: "strict",
     path: "/",
   });
+
+  const language = getHostsCircleLanguage(destination);
+  if (language) {
+    response.cookies.set({
+      name: LANGUAGE_COOKIE_NAME,
+      value: language,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      path: "/",
+      maxAge: 31536000,
+    });
+  }
 
   return response;
 }

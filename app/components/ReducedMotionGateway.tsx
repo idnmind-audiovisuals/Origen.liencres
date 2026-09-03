@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { AccessKeyForm } from "./AccessKeyForm";
 import { BrosState } from "./BrosState";
+import { HostsCircleState } from "./HostsCircleState";
 import { ExperienceState } from "./ExperienceState";
 import { OpenedState } from "./OpenedState";
 import { OrigenWordmark } from "./OrigenWordmark";
@@ -11,7 +12,7 @@ import {
   CINEMATIC_ENTRY_EASE,
   GATEWAY_MOTION,
 } from "../lib/gateway-motion";
-import type { AccessDestination } from "../lib/access-types";
+import { getHostsCircleLanguage, type AccessDestination } from "../lib/access-types";
 import type { Language } from "../lib/language";
 
 type ReducedMotionGatewayProps = {
@@ -82,6 +83,11 @@ export function ReducedMotionGateway({
 
   if (phase === "opened" && destination === "/experience") {
     return <ExperienceState development={development} onReset={resetSession} />;
+  }
+
+  const hostsLanguage = getHostsCircleLanguage(destination);
+  if (phase === "opened" && hostsLanguage) {
+    return <HostsCircleState initialLanguage={hostsLanguage} />;
   }
 
   const unlocking = phase === "unlocking";

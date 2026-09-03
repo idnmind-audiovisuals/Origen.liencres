@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { useEffect, useState, useSyncExternalStore } from "react";
 import { AccessKeyForm } from "./AccessKeyForm";
 import { BrosState } from "./BrosState";
+import { HostsCircleState } from "./HostsCircleState";
 import { ExperienceState } from "./ExperienceState";
 import { OpenedState } from "./OpenedState";
 import { OrigenSymbolAnimation } from "./OrigenSymbolAnimation";
@@ -11,7 +12,7 @@ import { OrigenWordmark } from "./OrigenWordmark";
 import { ReducedMotionGateway } from "./ReducedMotionGateway";
 import { SuccessTransition } from "./SuccessTransition";
 import { GATEWAY_MOTION, ORGANIC_EASE } from "../lib/gateway-motion";
-import type { AccessDestination } from "../lib/access-types";
+import { getHostsCircleLanguage, type AccessDestination } from "../lib/access-types";
 import type { Language } from "../lib/language";
 
 type AccessGatewayProps = {
@@ -127,6 +128,11 @@ export function AccessGateway({
 
   if (state === "opened" && destination === "/experience") {
     return <ExperienceState development={development} onReset={resetSession} />;
+  }
+
+  const hostsLanguage = getHostsCircleLanguage(destination);
+  if (state === "opened" && hostsLanguage) {
+    return <HostsCircleState initialLanguage={hostsLanguage} />;
   }
 
   const formVisible = state === "ready";

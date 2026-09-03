@@ -15,16 +15,22 @@ The Sites production build is created with `npm run build`. Vercel uses the dedi
 
 ## Environment
 
-Copy `.env.example` to `.env.local` and set the four private access keys:
+Copy `.env.example` to `.env.local` and set the six private access keys:
 
 ```env
 ORIGEN_ACCESS_KEY=your-residency-key
 ORIGEN_BROS_ACCESS_KEY=your-bros-key
 ORIGEN_SPACE_ACCESS_KEY=your-space-key
 ORIGEN_EXPERIENCE_ACCESS_KEY=your-experience-key
+ORIGEN_HOSTS_ES_ACCESS_KEY=your-spanish-hosts-key
+ORIGEN_HOSTS_EN_ACCESS_KEY=your-english-hosts-key
 ```
 
-Do not prefix these variables with `NEXT_PUBLIC_`. Validation and cookie signing run only on the server. `ORIGEN_ACCESS_KEY` opens `/residency`; `ORIGEN_BROS_ACCESS_KEY` opens `/circulo-de-hombres`; `ORIGEN_SPACE_ACCESS_KEY` opens `/space`; and `ORIGEN_EXPERIENCE_ACCESS_KEY` opens `/experience`. The access cookie is HTTP-only, signed, same-site, scoped to the selected destination, and lasts for the current browser session. A session for one destination cannot open another protected destination.
+Do not prefix these variables with `NEXT_PUBLIC_`. Validation and cookie signing run only on the server. `ORIGEN_ACCESS_KEY` opens `/residency`; `ORIGEN_BROS_ACCESS_KEY` opens `/circulo-de-hombres`; `ORIGEN_SPACE_ACCESS_KEY` opens `/space`; and `ORIGEN_EXPERIENCE_ACCESS_KEY` opens `/experience`. The two `ORIGEN_HOSTS_…` keys open `/retreat-organizers-circle?lang=es` and `/retreat-organizers-circle?lang=en`, respectively. All keys ignore letter case and surrounding whitespace. Keep the configured values distinct.
+
+The access cookie is HTTP-only, signed, same-site, scoped to the selected destination, and lasts for the current browser session. A session for one destination cannot open another protected destination. Both Hosts scopes authorize the same circle, including its language toggle. The Hosts password selects the initial language even if an older language preference exists.
+
+Configure the same server-only variables in Vercel for the desired environments and redeploy before testing on the live domain. Local environment changes are ignored by Git and do not update Vercel or Sites runtime settings.
 
 The Origen wordmark in the top-left corner securely clears the active session and returns to the opening gateway in development and production. Development builds also include the subtle `reset session` control.
 
@@ -43,7 +49,13 @@ Content and page metadata live in `app/lib/organizer-content.ts`; `OrganizerLand
 
 Enquiries use the existing host form and do not create bookings. Do not add pricing, services, grant funding or availability guarantees without confirmation from Origen.
 
-`/retreat-organizers-circle` is a public English invitation to **Origen Hosts**, a monthly online peer circle for retreat venue owners and organisers. It reuses the Bros slate theme, fixed background and scroll reveals without changing Bros access. Meetings are on the first Tuesday of each month at 17:00 **Europe/Madrid** (mainland Spain local time, including daylight-saving changes). `app/lib/hosts-circle.ts` contains the proposed 90-minute flow and shared agreements. The joining enquiry currently points to the existing Origen Instagram profile; no registration, video-call link, price or confirmed start date is invented. Replace that contact destination when a dedicated circle form or group is supplied. No reminder or recurring automation is created.
+## Private monthly organisers’ circle
+
+`/retreat-organizers-circle` is the bilingual invitation to **Origen Hosts**, a monthly online peer circle for retreat venue owners and organisers. Its server guard requires one of the two Hosts keys; neither a query string nor another destination’s session grants access. It is excluded from the sitemap and public organiser navigation, with no-index metadata and crawler exclusions.
+
+It reuses the Bros slate theme, fixed background and scroll reveals without changing Bros access. Both full-motion and reduced-motion gateways reveal the circle after their existing success transition. The top-right ES/EN control translates the whole page and persists the preference.
+
+Meetings are on the first Tuesday of each month at 17:00 **Europe/Madrid** (mainland Spain local time, including daylight-saving changes). `app/lib/hosts-circle.ts` contains both translations, the proposed 90-minute flow and shared agreements. The joining section explicitly marks registration as not open yet, with a disabled form CTA until the owner supplies its destination. The footer Instagram icon remains a social link, not registration. No video-call link, price, confirmed start date or recurring automation is invented.
 
 ## Origen symbol
 
@@ -65,6 +77,6 @@ The `/experience` route is a separate cinematic journey through Atlantic water, 
 
 The unlocked invitation and editorial pages include an English/Spanish language control. English is the default, and the selected language is stored in the non-sensitive `origen_language` preference cookie so it remains consistent while navigating between pages. The password gateway itself remains unchanged.
 
-`AccessGateway` accepts an optional `onOpened` callback and dispatches an `origen:opened` browser event after the circle zoom reaches its final black hold. The server response selects the authorized destination while the gateway keeps the same formation and zoom animations for both access keys.
+`AccessGateway` accepts an optional `onOpened` callback and dispatches an `origen:opened` browser event after the circle zoom reaches its final black hold. The server response selects the authorized destination while the gateway keeps the same formation and zoom animations for all access keys.
 
 Visitors without a valid session always begin at the black gateway frame. During the current browser session, returning to `/` redirects to the destination authorized by the signed cookie.

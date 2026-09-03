@@ -8,6 +8,7 @@ const protectedRoutes = [
   "/circulo-de-hombres",
   "/experience",
   "/residency",
+  "/retreat-organizers-circle",
   "/space",
   "/story",
   "/vision",
