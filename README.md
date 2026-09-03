@@ -28,6 +28,21 @@ Do not prefix these variables with `NEXT_PUBLIC_`. Validation and cookie signing
 
 The Origen wordmark in the top-left corner securely clears the active session and returns to the opening gateway in development and production. Development builds also include the subtle `reset session` control.
 
+## Public organiser pages
+
+The public discovery pages (`/retiros-cantabria` and `/retreats-spain`) link to an organiser section in their own language. These routes need no password or new environment variables:
+
+| Intent | Spanish | English |
+| --- | --- | --- |
+| Venue details and suitability | `/espacio-retiros-cantabria` | `/retreat-venue-spain` |
+| Organiser process and enquiry checklist | `/organizar-retiro` | `/host-your-retreat` |
+| Retreat formats and practices | `/espacio-retiros` | — |
+| Self-directed creative stays | — | `/creative-residency-spain` |
+
+Content and page metadata live in `app/lib/organizer-content.ts`; `OrganizerLanding` shares the Space porcelain styling, scroll reveals, host enquiry form and existing gateway-return logo. Each page has its own canonical URL, description and entity-linked structured data. Only genuine language equivalents receive reciprocal hreflang links. All six routes are included once in the sitemap. They do not change access to `/space`, `/experience`, `/residency` or the men's circle.
+
+Enquiries use the existing host form and do not create bookings. Do not add pricing, services, grant funding or availability guarantees without confirmation from Origen.
+
 ## Origen symbol
 
 The symbol shown in the gateway is rendered from responsive CSS circles, using the official outer-circle, inner-circle, and centre-dot proportions. No raster image is displayed in the animated composition, so the mark remains sharp at every size and through the full zoom transition.

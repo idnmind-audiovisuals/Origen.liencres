@@ -4877,6 +4877,177 @@ button {
   }
 }
 
+/* Public organiser pages: the same porcelain, open space and fine rules as Space. */
+.organizer-page .retreat-public-hero h1 {
+  max-width: 1000px;
+  font-size: clamp(62px, 8.5vw, 140px);
+  line-height: 0.94;
+}
+
+.organizer-page :where(a, summary):focus-visible,
+.organizer-links a:focus-visible {
+  outline: 2px solid #68763d;
+  outline-offset: 6px;
+}
+
+.organizer-header-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.organizer-header-cta > span {
+  width: 7px;
+  height: 7px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: #68763d;
+}
+
+.organizer-page .organizer-jump {
+  display: inline-block;
+  margin-top: 24px;
+  padding-block: 12px;
+  border-bottom: 1px solid rgb(36 35 31 / 0.4);
+  font-size: 12px;
+}
+
+.organizer-program,
+.organizer-questions,
+.organizer-links {
+  width: min(100% - clamp(44px, 9vw, 144px), 1600px);
+  margin-inline: auto;
+}
+
+.organizer-program,
+.organizer-questions {
+  display: grid;
+  grid-template-columns: minmax(0, 4fr) minmax(0, 7fr);
+  gap: clamp(40px, 8vw, 140px);
+  padding: clamp(76px, 9vw, 140px) 0;
+  border-top: 1px solid rgb(36 35 31 / 0.3);
+}
+
+.organizer-program h2,
+.organizer-questions h2 {
+  font-size: clamp(36px, 4.5vw, 72px);
+  font-weight: 310;
+  letter-spacing: -0.055em;
+  line-height: 1.06;
+  text-wrap: balance;
+}
+
+.organizer-program ol {
+  padding: 0;
+  list-style: none;
+}
+
+.organizer-program li {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr);
+  gap: 16px;
+  padding: 34px 0;
+  border-bottom: 1px solid rgb(36 35 31 / 0.25);
+}
+
+.organizer-program li:first-child { padding-top: 0; }
+
+.organizer-number {
+  padding-top: 8px;
+  color: #68763d;
+  font-size: 10px;
+}
+
+.organizer-program h3 {
+  font-size: clamp(24px, 2.5vw, 40px);
+  font-weight: 340;
+  letter-spacing: -0.035em;
+  line-height: 1.18;
+}
+
+.organizer-program p:not(.retreat-public-eyebrow),
+.organizer-answers p {
+  max-width: 660px;
+  margin-top: 20px;
+  font-size: clamp(16px, 1.15vw, 19px);
+  font-weight: 390;
+  line-height: 1.75;
+}
+
+.organizer-page #planning { scroll-margin-top: 36px; }
+
+.organizer-page .retreat-public-details-grid article {
+  min-height: 0;
+}
+
+.organizer-page .retreat-public-details {
+  padding-bottom: clamp(76px, 9vw, 140px);
+}
+
+.organizer-answers details {
+  padding: 26px 0;
+  border-bottom: 1px solid rgb(36 35 31 / 0.25);
+}
+
+.organizer-answers details:first-child { border-top: 1px solid rgb(36 35 31 / 0.25); }
+
+.organizer-answers summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding-block: 8px;
+  font-size: clamp(18px, 1.6vw, 26px);
+  font-weight: 400;
+  letter-spacing: -0.025em;
+  line-height: 1.4;
+  list-style: none;
+  cursor: pointer;
+}
+
+.organizer-answers summary::-webkit-details-marker { display: none; }
+.organizer-answers summary .external-link-dot { flex-shrink: 0; color: #68763d; }
+.organizer-answers details[open] summary .external-link-dot { background: #68763d; }
+
+.organizer-page .retreat-public-host {
+  padding: clamp(76px, 9vw, 140px) 0;
+  color: #24231f;
+  background: transparent;
+  border-top: 1px solid rgb(36 35 31 / 0.3);
+}
+
+.organizer-page .retreat-public-host .retreat-public-eyebrow { color: #68763d; }
+.organizer-page .retreat-public-host > div:last-child { max-width: 620px; }
+.organizer-page .retreat-public-host .retreat-public-primary { min-height: 80px; font-size: clamp(18px, 1.7vw, 28px); font-weight: 380; text-transform: none; letter-spacing: -0.03em; }
+.organizer-page .retreat-public-host .organizer-enquiry-note { margin-top: 20px; max-width: 420px; font-size: 12px; line-height: 1.7; }
+
+.organizer-links {
+  padding-block: clamp(66px, 7vw, 110px);
+  border-bottom: 1px solid rgb(36 35 31 / 0.25);
+}
+
+.organizer-links > div { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 36px; }
+.organizer-links a { display: flex; min-height: 70px; align-items: center; justify-content: space-between; gap: 20px; padding-block: 16px; border-top: 1px solid rgb(36 35 31 / 0.25); font-size: clamp(17px, 1.5vw, 24px); font-weight: 380; letter-spacing: -0.02em; line-height: 1.4; }
+.organizer-links a .external-link-dot { flex-shrink: 0; color: #68763d; }
+.organizer-links a:hover,
+.organizer-links a[aria-current="page"] { color: #68763d; }
+.organizer-page .organizer-instagram { display: inline-flex; align-items: center; gap: 12px; min-height: 44px; }
+.organizer-page .organizer-other-language { display: block; padding-block: 12px; }
+
+@media (max-width: 900px) {
+  .organizer-program,
+  .organizer-questions,
+  .organizer-links { width: min(100% - 36px, 720px); }
+  .organizer-program,
+  .organizer-questions,
+  .organizer-links > div { grid-template-columns: 1fr; gap: 46px; }
+  .organizer-page .retreat-public-hero h1 { font-size: clamp(48px, 12.5vw, 88px); line-height: 0.95; }
+  .organizer-page .retreat-public-hero { padding-top: 90px; }
+  .organizer-page .retreat-public-hero-meta { margin-top: 58px; }
+  .organizer-page .retreat-public-header { gap: 20px; }
+  .organizer-links > div { gap: 14px; }
+}
+
 .retreat-faq-hero,
 .retreat-faq-list {
   width: min(1180px, calc(100% - 64px));

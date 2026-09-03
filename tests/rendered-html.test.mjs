@@ -4,6 +4,27 @@ import test from "node:test";
 
 const templateRoot = new URL("../", import.meta.url);
 
+const organizerRoutes = [
+  { slug: "retreat-venue-spain", language: "en", heading: "Retreat venue in Spain.", alternate: "espacio-retiros-cantabria" },
+  { slug: "espacio-retiros-cantabria", language: "es", heading: "Tu retiro en Cantabria.", alternate: "retreat-venue-spain" },
+  { slug: "creative-residency-spain", language: "en", heading: "Space for a creative residency." },
+  { slug: "host-your-retreat", language: "en", heading: "Host your retreat in Cantabria.", alternate: "organizar-retiro" },
+  { slug: "espacio-retiros", language: "es", heading: "Un espacio. Muchas formas de reunir." },
+  { slug: "organizar-retiro", language: "es", heading: "Organiza tu retiro en Origen.", alternate: "host-your-retreat" },
+];
+
+const publicOrigin = "https://www.origenliencres.com";
+
+function decodeHtml(value) {
+  return value.replaceAll("&amp;", "&").replaceAll("&#x27;", "'").replaceAll("&quot;", '"');
+}
+
+function meta(html, name) {
+  const match = html.match(new RegExp(`<meta (?:name|property)="${name}" content="([^"]*)"`));
+  assert.ok(match, `Expected metadata field: ${name}`);
+  return decodeHtml(match[1]);
+}
+
 async function render(pathname = "/") {
   const workerUrl = new URL("../dist/server/index.js", import.meta.url);
   workerUrl.searchParams.set("test", `${process.pid}-${Date.now()}`);
@@ -48,6 +69,85 @@ test("publishes focused SEO crawl directives", async () => {
   assert.match(sitemap, /\/retreats-spain/i);
   assert.match(sitemap, /\/host-your-retreat/i);
   assert.match(sitemap, /hreflang="es-ES"/i);
+  const urls = [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map((match) => match[1]);
+  assert.equal(new Set(urls).size, urls.length, "Sitemap must not repeat existing host route");
+  for (const { slug } of organizerRoutes) {
+    assert.ok(urls.includes(`${publicOrigin}/${slug}`), `Sitemap includes ${slug}`);
+    assert.ok(!robots.includes(`Disallow: /${slug}`), `${slug} is crawlable`);
+  }
+});
+
+test("publishes six distinct, public organiser pages in the URL's language", async () => {
+  const titles = new Set();
+  const descriptions = new Set();
+  for (const route of organizerRoutes) {
+    const response = await render(`/${route.slug}`);
+    assert.equal(response.status, 200, route.slug);
+    const html = await response.text();
+    const url = `${publicOrigin}/${route.slug}`;
+    assert.match(html, /<main class="retreat-public-page retreat-public-page--esencia organizer-page"/);
+    assert.ok(html.includes(`lang="${route.language}"`));
+    assert.ok(html.includes(`<h1 id="organizer-title">${route.heading}</h1>`));
+    assert.equal([...html.matchAll(/<h1\b/g)].length, 1);
+    assert.ok(html.includes(`rel="canonical" href="${url}"`));
+    assert.match(meta(html, "robots"), /index, follow/);
+    assert.doesNotMatch(meta(html, "robots"), /noindex|nofollow/);
+    assert.doesNotMatch(html, /<figure\b|<canvas\b|type="password"/i);
+    assert.match(html, /id="planning"/);
+    assert.match(html, /href="#planning"/);
+    assert.equal([...html.matchAll(/<details>/g)].length, 3);
+    assert.match(html, /scroll-reveal-list/);
+    assert.match(html, /href="https:\/\/docs\.google\.com\/forms\/d\/e\/1FAIpQLSf9DrIbIV4OKiswKQhuKsssMyVvuP_l8CROR0ijH0_WUQSpIw\/viewform\?usp=publish-editor" target="_blank" rel="noreferrer"/);
+    const title = decodeHtml(html.match(/<title>(.*?)<\/title>/)[1]);
+    titles.add(title);
+    descriptions.add(meta(html, "description"));
+    assert.equal(meta(html, "og:title"), title);
+    assert.equal(meta(html, "twitter:title"), title);
+    assert.equal(meta(html, "og:description"), meta(html, "description"));
+    assert.equal(meta(html, "twitter:description"), meta(html, "description"));
+    assert.equal(meta(html, "og:url"), url);
+    assert.equal(meta(html, "og:locale"), route.language === "es" ? "es_ES" : "en_GB");
+    assert.equal(meta(html, "og:image"), `${publicOrigin}/og.png`);
+    if (route.alternate) {
+      const altLang = route.language === "es" ? "en" : "es-ES";
+      assert.ok(html.includes(`hrefLang="${altLang}" href="${publicOrigin}/${route.alternate}"`) || html.includes(`hreflang="${altLang}" href="${publicOrigin}/${route.alternate}"`));
+      assert.ok(html.includes(`href="/${route.alternate}"`));
+    } else {
+      assert.doesNotMatch(html, /<link rel="alternate"[^>]*hreflang=/i, "Do not mark unrelated pages as translations");
+    }
+    const graphs = [...html.matchAll(/<script type="application\/ld\+json">(.*?)<\/script>/gs)].map((match) => JSON.parse(match[1]));
+    const graph = graphs.find((data) => data["@graph"]?.some((item) => item["@id"] === `${url}#page`));
+    assert.ok(graph, "Page-specific structured data is valid JSON");
+    const webpage = graph["@graph"].find((item) => item["@type"] === "WebPage");
+    assert.equal(webpage.inLanguage, route.language);
+    assert.equal(webpage.name, title);
+    assert.equal(webpage.about["@id"], `${publicOrigin}/#retreat-space`);
+    const service = graph["@graph"].find((item) => item["@type"] === "Service");
+    assert.equal(service.provider["@id"], `${publicOrigin}/#retreat-space`);
+    assert.ok(graph["@graph"].some((item) => item["@type"] === "BreadcrumbList"));
+    for (const related of organizerRoutes.filter((other) => other.language === route.language)) {
+      assert.ok(html.includes(`href="/${related.slug}"`), `Related page ${related.slug} is reachable`);
+    }
+  }
+  assert.equal(titles.size, organizerRoutes.length, "Every intent has a unique title");
+  assert.equal(descriptions.size, organizerRoutes.length, "Every intent has a unique description");
+});
+
+test("connects the existing discovery pages to all organiser pages", async () => {
+  for (const [path, language] of [["/retiros-cantabria", "es"], ["/retreats-spain", "en"]]) {
+    const html = await (await render(path)).text();
+    for (const { slug } of organizerRoutes.filter((route) => route.language === language)) {
+      assert.ok(html.includes(`href="/${slug}"`), `${path} links to /${slug}`);
+    }
+  }
+});
+
+test("keeps the existing private destinations behind the gateway", async () => {
+  for (const path of ["/space", "/experience", "/residency", "/circulo-de-hombres"]) {
+    const response = await render(path);
+    assert.equal(response.status, 307, `${path} requires an access session`);
+    assert.equal(new URL(response.headers.get("location"), "http://localhost").href, "http://localhost/");
+  }
 });
 
 test("publishes indexable Spanish and English retreat pages", async () => {

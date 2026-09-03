@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { organizerLanguageAlternates, organizerSlugs } from "./lib/organizer-content";
 
 const SITE_URL = "https://www.origenliencres.com";
 
@@ -62,11 +63,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
         },
       },
     },
-    {
-      url: `${SITE_URL}/host-your-retreat`,
-      lastModified,
-      changeFrequency: "monthly",
-      priority: 0.86,
-    },
+    ...organizerSlugs.map((slug): MetadataRoute.Sitemap[number] => {
+      const languages = organizerLanguageAlternates(slug);
+      return {
+        url: `${SITE_URL}/${slug}`,
+        lastModified: new Date("2026-09-03T00:00:00+02:00"),
+        changeFrequency: "monthly",
+        priority: 0.8,
+        ...(languages ? { alternates: { languages } } : {}),
+      };
+    }),
   ];
 }

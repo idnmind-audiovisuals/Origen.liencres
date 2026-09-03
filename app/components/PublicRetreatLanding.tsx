@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ORIGEN_WORDMARK_ASSET } from "../lib/brand";
+import { OrganizerLinks } from "./OrganizerLinks";
 import {
   HOST_APPLICATION_URL,
   ORIGEN_AIRBNB_URL,
@@ -170,6 +171,8 @@ export function PublicRetreatLanding({
         <a href={ORIGEN_AIRBNB_URL} target="_blank" rel="noreferrer">{copy.airbnbCta}</a>
         <Link href={copy.faqHref}>{copy.faqCta}</Link>
       </nav>
+
+      <OrganizerLinks language={language} />
 
       <footer className="retreat-public-footer scroll-reveal">
         <address>
