@@ -239,6 +239,7 @@ test("server-renders the Origen gateway", async () => {
   );
   assert.match(html, /Espacio para residencias y retiros en Cantabria/i);
   assert.match(html, /La casa reúne naturaleza, playa y bosque para retiros íntimos y residencias creativas/i);
+  assert.match(html, /residencias creativas\.<\/p><a href="\/espacio-retiros-cantabria">Organiza tu retiro<i class="external-link-dot" aria-hidden="true"><\/i><\/a>/);
   assert.doesNotMatch(html, /Conocer el espacio/i);
   assert.match(html, /origen-favicon\.png/i);
   assert.match(html, /rel="canonical" href="https:\/\/www\.origenliencres\.com\/"/i);
@@ -247,6 +248,13 @@ test("server-renders the Origen gateway", async () => {
   assert.match(html, /"latitude":43\.4571267/i);
   assert.match(html, /"telephone":"\+34622181691"/i);
   assert.doesNotMatch(html, /codex-preview|react-loading-skeleton/i);
+});
+
+test("both gateway variants link to the public retreat venue page below the introduction", async () => {
+  for (const component of ["AccessGateway", "ReducedMotionGateway"]) {
+    const source = await readFile(new URL(`../app/components/${component}.tsx`, import.meta.url), "utf8");
+    assert.match(source, /residencias creativas\.\s*<\/p>\s*<a href="\/espacio-retiros-cantabria">\s*Organiza tu retiro\s*<i className="external-link-dot" aria-hidden="true" \/>/, component);
+  }
 });
 
 test("keeps all access keys server-only and destination-scoped", async () => {
@@ -275,8 +283,8 @@ test("keeps all access keys server-only and destination-scoped", async () => {
   ]);
 
   assert.doesNotMatch(client, /ORIGEN_(?:BROS_|SPACE_)?ACCESS_KEY|Esencia/i);
-  assert.match(gateway, /href="https:\/\/www\.origenliencres\.com\/retiros-cantabria"/);
-  assert.match(gateway, /Retiros Cantabria/);
+  assert.match(gateway, /href="\/espacio-retiros-cantabria"/);
+  assert.match(gateway, /Organiza tu retiro/);
   assert.match(route, /matchAccessKey/);
   assert.match(route, /destination/);
   assert.match(session, /process\.env\.ORIGEN_ACCESS_KEY/);
