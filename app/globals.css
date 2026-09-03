@@ -2399,11 +2399,18 @@ button {
   outline: 0;
 }
 
+/* Light pages: black letterforms and a white inner O, preserving the original
+   wordmark's transparency and proportions. Dark-page marks stay unchanged. */
+.invitation-brand img,
+.editorial-brand img,
+.retreat-public-brand img {
+  filter: grayscale(1) invert(1) contrast(2);
+}
+
 .invitation-brand img {
   display: block;
   width: 100%;
   height: auto;
-  filter: invert(1);
   user-select: none;
 }
 
@@ -3384,7 +3391,6 @@ button {
   display: block;
   width: 100%;
   height: auto;
-  filter: invert(1);
   user-select: none;
 }
 
@@ -4143,11 +4149,6 @@ button {
   display: block;
   width: 100%;
   height: auto;
-  filter: brightness(0);
-}
-
-.retreat-public-page--esencia .retreat-public-brand img {
-  filter: none;
 }
 
 .retreat-public-header nav {

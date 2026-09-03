@@ -150,6 +150,25 @@ test("keeps the existing private destinations behind the gateway", async () => {
   }
 });
 
+test("uses a black wordmark with a white inner O on every light-page header", async () => {
+  const styles = await readFile(new URL("../app/globals.css", import.meta.url), "utf8");
+  const filterRule = styles.match(/\.invitation-brand img,\s*\.editorial-brand img,\s*\.retreat-public-brand img\s*\{([^}]+)\}/);
+  assert.ok(filterRule, "Invitations, editorial and public pages share the same light logo");
+  assert.match(filterRule[1], /filter: grayscale\(1\) invert\(1\) contrast\(2\);/);
+  assert.doesNotMatch(filterRule[1], /transform:|background:/, "No resizing or background is added to the logo");
+  assert.doesNotMatch(styles, /\.retreat-public-page--esencia \.retreat-public-brand img\s*\{/, "No route-specific override can restore the white lettering");
+  for (const selector of ["invitation-brand", "editorial-brand", "retreat-public-brand"]) {
+    const standaloneRule = [...styles.matchAll(new RegExp(`\\.${selector} img \\{([^}]+)\\}`, "g"))].at(-1);
+    assert.ok(standaloneRule);
+    assert.match(standaloneRule[1], /width: 100%;/);
+    assert.match(standaloneRule[1], /height: auto;/);
+    assert.doesNotMatch(standaloneRule[1], /filter:/, `${selector} keeps the shared palette`);
+  }
+  const experienceRule = styles.match(/\.experience-brand img\s*\{([^}]+)\}/);
+  assert.ok(experienceRule);
+  assert.doesNotMatch(experienceRule[1], /filter:/, "The dark experience header is unchanged");
+});
+
 test("publishes indexable Spanish and English retreat pages", async () => {
   const [spanishResponse, englishResponse, spanishFaqResponse, englishFaqResponse, hostResponse] =
     await Promise.all([
