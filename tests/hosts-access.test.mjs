@@ -81,7 +81,8 @@ test("both circle translations render after access with matching copy and pendin
     assert.match(html, /invitation-texture bros-texture/);
     assert.match(html, /class="bros-brand"/);
     assert.equal([...html.matchAll(/<h1\b/g)].length, 1);
-    assert.match(html, /<h1 id="hosts-title"><span>Origen<\/span><span>Hosts<\/span><\/h1>/);
+    assert.match(html, /<h1 id="hosts-title"><span>Retreat<\/span><span>Hosts<\/span><\/h1>/);
+    assert.doesNotMatch(html, /Origen Hosts|A circle for the people who bring others together/);
     assert.match(html, /Europe\/Madrid/);
     assert.match(html, /dateTime="17:00"/);
     assert.match(html, /name="robots" content="noindex, nofollow/);
@@ -95,7 +96,8 @@ test("both circle translations render after access with matching copy and pendin
     assert.equal(minutes.length, 5);
     assert.equal(minutes.reduce((sum, value) => sum + value, 0), 90);
     if (fixture.language === "es") {
-      assert.match(html, /Círculo de organizadores de retiros — Origen Hosts/);
+      assert.match(html, /Círculo de organizadores de retiros — Retreat Hosts/);
+      assert.match(html, /Un grupo de organizadores de espacios de retiro con propósito\./);
       assert.match(html, /Primer martes de cada mes/);
       assert.match(html, /¿Quién sostiene tu espacio\?/);
       assert.match(html, /Confidencialidad/);
@@ -108,7 +110,8 @@ test("both circle translations render after access with matching copy and pendin
       assert.match(html, /href="\/espacio-retiros-cantabria"/);
       assert.doesNotMatch(html, /Who holds space for you|Joining form coming soon/);
     } else {
-      assert.match(html, /Retreat Organisers Circle — Origen Hosts/);
+      assert.match(html, /Retreat Organisers Circle — Retreat Hosts/);
+      assert.match(html, /A group of retreat venue organizers with purpose\./);
       assert.match(html, /First Tuesday of every month/);
       assert.match(html, /daylight-saving changes/);
       assert.match(html, /Who holds space for you\?/);

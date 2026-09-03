@@ -54,13 +54,13 @@ type CircleCopy = {
 
 export const HOSTS_CIRCLE_COPY = {
   en: {
-    title: "Retreat Organisers Circle — Origen Hosts",
+    title: "Retreat Organisers Circle — Retreat Hosts",
     description: "A monthly online circle for retreat venue organisers to share challenges, celebrate successes and support one another. First Tuesday of every month, 5pm mainland Spain time.",
     back: "Origen — return to the gateway",
-    accessGranted: "Access granted. Welcome to Origen Hosts.",
+    accessGranted: "Access granted. Welcome to Retreat Hosts.",
     header: "Retreat organisers · Online",
     values: "Connection · Support · Service",
-    hero: "A circle for the people who bring others together.",
+    hero: "A group of retreat venue organizers with purpose.",
     cadence: "First Tuesday of every month",
     shortTime: "5pm",
     timeZoneLabel: "Mainland Spain time",
@@ -69,7 +69,7 @@ export const HOSTS_CIRCLE_COPY = {
     manifestoLines: ["Bring what is working.", "Bring what is difficult.", "You don’t have to hold it all alone."],
     manifestoBody: [
       "Running a retreat space can be deeply meaningful — and demanding. Behind each gathering are decisions, responsibilities and questions that are easier to carry with people who understand.",
-      "Origen Hosts is a monthly online meeting for retreat venue owners and organisers to exchange honestly, celebrate successes and support one another. A place to reconnect with why we do this work, and how we can create a more positive impact together.",
+      "Retreat Hosts is a monthly online meeting for retreat venue owners and organisers to exchange honestly, celebrate successes and support one another. A place to reconnect with why we do this work, and how we can create a more positive impact together.",
     ],
     meetingEyebrow: "A regular place to return to",
     meetingTitle: ["Once a month.", "Together."],
@@ -145,13 +145,13 @@ export const HOSTS_CIRCLE_COPY = {
     venueHref: "/retreat-venue-spain",
   },
   es: {
-    title: "Círculo de organizadores de retiros — Origen Hosts",
+    title: "Círculo de organizadores de retiros — Retreat Hosts",
     description: "Un círculo online mensual para compartir desafíos, celebrar logros y apoyarnos entre quienes gestionamos espacios de retiros. Primer martes de cada mes, a las 17:00, hora peninsular española.",
     back: "Origen — volver a la entrada",
-    accessGranted: "Acceso concedido. Te damos la bienvenida a Origen Hosts.",
+    accessGranted: "Acceso concedido. Te damos la bienvenida a Retreat Hosts.",
     header: "Organizadores de retiros · Online",
     values: "Conexión · Apoyo · Servicio",
-    hero: "Un círculo para quienes crean espacios de encuentro.",
+    hero: "Un grupo de organizadores de espacios de retiro con propósito.",
     cadence: "Primer martes de cada mes",
     shortTime: "17:00",
     timeZoneLabel: "Hora peninsular española",
@@ -160,7 +160,7 @@ export const HOSTS_CIRCLE_COPY = {
     manifestoLines: ["Trae lo que está funcionando.", "Trae lo que está siendo difícil.", "No tienes que sostenerlo todo a solas."],
     manifestoBody: [
       "Gestionar un espacio de retiros puede ser profundamente significativo, y también exigente. Detrás de cada encuentro hay decisiones, responsabilidades y preguntas que se llevan mejor con personas que comprenden lo que implica.",
-      "Origen Hosts es un encuentro online mensual para quienes gestionan espacios y organizan retiros: un lugar para compartir con honestidad, celebrar los logros y apoyarnos. Para reconectar con el sentido de lo que hacemos y explorar cómo generar un impacto más positivo juntos.",
+      "Retreat Hosts es un encuentro online mensual para quienes gestionan espacios y organizan retiros: un lugar para compartir con honestidad, celebrar los logros y apoyarnos. Para reconectar con el sentido de lo que hacemos y explorar cómo generar un impacto más positivo juntos.",
     ],
     meetingEyebrow: "Un lugar al que volver",
     meetingTitle: ["Una vez al mes.", "En compañía."],

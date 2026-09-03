@@ -45,7 +45,7 @@ export function HostsCircleState({ initialLanguage }: { initialLanguage: Languag
         <section className="bros-hero" aria-labelledby="hosts-title">
           <div className="bros-hero-title">
             <p>{copy.values}</p>
-            <h1 id="hosts-title"><span>Origen</span><span>Hosts</span></h1>
+            <h1 id="hosts-title"><span>Retreat</span><span>Hosts</span></h1>
           </div>
           <div className="bros-hero-aside">
             <p>{copy.hero}</p>
@@ -153,7 +153,7 @@ export function HostsCircleState({ initialLanguage }: { initialLanguage: Languag
           </div>
         </section>
         <footer className="bros-footer hosts-footer">
-          <p>Origen Hosts · {copy.values}</p>
+          <p>Retreat Hosts · {copy.values}</p>
           <Link href={copy.venueHref}>{copy.venueLink}<span className="external-link-dot" aria-hidden="true" /></Link>
         </footer>
         <InstagramLink />

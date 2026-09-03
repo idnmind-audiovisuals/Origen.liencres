@@ -51,7 +51,7 @@ Enquiries use the existing host form and do not create bookings. Do not add pric
 
 ## Private monthly organisers’ circle
 
-`/retreat-organizers-circle` is the bilingual invitation to **Origen Hosts**, a monthly online peer circle for retreat venue owners and organisers. Its server guard requires one of the two Hosts keys; neither a query string nor another destination’s session grants access. It is excluded from the sitemap and public organiser navigation, with no-index metadata and crawler exclusions.
+`/retreat-organizers-circle` is the bilingual invitation to **Retreat Hosts**, a monthly online peer circle for retreat venue owners and organisers. Its server guard requires one of the two Hosts keys; neither a query string nor another destination’s session grants access. It is excluded from the sitemap and public organiser navigation, with no-index metadata and crawler exclusions.
 
 It reuses the Bros slate theme, fixed background and scroll reveals without changing Bros access. Both full-motion and reduced-motion gateways reveal the circle after their existing success transition. The top-right ES/EN control translates the whole page and persists the preference.
 
