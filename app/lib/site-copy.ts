@@ -11,8 +11,8 @@ export const RESIDENCY_COPY = {
       { term: "Duration", value: "5 days" },
       {
         term: "Dates",
-        value: "09—14 Sept",
-        ariaLabel: "September 9 to 14",
+        value: "TBC",
+        ariaLabel: "Dates to be confirmed",
       },
       { term: "Place", value: "Liencres, Spain" },
     ],
@@ -38,7 +38,7 @@ export const RESIDENCY_COPY = {
     interestEyebrow: "WhatsApp",
     interest: "INTERESTED",
     footerLocation: "Origen · Liencres",
-    footerDate: "09—14 September",
+    footerDate: "TBC",
     reset: "reset session",
   },
   es: {
@@ -51,8 +51,8 @@ export const RESIDENCY_COPY = {
       { term: "Duración", value: "5 días" },
       {
         term: "Fechas",
-        value: "09—14 Sept",
-        ariaLabel: "Del 9 al 14 de septiembre",
+        value: "TBC",
+        ariaLabel: "Fechas por confirmar",
       },
       { term: "Lugar", value: "Liencres, España" },
     ],
@@ -78,7 +78,7 @@ export const RESIDENCY_COPY = {
     interestEyebrow: "WhatsApp",
     interest: "ME INTERESA",
     footerLocation: "Origen · Liencres",
-    footerDate: "09—14 Septiembre",
+    footerDate: "TBC",
     reset: "reiniciar sesión",
   },
 } as const satisfies Record<Language, object>;
