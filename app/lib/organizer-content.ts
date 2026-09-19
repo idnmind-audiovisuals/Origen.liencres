@@ -34,7 +34,7 @@ type OrganizerCopy = {
   closingBody: string;
   serviceName: string;
   serviceType: string;
-  alternate?: OrganizerSlug;
+  alternate?: OrganizerSlug | "retiro";
 };
 
 // Public, intent-specific pages. Password-protected experiences stay separate.
@@ -211,7 +211,7 @@ export const organizerPages: Record<OrganizerSlug, OrganizerCopy> = {
     closingBody: "Send your intention, possible dates and group size through the host form. A clear proposal helps us understand what you need.",
     serviceName: "Private retreat venue hire at Origen Liencres",
     serviceType: "Private retreat venue hire",
-    alternate: "organizar-retiro",
+    alternate: "retiro",
   },
   "espacio-retiros": {
     language: "es",
@@ -301,11 +301,24 @@ export const organizerPages: Record<OrganizerSlug, OrganizerCopy> = {
   },
 };
 
-export const organizerSlugs = Object.keys(organizerPages) as OrganizerSlug[];
+// Keep one clear search intent per indexable route. The legacy Spanish routes
+// redirect to `/retiro`, the canonical accommodation and booking page.
+export const organizerSlugs: OrganizerSlug[] = [
+  "retreat-venue-spain",
+  "espacio-retiros-cantabria",
+  "creative-residency-spain",
+  "host-your-retreat",
+];
 
 export function organizerLanguageAlternates(slug: OrganizerSlug) {
   const page = organizerPages[slug];
   if (!page.alternate) return undefined;
+  if (page.alternate === "retiro") {
+    return {
+      en: `${PUBLIC_SITE_URL}/${slug}`,
+      "es-ES": `${PUBLIC_SITE_URL}/retiro`,
+    };
+  }
   const alternate = organizerPages[page.alternate];
   return {
     [page.language === "es" ? "es-ES" : "en"]: `${PUBLIC_SITE_URL}/${slug}`,

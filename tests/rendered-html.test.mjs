@@ -4,13 +4,15 @@ import test from "node:test";
 
 const templateRoot = new URL("../", import.meta.url);
 
-const organizerRoutes = [
+const genericOrganizerRoutes = [
   { slug: "retreat-venue-spain", language: "en", heading: "Retreat venue in Spain.", alternate: "espacio-retiros-cantabria" },
   { slug: "espacio-retiros-cantabria", language: "es", heading: "Tu retiro en Cantabria.", alternate: "retreat-venue-spain" },
   { slug: "creative-residency-spain", language: "en", heading: "Space for a creative residency." },
-  { slug: "host-your-retreat", language: "en", heading: "Host your retreat in Cantabria.", alternate: "organizar-retiro" },
-  { slug: "espacio-retiros", language: "es", heading: "Un espacio. Muchas formas de reunir." },
-  { slug: "organizar-retiro", language: "es", heading: "Organiza tu retiro en Origen.", alternate: "host-your-retreat" },
+  { slug: "host-your-retreat", language: "en", heading: "Host your retreat in Cantabria.", alternate: "retiro" },
+];
+
+const organizerRoutes = [
+  ...genericOrganizerRoutes,
 ];
 
 const publicOrigin = "https://www.origenliencres.com";
@@ -68,6 +70,8 @@ test("publishes focused SEO crawl directives", async () => {
   assert.match(sitemap, /\/retiros-cantabria/i);
   assert.match(sitemap, /\/retreats-spain/i);
   assert.match(sitemap, /\/host-your-retreat/i);
+  assert.match(sitemap, /\/retiro/i);
+  assert.doesNotMatch(sitemap, /<loc>https:\/\/www\.origenliencres\.com\/organizar-retiro<\/loc>/i);
   assert.match(sitemap, /hreflang="es-ES"/i);
   const urls = [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map((match) => match[1]);
   assert.equal(new Set(urls).size, urls.length, "Sitemap must not repeat existing host route");
@@ -77,10 +81,10 @@ test("publishes focused SEO crawl directives", async () => {
   }
 });
 
-test("publishes six distinct, public organiser pages in the URL's language", async () => {
+test("publishes four distinct, public editorial organiser pages in the URL's language", async () => {
   const titles = new Set();
   const descriptions = new Set();
-  for (const route of organizerRoutes) {
+  for (const route of genericOrganizerRoutes) {
     const response = await render(`/${route.slug}`);
     assert.equal(response.status, 200, route.slug);
     const html = await response.text();
@@ -125,12 +129,60 @@ test("publishes six distinct, public organiser pages in the URL's language", asy
     const service = graph["@graph"].find((item) => item["@type"] === "Service");
     assert.equal(service.provider["@id"], `${publicOrigin}/#retreat-space`);
     assert.ok(graph["@graph"].some((item) => item["@type"] === "BreadcrumbList"));
-    for (const related of organizerRoutes.filter((other) => other.language === route.language)) {
+    for (const related of genericOrganizerRoutes.filter((other) => other.language === route.language)) {
       assert.ok(html.includes(`href="/${related.slug}"`), `Related page ${related.slug} is reachable`);
     }
   }
-  assert.equal(titles.size, organizerRoutes.length, "Every intent has a unique title");
-  assert.equal(descriptions.size, organizerRoutes.length, "Every intent has a unique description");
+  assert.equal(titles.size, genericOrganizerRoutes.length, "Every intent has a unique title");
+  assert.equal(descriptions.size, genericOrganizerRoutes.length, "Every intent has a unique description");
+});
+
+test("presents the house, availability and secure booking on the Spanish commercial page", async () => {
+  const response = await render("/retiro");
+  assert.equal(response.status, 200);
+  assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
+  const html = await response.text();
+
+  assert.match(html, /<main class="retreat-public-page retreat-public-page--esencia booking-page" lang="es">/);
+  assert.match(html, /<h1 id="booking-hero-title">Una casa para vivir tu retiro\.<\/h1>/);
+  assert.equal([...html.matchAll(/<h1\b/g)].length, 1);
+  assert.match(html, /id="galeria"/);
+  assert.equal([...html.matchAll(/<figure\b/g)].length, 5);
+  assert.match(html, /a0\.muscache\.com\/im\/pictures\/hosting\/Hosting-23250801/);
+  assert.match(html, /8 huéspedes/);
+  assert.match(html, /3 habitaciones · 7 camas/);
+  assert.match(html, /id="booking-rooms-title"/);
+  assert.match(html, /id="booking-amenities-title"/);
+  assert.match(html, /id="booking-host-title"/);
+  assert.match(html, /id="booking-reviews-title"/);
+  assert.match(html, /Reseñas verificadas en Airbnb/);
+  assert.match(html, /id="reservar"/);
+  assert.match(html, /Encuentra tus fechas\./);
+  assert.match(html, /Reserva la casa completa\./);
+  assert.match(html, /Abrir Airbnb/);
+  assert.match(html, /rel="canonical" href="https:\/\/www\.origenliencres\.com\/retiro"/);
+  assert.match(html, /hrefLang="en" href="https:\/\/www\.origenliencres\.com\/host-your-retreat"/);
+  assert.match(meta(html, "robots"), /index, follow/);
+  assert.equal(meta(html, "og:url"), `${publicOrigin}/retiro`);
+  assert.match(meta(html, "og:image"), /a0\.muscache\.com/);
+  const graphs = [...html.matchAll(/<script type="application\/ld\+json">(.*?)<\/script>/gs)].map((match) => JSON.parse(match[1]));
+  const graph = graphs.find((data) => data["@graph"]?.some((item) => item["@id"] === `${publicOrigin}/retiro#page`));
+  assert.ok(graph, "Booking page structured data is valid JSON");
+  assert.ok(graph["@graph"].some((item) => item["@type"] === "Service"));
+  assert.ok(graph["@graph"].some((item) => item["@type"] === "LodgingBusiness"));
+});
+
+test("keeps Airbnb calendar credentials server-side and degrades safely before configuration", async () => {
+  const response = await render("/api/availability");
+  assert.equal(response.status, 200);
+  assert.deepEqual(await response.json(), { configured: false, unavailable: [] });
+  const [route, client] = await Promise.all([
+    readFile(new URL("../app/api/availability/route.ts", import.meta.url), "utf8"),
+    readFile(new URL("../app/components/BookingCalendar.tsx", import.meta.url), "utf8"),
+  ]);
+  assert.match(route, /process\.env\.AIRBNB_ICAL_URL/);
+  assert.doesNotMatch(client, /AIRBNB_ICAL_URL/);
+  assert.match(route, /revalidate: 10_800/);
 });
 
 test("connects the existing discovery pages to all organiser pages", async () => {
@@ -220,8 +272,21 @@ test("publishes indexable Spanish and English retreat pages", async () => {
   assert.match(english, /Planning your retreat/i);
   assert.match(spanish, /Cómo organizar tu retiro/i);
   assert.match(spanishFaq, /¿Dónde puedo organizar un retiro cerca de Santander\?/i);
+  assert.match(spanishFaq, /Detalles prácticos del espacio\./i);
+  assert.match(spanishFaq, /Alojamiento para el grupo/i);
+  assert.match(spanishFaq, /Shala abierta a la naturaleza/i);
+  assert.match(spanishFaq, /Costa y bosque/i);
+  assert.match(spanishFaq, /Cerca de Santander/i);
+  assert.match(spanishFaq, /¿Se trata de un retiro programado o de un espacio\?/i);
+  assert.match(spanishFaq, /Esta página está dirigida a organizadores que traen su propio grupo y programa/i);
+  assert.match(spanishFaq, /href="\/retiro"/i);
+  assert.match(spanishFaq, /href="\/espacio-retiros-cantabria"/i);
+  assert.match(spanishFaq, /es-l\.airbnb\.com\/rooms\/23250801/i);
+  assert.match(spanishFaq, /maps\.app\.goo\.gl\/CcDJ15DKT4QvTdW4A/i);
   assert.match(spanishFaq, /"@type":"FAQPage"/i);
   assert.match(englishFaq, /Where can I host a retreat near Santander\?/i);
+  assert.match(englishFaq, /Practical venue details\./i);
+  assert.match(englishFaq, /Is this a scheduled retreat or a venue\?/i);
   assert.match(englishFaq, /"@type":"FAQPage"/i);
   assert.match(host, /Host your retreat in Cantabria/i);
   assert.match(host, /Private retreat venue hire at Origen Liencres/i);
@@ -239,7 +304,7 @@ test("server-renders the Origen gateway", async () => {
   );
   assert.match(html, /Espacio para residencias y retiros en Cantabria/i);
   assert.match(html, /La casa reúne naturaleza, playa y bosque para retiros íntimos y residencias creativas/i);
-  assert.match(html, /residencias creativas\.<\/p><a href="\/espacio-retiros-cantabria">Organiza tu retiro<i class="external-link-dot" aria-hidden="true"><\/i><\/a>/);
+  assert.match(html, /residencias creativas\.<\/p><a href="https:\/\/www\.origenliencres\.com\/retiro">Organiza tu retiro<i class="external-link-dot" aria-hidden="true"><\/i><\/a>/);
   assert.doesNotMatch(html, /Conocer el espacio/i);
   assert.match(html, /origen-favicon\.png/i);
   assert.match(html, /rel="canonical" href="https:\/\/www\.origenliencres\.com\/"/i);
@@ -253,8 +318,21 @@ test("server-renders the Origen gateway", async () => {
 test("both gateway variants link to the public retreat venue page below the introduction", async () => {
   for (const component of ["AccessGateway", "ReducedMotionGateway"]) {
     const source = await readFile(new URL(`../app/components/${component}.tsx`, import.meta.url), "utf8");
-    assert.match(source, /residencias creativas\.\s*<\/p>\s*<a href="\/espacio-retiros-cantabria">\s*Organiza tu retiro\s*<i className="external-link-dot" aria-hidden="true" \/>/, component);
+    assert.match(source, /residencias creativas\.\s*<\/p>\s*<a href="https:\/\/www\.origenliencres\.com\/retiro">\s*Organiza tu retiro\s*<i className="external-link-dot" aria-hidden="true" \/>/, component);
   }
+});
+
+test("consolidates the duplicate Spanish organiser route", async () => {
+  for (const legacyRoute of ["/espacio-retiros", "/organizar-retiro"]) {
+    const response = await render(legacyRoute);
+    assert.equal(response.status, 308);
+    assert.equal(
+      new URL(response.headers.get("location"), "http://localhost").href,
+      "http://localhost/retiro",
+    );
+  }
+  const sitemap = await (await render("/sitemap.xml")).text();
+  assert.doesNotMatch(sitemap, /<loc>https:\/\/www\.origenliencres\.com\/espacio-retiros<\/loc>/);
 });
 
 test("keeps all access keys server-only and destination-scoped", async () => {
@@ -283,7 +361,7 @@ test("keeps all access keys server-only and destination-scoped", async () => {
   ]);
 
   assert.doesNotMatch(client, /ORIGEN_(?:BROS_|SPACE_)?ACCESS_KEY|Esencia/i);
-  assert.match(gateway, /href="\/espacio-retiros-cantabria"/);
+  assert.match(gateway, /href="https:\/\/www\.origenliencres\.com\/retiro"/);
   assert.match(gateway, /Organiza tu retiro/);
   assert.match(route, /matchAccessKey/);
   assert.match(route, /destination/);
@@ -296,7 +374,7 @@ test("keeps all access keys server-only and destination-scoped", async () => {
   assert.doesNotMatch(session, /["'](?:Esencia|Bros|Espacio|Experiencia|Proposito|Purpose)["']/i);
   assert.equal(
     example,
-    "ORIGEN_ACCESS_KEY=\nORIGEN_BROS_ACCESS_KEY=\nORIGEN_SPACE_ACCESS_KEY=\nORIGEN_EXPERIENCE_ACCESS_KEY=\nORIGEN_HOSTS_ES_ACCESS_KEY=\nORIGEN_HOSTS_EN_ACCESS_KEY=\n",
+    "ORIGEN_ACCESS_KEY=\nORIGEN_BROS_ACCESS_KEY=\nORIGEN_SPACE_ACCESS_KEY=\nORIGEN_EXPERIENCE_ACCESS_KEY=\nORIGEN_HOSTS_ES_ACCESS_KEY=\nORIGEN_HOSTS_EN_ACCESS_KEY=\nAIRBNB_ICAL_URL=\nNEXT_PUBLIC_STRIPE_BROS_SUBSCRIPTION_URL=\n",
   );
   assert.match(
     bros,
@@ -306,6 +384,11 @@ test("keeps all access keys server-only and destination-scoped", async () => {
   assert.match(bros, /Un espacio de autenticidad para hombres\./);
   assert.match(bros, />\s*UNIRME\s*</);
   assert.match(bros, /<strong>Solicitar acceso<\/strong>/);
+  assert.match(bros, /NEXT_PUBLIC_STRIPE_BROS_SUBSCRIPTION_URL/);
+  assert.match(bros, /\^https:\\\/\\\/buy\\\.stripe\\\.com/);
+  assert.match(bros, /<strong>100 €<\/strong>/);
+  assert.match(bros, />\s*Suscribirme\s*/);
+  assert.match(bros, /Pago recurrente mensual procesado de forma segura por Stripe/);
   assert.match(
     invitation,
     /https:\/\/docs\.google\.com\/forms\/d\/e\/1FAIpQLScHDNpewNDGJQalw3Dvpz3hm2RzsIV1bdzRrpRHZ3ShApJJEA\/viewform\?usp=publish-editor["']/,
@@ -340,7 +423,7 @@ test("keeps all access keys server-only and destination-scoped", async () => {
   );
   assert.match(
     instagram,
-    /https:\/\/www\.instagram\.com\/origen\.liencres\//,
+    /https:\/\/www\.instagram\.com\/origenliencres\//,
   );
   assert.match(instagram, /site-instagram-icon/);
   assert.match(invitation, /<InstagramLink \/>/);

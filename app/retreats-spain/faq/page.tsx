@@ -3,7 +3,7 @@ import { PublicRetreatFaq } from "../../components/PublicRetreatFaq";
 
 const title = "Retreat venue FAQ | Origen Liencres, Cantabria";
 const description =
-  "Accommodation, capacity, beaches, private hire and how to host a small retreat near Santander at Origen Liencres.";
+  "Practical details about accommodation, the shala, capacity, coast, access, private hire and hosting a small retreat near Santander at Origen Liencres.";
 
 export const metadata: Metadata = {
   title,

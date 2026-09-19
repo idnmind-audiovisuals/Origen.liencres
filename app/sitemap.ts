@@ -63,6 +63,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
         },
       },
     },
+    {
+      url: `${SITE_URL}/retiro`,
+      lastModified: new Date("2026-09-19T00:00:00+02:00"),
+      changeFrequency: "weekly",
+      priority: 0.95,
+      alternates: {
+        languages: {
+          "es-ES": `${SITE_URL}/retiro`,
+          en: `${SITE_URL}/host-your-retreat`,
+          "x-default": `${SITE_URL}/retiro`,
+        },
+      },
+    },
     ...organizerSlugs.map((slug): MetadataRoute.Sitemap[number] => {
       const languages = organizerLanguageAlternates(slug);
       return {

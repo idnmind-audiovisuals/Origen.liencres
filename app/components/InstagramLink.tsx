@@ -1,4 +1,4 @@
-const INSTAGRAM_URL = "https://www.instagram.com/origen.liencres/";
+const INSTAGRAM_URL = "https://www.instagram.com/origenliencres/";
 
 export function InstagramLink() {
   return (

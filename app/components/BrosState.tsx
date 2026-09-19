@@ -24,6 +24,10 @@ const APPLICATION_FORM_URL =
   "https://docs.google.com/forms/d/e/1FAIpQLSd2uhreU_NDgC3-H9wOfcsP2w9Q_lixIq4Er_BsEMTTNB7W5g/viewform";
 const WHATSAPP_URL =
   "https://chat.whatsapp.com/F7Yg8F7zx1R3jA5ltgvKwS?s=cl&p=i&mlu=4";
+const STRIPE_SUBSCRIPTION_URL =
+  process.env.NEXT_PUBLIC_STRIPE_BROS_SUBSCRIPTION_URL?.trim() ?? "";
+const HAS_STRIPE_SUBSCRIPTION =
+  /^https:\/\/buy\.stripe\.com\/[A-Za-z0-9]+/.test(STRIPE_SUBSCRIPTION_URL);
 
 const MANIFESTO = [
   "No para competir.",
@@ -360,6 +364,50 @@ export function BrosState({ development, onReset }: BrosStateProps) {
             <p>
               Solo necesitas la disposición de presentarte con honestidad.
             </p>
+          </div>
+        </motion.section>
+
+        <motion.section
+          className="bros-subscription bros-section-reveal"
+          id="suscripcion"
+          aria-labelledby="subscription-title"
+          initial={reducedMotion ? false : { opacity: 0, y: 72 }}
+          whileInView={reducedMotion ? undefined : { opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.16, root: pageRef }}
+          transition={{ duration: 1.3, ease: CINEMATIC_ENTRY_EASE }}
+        >
+          <div className="bros-section-heading">
+            <p>Suscripción mensual</p>
+            <h2 id="subscription-title">Sostener el círculo.</h2>
+          </div>
+          <div className="bros-subscription-content">
+            <p className="bros-subscription-price">
+              <strong>100 €</strong>
+              <span>al mes</span>
+            </p>
+            <p className="bros-subscription-copy">
+              Una suscripción mensual para participar en los encuentros y dar
+              continuidad al proceso, al grupo y al espacio que construimos
+              juntos.
+            </p>
+            {HAS_STRIPE_SUBSCRIPTION ? (
+              <a
+                className="bros-subscription-action"
+                href={STRIPE_SUBSCRIPTION_URL}
+                target="_blank"
+                rel="noreferrer"
+              >
+                Suscribirme
+                <span className="external-link-dot" aria-hidden="true" />
+              </a>
+            ) : (
+              <p className="bros-subscription-pending" role="status">
+                Suscripción online disponible próximamente.
+              </p>
+            )}
+            <small>
+              Pago recurrente mensual procesado de forma segura por Stripe.
+            </small>
           </div>
         </motion.section>
 

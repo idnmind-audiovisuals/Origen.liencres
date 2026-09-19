@@ -3,7 +3,7 @@ import { PublicRetreatFaq } from "../../components/PublicRetreatFaq";
 
 const title = "Preguntas sobre retiros en Cantabria | Origen Liencres";
 const description =
-  "Alojamiento, capacidad, playas, privacidad y cómo organizar un retiro pequeño cerca de Santander en Origen Liencres.";
+  "Detalles prácticos sobre alojamiento, shala, capacidad, costa, accesos, privacidad y cómo organizar un retiro cerca de Santander en Origen Liencres.";
 
 export const metadata: Metadata = {
   title,

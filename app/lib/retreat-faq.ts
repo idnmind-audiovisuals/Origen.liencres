@@ -10,7 +10,34 @@ export const retreatFaqCopy = {
     backHref: "/retiros-cantabria",
     alternateLabel: "EN",
     alternateHref: "/retreats-spain/faq",
+    practicalEyebrow: "Antes de organizar",
+    practicalTitle: "Detalles prácticos del espacio.",
+    practicalIntro:
+      "Una visión clara de lo que ofrece la casa y de lo que conviene confirmar antes de abrir plazas para tu grupo.",
+    practicalItems: [
+      {
+        title: "Alojamiento para el grupo",
+        body: "Una base residencial para hasta 8 personas. Consulta la distribución de habitaciones y camas antes de cerrar el número de participantes.",
+      },
+      {
+        title: "Shala abierta a la naturaleza",
+        body: "Un espacio de práctica para movimiento, embodiment y trabajo grupal. Comparte las necesidades de material y montaje de tus sesiones.",
+      },
+      {
+        title: "Costa y bosque",
+        body: "Playas, senderos costeros y el paisaje de Costa Quebrada cerca de la casa. Conviene adaptar las actividades exteriores al tiempo del norte.",
+      },
+      {
+        title: "Cerca de Santander",
+        body: "Origen está en Liencres, a unos 25 minutos por carretera del aeropuerto de Santander. Prevé cómo llegará y se desplazará el grupo.",
+      },
+    ],
     questions: [
+      {
+        question: "¿Se trata de un retiro programado o de un espacio?",
+        answer:
+          "Esta página está dirigida a organizadores que traen su propio grupo y programa. Envíanos tu idea para valorar una estancia privada.",
+      },
       {
         question: "¿Dónde puedo organizar un retiro cerca de Santander?",
         answer:
@@ -57,6 +84,11 @@ export const retreatFaqCopy = {
     hostBody:
       "Comparte tu propuesta, fechas y número de participantes para comprobar disponibilidad y encaje.",
     hostCta: "Enviar propuesta",
+    bookingCta: "Disponibilidad y reserva",
+    spaceCta: "Detalles del espacio",
+    airbnbCta: "Ver alojamiento",
+    mapCta: "Google Maps",
+    footerLine: "Retiros · Residencias · Grupos privados",
   },
   en: {
     eyebrow: "Frequently asked questions · Origen Liencres",
@@ -67,7 +99,34 @@ export const retreatFaqCopy = {
     backHref: "/retreats-spain",
     alternateLabel: "ES",
     alternateHref: "/retiros-cantabria/preguntas-frecuentes",
+    practicalEyebrow: "Before you organise",
+    practicalTitle: "Practical venue details.",
+    practicalIntro:
+      "A clear view of what the house offers and what to confirm before opening places for your group.",
+    practicalItems: [
+      {
+        title: "Accommodation for the group",
+        body: "A residential base for up to 8 guests. Review the room and bed layout before confirming participant numbers.",
+      },
+      {
+        title: "Nature-facing shala",
+        body: "A practice space for movement, embodiment and group work. Share your equipment and session setup needs in advance.",
+      },
+      {
+        title: "Coast and forest",
+        body: "Beaches, coastal paths and the Costa Quebrada landscape are close to the house. Plan outdoor activities around Northern Spain’s changing weather.",
+      },
+      {
+        title: "Close to Santander",
+        body: "Origen is in Liencres, around 25 minutes by road from Santander Airport. Plan how your group will arrive and move around.",
+      },
+    ],
     questions: [
+      {
+        question: "Is this a scheduled retreat or a venue?",
+        answer:
+          "This page is for organisers bringing their own group and programme. Send us your idea so we can review a private venue stay.",
+      },
       {
         question: "Where can I host a retreat near Santander?",
         answer:
@@ -114,5 +173,10 @@ export const retreatFaqCopy = {
     hostBody:
       "Share your proposal, dates and group size so we can review availability and fit.",
     hostCta: "Send your proposal",
+    bookingCta: "Availability and booking",
+    spaceCta: "Venue details",
+    airbnbCta: "View accommodation",
+    mapCta: "Google Maps",
+    footerLine: "Retreats · Residencies · Private groups",
   },
 } as const satisfies Record<RetreatLanguage, object>;

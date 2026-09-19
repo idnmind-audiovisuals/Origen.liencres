@@ -14,6 +14,784 @@
   --wordmark-width: calc(var(--portal-size) * 0.586968);
 }
 
+/* Organizar un retiro — house presentation and booking */
+.booking-page {
+  --booking-line: rgb(36 35 31 / 0.18);
+}
+
+.booking-hero,
+.booking-gallery,
+.booking-listing-summary,
+.booking-story,
+.booking-details,
+.booking-rooms,
+.booking-amenities,
+.booking-panel,
+.booking-host,
+.booking-reviews,
+.booking-location {
+  width: min(1480px, calc(100% - 64px));
+  margin-inline: auto;
+}
+
+.booking-hero {
+  display: grid;
+  min-height: min(720px, calc(100svh - 112px));
+  padding: clamp(84px, 10vw, 160px) 0 clamp(70px, 9vw, 140px);
+  grid-template-columns: minmax(0, 1.25fr) minmax(320px, 0.55fr);
+  align-items: end;
+  gap: clamp(48px, 9vw, 160px);
+}
+
+.booking-hero h1 {
+  max-width: 970px;
+  margin: 0;
+  font-size: clamp(62px, 8.4vw, 142px);
+  font-weight: 290;
+  letter-spacing: -0.073em;
+  line-height: 0.88;
+  text-wrap: balance;
+}
+
+.booking-hero-intro {
+  padding-bottom: 10px;
+}
+
+.booking-hero-intro > p {
+  margin: 0;
+  font-size: clamp(17px, 1.35vw, 22px);
+  font-weight: 380;
+  line-height: 1.68;
+}
+
+.booking-gallery {
+  position: relative;
+  display: grid;
+  height: min(76svh, 900px);
+  min-height: 620px;
+  grid-template-columns: minmax(0, 1.8fr) repeat(2, minmax(0, 0.7fr));
+  grid-template-rows: repeat(2, 1fr);
+  gap: 8px;
+  overflow: hidden;
+  background: #d4d0c6;
+}
+
+.booking-gallery figure {
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  margin: 0;
+  overflow: hidden;
+  background: #55584c;
+}
+
+.booking-gallery-main {
+  grid-row: 1 / -1;
+}
+
+.booking-gallery img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 900ms cubic-bezier(0.2, 0.65, 0.2, 1);
+}
+
+.booking-gallery figure:hover img {
+  transform: scale(1.025);
+}
+
+.booking-gallery-link {
+  position: absolute;
+  right: 24px;
+  bottom: 24px;
+  display: inline-flex;
+  min-height: 46px;
+  padding: 0 18px;
+  align-items: center;
+  color: #24231f !important;
+  background: #f2efe8;
+  border: 1px solid rgb(36 35 31 / 0.2);
+  font-size: 9px;
+  font-weight: 620;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.booking-listing-summary {
+  display: flex;
+  padding: clamp(44px, 5vw, 76px) 0;
+  align-items: end;
+  justify-content: space-between;
+  gap: 42px;
+  border-bottom: 1px solid var(--booking-line);
+}
+
+.booking-listing-summary h2 {
+  max-width: 920px;
+  margin: 12px 0 0;
+  font-size: clamp(30px, 4vw, 62px);
+  font-weight: 330;
+  letter-spacing: -0.055em;
+  line-height: 1.02;
+}
+
+.booking-listing-summary > div > p:last-child {
+  margin: 22px 0 0;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.booking-listing-summary > a,
+.booking-host a {
+  display: inline-flex;
+  min-height: 50px;
+  padding: 0 18px;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  border: 1px solid var(--booking-line);
+  font-size: 9px;
+  font-weight: 620;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.booking-story,
+.booking-location {
+  display: grid;
+  padding: clamp(110px, 14vw, 220px) 0;
+  grid-template-columns: minmax(0, 1fr) minmax(340px, 0.7fr);
+  gap: clamp(60px, 11vw, 190px);
+  border-bottom: 1px solid var(--booking-line);
+}
+
+.booking-story h2,
+.booking-details h2,
+.booking-rooms h2,
+.booking-amenities h2,
+.booking-panel h2,
+.booking-host h2,
+.booking-reviews h2,
+.booking-location h2 {
+  max-width: 900px;
+  margin: 0;
+  font-size: clamp(42px, 5.5vw, 88px);
+  font-weight: 300;
+  letter-spacing: -0.06em;
+  line-height: 0.98;
+  text-wrap: balance;
+}
+
+.booking-story > div:last-child,
+.booking-location > div:last-child {
+  align-self: end;
+}
+
+.booking-story > div:last-child {
+  display: grid;
+  gap: 26px;
+}
+
+.booking-story > div:last-child p,
+.booking-location > div:last-child p {
+  margin: 0;
+  font-size: clamp(16px, 1.25vw, 20px);
+  line-height: 1.75;
+}
+
+.booking-details {
+  padding: clamp(110px, 14vw, 220px) 0;
+}
+
+.booking-details-heading {
+  display: grid;
+  margin-bottom: clamp(64px, 8vw, 120px);
+  grid-template-columns: minmax(220px, 0.55fr) minmax(0, 1fr);
+  gap: clamp(50px, 9vw, 160px);
+  align-items: end;
+}
+
+.booking-detail-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-top: 1px solid var(--booking-line);
+  border-left: 1px solid var(--booking-line);
+}
+
+.booking-detail-grid article {
+  min-height: 330px;
+  padding: clamp(30px, 3.5vw, 54px);
+  border-right: 1px solid var(--booking-line);
+  border-bottom: 1px solid var(--booking-line);
+}
+
+.booking-detail-grid article > span {
+  display: block;
+  margin-bottom: clamp(56px, 7vw, 104px);
+  color: #68763d;
+  font-size: 9px;
+  letter-spacing: 0.16em;
+}
+
+.booking-detail-grid h3 {
+  margin: 0;
+  font-size: clamp(24px, 2.4vw, 38px);
+  font-weight: 340;
+  letter-spacing: -0.04em;
+}
+
+.booking-detail-grid p {
+  margin: 26px 0 0;
+  font-size: 14px;
+  line-height: 1.72;
+}
+
+.booking-rooms,
+.booking-amenities {
+  padding: clamp(100px, 13vw, 190px) 0;
+  border-top: 1px solid var(--booking-line);
+}
+
+.booking-section-heading {
+  display: grid;
+  margin-bottom: clamp(58px, 8vw, 112px);
+  grid-template-columns: minmax(220px, 0.5fr) minmax(0, 1fr) minmax(280px, 0.55fr);
+  gap: clamp(34px, 6vw, 100px);
+  align-items: end;
+}
+
+.booking-section-heading > p:last-child {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.72;
+}
+
+.booking-room-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-top: 1px solid var(--booking-line);
+  border-left: 1px solid var(--booking-line);
+}
+
+.booking-room-grid article {
+  min-height: 330px;
+  padding: clamp(30px, 3.5vw, 52px);
+  border-right: 1px solid var(--booking-line);
+  border-bottom: 1px solid var(--booking-line);
+}
+
+.booking-room-grid article > span {
+  display: block;
+  margin-bottom: clamp(80px, 9vw, 142px);
+  color: #68763d;
+  font-size: 9px;
+  letter-spacing: 0.16em;
+}
+
+.booking-room-grid h3 {
+  margin: 0;
+  font-size: clamp(25px, 2.7vw, 42px);
+  font-weight: 340;
+  letter-spacing: -0.045em;
+  line-height: 1.05;
+}
+
+.booking-room-grid p {
+  margin: 26px 0 0;
+  font-size: 14px;
+  line-height: 1.72;
+}
+
+.booking-amenities-grid {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border-top: 1px solid var(--booking-line);
+  list-style: none;
+}
+
+.booking-amenities-grid li {
+  display: flex;
+  min-height: 84px;
+  padding: 20px 10px 20px 0;
+  align-items: center;
+  gap: 20px;
+  border-bottom: 1px solid var(--booking-line);
+  font-size: clamp(15px, 1.3vw, 20px);
+}
+
+.booking-amenities-grid li:nth-child(odd) {
+  margin-right: clamp(22px, 4vw, 72px);
+}
+
+.booking-amenities-grid li:nth-child(even) {
+  margin-left: clamp(22px, 4vw, 72px);
+}
+
+.booking-amenities-grid li > span {
+  width: 9px;
+  height: 9px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: #68763d;
+}
+
+.booking-panel {
+  padding: clamp(100px, 13vw, 200px) clamp(24px, 5.5vw, 90px);
+  color: #f2efe8;
+  background: #24231f;
+}
+
+.booking-panel .retreat-public-eyebrow {
+  color: #aab58a;
+}
+
+.booking-panel-heading {
+  display: grid;
+  margin-bottom: clamp(70px, 9vw, 130px);
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 0.55fr);
+  gap: clamp(50px, 9vw, 150px);
+  align-items: end;
+}
+
+.booking-panel-heading > p {
+  margin: 0;
+  color: rgb(242 239 232 / 0.72);
+  font-size: clamp(15px, 1.1vw, 18px);
+  line-height: 1.7;
+}
+
+.booking-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(330px, 0.58fr);
+  gap: clamp(38px, 6vw, 94px);
+  align-items: start;
+}
+
+.booking-calendar-card {
+  min-width: 0;
+  padding: clamp(22px, 3.2vw, 48px);
+  color: #24231f;
+  background: #f2efe8;
+}
+
+.booking-calendar-nav {
+  display: grid;
+  margin-bottom: 34px;
+  grid-template-columns: 44px 1fr 44px;
+  align-items: center;
+}
+
+.booking-calendar-nav p {
+  margin: 0;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.booking-calendar-nav button,
+.booking-days button,
+.booking-summary dd button {
+  color: inherit;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  cursor: pointer;
+}
+
+.booking-calendar-nav button {
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--booking-line);
+  border-radius: 50%;
+}
+
+.booking-calendar-nav button:disabled {
+  opacity: 0.25;
+  cursor: not-allowed;
+}
+
+.booking-months {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(28px, 4vw, 64px);
+}
+
+.booking-month h3 {
+  margin: 0 0 24px;
+  font-size: 18px;
+  font-weight: 520;
+  text-transform: capitalize;
+}
+
+.booking-month h3 span {
+  color: rgb(36 35 31 / 0.52);
+  font-weight: 380;
+}
+
+.booking-weekdays,
+.booking-days {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+
+.booking-weekdays {
+  margin-bottom: 10px;
+}
+
+.booking-weekdays span {
+  color: rgb(36 35 31 / 0.52);
+  font-size: 8px;
+  font-weight: 620;
+  letter-spacing: 0.12em;
+  text-align: center;
+}
+
+.booking-days button,
+.booking-day-spacer {
+  aspect-ratio: 1;
+}
+
+.booking-days button {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  width: 100%;
+  border-radius: 50%;
+  place-items: center;
+  font-size: clamp(11px, 0.9vw, 14px);
+}
+
+.booking-days button:hover:not(:disabled),
+.booking-days button:focus-visible:not(:disabled) {
+  outline: 1px solid #68763d;
+  outline-offset: -2px;
+}
+
+.booking-days button:disabled {
+  color: rgb(36 35 31 / 0.23);
+  text-decoration: line-through;
+  cursor: not-allowed;
+}
+
+.booking-days button.is-selected {
+  color: #f2efe8;
+  background: #68763d;
+}
+
+.booking-days button.is-in-range::before {
+  position: absolute;
+  z-index: -1;
+  inset: 20% -12%;
+  background: rgb(104 118 61 / 0.12);
+  content: "";
+}
+
+.booking-calendar-message {
+  min-height: 20px;
+  margin: 30px 0 0;
+  color: rgb(36 35 31 / 0.68);
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.booking-summary {
+  position: sticky;
+  top: 30px;
+  padding: clamp(28px, 3.4vw, 50px);
+  border: 1px solid rgb(242 239 232 / 0.3);
+}
+
+.booking-summary h3 {
+  margin: 0;
+  font-size: clamp(28px, 3vw, 44px);
+  font-weight: 330;
+  letter-spacing: -0.045em;
+  line-height: 1.05;
+}
+
+.booking-summary > div:first-child > p:last-child {
+  margin: 22px 0 0;
+  color: rgb(242 239 232 / 0.62);
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+.booking-summary dl {
+  margin: 42px 0 0;
+  border-top: 1px solid rgb(242 239 232 / 0.24);
+}
+
+.booking-summary dl > div {
+  display: flex;
+  min-height: 68px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  border-bottom: 1px solid rgb(242 239 232 / 0.24);
+}
+
+.booking-summary dt {
+  font-size: 9px;
+  font-weight: 620;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.booking-summary dd {
+  display: flex;
+  margin: 0;
+  align-items: center;
+  gap: 12px;
+  font-size: 12px;
+}
+
+.booking-summary dd button {
+  display: grid;
+  width: 28px;
+  height: 28px;
+  color: #f2efe8;
+  border: 1px solid rgb(242 239 232 / 0.32);
+  border-radius: 50%;
+  place-items: center;
+}
+
+.booking-primary,
+.booking-secondary {
+  display: flex;
+  min-height: 58px;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 620;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.booking-primary {
+  margin-top: 32px;
+  gap: 24px;
+  color: #24231f !important;
+  background: #f2efe8;
+}
+
+.booking-primary .external-link-dot {
+  color: #68763d;
+}
+
+.booking-secondary {
+  margin-top: 12px;
+  color: #f2efe8 !important;
+  border: 1px solid rgb(242 239 232 / 0.32);
+}
+
+.booking-summary small {
+  display: block;
+  margin-top: 24px;
+  color: rgb(242 239 232 / 0.5);
+  font-size: 10px;
+  line-height: 1.55;
+}
+
+.booking-host,
+.booking-reviews {
+  display: grid;
+  padding: clamp(100px, 13vw, 190px) 0;
+  grid-template-columns: minmax(220px, 0.48fr) minmax(0, 1fr);
+  gap: clamp(50px, 10vw, 180px);
+  border-bottom: 1px solid var(--booking-line);
+}
+
+.booking-host-mark {
+  display: grid;
+  width: clamp(120px, 15vw, 230px);
+  aspect-ratio: 1;
+  align-self: start;
+  color: #f2efe8;
+  border-radius: 50%;
+  background: #68763d;
+  place-items: center;
+  font-size: clamp(42px, 6vw, 92px);
+  font-weight: 300;
+  letter-spacing: -0.08em;
+}
+
+.booking-host > div:last-child,
+.booking-reviews > div:last-child {
+  max-width: 800px;
+}
+
+.booking-host h2,
+.booking-reviews h2 {
+  margin-top: 18px;
+}
+
+.booking-host p:not(.retreat-public-eyebrow),
+.booking-reviews p:not(.retreat-public-eyebrow) {
+  max-width: 650px;
+  margin: 40px 0 0;
+  font-size: clamp(16px, 1.2vw, 20px);
+  line-height: 1.75;
+}
+
+.booking-host a {
+  margin-top: 42px;
+}
+
+.booking-reviews {
+  align-items: end;
+}
+
+.booking-reviews .retreat-public-primary {
+  margin-top: 40px;
+}
+
+.booking-location > div:last-child a {
+  display: inline-flex;
+  margin-top: 34px;
+  align-items: center;
+  gap: 18px;
+  border-bottom: 1px solid currentColor;
+  font-size: 10px;
+  font-weight: 620;
+  letter-spacing: 0.12em;
+  line-height: 2;
+  text-transform: uppercase;
+}
+
+@media (max-width: 1000px) {
+  .booking-hero,
+  .booking-story,
+  .booking-section-heading,
+  .booking-panel-heading,
+  .booking-layout,
+  .booking-host,
+  .booking-reviews,
+  .booking-location {
+    grid-template-columns: 1fr;
+  }
+
+  .booking-hero {
+    min-height: auto;
+  }
+
+  .booking-gallery {
+    height: 680px;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: 2fr repeat(2, 1fr);
+  }
+
+  .booking-gallery-main {
+    grid-column: 1 / -1;
+    grid-row: auto;
+  }
+
+  .booking-detail-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .booking-room-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .booking-summary {
+    position: static;
+  }
+}
+
+@media (max-width: 700px) {
+  .booking-hero,
+  .booking-gallery,
+  .booking-listing-summary,
+  .booking-story,
+  .booking-details,
+  .booking-rooms,
+  .booking-amenities,
+  .booking-panel,
+  .booking-host,
+  .booking-reviews,
+  .booking-location {
+    width: min(100% - 36px, 620px);
+  }
+
+  .booking-page .retreat-public-header nav > a:nth-child(2),
+  .booking-page .retreat-public-header nav > a:nth-child(3) {
+    display: none;
+  }
+
+  .booking-hero {
+    padding-top: 90px;
+  }
+
+  .booking-hero h1 {
+    font-size: clamp(58px, 18vw, 92px);
+  }
+
+  .booking-gallery {
+    width: 100%;
+    height: 560px;
+    min-height: 0;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: 2.2fr 1fr;
+    gap: 4px;
+  }
+
+  .booking-gallery figure:nth-of-type(n + 4) {
+    display: none;
+  }
+
+  .booking-gallery-link {
+    right: 14px;
+    bottom: 14px;
+  }
+
+  .booking-listing-summary {
+    display: grid;
+    align-items: start;
+  }
+
+  .booking-details-heading,
+  .booking-detail-grid,
+  .booking-room-grid,
+  .booking-amenities-grid,
+  .booking-months {
+    grid-template-columns: 1fr;
+  }
+
+  .booking-detail-grid article {
+    min-height: 270px;
+  }
+
+  .booking-amenities-grid li:nth-child(n) {
+    margin-inline: 0;
+  }
+
+  .booking-host,
+  .booking-reviews {
+    grid-template-columns: 1fr;
+  }
+
+  .booking-months .booking-month:nth-child(2) {
+    display: none;
+  }
+
+  .booking-panel {
+    width: 100%;
+  }
+
+  .booking-calendar-card {
+    padding: 20px 14px 26px;
+  }
+
+  .booking-summary {
+    padding: 28px 22px;
+  }
+}
+
 * {
   box-sizing: border-box;
 }
@@ -3084,7 +3862,8 @@ button {
 .bros-circle,
 .bros-intentions,
 .bros-agreements,
-.bros-needs {
+.bros-needs,
+.bros-subscription {
   display: grid;
   border-top: 1px solid var(--ink);
   grid-template-columns: minmax(190px, 0.56fr) minmax(0, 1.44fr);
@@ -3123,7 +3902,8 @@ button {
 .bros-circle,
 .bros-intentions,
 .bros-agreements,
-.bros-needs {
+.bros-needs,
+.bros-subscription {
   padding: clamp(56px, 7vw, 110px) 0 clamp(90px, 12vw, 190px);
 }
 
@@ -3254,6 +4034,85 @@ button {
   margin-top: 7px;
 }
 
+.bros-subscription-content {
+  max-width: 850px;
+}
+
+.bros-subscription-price {
+  display: flex;
+  margin: 0;
+  align-items: flex-end;
+  gap: clamp(14px, 2vw, 30px);
+}
+
+.bros-subscription-price strong {
+  font-size: clamp(72px, 10vw, 160px);
+  font-weight: 280;
+  letter-spacing: -0.075em;
+  line-height: 0.8;
+}
+
+.bros-subscription-price span {
+  padding-bottom: clamp(4px, 1vw, 14px);
+  font-size: clamp(10px, 0.9vw, 14px);
+  font-weight: 520;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.bros-subscription-copy {
+  max-width: 710px;
+  margin: clamp(50px, 6vw, 84px) 0 0;
+  font-size: clamp(19px, 2.2vw, 34px);
+  font-weight: 330;
+  letter-spacing: -0.034em;
+  line-height: 1.3;
+}
+
+.bros-subscription-action,
+.bros-subscription-pending {
+  display: flex;
+  width: 100%;
+  min-height: 86px;
+  margin: clamp(52px, 6vw, 88px) 0 0;
+  padding: 20px 0;
+  border-top: 1px solid var(--ink);
+  border-bottom: 1px solid var(--ink);
+  align-items: center;
+  justify-content: space-between;
+  color: var(--ink);
+  font-size: clamp(24px, 3.5vw, 56px);
+  font-weight: 340;
+  letter-spacing: -0.045em;
+  line-height: 1;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.bros-subscription-action {
+  transition: padding 280ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.bros-subscription-action:hover,
+.bros-subscription-action:focus-visible {
+  padding-inline: 16px;
+  outline: 0;
+}
+
+.bros-subscription-pending {
+  color: rgb(242 239 232 / 0.58);
+  font-size: clamp(16px, 1.6vw, 24px);
+  text-transform: none;
+}
+
+.bros-subscription-content > small {
+  display: block;
+  margin-top: 22px;
+  color: rgb(242 239 232 / 0.62);
+  font-size: 12px;
+  line-height: 1.65;
+}
+
 .bros-actions {
   display: grid;
   border-top: 1px solid var(--ink);
@@ -3345,6 +4204,7 @@ button {
 .bros-page .bros-intentions,
 .bros-page .bros-agreements,
 .bros-page .bros-needs,
+.bros-page .bros-subscription,
 .bros-page .bros-practices li,
 .bros-page .bros-intentions li,
 .bros-page .bros-agreements dl > div,
@@ -3799,7 +4659,8 @@ button {
   .bros-circle,
   .bros-intentions,
   .bros-agreements,
-  .bros-needs {
+  .bros-needs,
+  .bros-subscription {
     display: block;
   }
 
@@ -3820,12 +4681,17 @@ button {
   .bros-circle,
   .bros-intentions,
   .bros-agreements,
-  .bros-needs {
+  .bros-needs,
+  .bros-subscription {
     padding: 60px 0 112px;
   }
 
   .bros-section-heading,
   .bros-needs > p {
+    margin-bottom: 76px;
+  }
+
+  .bros-subscription .bros-section-heading {
     margin-bottom: 76px;
   }
 
@@ -3878,6 +4744,24 @@ button {
 
   .bros-needs div > p {
     font-size: 17px;
+  }
+
+  .bros-subscription-price strong {
+    font-size: clamp(76px, 24vw, 116px);
+  }
+
+  .bros-subscription-copy {
+    font-size: 21px;
+  }
+
+  .bros-subscription-action,
+  .bros-subscription-pending {
+    min-height: 76px;
+    font-size: clamp(23px, 8vw, 38px);
+  }
+
+  .bros-subscription-pending {
+    font-size: 16px;
   }
 
   .bros-actions {
@@ -5106,7 +5990,8 @@ button {
 }
 
 .retreat-faq-hero,
-.retreat-faq-list {
+.retreat-faq-list,
+.retreat-faq-practical {
   width: min(1180px, calc(100% - 64px));
   margin-inline: auto;
 }
@@ -5131,6 +6016,80 @@ button {
   font-size: clamp(18px, 1.55vw, 24px);
   font-weight: 370;
   line-height: 1.65;
+}
+
+.retreat-faq-practical {
+  padding: clamp(40px, 5vw, 76px) 0 clamp(110px, 14vw, 220px);
+}
+
+.retreat-faq-practical-heading {
+  display: grid;
+  padding: clamp(64px, 8vw, 112px) 0;
+  grid-template-columns: minmax(0, 1.1fr) minmax(300px, 0.7fr);
+  column-gap: clamp(50px, 9vw, 140px);
+  border-top: 1px solid rgb(36 35 31 / 0.18);
+}
+
+.retreat-faq-practical-heading .retreat-public-eyebrow {
+  grid-column: 1 / -1;
+}
+
+.retreat-faq-practical-heading h2 {
+  max-width: 760px;
+  margin: 0;
+  font-size: clamp(42px, 5.5vw, 86px);
+  font-weight: 300;
+  letter-spacing: -0.06em;
+  line-height: 0.98;
+  text-wrap: balance;
+}
+
+.retreat-faq-practical-heading > p:last-child {
+  margin: 0;
+  align-self: end;
+  font-size: clamp(16px, 1.2vw, 20px);
+  line-height: 1.75;
+}
+
+.retreat-faq-practical-grid {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border-top: 1px solid rgb(36 35 31 / 0.18);
+  border-left: 1px solid rgb(36 35 31 / 0.18);
+  list-style: none;
+}
+
+.retreat-faq-practical-grid li {
+  min-height: 330px;
+  padding: clamp(28px, 4vw, 56px);
+  border-right: 1px solid rgb(36 35 31 / 0.18);
+  border-bottom: 1px solid rgb(36 35 31 / 0.18);
+}
+
+.retreat-faq-practical-grid li > span {
+  display: block;
+  margin-bottom: clamp(54px, 7vw, 100px);
+  color: #68763d;
+  font-size: 9px;
+  font-weight: 620;
+  letter-spacing: 0.16em;
+}
+
+.retreat-faq-practical-grid h3 {
+  margin: 0;
+  font-size: clamp(25px, 2.6vw, 42px);
+  font-weight: 340;
+  letter-spacing: -0.045em;
+  line-height: 1.08;
+}
+
+.retreat-faq-practical-grid p {
+  max-width: 510px;
+  margin: 28px 0 0;
+  font-size: clamp(14px, 1.05vw, 17px);
+  line-height: 1.75;
 }
 
 .retreat-faq-list {
@@ -5178,6 +6137,14 @@ button {
   margin-bottom: clamp(32px, 4vw, 64px);
 }
 
+.retreat-faq-links {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.retreat-faq-links a:nth-child(2n) {
+  border-right: 0;
+}
+
 .retreat-host-hero .retreat-public-primary {
   margin-top: 48px;
 }
@@ -5208,8 +6175,27 @@ button {
 
 @media (max-width: 900px) {
   .retreat-faq-hero,
-  .retreat-faq-list {
+  .retreat-faq-list,
+  .retreat-faq-practical {
     width: min(100% - 36px, 720px);
+  }
+
+  .retreat-faq-practical-heading,
+  .retreat-faq-practical-grid,
+  .retreat-faq-links {
+    grid-template-columns: 1fr;
+  }
+
+  .retreat-faq-practical-heading {
+    gap: 36px;
+  }
+
+  .retreat-faq-practical-grid li {
+    min-height: 280px;
+  }
+
+  .retreat-faq-links a {
+    border-right: 0;
   }
 
   .retreat-faq-list article {

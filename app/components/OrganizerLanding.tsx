@@ -9,6 +9,7 @@ export function OrganizerLanding({ slug }: { slug: OrganizerSlug }) {
   const spanish = copy.language === "es";
   const overview = spanish ? "/retiros-cantabria" : "/retreats-spain";
   const faq = spanish ? "/retiros-cantabria/preguntas-frecuentes" : "/retreats-spain/faq";
+  const commercialPage = spanish ? "/retiro" : "/host-your-retreat";
   const url = `${PUBLIC_SITE_URL}/${slug}`;
   const structuredData = {
     "@context": "https://schema.org",
@@ -45,9 +46,9 @@ export function OrganizerLanding({ slug }: { slug: OrganizerSlug }) {
         <GatewayBrandLink className="retreat-public-brand" label={spanish ? "Origen — volver a la entrada" : "Origen — return to the gateway"} />
         <nav aria-label={spanish ? "Navegación" : "Navigation"}>
           <Link href={overview}>{spanish ? "El espacio" : "The space"}</Link>
-          <a className="organizer-header-cta" href={HOST_APPLICATION_URL} target="_blank" rel="noreferrer">
+          <Link className="organizer-header-cta" href={slug === "organizar-retiro" || slug === "host-your-retreat" ? "#host" : commercialPage}>
             <span aria-hidden="true" />{spanish ? "Organizar" : "Host"}
-          </a>
+          </Link>
           {copy.alternate ? (
             <Link className="retreat-language-link" href={`/${copy.alternate}`} hrefLang={spanish ? "en" : "es"} lang={spanish ? "en" : "es"} aria-label={spanish ? "Read this page in English" : "Leer esta página en español"}>
               {spanish ? "EN" : "ES"}

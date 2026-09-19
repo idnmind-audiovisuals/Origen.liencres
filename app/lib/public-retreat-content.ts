@@ -2,7 +2,7 @@ export const PUBLIC_SITE_URL = "https://www.origenliencres.com";
 export const ORIGEN_MAPS_URL =
   "https://maps.app.goo.gl/CcDJ15DKT4QvTdW4A";
 export const ORIGEN_INSTAGRAM_URL =
-  "https://www.instagram.com/origen.liencres/";
+  "https://www.instagram.com/origenliencres/";
 export const ORIGEN_AIRBNB_URL =
   "https://es-l.airbnb.com/rooms/23250801?source_impression_id=p3_1785061106_P3QhtYkp0415WTpb&modal=PHOTO_TOUR_SCROLLABLE";
 export const HOST_APPLICATION_URL =

@@ -30,9 +30,9 @@ export function PublicRetreatLanding({
         <nav aria-label={language === "es" ? "Navegación" : "Navigation"}>
           <Link href={copy.faqHref}>{copy.faqLabel}</Link>
           {language === "es" ? (
-            <a href={HOST_APPLICATION_URL} target="_blank" rel="noreferrer">
+            <Link href="/retiro">
               Organizar
-            </a>
+            </Link>
           ) : (
             <Link href="/host-your-retreat">Host</Link>
           )}
@@ -49,10 +49,10 @@ export function PublicRetreatLanding({
           <h1 id="retreat-public-title">{copy.title}</h1>
           <p className="retreat-public-lead">{copy.lead}</p>
           {language === "en" ? (
-            <a className="retreat-public-primary" href={HOST_APPLICATION_URL} target="_blank" rel="noreferrer">
+            <Link className="retreat-public-primary" href="/host-your-retreat">
               {copy.cta}
               <span className="external-link-dot" aria-hidden="true" />
-            </a>
+            </Link>
           ) : null}
         </div>
 
@@ -66,10 +66,10 @@ export function PublicRetreatLanding({
                 </div>
               ))}
             </dl>
-            <a className="retreat-public-primary" href={HOST_APPLICATION_URL} target="_blank" rel="noreferrer">
+            <Link className="retreat-public-primary" href="/retiro">
               {copy.cta}
               <span className="external-link-dot" aria-hidden="true" />
-            </a>
+            </Link>
           </div>
         ) : (
           <figure className="retreat-public-hero-media">
