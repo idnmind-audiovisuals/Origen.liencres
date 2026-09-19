@@ -7,9 +7,10 @@ import {
   useSpring,
   useTransform,
 } from "framer-motion";
-import { useEffect, useLayoutEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { GatewayBrandLink } from "./GatewayBrandLink";
 import { InstagramLink } from "./InstagramLink";
+import { StripeCheckoutButton } from "./StripeCheckoutButton";
 import {
   CINEMATIC_ENTRY_EASE,
   GATEWAY_MOTION,
@@ -24,11 +25,6 @@ const APPLICATION_FORM_URL =
   "https://docs.google.com/forms/d/e/1FAIpQLSd2uhreU_NDgC3-H9wOfcsP2w9Q_lixIq4Er_BsEMTTNB7W5g/viewform";
 const WHATSAPP_URL =
   "https://chat.whatsapp.com/F7Yg8F7zx1R3jA5ltgvKwS?s=cl&p=i&mlu=4";
-const STRIPE_SUBSCRIPTION_URL =
-  process.env.NEXT_PUBLIC_STRIPE_BROS_SUBSCRIPTION_URL?.trim() ?? "";
-const HAS_STRIPE_SUBSCRIPTION =
-  /^https:\/\/buy\.stripe\.com\/[A-Za-z0-9]+/.test(STRIPE_SUBSCRIPTION_URL);
-
 const MANIFESTO = [
   "No para competir.",
   "No para impresionar.",
@@ -98,6 +94,7 @@ const AGREEMENTS = [
 
 export function BrosState({ development, onReset }: BrosStateProps) {
   const pageRef = useRef<HTMLElement>(null);
+  const [subscriptionError, setSubscriptionError] = useState("");
   const reducedMotion = useReducedMotion();
   const { scrollYProgress } = useScroll({ container: pageRef });
   const heroOffset = useTransform(scrollYProgress, [0, 0.3], [0, 96]);
@@ -390,21 +387,17 @@ export function BrosState({ development, onReset }: BrosStateProps) {
               continuidad al proceso, al grupo y al espacio que construimos
               juntos.
             </p>
-            {HAS_STRIPE_SUBSCRIPTION ? (
-              <a
-                className="bros-subscription-action"
-                href={STRIPE_SUBSCRIPTION_URL}
-                target="_blank"
-                rel="noreferrer"
-              >
-                Suscribirme
-                <span className="external-link-dot" aria-hidden="true" />
-              </a>
-            ) : (
-              <p className="bros-subscription-pending" role="status">
-                Suscripción online disponible próximamente.
+            <StripeCheckoutButton
+              kind="bros_monthly"
+              label="Suscribirme"
+              className="bros-subscription-action"
+              onError={setSubscriptionError}
+            />
+            {subscriptionError ? (
+              <p className="bros-subscription-error" role="alert">
+                {subscriptionError}
               </p>
-            )}
+            ) : null}
             <small>
               Pago recurrente mensual procesado de forma segura por Stripe.
             </small>

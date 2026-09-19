@@ -27,14 +27,15 @@ function meta(html, name) {
   return decodeHtml(match[1]);
 }
 
-async function render(pathname = "/") {
+async function requestWorker(pathname = "/", init = {}) {
   const workerUrl = new URL("../dist/server/index.js", import.meta.url);
   workerUrl.searchParams.set("test", `${process.pid}-${Date.now()}`);
   const { default: worker } = await import(workerUrl.href);
 
   return worker.fetch(
     new Request(`http://localhost${pathname}`, {
-      headers: { accept: "text/html" },
+      ...init,
+      headers: { accept: "text/html", ...(init.headers ?? {}) },
     }),
     {
       ASSETS: {
@@ -46,6 +47,10 @@ async function render(pathname = "/") {
       passThroughOnException() {},
     },
   );
+}
+
+async function render(pathname = "/") {
+  return requestWorker(pathname);
 }
 
 test("publishes focused SEO crawl directives", async () => {
@@ -159,7 +164,8 @@ test("presents the house, availability and secure booking on the Spanish commerc
   assert.match(html, /id="reservar"/);
   assert.match(html, /Encuentra tus fechas\./);
   assert.match(html, /Reserva la casa completa\./);
-  assert.match(html, /Abrir Airbnb/);
+  assert.match(html, /500 € por noche/);
+  assert.match(html, /Comprobar en Airbnb/);
   assert.match(html, /rel="canonical" href="https:\/\/www\.origenliencres\.com\/retiro"/);
   assert.match(html, /hrefLang="en" href="https:\/\/www\.origenliencres\.com\/host-your-retreat"/);
   assert.match(meta(html, "robots"), /index, follow/);
@@ -172,17 +178,37 @@ test("presents the house, availability and secure booking on the Spanish commerc
   assert.ok(graph["@graph"].some((item) => item["@type"] === "LodgingBusiness"));
 });
 
-test("keeps Airbnb calendar credentials server-side and degrades safely before configuration", async () => {
+test("keeps Airbnb and Stripe credentials server-side and degrades safely before configuration", async () => {
   const response = await render("/api/availability");
   assert.equal(response.status, 200);
   assert.deepEqual(await response.json(), { configured: false, unavailable: [] });
-  const [route, client] = await Promise.all([
+  const subscriptionResponse = await requestWorker("/api/stripe/checkout", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ kind: "bros_monthly" }),
+  });
+  assert.equal(subscriptionResponse.status, 503);
+
+  const [route, calendar, client, stripeRoute, stripeButton] = await Promise.all([
     readFile(new URL("../app/api/availability/route.ts", import.meta.url), "utf8"),
+    readFile(new URL("../app/lib/airbnb-calendar.ts", import.meta.url), "utf8"),
     readFile(new URL("../app/components/BookingCalendar.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/api/stripe/checkout/route.ts", import.meta.url), "utf8"),
+    readFile(new URL("../app/components/StripeCheckoutButton.tsx", import.meta.url), "utf8"),
   ]);
-  assert.match(route, /process\.env\.AIRBNB_ICAL_URL/);
+  assert.match(route, /loadAirbnbAvailability/);
+  assert.match(calendar, /process\.env\.AIRBNB_ICAL_URL/);
   assert.doesNotMatch(client, /AIRBNB_ICAL_URL/);
-  assert.match(route, /revalidate: 10_800/);
+  assert.match(client, /Pagar estancia/);
+  assert.match(client, /Reservar con 100 €/);
+  assert.match(calendar, /revalidate: 10_800/);
+  assert.match(stripeRoute, /process\.env\.STRIPE_SECRET_KEY/);
+  assert.match(stripeRoute, /STRIPE_RETREAT_NIGHT_PRICE_ID/);
+  assert.match(stripeRoute, /STRIPE_RETREAT_DEPOSIT_PRICE_ID/);
+  assert.match(stripeRoute, /STRIPE_BROS_MONTHLY_PRICE_ID/);
+  assert.match(stripeRoute, /daysUntilArrival < 30/);
+  assert.match(stripeRoute, /rangeTouchesUnavailable/);
+  assert.doesNotMatch(stripeButton, /STRIPE_SECRET_KEY|price_[A-Za-z0-9]/);
 });
 
 test("connects the existing discovery pages to all organiser pages", async () => {
@@ -374,7 +400,7 @@ test("keeps all access keys server-only and destination-scoped", async () => {
   assert.doesNotMatch(session, /["'](?:Esencia|Bros|Espacio|Experiencia|Proposito|Purpose)["']/i);
   assert.equal(
     example,
-    "ORIGEN_ACCESS_KEY=\nORIGEN_BROS_ACCESS_KEY=\nORIGEN_SPACE_ACCESS_KEY=\nORIGEN_EXPERIENCE_ACCESS_KEY=\nORIGEN_HOSTS_ES_ACCESS_KEY=\nORIGEN_HOSTS_EN_ACCESS_KEY=\nAIRBNB_ICAL_URL=\nNEXT_PUBLIC_STRIPE_BROS_SUBSCRIPTION_URL=\n",
+    "ORIGEN_ACCESS_KEY=\nORIGEN_BROS_ACCESS_KEY=\nORIGEN_SPACE_ACCESS_KEY=\nORIGEN_EXPERIENCE_ACCESS_KEY=\nORIGEN_HOSTS_ES_ACCESS_KEY=\nORIGEN_HOSTS_EN_ACCESS_KEY=\nAIRBNB_ICAL_URL=\nSTRIPE_SECRET_KEY=\nSTRIPE_RETREAT_NIGHT_PRICE_ID=\nSTRIPE_RETREAT_DEPOSIT_PRICE_ID=\nSTRIPE_BROS_MONTHLY_PRICE_ID=\n",
   );
   assert.match(
     bros,
@@ -384,10 +410,10 @@ test("keeps all access keys server-only and destination-scoped", async () => {
   assert.match(bros, /Un espacio de autenticidad para hombres\./);
   assert.match(bros, />\s*UNIRME\s*</);
   assert.match(bros, /<strong>Solicitar acceso<\/strong>/);
-  assert.match(bros, /NEXT_PUBLIC_STRIPE_BROS_SUBSCRIPTION_URL/);
-  assert.match(bros, /\^https:\\\/\\\/buy\\\.stripe\\\.com/);
+  assert.match(bros, /kind="bros_monthly"/);
+  assert.doesNotMatch(bros, /STRIPE_SECRET_KEY|STRIPE_BROS_MONTHLY_PRICE_ID/);
   assert.match(bros, /<strong>100 €<\/strong>/);
-  assert.match(bros, />\s*Suscribirme\s*/);
+  assert.match(bros, /label="Suscribirme"/);
   assert.match(bros, /Pago recurrente mensual procesado de forma segura por Stripe/);
   assert.match(
     invitation,

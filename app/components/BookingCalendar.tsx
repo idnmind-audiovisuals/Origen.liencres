@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { ORIGEN_AIRBNB_URL, HOST_APPLICATION_URL } from "../lib/public-retreat-content";
+import { StripeCheckoutButton } from "./StripeCheckoutButton";
 
 type UnavailableRange = {
   start: string;
@@ -122,6 +123,7 @@ export function BookingCalendar() {
   const [calendarConnected, setCalendarConnected] = useState(false);
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState("Selecciona llegada y salida.");
+  const [checkoutError, setCheckoutError] = useState("");
 
   useEffect(() => {
     let active = true;
@@ -159,7 +161,7 @@ export function BookingCalendar() {
       return;
     }
     setDeparture(value);
-    setMessage("Fechas seleccionadas. La disponibilidad final se confirma en Airbnb.");
+    setMessage("Fechas seleccionadas. Elige pago completo o reserva anticipada.");
   }
 
   const bookingUrl = useMemo(() => {
@@ -172,6 +174,24 @@ export function BookingCalendar() {
   }, [arrival, departure, guests]);
 
   const canMoveBack = visibleMonth > currentMonth;
+  const nights = useMemo(() => {
+    if (!arrival || !departure) return 0;
+    return Math.round(
+      (parseDate(departure).getTime() - parseDate(arrival).getTime()) /
+        86_400_000,
+    );
+  }, [arrival, departure]);
+  const stayTotal = nights * 500;
+  const depositEligible = useMemo(() => {
+    if (!arrival || !departure) return false;
+    const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    return (
+      (parseDate(arrival).getTime() - today.getTime()) / 86_400_000 >= 30
+    );
+  }, [arrival, departure]);
+  const checkoutPayload = { arrival, departure, guests };
+  const stripeReady = Boolean(arrival && departure && calendarConnected);
 
   return (
     <section className="booking-panel" id="reservar" aria-labelledby="booking-title">
@@ -181,7 +201,9 @@ export function BookingCalendar() {
           <h2 id="booking-title">Encuentra tus fechas.</h2>
         </div>
         <p>
-          Consulta el calendario, selecciona tu estancia y continúa en Airbnb para comprobar el precio final y reservar de forma segura.
+          El alojamiento completo cuesta 500 € por noche. Selecciona fechas y
+          paga la estancia con Stripe, o reserva con 100 € si faltan al menos 30
+          días para la llegada.
         </p>
       </div>
 
@@ -203,7 +225,7 @@ export function BookingCalendar() {
           <div>
             <p className="retreat-public-eyebrow">Uso exclusivo</p>
             <h3>Reserva la casa completa.</h3>
-            <p>El precio exacto depende de las fechas y se muestra antes de confirmar en Airbnb.</p>
+            <p>500 € por noche para el grupo completo, hasta 8 huéspedes.</p>
           </div>
           <dl>
             <div><dt>Llegada</dt><dd>{formatSelectedDate(arrival)}</dd></div>
@@ -216,13 +238,40 @@ export function BookingCalendar() {
                 <button type="button" onClick={() => setGuests((value) => Math.min(8, value + 1))} aria-label="Añadir huéspedes">+</button>
               </dd>
             </div>
+            <div>
+              <dt>Total estancia</dt>
+              <dd>{nights ? `${stayTotal.toLocaleString("es-ES")} €` : "Selecciona fechas"}</dd>
+            </div>
           </dl>
-          <a className="booking-primary" href={bookingUrl} target="_blank" rel="noreferrer">
-            {arrival && departure ? "Comprobar y reservar" : "Abrir Airbnb"}
+          <StripeCheckoutButton
+            kind="retreat_full"
+            label={nights ? `Pagar estancia · ${stayTotal.toLocaleString("es-ES")} €` : "Selecciona fechas para pagar"}
+            className="booking-primary"
+            disabled={!stripeReady}
+            payload={checkoutPayload}
+            onError={setCheckoutError}
+          />
+          <StripeCheckoutButton
+            kind="retreat_deposit"
+            label="Reservar con 100 €"
+            className="booking-deposit"
+            disabled={!stripeReady || !depositEligible}
+            payload={checkoutPayload}
+            onError={setCheckoutError}
+          />
+          <p className="booking-deposit-note">
+            El anticipo de 100 € está disponible con 30 días de antelación. El
+            importe restante se confirma por separado.
+          </p>
+          {checkoutError ? (
+            <p className="booking-checkout-error" role="alert">{checkoutError}</p>
+          ) : null}
+          <a className="booking-airbnb" href={bookingUrl} target="_blank" rel="noreferrer">
+            Comprobar en Airbnb
             <span className="external-link-dot" aria-hidden="true" />
           </a>
           <a className="booking-secondary" href={HOST_APPLICATION_URL} target="_blank" rel="noreferrer">Proponer un retiro</a>
-          <small>La reserva y el pago se completan en Airbnb. Las fechas sincronizadas pueden tardar unas horas en actualizarse.</small>
+          <small>Los pagos se procesan de forma segura en Stripe. La sincronización del calendario de Airbnb puede tardar unas horas.</small>
         </aside>
       </div>
     </section>
