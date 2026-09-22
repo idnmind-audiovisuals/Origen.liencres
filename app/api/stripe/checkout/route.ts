@@ -4,6 +4,11 @@ import {
   rangeTouchesUnavailable,
 } from "../../../lib/airbnb-calendar";
 import { PUBLIC_SITE_URL } from "../../../lib/public-retreat-content";
+import {
+  calculateRetreatQuote,
+  RETREAT_MAX_GUESTS,
+  RETREAT_MAX_NIGHTS,
+} from "../../../lib/retreat-pricing";
 
 export const dynamic = "force-dynamic";
 
@@ -18,15 +23,10 @@ type CheckoutRequest = {
 
 const DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
 const DAY_MS = 86_400_000;
-const MAX_RETREAT_NIGHTS = 60;
 
 function utcDate(value: string) {
   const [year, month, day] = value.split("-").map(Number);
   return new Date(Date.UTC(year, month - 1, day));
-}
-
-function differenceInDays(start: string, end: string) {
-  return Math.round((utcDate(end).getTime() - utcDate(start).getTime()) / DAY_MS);
 }
 
 function todayUtc() {
@@ -123,14 +123,15 @@ export async function POST(request: Request) {
   if (!DATE_PATTERN.test(arrival) || !DATE_PATTERN.test(departure)) {
     return error("Selecciona las fechas de llegada y salida.");
   }
-  if (!Number.isInteger(guests) || guests < 1 || guests > 8) {
-    return error("El número de huéspedes debe estar entre 1 y 8.");
+  if (!Number.isInteger(guests) || guests < 1 || guests > RETREAT_MAX_GUESTS) {
+    return error(`El número de huéspedes debe estar entre 1 y ${RETREAT_MAX_GUESTS}.`);
   }
 
-  const nights = differenceInDays(arrival, departure);
-  if (nights < 1 || nights > MAX_RETREAT_NIGHTS) {
-    return error(`La estancia debe tener entre 1 y ${MAX_RETREAT_NIGHTS} noches.`);
+  const quote = calculateRetreatQuote(arrival, departure);
+  if (!quote) {
+    return error(`La estancia debe tener entre 1 y ${RETREAT_MAX_NIGHTS} noches y fechas válidas.`);
   }
+  const nights = quote.nights;
   if (utcDate(arrival).getTime() < todayUtc().getTime()) {
     return error("La fecha de llegada no puede estar en el pasado.");
   }
@@ -160,16 +161,7 @@ export async function POST(request: Request) {
     return error("Las fechas seleccionadas ya no están disponibles.", 409);
   }
 
-  const price =
-    body.kind === "retreat_full"
-      ? configuredPrice(process.env.STRIPE_RETREAT_NIGHT_PRICE_ID)
-      : configuredPrice(process.env.STRIPE_RETREAT_DEPOSIT_PRICE_ID);
-  if (!price) {
-    return error("Esta modalidad de pago todavía no está activada.", 503);
-  }
-
   const kindLabel = body.kind === "retreat_full" ? "full_stay" : "deposit";
-  const total = nights * 500;
   const params = new URLSearchParams({
     mode: "payment",
     success_url: `${PUBLIC_SITE_URL}/retiro?payment=success#reservar`,
@@ -177,20 +169,30 @@ export async function POST(request: Request) {
     submit_type: "book",
     customer_creation: "always",
     client_reference_id: `origen-${arrival}-${departure}-${kindLabel}`,
-    "line_items[0][price]": price,
-    "line_items[0][quantity]": body.kind === "retreat_full" ? String(nights) : "1",
     "metadata[service]": "origen_retreat_stay",
     "metadata[payment_kind]": kindLabel,
     "metadata[arrival]": arrival,
     "metadata[departure]": departure,
     "metadata[nights]": String(nights),
     "metadata[guests]": String(guests),
-    "metadata[stay_total_eur]": String(total),
+    "metadata[stay_total_eur]": (quote.totalCents / 100).toFixed(2),
+    "metadata[high_season_nights]": String(quote.highSeasonNights),
+    "metadata[discount_percent]": String(quote.discountPercent),
+    "metadata[balance_due_eur]": body.kind === "retreat_deposit" ? ((quote.totalCents - 10_000) / 100).toFixed(2) : "0.00",
     "payment_intent_data[metadata][service]": "origen_retreat_stay",
     "payment_intent_data[metadata][payment_kind]": kindLabel,
     "payment_intent_data[metadata][arrival]": arrival,
     "payment_intent_data[metadata][departure]": departure,
   });
+  params.set("line_items[0][price_data][currency]", "eur");
+  params.set(
+    "line_items[0][price_data][product_data][name]",
+    body.kind === "retreat_full"
+      ? `Origen Liencres · ${nights} ${nights === 1 ? "noche" : "noches"}`
+      : "Origen Liencres · anticipo de reserva",
+  );
+  params.set("line_items[0][price_data][unit_amount]", String(body.kind === "retreat_full" ? quote.totalCents : 10_000));
+  params.set("line_items[0][quantity]", "1");
   appendSharedCheckoutFields(params);
 
   try {

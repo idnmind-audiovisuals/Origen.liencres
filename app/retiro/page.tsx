@@ -3,7 +3,7 @@ import { HouseBookingLanding } from "../components/HouseBookingLanding";
 
 const title = "Origen Liencres | Casa para retiros y grupos en Cantabria";
 const description =
-  "Descubre Origen en Liencres: fotos, habitaciones, servicios y disponibilidad para reservar una casa privada de retiros de hasta 8 personas cerca de Santander.";
+  "Descubre Origen en Liencres: fotos, habitaciones, servicios y disponibilidad para reservar una casa privada de retiros de hasta 9 personas cerca de Santander.";
 
 export const metadata: Metadata = {
   title,

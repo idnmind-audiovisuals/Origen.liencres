@@ -33,7 +33,7 @@ const HOUSE_PHOTOS = [
 ] as const;
 
 const AMENITIES = [
-  "Alojamiento para hasta 8 huéspedes",
+  "Alojamiento para hasta 9 huéspedes",
   "3 habitaciones y 7 camas",
   "2 baños",
   "Cocina y salón compartido",
@@ -53,7 +53,7 @@ export function HouseBookingLanding() {
         "@id": `${url}#page`,
         url,
         name: "Alquila Origen para tu retiro en Cantabria",
-        description: "Presentación, disponibilidad y reserva de Origen Liencres, una casa privada para retiros y residencias de hasta 8 personas cerca de Santander.",
+        description: "Presentación, disponibilidad y reserva de Origen Liencres, una casa privada para retiros y residencias de hasta 9 personas cerca de Santander.",
         inLanguage: "es-ES",
         isPartOf: { "@id": `${PUBLIC_SITE_URL}/#website` },
         about: { "@id": `${PUBLIC_SITE_URL}/#retreat-space` },
@@ -73,7 +73,7 @@ export function HouseBookingLanding() {
         name: "Origen Liencres",
         url,
         description:
-          "Casa completa para retiros, residencias y grupos privados de hasta 8 personas en Liencres, Cantabria.",
+          "Casa completa para retiros, residencias y grupos privados de hasta 9 personas en Liencres, Cantabria.",
         numberOfRooms: 3,
         amenityFeature: AMENITIES.map((name) => ({
           "@type": "LocationFeatureSpecification",
@@ -133,7 +133,7 @@ export function HouseBookingLanding() {
         <div>
           <p className="retreat-public-eyebrow">Casa completa en Liencres</p>
           <h2 id="booking-listing-title">Origen · Un espacio privado para tu grupo.</h2>
-          <p>8 huéspedes · 3 habitaciones · 7 camas · 2 baños</p>
+          <p>9 huéspedes · 3 habitaciones · 7 camas · 2 baños</p>
         </div>
         <a href={ORIGEN_AIRBNB_URL} target="_blank" rel="noreferrer">
           Reseñas verificadas en Airbnb

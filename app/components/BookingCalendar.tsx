@@ -2,6 +2,11 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { ORIGEN_AIRBNB_URL, HOST_APPLICATION_URL } from "../lib/public-retreat-content";
+import {
+  calculateRetreatQuote,
+  RETREAT_BASE_NIGHT_EUR,
+  RETREAT_MAX_GUESTS,
+} from "../lib/retreat-pricing";
 import { StripeCheckoutButton } from "./StripeCheckoutButton";
 
 type UnavailableRange = {
@@ -42,6 +47,15 @@ function formatSelectedDate(value: string | null) {
     month: "short",
     year: "numeric",
   }).format(parseDate(value));
+}
+
+function formatEuros(cents: number) {
+  return new Intl.NumberFormat("es-ES", {
+    style: "currency",
+    currency: "EUR",
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 2,
+  }).format(cents / 100);
 }
 
 function isUnavailable(value: string, ranges: UnavailableRange[]) {
@@ -124,6 +138,7 @@ export function BookingCalendar() {
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState("Selecciona llegada y salida.");
   const [checkoutError, setCheckoutError] = useState("");
+  const [openPicker, setOpenPicker] = useState<"arrival" | "departure" | null>(null);
 
   useEffect(() => {
     let active = true;
@@ -144,9 +159,10 @@ export function BookingCalendar() {
   }, []);
 
   function selectDate(value: string) {
-    if (!arrival || departure) {
+    if (openPicker === "arrival" || !arrival || (departure && !openPicker)) {
       setArrival(value);
       setDeparture(null);
+      setOpenPicker(openPicker ? "departure" : null);
       setMessage("Ahora selecciona la fecha de salida.");
       return;
     }
@@ -161,7 +177,18 @@ export function BookingCalendar() {
       return;
     }
     setDeparture(value);
+    setOpenPicker(null);
     setMessage("Fechas seleccionadas. Elige pago completo o reserva anticipada.");
+  }
+
+  function openDatePicker(field: "arrival" | "departure") {
+    const selectedDate = field === "arrival" ? arrival : departure ?? arrival;
+    if (selectedDate) {
+      const date = parseDate(selectedDate);
+      setVisibleMonth(new Date(date.getFullYear(), date.getMonth(), 1));
+    }
+    setOpenPicker(field);
+    setMessage(field === "arrival" || !arrival ? "Selecciona la fecha de llegada." : "Selecciona la fecha de salida.");
   }
 
   const bookingUrl = useMemo(() => {
@@ -174,24 +201,44 @@ export function BookingCalendar() {
   }, [arrival, departure, guests]);
 
   const canMoveBack = visibleMonth > currentMonth;
-  const nights = useMemo(() => {
-    if (!arrival || !departure) return 0;
-    return Math.round(
-      (parseDate(departure).getTime() - parseDate(arrival).getTime()) /
-        86_400_000,
-    );
-  }, [arrival, departure]);
-  const stayTotal = nights * 500;
+  const quote = useMemo(
+    () => (arrival && departure ? calculateRetreatQuote(arrival, departure) : null),
+    [arrival, departure],
+  );
   const depositEligible = useMemo(() => {
     if (!arrival || !departure) return false;
     const now = new Date();
-    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const today = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate());
+    const arrivalDate = parseDate(arrival);
     return (
-      (parseDate(arrival).getTime() - today.getTime()) / 86_400_000 >= 30
+      (Date.UTC(arrivalDate.getFullYear(), arrivalDate.getMonth(), arrivalDate.getDate()) - today) / 86_400_000 >= 30
     );
   }, [arrival, departure]);
   const checkoutPayload = { arrival, departure, guests };
-  const stripeReady = Boolean(arrival && departure && calendarConnected);
+  const stripeReady = Boolean(quote && calendarConnected);
+
+  const datePicker = openPicker ? (
+    <div
+      className="booking-date-popover"
+      id="booking-date-picker"
+      role="dialog"
+      aria-label={openPicker === "arrival" || !arrival ? "Seleccionar llegada" : "Seleccionar salida"}
+      onKeyDown={(event) => {
+        if (event.key === "Escape") setOpenPicker(null);
+      }}
+    >
+      <div className="booking-date-popover-heading">
+        <span>{openPicker === "arrival" || !arrival ? "Selecciona la llegada" : "Selecciona la salida"}</span>
+        <button type="button" onClick={() => setOpenPicker(null)} aria-label="Cerrar calendario">×</button>
+      </div>
+      <div className="booking-calendar-nav">
+        <button type="button" onClick={() => setVisibleMonth(addMonths(visibleMonth, -1))} disabled={!canMoveBack} aria-label="Mes anterior">←</button>
+        <span aria-hidden="true" />
+        <button type="button" onClick={() => setVisibleMonth(addMonths(visibleMonth, 1))} aria-label="Mes siguiente">→</button>
+      </div>
+      <Month month={visibleMonth} arrival={arrival} departure={departure} unavailable={unavailable} onSelect={selectDate} />
+    </div>
+  ) : null;
 
   return (
     <section className="booking-panel" id="reservar" aria-labelledby="booking-title">
@@ -201,9 +248,10 @@ export function BookingCalendar() {
           <h2 id="booking-title">Encuentra tus fechas.</h2>
         </div>
         <p>
-          El alojamiento completo cuesta 500 € por noche. Selecciona fechas y
-          paga la estancia con Stripe, o reserva con 100 € si faltan al menos 30
-          días para la llegada.
+          Tarifa base: {RETREAT_BASE_NIGHT_EUR} € por noche. A partir de 3 noches,
+          20 % de descuento; desde 7 noches, 30 %. Las noches de julio, agosto y
+          del 20 de diciembre al 6 de enero llevan un recargo del 30 %. El
+          precio final se muestra antes de pagar.
         </p>
       </div>
 
@@ -225,27 +273,50 @@ export function BookingCalendar() {
           <div>
             <p className="retreat-public-eyebrow">Uso exclusivo</p>
             <h3>Reserva la casa completa.</h3>
-            <p>500 € por noche para el grupo completo, hasta 8 huéspedes.</p>
+            <p>Tarifa base de {RETREAT_BASE_NIGHT_EUR} € por noche para el grupo completo, hasta {RETREAT_MAX_GUESTS} huéspedes.</p>
           </div>
           <dl>
-            <div><dt>Llegada</dt><dd>{formatSelectedDate(arrival)}</dd></div>
-            <div><dt>Salida</dt><dd>{formatSelectedDate(departure)}</dd></div>
+            <div className="booking-date-row">
+              <dt>Llegada</dt>
+              <dd>
+                <button type="button" className="booking-date-trigger" onClick={() => openDatePicker("arrival")} aria-haspopup="dialog" aria-expanded={openPicker === "arrival"} aria-controls={openPicker === "arrival" ? "booking-date-picker" : undefined}>
+                  {formatSelectedDate(arrival)}
+                </button>
+              </dd>
+              {openPicker === "arrival" ? datePicker : null}
+            </div>
+            <div className="booking-date-row">
+              <dt>Salida</dt>
+              <dd>
+                <button type="button" className="booking-date-trigger" onClick={() => openDatePicker("departure")} aria-haspopup="dialog" aria-expanded={openPicker === "departure"} aria-controls={openPicker === "departure" ? "booking-date-picker" : undefined}>
+                  {formatSelectedDate(departure)}
+                </button>
+              </dd>
+              {openPicker === "departure" ? datePicker : null}
+            </div>
             <div>
               <dt>Huéspedes</dt>
               <dd>
                 <button type="button" onClick={() => setGuests((value) => Math.max(1, value - 1))} aria-label="Reducir huéspedes">−</button>
                 <span>{guests}</span>
-                <button type="button" onClick={() => setGuests((value) => Math.min(8, value + 1))} aria-label="Añadir huéspedes">+</button>
+                <button type="button" onClick={() => setGuests((value) => Math.min(RETREAT_MAX_GUESTS, value + 1))} aria-label="Añadir huéspedes">+</button>
               </dd>
             </div>
+            {quote ? (
+              <>
+                <div><dt>{quote.nights} {quote.nights === 1 ? "noche" : "noches"} × {RETREAT_BASE_NIGHT_EUR} €</dt><dd>{formatEuros(quote.baseCents)}</dd></div>
+                {quote.highSeasonNights ? <div><dt>Temporada alta · {quote.highSeasonNights} {quote.highSeasonNights === 1 ? "noche" : "noches"} (+30 %)</dt><dd>+{formatEuros(quote.highSeasonSurchargeCents)}</dd></div> : null}
+                {quote.discountPercent ? <div><dt>Descuento por estancia · {quote.discountPercent} %</dt><dd>−{formatEuros(quote.discountCents)}</dd></div> : null}
+              </>
+            ) : null}
             <div>
               <dt>Total estancia</dt>
-              <dd>{nights ? `${stayTotal.toLocaleString("es-ES")} €` : "Selecciona fechas"}</dd>
+              <dd>{quote ? formatEuros(quote.totalCents) : "Selecciona fechas"}</dd>
             </div>
           </dl>
           <StripeCheckoutButton
             kind="retreat_full"
-            label={nights ? `Pagar estancia · ${stayTotal.toLocaleString("es-ES")} €` : "Selecciona fechas para pagar"}
+            label={quote ? `Pagar estancia · ${formatEuros(quote.totalCents)}` : "Selecciona fechas para pagar"}
             className="booking-primary"
             disabled={!stripeReady}
             payload={checkoutPayload}
@@ -261,7 +332,7 @@ export function BookingCalendar() {
           />
           <p className="booking-deposit-note">
             El anticipo de 100 € está disponible con 30 días de antelación. El
-            importe restante se confirma por separado.
+            importe restante{quote ? ` (${formatEuros(quote.totalCents - 10_000)})` : ""} se coordina por separado.
           </p>
           {checkoutError ? (
             <p className="booking-checkout-error" role="alert">{checkoutError}</p>

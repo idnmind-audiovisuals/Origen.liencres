@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
+import { calculateRetreatQuote } from "../app/lib/retreat-pricing.ts";
 
 const templateRoot = new URL("../", import.meta.url);
 
@@ -154,7 +155,7 @@ test("presents the house, availability and secure booking on the Spanish commerc
   assert.match(html, /id="galeria"/);
   assert.equal([...html.matchAll(/<figure\b/g)].length, 5);
   assert.match(html, /a0\.muscache\.com\/im\/pictures\/hosting\/Hosting-23250801/);
-  assert.match(html, /8 huéspedes/);
+  assert.match(html, /9 huéspedes/);
   assert.match(html, /3 habitaciones · 7 camas/);
   assert.doesNotMatch(html, /id="booking-details-title"/);
   assert.doesNotMatch(html, /id="booking-rooms-title"/);
@@ -165,7 +166,8 @@ test("presents the house, availability and secure booking on the Spanish commerc
   assert.match(html, /id="reservar"/);
   assert.match(html, /Encuentra tus fechas\./);
   assert.match(html, /Reserva la casa completa\./);
-  assert.match(html, /500 € por noche/);
+  assert.match(html, /497<!-- --> € por noche/);
+  assert.match(html, /class="booking-date-trigger"/);
   assert.match(html, /Comprobar en Airbnb/);
   assert.match(html, /rel="canonical" href="https:\/\/www\.origenliencres\.com\/retiro"/);
   assert.match(html, /hrefLang="en" href="https:\/\/www\.origenliencres\.com\/host-your-retreat"/);
@@ -179,6 +181,17 @@ test("presents the house, availability and secure booking on the Spanish commerc
   assert.ok(graph["@graph"].some((item) => item["@type"] === "LodgingBusiness"));
 });
 
+test("quotes the same length discounts and peak-season surcharge shown at checkout", () => {
+  assert.equal(calculateRetreatQuote("2027-05-01", "2027-05-02")?.totalCents, 49_700);
+  assert.equal(calculateRetreatQuote("2027-05-01", "2027-05-04")?.totalCents, 119_280);
+  assert.equal(calculateRetreatQuote("2027-05-01", "2027-05-08")?.totalCents, 243_530);
+  assert.equal(calculateRetreatQuote("2027-07-01", "2027-07-02")?.totalCents, 64_610);
+  assert.equal(calculateRetreatQuote("2027-07-01", "2027-07-04")?.totalCents, 155_064);
+  assert.equal(calculateRetreatQuote("2027-12-20", "2027-12-21")?.totalCents, 64_610);
+  assert.equal(calculateRetreatQuote("2027-06-30", "2027-07-02")?.highSeasonNights, 1);
+  assert.equal(calculateRetreatQuote("2027-02-30", "2027-03-03"), null);
+});
+
 test("keeps Airbnb and Stripe credentials server-side and degrades safely before configuration", async () => {
   const response = await render("/api/availability");
   assert.equal(response.status, 200);
@@ -189,6 +202,18 @@ test("keeps Airbnb and Stripe credentials server-side and degrades safely before
     body: JSON.stringify({ kind: "bros_monthly" }),
   });
   assert.equal(subscriptionResponse.status, 503);
+  const tooManyGuestsResponse = await requestWorker("/api/stripe/checkout", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ kind: "retreat_full", arrival: "2030-05-01", departure: "2030-05-02", guests: 10 }),
+  });
+  assert.equal(tooManyGuestsResponse.status, 400);
+  const nineGuestsResponse = await requestWorker("/api/stripe/checkout", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ kind: "retreat_full", arrival: "2030-05-01", departure: "2030-05-02", guests: 9 }),
+  });
+  assert.equal(nineGuestsResponse.status, 503);
 
   const [route, calendar, client, stripeRoute, stripeButton] = await Promise.all([
     readFile(new URL("../app/api/availability/route.ts", import.meta.url), "utf8"),
@@ -204,8 +229,8 @@ test("keeps Airbnb and Stripe credentials server-side and degrades safely before
   assert.match(client, /Reservar con 100 €/);
   assert.match(calendar, /revalidate: 10_800/);
   assert.match(stripeRoute, /process\.env\.STRIPE_SECRET_KEY/);
-  assert.match(stripeRoute, /STRIPE_RETREAT_NIGHT_PRICE_ID/);
-  assert.match(stripeRoute, /STRIPE_RETREAT_DEPOSIT_PRICE_ID/);
+  assert.match(stripeRoute, /price_data\]\[unit_amount/);
+  assert.match(stripeRoute, /10_000/);
   assert.match(stripeRoute, /STRIPE_BROS_MONTHLY_PRICE_ID/);
   assert.match(stripeRoute, /daysUntilArrival < 30/);
   assert.match(stripeRoute, /rangeTouchesUnavailable/);
@@ -401,7 +426,7 @@ test("keeps all access keys server-only and destination-scoped", async () => {
   assert.doesNotMatch(session, /["'](?:Esencia|Bros|Espacio|Experiencia|Proposito|Purpose)["']/i);
   assert.equal(
     example,
-    "ORIGEN_ACCESS_KEY=\nORIGEN_BROS_ACCESS_KEY=\nORIGEN_SPACE_ACCESS_KEY=\nORIGEN_EXPERIENCE_ACCESS_KEY=\nORIGEN_HOSTS_ES_ACCESS_KEY=\nORIGEN_HOSTS_EN_ACCESS_KEY=\nAIRBNB_ICAL_URL=\nSTRIPE_SECRET_KEY=\nSTRIPE_RETREAT_NIGHT_PRICE_ID=\nSTRIPE_RETREAT_DEPOSIT_PRICE_ID=\nSTRIPE_BROS_MONTHLY_PRICE_ID=\n",
+    "ORIGEN_ACCESS_KEY=\nORIGEN_BROS_ACCESS_KEY=\nORIGEN_SPACE_ACCESS_KEY=\nORIGEN_EXPERIENCE_ACCESS_KEY=\nORIGEN_HOSTS_ES_ACCESS_KEY=\nORIGEN_HOSTS_EN_ACCESS_KEY=\nAIRBNB_ICAL_URL=\nSTRIPE_SECRET_KEY=\nSTRIPE_BROS_MONTHLY_PRICE_ID=\n",
   );
   assert.match(
     bros,
