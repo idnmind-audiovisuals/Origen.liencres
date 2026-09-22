@@ -149,7 +149,7 @@ test("presents the house, availability and secure booking on the Spanish commerc
   const html = await response.text();
 
   assert.match(html, /<main class="retreat-public-page retreat-public-page--esencia booking-page" lang="es">/);
-  assert.match(html, /<h1 id="booking-hero-title">Una casa para vivir tu retiro\.<\/h1>/);
+  assert.match(html, /<h1 id="booking-hero-title">Un espacio para tu retiro<\/h1>/);
   assert.equal([...html.matchAll(/<h1\b/g)].length, 1);
   assert.match(html, /id="galeria"/);
   assert.equal([...html.matchAll(/<figure\b/g)].length, 5);

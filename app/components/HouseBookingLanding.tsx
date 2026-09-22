@@ -135,7 +135,7 @@ export function HouseBookingLanding() {
       <section className="booking-hero" aria-labelledby="booking-hero-title">
         <div>
           <p className="retreat-public-eyebrow">Origen Liencres · Costa Quebrada</p>
-          <h1 id="booking-hero-title">Una casa para vivir tu retiro.</h1>
+          <h1 id="booking-hero-title">Un espacio para tu retiro</h1>
         </div>
         <div className="booking-hero-intro">
           <p>Alquila Origen en uso exclusivo para reunir a tu grupo entre el océano, el bosque y el paisaje de Cantabria.</p>
