@@ -7,7 +7,7 @@ export function InstagramLink() {
       href={INSTAGRAM_URL}
       target="_blank"
       rel="noreferrer"
-      aria-label="Instagram — Origen Liencres (opens in a new tab)"
+      aria-label="Instagram — Origen Liencres"
     >
       <span className="site-instagram-icon" aria-hidden="true" />
     </a>

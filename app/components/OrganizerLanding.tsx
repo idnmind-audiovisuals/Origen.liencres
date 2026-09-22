@@ -1,8 +1,9 @@
 import Link from "next/link";
 import { organizerPages, type OrganizerSlug } from "../lib/organizer-content";
-import { HOST_APPLICATION_URL, ORIGEN_AIRBNB_URL, ORIGEN_INSTAGRAM_URL, ORIGEN_MAPS_URL, PUBLIC_SITE_URL } from "../lib/public-retreat-content";
+import { HOST_APPLICATION_URL, ORIGEN_AIRBNB_URL, ORIGEN_MAPS_URL, PUBLIC_SITE_URL } from "../lib/public-retreat-content";
 import { OrganizerLinks } from "./OrganizerLinks";
 import { GatewayBrandLink } from "./GatewayBrandLink";
+import { InstagramLink } from "./InstagramLink";
 
 export function OrganizerLanding({ slug }: { slug: OrganizerSlug }) {
   const copy = organizerPages[slug];
@@ -151,9 +152,9 @@ export function OrganizerLanding({ slug }: { slug: OrganizerSlug }) {
           Origen Liencres<br />Barrio Liencres, 585<br />39120 Liencres, Cantabria<br />
           <a href="tel:+34622181691">+34 622 18 16 91</a>
         </address>
+        <InstagramLink />
         <div>
           <p>{spanish ? "Retiros · Residencias · Grupos privados" : "Retreats · Residencies · Private groups"}</p>
-          <a className="organizer-instagram" href={ORIGEN_INSTAGRAM_URL} target="_blank" rel="noreferrer"><span className="site-instagram-icon" aria-hidden="true" />Instagram</a>
           {!copy.alternate ? (
             <Link className="organizer-other-language" href={spanish ? "/retreats-spain" : "/retiros-cantabria"} lang={spanish ? "en" : "es"}>
               {spanish ? "Discover Origen in English" : "Conoce Origen en español"}

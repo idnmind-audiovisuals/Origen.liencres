@@ -5590,11 +5590,11 @@ button {
 }
 
 .retreat-public-footer {
-  display: flex;
+  display: grid;
   min-height: 270px;
   padding: 70px 0 max(50px, env(safe-area-inset-bottom));
   align-items: flex-end;
-  justify-content: space-between;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   gap: 50px;
 }
 
@@ -5611,6 +5611,14 @@ button {
 
 .retreat-public-footer > div {
   text-align: right;
+}
+
+.retreat-public-footer > .site-instagram-link {
+  width: 3.5rem;
+  height: 3.5rem;
+  margin: 0;
+  align-self: end;
+  justify-self: center;
 }
 
 .retreat-public-footer > div a {
@@ -5861,11 +5869,15 @@ button {
   .retreat-public-footer {
     min-height: 330px;
     align-items: flex-start;
-    flex-direction: column;
+    grid-template-columns: 1fr;
   }
 
   .retreat-public-footer > div {
     text-align: left;
+  }
+
+  .retreat-public-footer > .site-instagram-link {
+    order: 3;
   }
 
   .retreat-public-page--esencia .retreat-public-header,

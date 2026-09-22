@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { BookingCalendar } from "./BookingCalendar";
 import { GatewayBrandLink } from "./GatewayBrandLink";
+import { InstagramLink } from "./InstagramLink";
 import {
   HOST_APPLICATION_URL,
   ORIGEN_AIRBNB_URL,
@@ -214,9 +215,9 @@ export function HouseBookingLanding() {
 
       <footer className="retreat-public-footer">
         <address>Origen Liencres<br />Barrio Liencres, 585<br />39120 Liencres, Cantabria<br /><a href="tel:+34622181691">+34 622 18 16 91</a></address>
+        <InstagramLink />
         <div>
           <p>Casa privada · Retiros · Residencias</p>
-          <a href={ORIGEN_INSTAGRAM_URL} target="_blank" rel="noreferrer">Instagram</a>
         </div>
       </footer>
 

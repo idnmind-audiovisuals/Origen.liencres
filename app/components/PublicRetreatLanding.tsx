@@ -1,10 +1,10 @@
 import Link from "next/link";
 import { ORIGEN_WORDMARK_ASSET } from "../lib/brand";
+import { InstagramLink } from "./InstagramLink";
 import { OrganizerLinks } from "./OrganizerLinks";
 import {
   HOST_APPLICATION_URL,
   ORIGEN_AIRBNB_URL,
-  ORIGEN_INSTAGRAM_URL,
   ORIGEN_MAPS_URL,
   retreatLandingCopy,
   type RetreatLanguage,
@@ -181,9 +181,9 @@ export function PublicRetreatLanding({
           39120 Liencres, Cantabria<br />
           <a href="tel:+34622181691">+34 622 18 16 91</a>
         </address>
+        <InstagramLink />
         <div>
           <p>{copy.footerLine}</p>
-          <a href={ORIGEN_INSTAGRAM_URL} target="_blank" rel="noreferrer">Instagram</a>
         </div>
       </footer>
     </main>
