@@ -7,8 +7,8 @@ import {
   RETREAT_BASE_NIGHT_EUR,
   RETREAT_MAX_GUESTS,
 } from "../lib/retreat-pricing";
-import { StripeCheckoutButton } from "./StripeCheckoutButton";
-import { StripePaymentStatus } from "./StripePaymentStatus";
+
+const REVOLUT_PAYMENT_URL = "https://revolut.me/mariogonzalezdia";
 
 type UnavailableRange = {
   start: string;
@@ -79,6 +79,28 @@ function monthDays(month: Date) {
   return cells;
 }
 
+function RevolutPaymentAction({
+  className,
+  disabled,
+  label,
+}: {
+  className: string;
+  disabled: boolean;
+  label: string;
+}) {
+  const content = <>{label}<span className="external-link-dot" aria-hidden="true" /></>;
+
+  if (disabled) {
+    return <button type="button" className={className} disabled>{content}</button>;
+  }
+
+  return (
+    <a className={className} href={REVOLUT_PAYMENT_URL} target="_blank" rel="noopener noreferrer">
+      {content}
+    </a>
+  );
+}
+
 function Month({
   month,
   arrival,
@@ -138,7 +160,7 @@ export function BookingCalendar() {
   const [calendarConnected, setCalendarConnected] = useState(false);
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState("Selecciona llegada y salida.");
-  const [checkoutError, setCheckoutError] = useState("");
+  const [paymentConfirmed, setPaymentConfirmed] = useState(false);
   const [openPicker, setOpenPicker] = useState<"arrival" | "departure" | null>(null);
 
   useEffect(() => {
@@ -160,6 +182,7 @@ export function BookingCalendar() {
   }, []);
 
   function selectDate(value: string) {
+    setPaymentConfirmed(false);
     if (openPicker === "arrival" || !arrival || (departure && !openPicker)) {
       setArrival(value);
       setDeparture(null);
@@ -179,7 +202,7 @@ export function BookingCalendar() {
     }
     setDeparture(value);
     setOpenPicker(null);
-    setMessage("Fechas seleccionadas. Elige pago completo o reserva anticipada.");
+    setMessage("Fechas seleccionadas. Confirma disponibilidad e importe con Origen antes de pagar.");
   }
 
   function openDatePicker(field: "arrival" | "departure") {
@@ -215,8 +238,7 @@ export function BookingCalendar() {
       (Date.UTC(arrivalDate.getFullYear(), arrivalDate.getMonth(), arrivalDate.getDate()) - today) / 86_400_000 >= 30
     );
   }, [arrival, departure]);
-  const checkoutPayload = { arrival, departure, guests };
-  const stripeReady = Boolean(quote && calendarConnected);
+  const paymentReady = Boolean(quote && paymentConfirmed);
 
   const datePicker = openPicker ? (
     <div
@@ -252,7 +274,7 @@ export function BookingCalendar() {
           Tarifa base: {RETREAT_BASE_NIGHT_EUR} € por noche. A partir de 3 noches,
           20 % de descuento; desde 7 noches, 30 %. Las noches de julio, agosto y
           del 20 de diciembre al 6 de enero llevan un recargo del 30 %. El
-          precio final se muestra antes de pagar.
+          importe estimado se muestra antes de abrir Revolut.
         </p>
       </div>
 
@@ -271,7 +293,6 @@ export function BookingCalendar() {
         </div>
 
         <aside className="booking-summary" aria-label="Resumen de reserva">
-          <StripePaymentStatus context="retreat" />
           <div>
             <p className="retreat-public-eyebrow">Uso exclusivo</p>
             <h3>Reserva la casa completa.</h3>
@@ -299,9 +320,9 @@ export function BookingCalendar() {
             <div>
               <dt>Huéspedes</dt>
               <dd>
-                <button type="button" onClick={() => setGuests((value) => Math.max(1, value - 1))} aria-label="Reducir huéspedes">−</button>
+                <button type="button" onClick={() => { setGuests((value) => Math.max(1, value - 1)); setPaymentConfirmed(false); }} aria-label="Reducir huéspedes">−</button>
                 <span>{guests}</span>
-                <button type="button" onClick={() => setGuests((value) => Math.min(RETREAT_MAX_GUESTS, value + 1))} aria-label="Añadir huéspedes">+</button>
+                <button type="button" onClick={() => { setGuests((value) => Math.min(RETREAT_MAX_GUESTS, value + 1)); setPaymentConfirmed(false); }} aria-label="Añadir huéspedes">+</button>
               </dd>
             </div>
             {quote ? (
@@ -316,35 +337,39 @@ export function BookingCalendar() {
               <dd>{quote ? formatEuros(quote.totalCents) : "Selecciona fechas"}</dd>
             </div>
           </dl>
-          <StripeCheckoutButton
-            kind="retreat_full"
-            label={quote ? `Pagar estancia · ${formatEuros(quote.totalCents)}` : "Selecciona fechas para pagar"}
+          <p className="booking-payment-note">
+            Antes de pagar, confirma las fechas y el importe con Origen en el <a href="tel:+34622181691">+34 622 18 16 91</a>.
+            {calendarConnected ? " El calendario puede tardar en sincronizarse." : " La disponibilidad no está verificada automáticamente."}
+          </p>
+          <label className="booking-payment-confirmation">
+            <input
+              type="checkbox"
+              checked={paymentConfirmed}
+              disabled={!quote}
+              onChange={(event) => setPaymentConfirmed(event.target.checked)}
+            />
+            <span>He confirmado con Origen las fechas y el importe.</span>
+          </label>
+          <RevolutPaymentAction
+            label={quote ? `Pagar estancia en Revolut · ${formatEuros(quote.totalCents)}` : "Selecciona fechas para pagar"}
             className="booking-primary"
-            disabled={!stripeReady}
-            payload={checkoutPayload}
-            onError={setCheckoutError}
+            disabled={!paymentReady}
           />
-          <StripeCheckoutButton
-            kind="retreat_deposit"
-            label="Reservar con 100 €"
+          <RevolutPaymentAction
+            label="Enviar anticipo en Revolut · 100 €"
             className="booking-deposit"
-            disabled={!stripeReady || !depositEligible}
-            payload={checkoutPayload}
-            onError={setCheckoutError}
+            disabled={!paymentReady || !depositEligible}
           />
           <p className="booking-deposit-note">
             El anticipo de 100 € está disponible con 30 días de antelación. El
             importe restante{quote ? ` (${formatEuros(quote.totalCents - 10_000)})` : ""} se coordina por separado.
           </p>
-          {checkoutError ? (
-            <p className="booking-checkout-error" role="alert">{checkoutError}</p>
-          ) : null}
           <a className="booking-airbnb" href={bookingUrl} target="_blank" rel="noreferrer">
             Comprobar en Airbnb
             <span className="external-link-dot" aria-hidden="true" />
           </a>
           <a className="booking-secondary" href={HOST_APPLICATION_URL} target="_blank" rel="noreferrer">Proponer un retiro</a>
-          <small>Los pagos se procesan de forma segura en Stripe. Las fechas quedan pendientes de confirmación de Origen: la sincronización del calendario de Airbnb puede tardar unas horas.</small>
+          <small>Introduce manualmente en Revolut el importe indicado. Este enlace no comunica el pago ni bloquea las fechas en la web; comunica a Origen el justificante y las fechas para completar la reserva.</small>
         </aside>
       </div>
     </section>

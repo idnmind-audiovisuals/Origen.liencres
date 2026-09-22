@@ -659,6 +659,42 @@
   cursor: not-allowed;
 }
 
+.booking-payment-note {
+  margin: 28px 0 0;
+  color: #f2efe8;
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.booking-payment-note a {
+  color: inherit;
+  text-underline-offset: 3px;
+}
+
+.booking-payment-confirmation {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  margin-top: 18px;
+  color: #f2efe8;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.booking-payment-confirmation input {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 18px;
+  margin: 2px 0 0;
+  accent-color: #68763d;
+}
+
+.booking-payment-confirmation:has(input:disabled) {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .booking-deposit {
   margin-top: 12px;
   color: #f2efe8;

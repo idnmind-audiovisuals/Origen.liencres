@@ -226,8 +226,11 @@ test("keeps Airbnb and Stripe credentials server-side and degrades safely before
   assert.match(route, /loadAirbnbAvailability/);
   assert.match(calendar, /process\.env\.AIRBNB_ICAL_URL/);
   assert.doesNotMatch(client, /AIRBNB_ICAL_URL/);
-  assert.match(client, /Pagar estancia/);
-  assert.match(client, /Reservar con 100 €/);
+  assert.match(client, /https:\/\/revolut\.me\/mariogonzalezdia/);
+  assert.match(client, /Pagar estancia en Revolut/);
+  assert.match(client, /Enviar anticipo en Revolut · 100 €/);
+  assert.match(client, /He confirmado con Origen las fechas y el importe/);
+  assert.doesNotMatch(client, /StripeCheckoutButton|StripePaymentStatus/);
   assert.match(calendar, /revalidate: 10_800/);
   assert.match(stripeRoute, /process\.env\.STRIPE_SECRET_KEY/);
   assert.match(stripeRoute, /price_data\]\[unit_amount/);
