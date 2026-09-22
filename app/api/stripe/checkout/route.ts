@@ -41,6 +41,7 @@ function error(message: string, status = 400) {
 function appendSharedCheckoutFields(params: URLSearchParams) {
   params.set("billing_address_collection", "required");
   params.set("phone_number_collection[enabled]", "true");
+  params.set("payment_method_types[0]", "card");
   params.set("locale", "es");
 }
 
@@ -70,11 +71,6 @@ async function createStripeSession(params: URLSearchParams) {
   return session.url;
 }
 
-function configuredPrice(configuredValue: string | undefined) {
-  const value = configuredValue?.trim();
-  return value && /^price_[A-Za-z0-9]+$/.test(value) ? value : null;
-}
-
 export async function POST(request: Request) {
   let body: CheckoutRequest;
   try {
@@ -84,16 +80,14 @@ export async function POST(request: Request) {
   }
 
   if (body.kind === "bros_monthly") {
-    const price = configuredPrice(process.env.STRIPE_BROS_MONTHLY_PRICE_ID);
-    if (!price) {
-      return error("La suscripción todavía no está activada.", 503);
-    }
-
     const params = new URLSearchParams({
       mode: "subscription",
-      success_url: `${PUBLIC_SITE_URL}/circulo-de-hombres?subscription=success`,
+      success_url: `${PUBLIC_SITE_URL}/circulo-de-hombres?subscription_session={CHECKOUT_SESSION_ID}#suscripcion`,
       cancel_url: `${PUBLIC_SITE_URL}/circulo-de-hombres?subscription=cancelled#suscripcion`,
-      "line_items[0][price]": price,
+      "line_items[0][price_data][currency]": "eur",
+      "line_items[0][price_data][unit_amount]": "10000",
+      "line_items[0][price_data][recurring][interval]": "month",
+      "line_items[0][price_data][product_data][name]": "Origen Bros · suscripción mensual",
       "line_items[0][quantity]": "1",
       "metadata[service]": "origen_bros_monthly",
       "subscription_data[metadata][service]": "origen_bros_monthly",
@@ -147,7 +141,7 @@ export async function POST(request: Request) {
 
   let availability: Awaited<ReturnType<typeof loadAirbnbAvailability>>;
   try {
-    availability = await loadAirbnbAvailability();
+    availability = await loadAirbnbAvailability({ fresh: true });
   } catch {
     return error("No podemos confirmar la disponibilidad ahora mismo.", 503);
   }
@@ -164,7 +158,7 @@ export async function POST(request: Request) {
   const kindLabel = body.kind === "retreat_full" ? "full_stay" : "deposit";
   const params = new URLSearchParams({
     mode: "payment",
-    success_url: `${PUBLIC_SITE_URL}/retiro?payment=success#reservar`,
+    success_url: `${PUBLIC_SITE_URL}/retiro?payment_session={CHECKOUT_SESSION_ID}#reservar`,
     cancel_url: `${PUBLIC_SITE_URL}/retiro?payment=cancelled#reservar`,
     submit_type: "book",
     customer_creation: "always",
@@ -184,6 +178,8 @@ export async function POST(request: Request) {
     "payment_intent_data[metadata][arrival]": arrival,
     "payment_intent_data[metadata][departure]": departure,
   });
+  // A shorter Checkout window limits how long the availability check can become stale.
+  params.set("expires_at", String(Math.floor(Date.now() / 1000) + 1_800));
   params.set("line_items[0][price_data][currency]", "eur");
   params.set(
     "line_items[0][price_data][product_data][name]",

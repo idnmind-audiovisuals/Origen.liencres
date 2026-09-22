@@ -679,6 +679,24 @@
   color: #f3b7a7;
 }
 
+.stripe-payment-status {
+  margin: 0 0 20px;
+  padding: 15px 18px;
+  border: 1px solid rgb(242 239 232 / 0.28);
+  color: #f2efe8;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.stripe-payment-status.is-success {
+  border-color: #68763d;
+}
+
+.stripe-payment-status.is-error {
+  border-color: #f3b7a7;
+  color: #f3b7a7;
+}
+
 .booking-airbnb {
   min-height: 46px;
   margin-top: 22px;

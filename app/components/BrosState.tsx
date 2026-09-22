@@ -11,6 +11,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { GatewayBrandLink } from "./GatewayBrandLink";
 import { InstagramLink } from "./InstagramLink";
 import { StripeCheckoutButton } from "./StripeCheckoutButton";
+import { StripePaymentStatus } from "./StripePaymentStatus";
 import {
   CINEMATIC_ENTRY_EASE,
   GATEWAY_MOTION,
@@ -378,6 +379,7 @@ export function BrosState({ development, onReset }: BrosStateProps) {
             <h2 id="subscription-title">Sostener el círculo.</h2>
           </div>
           <div className="bros-subscription-content">
+            <StripePaymentStatus context="bros" />
             <p className="bros-subscription-price">
               <strong>100 €</strong>
               <span>al mes</span>

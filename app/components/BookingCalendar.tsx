@@ -8,6 +8,7 @@ import {
   RETREAT_MAX_GUESTS,
 } from "../lib/retreat-pricing";
 import { StripeCheckoutButton } from "./StripeCheckoutButton";
+import { StripePaymentStatus } from "./StripePaymentStatus";
 
 type UnavailableRange = {
   start: string;
@@ -270,6 +271,7 @@ export function BookingCalendar() {
         </div>
 
         <aside className="booking-summary" aria-label="Resumen de reserva">
+          <StripePaymentStatus context="retreat" />
           <div>
             <p className="retreat-public-eyebrow">Uso exclusivo</p>
             <h3>Reserva la casa completa.</h3>
@@ -342,7 +344,7 @@ export function BookingCalendar() {
             <span className="external-link-dot" aria-hidden="true" />
           </a>
           <a className="booking-secondary" href={HOST_APPLICATION_URL} target="_blank" rel="noreferrer">Proponer un retiro</a>
-          <small>Los pagos se procesan de forma segura en Stripe. La sincronización del calendario de Airbnb puede tardar unas horas.</small>
+          <small>Los pagos se procesan de forma segura en Stripe. Las fechas quedan pendientes de confirmación de Origen: la sincronización del calendario de Airbnb puede tardar unas horas.</small>
         </aside>
       </div>
     </section>

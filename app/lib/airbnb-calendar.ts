@@ -34,16 +34,15 @@ export function rangeTouchesUnavailable(
   return ranges.some((range) => start < range.end && end > range.start);
 }
 
-export async function loadAirbnbAvailability() {
+export async function loadAirbnbAvailability(options: { fresh?: boolean } = {}) {
   const calendarUrl = process.env.AIRBNB_ICAL_URL?.trim();
   if (!calendarUrl) {
     return { configured: false as const, unavailable: [] as UnavailableRange[] };
   }
 
-  const response = await fetch(calendarUrl, {
-    next: { revalidate: 10_800 },
-    headers: { Accept: "text/calendar" },
-  });
+  const response = await fetch(calendarUrl, options.fresh
+    ? { cache: "no-store", headers: { Accept: "text/calendar" } }
+    : { next: { revalidate: 10_800 }, headers: { Accept: "text/calendar" } });
   if (!response.ok) {
     throw new Error(`Calendar responded with ${response.status}`);
   }

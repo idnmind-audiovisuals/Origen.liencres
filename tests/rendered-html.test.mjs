@@ -232,10 +232,14 @@ test("keeps Airbnb and Stripe credentials server-side and degrades safely before
   assert.match(stripeRoute, /process\.env\.STRIPE_SECRET_KEY/);
   assert.match(stripeRoute, /price_data\]\[unit_amount/);
   assert.match(stripeRoute, /10_000/);
-  assert.match(stripeRoute, /STRIPE_BROS_MONTHLY_PRICE_ID/);
+  assert.match(stripeRoute, /\"line_items\[0\]\[price_data\]\[unit_amount\]\": \"10000\"/);
+  assert.match(stripeRoute, /\"line_items\[0\]\[price_data\]\[recurring\]\[interval\]\": \"month\"/);
+  assert.match(stripeRoute, /loadAirbnbAvailability\(\{ fresh: true \}\)/);
   assert.match(stripeRoute, /daysUntilArrival < 30/);
   assert.match(stripeRoute, /rangeTouchesUnavailable/);
   assert.doesNotMatch(stripeButton, /STRIPE_SECRET_KEY|price_[A-Za-z0-9]/);
+  const invalidSession = await requestWorker("/api/stripe/session?id=invalid");
+  assert.equal(invalidSession.status, 400);
 });
 
 test("connects the existing discovery pages to all organiser pages", async () => {
@@ -427,7 +431,7 @@ test("keeps all access keys server-only and destination-scoped", async () => {
   assert.doesNotMatch(session, /["'](?:Esencia|Bros|Espacio|Experiencia|Proposito|Purpose)["']/i);
   assert.equal(
     example,
-    "ORIGEN_ACCESS_KEY=\nORIGEN_BROS_ACCESS_KEY=\nORIGEN_SPACE_ACCESS_KEY=\nORIGEN_EXPERIENCE_ACCESS_KEY=\nORIGEN_HOSTS_ES_ACCESS_KEY=\nORIGEN_HOSTS_EN_ACCESS_KEY=\nAIRBNB_ICAL_URL=\nSTRIPE_SECRET_KEY=\nSTRIPE_BROS_MONTHLY_PRICE_ID=\n",
+    "ORIGEN_ACCESS_KEY=\nORIGEN_BROS_ACCESS_KEY=\nORIGEN_SPACE_ACCESS_KEY=\nORIGEN_EXPERIENCE_ACCESS_KEY=\nORIGEN_HOSTS_ES_ACCESS_KEY=\nORIGEN_HOSTS_EN_ACCESS_KEY=\nAIRBNB_ICAL_URL=\nSTRIPE_SECRET_KEY=\n",
   );
   assert.match(
     bros,
