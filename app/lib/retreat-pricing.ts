@@ -1,4 +1,5 @@
 export const RETREAT_BASE_NIGHT_EUR = 497;
+export const RETREAT_DEPOSIT_PER_NIGHT_EUR = 100;
 export const RETREAT_MAX_GUESTS = 9;
 export const RETREAT_MAX_NIGHTS = 60;
 
@@ -13,6 +14,8 @@ export type RetreatQuote = {
   discountPercent: number;
   discountCents: number;
   totalCents: number;
+  depositCents: number;
+  balanceDueCents: number;
 };
 
 function utcDate(value: string): Date | null {
@@ -56,6 +59,8 @@ export function calculateRetreatQuote(
   const subtotalCents = baseCents + highSeasonSurchargeCents;
   const discountPercent = nights >= 7 ? 30 : nights >= 3 ? 20 : 0;
   const discountCents = Math.round((subtotalCents * discountPercent) / 100);
+  const totalCents = subtotalCents - discountCents;
+  const depositCents = nights * RETREAT_DEPOSIT_PER_NIGHT_EUR * 100;
 
   return {
     nights,
@@ -64,6 +69,8 @@ export function calculateRetreatQuote(
     highSeasonSurchargeCents,
     discountPercent,
     discountCents,
-    totalCents: subtotalCents - discountCents,
+    totalCents,
+    depositCents,
+    balanceDueCents: totalCents - depositCents,
   };
 }

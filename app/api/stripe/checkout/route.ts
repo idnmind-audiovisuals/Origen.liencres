@@ -6,6 +6,7 @@ import {
 import { PUBLIC_SITE_URL } from "../../../lib/public-retreat-content";
 import {
   calculateRetreatQuote,
+  RETREAT_DEPOSIT_PER_NIGHT_EUR,
   RETREAT_MAX_GUESTS,
   RETREAT_MAX_NIGHTS,
 } from "../../../lib/retreat-pricing";
@@ -135,7 +136,7 @@ export async function POST(request: Request) {
       (utcDate(arrival).getTime() - todayUtc().getTime()) / DAY_MS,
     );
     if (daysUntilArrival < 30) {
-      return error("La reserva de 100 € requiere al menos 30 días de antelación.");
+      return error(`El anticipo de ${RETREAT_DEPOSIT_PER_NIGHT_EUR} € por noche requiere al menos 30 días de antelación.`);
     }
   }
 
@@ -172,7 +173,7 @@ export async function POST(request: Request) {
     "metadata[stay_total_eur]": (quote.totalCents / 100).toFixed(2),
     "metadata[high_season_nights]": String(quote.highSeasonNights),
     "metadata[discount_percent]": String(quote.discountPercent),
-    "metadata[balance_due_eur]": body.kind === "retreat_deposit" ? ((quote.totalCents - 10_000) / 100).toFixed(2) : "0.00",
+    "metadata[balance_due_eur]": body.kind === "retreat_deposit" ? (quote.balanceDueCents / 100).toFixed(2) : "0.00",
     "payment_intent_data[metadata][service]": "origen_retreat_stay",
     "payment_intent_data[metadata][payment_kind]": kindLabel,
     "payment_intent_data[metadata][arrival]": arrival,
@@ -185,10 +186,10 @@ export async function POST(request: Request) {
     "line_items[0][price_data][product_data][name]",
     body.kind === "retreat_full"
       ? `Origen Liencres · ${nights} ${nights === 1 ? "noche" : "noches"}`
-      : "Origen Liencres · anticipo de reserva",
+      : `Origen Liencres · anticipo de ${RETREAT_DEPOSIT_PER_NIGHT_EUR} € por noche`,
   );
-  params.set("line_items[0][price_data][unit_amount]", String(body.kind === "retreat_full" ? quote.totalCents : 10_000));
-  params.set("line_items[0][quantity]", "1");
+  params.set("line_items[0][price_data][unit_amount]", String(body.kind === "retreat_full" ? quote.totalCents : RETREAT_DEPOSIT_PER_NIGHT_EUR * 100));
+  params.set("line_items[0][quantity]", String(body.kind === "retreat_full" ? 1 : nights));
   appendSharedCheckoutFields(params);
 
   try {

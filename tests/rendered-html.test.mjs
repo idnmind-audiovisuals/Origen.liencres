@@ -184,8 +184,12 @@ test("presents the house, availability and secure booking on the Spanish commerc
 
 test("quotes the same length discounts and peak-season surcharge shown at checkout", () => {
   assert.equal(calculateRetreatQuote("2027-05-01", "2027-05-02")?.totalCents, 49_700);
+  assert.equal(calculateRetreatQuote("2027-05-01", "2027-05-02")?.depositCents, 10_000);
   assert.equal(calculateRetreatQuote("2027-05-01", "2027-05-04")?.totalCents, 119_280);
+  assert.equal(calculateRetreatQuote("2027-05-01", "2027-05-04")?.depositCents, 30_000);
+  assert.equal(calculateRetreatQuote("2027-05-01", "2027-05-04")?.balanceDueCents, 89_280);
   assert.equal(calculateRetreatQuote("2027-05-01", "2027-05-08")?.totalCents, 243_530);
+  assert.equal(calculateRetreatQuote("2027-05-01", "2027-05-08")?.depositCents, 70_000);
   assert.equal(calculateRetreatQuote("2027-07-01", "2027-07-02")?.totalCents, 64_610);
   assert.equal(calculateRetreatQuote("2027-07-01", "2027-07-04")?.totalCents, 155_064);
   assert.equal(calculateRetreatQuote("2027-12-20", "2027-12-21")?.totalCents, 64_610);
@@ -228,13 +232,16 @@ test("keeps Airbnb and Stripe credentials server-side and degrades safely before
   assert.doesNotMatch(client, /AIRBNB_ICAL_URL/);
   assert.match(client, /https:\/\/revolut\.me\/mariogonzalezdia/);
   assert.match(client, /Pagar estancia en Revolut/);
-  assert.match(client, /Enviar anticipo en Revolut · 100 €/);
+  assert.match(client, /Enviar anticipo en Revolut · \$\{formatEuros\(quote\.depositCents\)\}/);
+  assert.match(client, /El anticipo es de \{RETREAT_DEPOSIT_PER_NIGHT_EUR\} € por noche/);
   assert.match(client, /He confirmado con Origen las fechas y el importe/);
   assert.doesNotMatch(client, /StripeCheckoutButton|StripePaymentStatus/);
   assert.match(calendar, /revalidate: 10_800/);
   assert.match(stripeRoute, /process\.env\.STRIPE_SECRET_KEY/);
   assert.match(stripeRoute, /price_data\]\[unit_amount/);
-  assert.match(stripeRoute, /10_000/);
+  assert.match(stripeRoute, /quote\.balanceDueCents/);
+  assert.match(stripeRoute, /RETREAT_DEPOSIT_PER_NIGHT_EUR \* 100/);
+  assert.match(stripeRoute, /body\.kind === "retreat_full" \? 1 : nights/);
   assert.match(stripeRoute, /\"line_items\[0\]\[price_data\]\[unit_amount\]\": \"10000\"/);
   assert.match(stripeRoute, /\"line_items\[0\]\[price_data\]\[recurring\]\[interval\]\": \"month\"/);
   assert.match(stripeRoute, /loadAirbnbAvailability\(\{ fresh: true \}\)/);

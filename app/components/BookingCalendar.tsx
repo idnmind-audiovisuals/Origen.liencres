@@ -5,6 +5,7 @@ import { ORIGEN_AIRBNB_URL, HOST_APPLICATION_URL } from "../lib/public-retreat-c
 import {
   calculateRetreatQuote,
   RETREAT_BASE_NIGHT_EUR,
+  RETREAT_DEPOSIT_PER_NIGHT_EUR,
   RETREAT_MAX_GUESTS,
 } from "../lib/retreat-pricing";
 
@@ -356,13 +357,16 @@ export function BookingCalendar() {
             disabled={!paymentReady}
           />
           <RevolutPaymentAction
-            label="Enviar anticipo en Revolut · 100 €"
+            label={quote ? `Enviar anticipo en Revolut · ${formatEuros(quote.depositCents)}` : `Anticipo · ${RETREAT_DEPOSIT_PER_NIGHT_EUR} € por noche`}
             className="booking-deposit"
             disabled={!paymentReady || !depositEligible}
           />
           <p className="booking-deposit-note">
-            El anticipo de 100 € está disponible con 30 días de antelación. El
-            importe restante{quote ? ` (${formatEuros(quote.totalCents - 10_000)})` : ""} se coordina por separado.
+            El anticipo es de {RETREAT_DEPOSIT_PER_NIGHT_EUR} € por noche
+            {quote ? ` (${quote.nights} ${quote.nights === 1 ? "noche" : "noches"} = ${formatEuros(quote.depositCents)})` : ""}{" "}
+            y está disponible con al menos 30 días de antelación. No se suma al
+            total de la estancia; el importe restante
+            {quote ? ` (${formatEuros(quote.balanceDueCents)})` : ""} se coordina por separado.
           </p>
           <a className="booking-airbnb" href={bookingUrl} target="_blank" rel="noreferrer">
             Comprobar en Airbnb
