@@ -710,17 +710,10 @@
 }
 
 .booking-host-mark {
-  display: grid;
+  display: block;
   width: clamp(120px, 15vw, 230px);
-  aspect-ratio: 1;
+  height: auto;
   align-self: start;
-  color: #f2efe8;
-  border-radius: 50%;
-  background: #68763d;
-  place-items: center;
-  font-size: clamp(42px, 6vw, 92px);
-  font-weight: 300;
-  letter-spacing: -0.08em;
 }
 
 .booking-host > div:last-child,

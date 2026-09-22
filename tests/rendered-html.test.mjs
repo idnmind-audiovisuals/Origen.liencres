@@ -161,6 +161,7 @@ test("presents the house, availability and secure booking on the Spanish commerc
   assert.doesNotMatch(html, /id="booking-rooms-title"/);
   assert.doesNotMatch(html, /id="booking-amenities-title"/);
   assert.match(html, /id="booking-host-title"/);
+  assert.match(html, /src="\/origen-host-mark\.png"/);
   assert.match(html, /id="booking-reviews-title"/);
   assert.match(html, /Reseñas verificadas en Airbnb/);
   assert.match(html, /id="reservar"/);

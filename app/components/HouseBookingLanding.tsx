@@ -155,7 +155,14 @@ export function HouseBookingLanding() {
       <BookingCalendar />
 
       <section className="booking-host scroll-reveal" aria-labelledby="booking-host-title">
-        <div className="booking-host-mark" aria-hidden="true">O</div>
+        <img
+          className="booking-host-mark"
+          src="/origen-host-mark.png"
+          alt=""
+          width={951}
+          height={951}
+          aria-hidden="true"
+        />
         <div>
           <p className="retreat-public-eyebrow">Tu anfitrión</p>
           <h2 id="booking-host-title">Acompañamiento directo de Origen.</h2>
