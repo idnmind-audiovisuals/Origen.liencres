@@ -156,8 +156,9 @@ test("presents the house, availability and secure booking on the Spanish commerc
   assert.match(html, /a0\.muscache\.com\/im\/pictures\/hosting\/Hosting-23250801/);
   assert.match(html, /8 huéspedes/);
   assert.match(html, /3 habitaciones · 7 camas/);
-  assert.match(html, /id="booking-rooms-title"/);
-  assert.match(html, /id="booking-amenities-title"/);
+  assert.doesNotMatch(html, /id="booking-details-title"/);
+  assert.doesNotMatch(html, /id="booking-rooms-title"/);
+  assert.doesNotMatch(html, /id="booking-amenities-title"/);
   assert.match(html, /id="booking-host-title"/);
   assert.match(html, /id="booking-reviews-title"/);
   assert.match(html, /Reseñas verificadas en Airbnb/);

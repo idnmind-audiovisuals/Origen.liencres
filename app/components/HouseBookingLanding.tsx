@@ -32,33 +32,6 @@ const HOUSE_PHOTOS = [
   },
 ] as const;
 
-const SPACE_DETAILS = [
-  ["8 huéspedes", "Una escala íntima para convivir y sostener la experiencia como un solo grupo."],
-  ["3 habitaciones · 7 camas", "Distribución flexible para facilitadores, participantes y residencias creativas."],
-  ["2 baños", "Comodidad cotidiana para una estancia compartida de varios días."],
-  ["Casa completa", "Cocina-salón, jardín, porche y aparcamiento para uso privado del grupo."],
-  ["Sala de práctica", "Un espacio amplio para movimiento, embodiment, yoga, conversación y creación."],
-  ["Mar y bosque", "Playas, senderos y el paisaje de Costa Quebrada cerca de la casa."],
-] as const;
-
-const BEDROOMS = [
-  {
-    title: "Habitación principal",
-    description:
-      "Un dormitorio tranquilo para descansar entre sesiones y días compartidos.",
-  },
-  {
-    title: "Habitación de grupo",
-    description:
-      "Una distribución pensada para convivir durante retiros y residencias íntimas.",
-  },
-  {
-    title: "Habitación flexible",
-    description:
-      "El uso de las camas se acuerda según el tamaño y las necesidades de cada grupo.",
-  },
-] as const;
-
 const AMENITIES = [
   "Alojamiento para hasta 8 huéspedes",
   "3 habitaciones y 7 camas",
@@ -177,57 +150,6 @@ export function HouseBookingLanding() {
           <p>Origen es una casa amplia y privada en Liencres, creada para retiros íntimos, residencias y encuentros que necesitan tiempo, presencia y continuidad.</p>
           <p>El alojamiento, las zonas compartidas, el jardín y el espacio de práctica permiten alternar sesiones, descanso y convivencia sin fragmentar la experiencia.</p>
         </div>
-      </section>
-
-      <section className="booking-details" aria-labelledby="booking-details-title">
-        <div className="booking-details-heading scroll-reveal">
-          <p className="retreat-public-eyebrow">El espacio de un vistazo</p>
-          <h2 id="booking-details-title">Privado para tu grupo.</h2>
-        </div>
-        <div className="booking-detail-grid scroll-reveal-list">
-          {SPACE_DETAILS.map(([title, description], index) => (
-            <article key={title}>
-              <span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
-              <h3>{title}</h3>
-              <p>{description}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="booking-rooms" aria-labelledby="booking-rooms-title">
-        <div className="booking-section-heading scroll-reveal">
-          <p className="retreat-public-eyebrow">Dónde dormiréis</p>
-          <h2 id="booking-rooms-title">Habitaciones para convivir y descansar.</h2>
-          <p>
-            La casa dispone de tres habitaciones y siete camas. Antes de reservar,
-            confirmamos contigo la distribución adecuada para participantes y equipo.
-          </p>
-        </div>
-        <div className="booking-room-grid scroll-reveal-list">
-          {BEDROOMS.map((room, index) => (
-            <article key={room.title}>
-              <span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
-              <h3>{room.title}</h3>
-              <p>{room.description}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="booking-amenities" aria-labelledby="booking-amenities-title">
-        <div className="booking-section-heading scroll-reveal">
-          <p className="retreat-public-eyebrow">Qué ofrece el espacio</p>
-          <h2 id="booking-amenities-title">Lo esencial para una estancia compartida.</h2>
-        </div>
-        <ul className="booking-amenities-grid scroll-reveal-list">
-          {AMENITIES.map((amenity) => (
-            <li key={amenity}>
-              <span aria-hidden="true" />
-              {amenity}
-            </li>
-          ))}
-        </ul>
       </section>
 
       <BookingCalendar />
