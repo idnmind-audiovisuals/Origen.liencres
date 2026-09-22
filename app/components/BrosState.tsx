@@ -7,11 +7,9 @@ import {
   useSpring,
   useTransform,
 } from "framer-motion";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef } from "react";
 import { GatewayBrandLink } from "./GatewayBrandLink";
 import { InstagramLink } from "./InstagramLink";
-import { StripeCheckoutButton } from "./StripeCheckoutButton";
-import { StripePaymentStatus } from "./StripePaymentStatus";
 import {
   CINEMATIC_ENTRY_EASE,
   GATEWAY_MOTION,
@@ -95,7 +93,6 @@ const AGREEMENTS = [
 
 export function BrosState({ development, onReset }: BrosStateProps) {
   const pageRef = useRef<HTMLElement>(null);
-  const [subscriptionError, setSubscriptionError] = useState("");
   const reducedMotion = useReducedMotion();
   const { scrollYProgress } = useScroll({ container: pageRef });
   const heroOffset = useTransform(scrollYProgress, [0, 0.3], [0, 96]);
@@ -375,33 +372,31 @@ export function BrosState({ development, onReset }: BrosStateProps) {
           transition={{ duration: 1.3, ease: CINEMATIC_ENTRY_EASE }}
         >
           <div className="bros-section-heading">
-            <p>Suscripción mensual</p>
+            <p>Participación mensual</p>
             <h2 id="subscription-title">Sostener el círculo.</h2>
           </div>
           <div className="bros-subscription-content">
-            <StripePaymentStatus context="bros" />
             <p className="bros-subscription-price">
               <strong>100 €</strong>
               <span>al mes</span>
             </p>
             <p className="bros-subscription-copy">
-              Una suscripción mensual para participar en los encuentros y dar
+              Una aportación mensual para participar en los encuentros y dar
               continuidad al proceso, al grupo y al espacio que construimos
               juntos.
             </p>
-            <StripeCheckoutButton
-              kind="bros_monthly"
-              label="Suscribirme"
+            <a
               className="bros-subscription-action"
-              onError={setSubscriptionError}
-            />
-            {subscriptionError ? (
-              <p className="bros-subscription-error" role="alert">
-                {subscriptionError}
-              </p>
-            ) : null}
+              href="https://revolut.me/mariogonzalezdia"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Pagar con Revolut
+              <span className="external-link-dot" aria-hidden="true" />
+            </a>
             <small>
-              Pago recurrente mensual procesado de forma segura por Stripe.
+              Indica 100 € en Revolut. Este enlace no renueva el pago automáticamente;
+              tendrás que repetirlo cada mes.
             </small>
           </div>
         </motion.section>

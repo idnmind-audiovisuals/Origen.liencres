@@ -441,11 +441,11 @@ test("keeps all access keys server-only and destination-scoped", async () => {
   assert.match(bros, /Un espacio de autenticidad para hombres\./);
   assert.match(bros, />\s*UNIRME\s*</);
   assert.match(bros, /<strong>Solicitar acceso<\/strong>/);
-  assert.match(bros, /kind="bros_monthly"/);
+  assert.match(bros, /href="https:\/\/revolut\.me\/mariogonzalezdia"/);
   assert.doesNotMatch(bros, /STRIPE_SECRET_KEY|STRIPE_BROS_MONTHLY_PRICE_ID/);
   assert.match(bros, /<strong>100 €<\/strong>/);
-  assert.match(bros, /label="Suscribirme"/);
-  assert.match(bros, /Pago recurrente mensual procesado de forma segura por Stripe/);
+  assert.match(bros, /Pagar con Revolut/);
+  assert.match(bros, /no renueva el pago automáticamente/);
   assert.match(
     invitation,
     /https:\/\/docs\.google\.com\/forms\/d\/e\/1FAIpQLScHDNpewNDGJQalw3Dvpz3hm2RzsIV1bdzRrpRHZ3ShApJJEA\/viewform\?usp=publish-editor["']/,
