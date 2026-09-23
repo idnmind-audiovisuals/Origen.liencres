@@ -3082,14 +3082,7 @@ button {
 .origen-wordmark-image {
   display: block;
   width: 100%;
-  aspect-ratio: 1090 / 296;
-  background: var(--gateway-accent);
-  -webkit-mask-position: center;
-  mask-position: center;
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-size: contain;
-  mask-size: contain;
+  height: auto;
   user-select: none;
 }
 

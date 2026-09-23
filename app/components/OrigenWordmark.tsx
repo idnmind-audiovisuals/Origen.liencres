@@ -30,15 +30,36 @@ export function OrigenWordmark({
           ease: ORGANIC_EASE,
         }}
       >
-        {/* The supplied wordmark is used as a mask so its brand color is exact. */}
-        <span
+        {/* Preserve the supplied crescent while mapping its two brand tones. */}
+        <svg
           className="origen-wordmark-image"
+          viewBox="0 0 1090 296"
           aria-hidden="true"
-          style={{
-            WebkitMaskImage: `url("${ORIGEN_WORDMARK_ASSET}")`,
-            maskImage: `url("${ORIGEN_WORDMARK_ASSET}")`,
-          }}
-        />
+          focusable="false"
+        >
+          <defs>
+            <filter
+              id="origen-wordmark-gateway-colors"
+              colorInterpolationFilters="sRGB"
+            >
+              <feColorMatrix
+                type="matrix"
+                values="
+                  -0.145631 0 0 0 0.969579
+                  0 -0.357843 0 0 0.986371
+                  0 0 -0.761194 0 1.002338
+                  0 0 0 1 0
+                "
+              />
+            </filter>
+          </defs>
+          <image
+            href={ORIGEN_WORDMARK_ASSET}
+            width="1090"
+            height="296"
+            filter="url(#origen-wordmark-gateway-colors)"
+          />
+        </svg>
       </motion.div>
     </div>
   );
