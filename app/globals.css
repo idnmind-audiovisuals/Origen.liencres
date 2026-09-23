@@ -3041,18 +3041,43 @@ button {
 }
 
 .forming-inner {
-  background: var(--paper);
+  background: var(--ink);
+}
+
+.forming-crescent-shell,
+.transition-crescent-shell,
+.forming-crescent-art {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.forming-crescent-shell,
+.forming-crescent-art {
+  z-index: 2;
+}
+
+.forming-crescent-shell,
+.transition-crescent-shell {
+  transform-origin: 50% 50%;
+  will-change: transform, opacity;
+}
+
+.forming-crescent-art {
+  display: block;
+  pointer-events: none;
 }
 
 .forming-dot {
   position: absolute;
-  z-index: 2;
+  z-index: 3;
   top: 61.0656%;
   left: 42.5795%;
   width: 14.841%;
   aspect-ratio: 1;
   border-radius: 50%;
-  background: var(--black);
+  background: var(--paper);
   transform-origin: 50% 50%;
   will-change: transform, opacity;
 }
@@ -3120,12 +3145,12 @@ button {
   min-height: 28px;
   padding: 3px 2px 6px;
   border: 0;
-  border-bottom: 1px solid rgb(36 35 31 / 0.32);
+  border-bottom: 1px solid rgb(242 239 232 / 0.42);
   border-radius: 0;
   outline: 0;
-  color: var(--ink);
+  color: var(--paper);
   background: transparent;
-  caret-color: var(--ink);
+  caret-color: var(--paper);
   font-size: clamp(13px, calc(var(--symbol-size) * 0.041), 17px);
   font-weight: 410;
   letter-spacing: 0.17em;
@@ -3136,7 +3161,7 @@ button {
 }
 
 .access-credential input::placeholder {
-  color: var(--ink);
+  color: var(--paper);
   font-size: clamp(10px, calc(var(--symbol-size) * 0.035), 14px);
   font-weight: 480;
   letter-spacing: 0.16em;
@@ -3144,8 +3169,8 @@ button {
 }
 
 .access-credential input:focus-visible {
-  border-bottom-color: var(--ink);
-  box-shadow: 0 2px 0 -1px var(--ink);
+  border-bottom-color: var(--paper);
+  box-shadow: 0 2px 0 -1px var(--paper);
 }
 
 .access-credential input:disabled {
@@ -3167,8 +3192,8 @@ button {
   border: 0;
   border-radius: 50%;
   outline: 0;
-  color: var(--paper);
-  background: var(--black);
+  color: var(--black);
+  background: var(--paper);
   cursor: pointer;
   pointer-events: auto;
   touch-action: manipulation;
@@ -3181,8 +3206,8 @@ button {
 
 .access-submit:focus-visible {
   box-shadow:
-    0 0 0 3px var(--paper),
-    0 0 0 5px var(--ink);
+    0 0 0 3px var(--ink),
+    0 0 0 5px var(--paper);
 }
 
 .access-submit:disabled {
@@ -3194,7 +3219,7 @@ button {
   width: 18%;
   aspect-ratio: 1;
   border-radius: 50%;
-  background: var(--paper);
+  background: var(--black);
   opacity: 0;
   transition: opacity 180ms ease;
 }
@@ -3260,12 +3285,12 @@ button {
 }
 
 .transition-white-circle {
-  background: var(--paper);
+  background: var(--ink);
 }
 
 .transition-black-dot {
   position: absolute;
-  z-index: 3;
+  z-index: 4;
   top: 61.0656%;
   left: 42.5795%;
   width: 14.841%;
@@ -3273,6 +3298,11 @@ button {
   border-radius: 50%;
   transform-origin: 50% 50%;
   will-change: transform;
+  background: var(--paper);
+}
+
+.transition-crescent-shell {
+  z-index: 3;
 }
 
 .invitation-page {

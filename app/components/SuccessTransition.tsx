@@ -7,6 +7,7 @@ import {
   CONCENTRIC_ZOOM_EASE,
   GATEWAY_MOTION,
 } from "../lib/gateway-motion";
+import { GatewayCrescentArtwork } from "./GatewayCrescentArtwork";
 
 type SuccessTransitionProps = {
   active: boolean;
@@ -14,41 +15,30 @@ type SuccessTransitionProps = {
 
 type CircleMetrics = {
   outerScale: number;
-  innerScale: number;
-  dotScale: number;
   outerY: number;
-  innerY: number;
-  dotY: number;
 };
 
 export function SuccessTransition({ active }: SuccessTransitionProps) {
   const stageRef = useRef<HTMLDivElement>(null);
   const blackCircleRef = useRef<HTMLDivElement>(null);
-  const whiteCircleRef = useRef<HTMLDivElement>(null);
-  const dotRef = useRef<HTMLDivElement>(null);
   const [metrics, setMetrics] = useState<CircleMetrics>({
     outerScale: 12,
-    innerScale: 12,
-    dotScale: 36,
     outerY: 0,
-    innerY: 0,
-    dotY: 0,
   });
 
   useLayoutEffect(() => {
     const measureViewport = () => {
       const stage = stageRef.current;
       const outer = blackCircleRef.current;
-      const inner = whiteCircleRef.current;
-      const dot = dotRef.current;
-      if (!stage || !outer || !inner || !dot) return;
+      if (!stage || !outer) return;
 
       const requiredDiameter = Math.sqrt(
         window.innerWidth ** 2 + window.innerHeight ** 2,
       );
       const stageScale = GATEWAY_MOTION.success.handoffScale;
       const stageHeight = stage.offsetHeight;
-      const zoomOriginY = stageHeight * 0.610656 + dot.offsetWidth / 2;
+      const dotDiameter = stage.offsetWidth * 0.14841;
+      const zoomOriginY = stageHeight * 0.610656 + dotDiameter / 2;
 
       const scaledCover = (diameter: number, overscan: number) =>
         (requiredDiameter * overscan) / (diameter * stageScale);
@@ -61,17 +51,7 @@ export function SuccessTransition({ active }: SuccessTransitionProps) {
           outer.offsetWidth,
           GATEWAY_MOTION.success.coverageOverscan,
         ),
-        innerScale: scaledCover(
-          inner.offsetWidth,
-          GATEWAY_MOTION.success.innerCoverageOverscan,
-        ),
-        dotScale: scaledCover(
-          dot.offsetWidth,
-          GATEWAY_MOTION.success.coverageOverscan,
-        ),
         outerY: centredY(0.032787, outer.offsetWidth),
-        innerY: centredY(0.217213, inner.offsetWidth),
-        dotY: centredY(0.610656, dot.offsetWidth),
       });
     };
 
@@ -146,41 +126,64 @@ export function SuccessTransition({ active }: SuccessTransitionProps) {
 
           <div className="transition-inner-shell">
             <motion.div
-              ref={whiteCircleRef}
               className="transition-white-circle"
               initial={false}
               animate={
                 active
                   ? {
-                      scale: [1, 1.055, metrics.innerScale],
-                      y: [0, 0, metrics.innerY],
+                      opacity: [1, 1, 0],
+                      scale: [1, 1.02, 0.98],
                     }
-                  : { scale: 1, y: 0 }
+                  : { opacity: 1, scale: 1 }
               }
               transition={
                 active
-                  ? { ...zoomTransition, times: [0, 0.16, 1] }
-                  : zoomTransition
+                  ? {
+                      duration: GATEWAY_MOTION.success.zoomDelay + 0.24,
+                      ease: CINEMATIC_ENTRY_EASE,
+                      times: [0, 0.68, 1],
+                    }
+                  : { duration: 0 }
               }
             />
           </div>
 
           <motion.div
-            ref={dotRef}
+            className="transition-crescent-shell"
+            initial={false}
+            animate={active ? { opacity: [1, 1, 0] } : { opacity: 1 }}
+            transition={
+              active
+                ? {
+                    duration: GATEWAY_MOTION.success.zoomDelay + 0.24,
+                    ease: CINEMATIC_ENTRY_EASE,
+                    times: [0, 0.68, 1],
+                  }
+                : { duration: 0 }
+            }
+          >
+            <GatewayCrescentArtwork className="forming-crescent-art" />
+          </motion.div>
+
+          <motion.div
             className="transition-black-dot"
             initial={false}
             animate={
               active
                 ? {
-                    scale: [1, 1.08, metrics.dotScale],
-                    y: [0, 0, metrics.dotY],
+                    opacity: [1, 1, 0],
+                    scale: [1, 1.08, 1.16],
                   }
-                : { scale: 1, y: 0 }
+                : { opacity: 1, scale: 1 }
             }
             transition={
               active
-                ? { ...zoomTransition, times: [0, 0.16, 1] }
-                : zoomTransition
+                ? {
+                    duration: GATEWAY_MOTION.success.zoomDelay + 0.24,
+                    ease: CINEMATIC_ENTRY_EASE,
+                    times: [0, 0.68, 1],
+                  }
+                : { duration: 0 }
             }
           />
         </motion.div>

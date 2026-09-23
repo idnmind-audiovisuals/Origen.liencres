@@ -8,6 +8,7 @@ import {
   LIGHT_EMERGENCE_EASE,
   ORGANIC_EASE,
 } from "../lib/gateway-motion";
+import { GatewayCrescentArtwork } from "./GatewayCrescentArtwork";
 
 type OrigenSymbolAnimationProps = {
   children?: ReactNode;
@@ -106,6 +107,20 @@ export function OrigenSymbolAnimation({
                 }}
               />
             </div>
+
+            <motion.div
+              className="forming-crescent-shell"
+              aria-hidden="true"
+              initial={{ opacity: 0, scale: 0.96 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{
+                delay: GATEWAY_MOTION.innerLight.delay,
+                duration: GATEWAY_MOTION.innerLight.duration,
+                ease: ORGANIC_EASE,
+              }}
+            >
+              <GatewayCrescentArtwork className="forming-crescent-art" />
+            </motion.div>
 
             <motion.div
               className="forming-dot"

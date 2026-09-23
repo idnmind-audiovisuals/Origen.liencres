@@ -6,6 +6,7 @@ import { AccessKeyForm } from "./AccessKeyForm";
 import { BrosState } from "./BrosState";
 import { HostsCircleState } from "./HostsCircleState";
 import { ExperienceState } from "./ExperienceState";
+import { GatewayCrescentArtwork } from "./GatewayCrescentArtwork";
 import { OpenedState } from "./OpenedState";
 import { OrigenWordmark } from "./OrigenWordmark";
 import {
@@ -134,6 +135,7 @@ export function ReducedMotionGateway({
             <div className="forming-inner-shell">
               <div className="forming-inner" />
             </div>
+            <GatewayCrescentArtwork className="forming-crescent-art" />
             <div className="forming-dot" />
           </div>
           <AccessKeyForm
