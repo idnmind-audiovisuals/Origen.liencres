@@ -4,6 +4,7 @@
   --ink: #24231f;
   --black: #24231f;
   --paper: #f2efe8;
+  --gateway-accent: #d4a64f;
   --portal-center-y: 42.99dvh;
   --portal-size: min(49.494dvh, calc(100vw - 32px));
   --symbol-size: calc(var(--portal-size) * 0.689284);
@@ -1003,7 +1004,7 @@ button {
   gap: 7px;
   justify-items: end;
   pointer-events: none;
-  color: var(--paper);
+  color: var(--ink);
   text-align: right;
 }
 
@@ -1039,8 +1040,8 @@ button {
   align-items: center;
   gap: 9px;
   pointer-events: auto;
-  color: inherit;
-  border: 1px solid rgb(242 239 232 / 0.42);
+  color: var(--gateway-accent);
+  border: 1px solid rgb(212 166 79 / 0.72);
   font-size: 8px;
   font-weight: 560;
   letter-spacing: 0.14em;
@@ -1059,8 +1060,8 @@ button {
 
 .gateway-public-entry a:hover {
   color: var(--black);
-  border-color: var(--paper);
-  background: var(--paper);
+  border-color: var(--gateway-accent);
+  background: var(--gateway-accent);
 }
 
 .gateway-public-entry a:focus-visible {
@@ -2961,7 +2962,7 @@ button {
 .gateway {
   display: grid;
   place-items: center;
-  background: var(--black);
+  background: var(--paper);
 }
 
 .first-light {
@@ -2974,7 +2975,7 @@ button {
   margin-top: calc(var(--portal-size) * -0.5);
   margin-left: calc(var(--portal-size) * -0.5);
   border-radius: 50%;
-  background: var(--paper);
+  background: var(--ink);
   transform-origin: 50% 50%;
   will-change: transform, opacity;
 }
@@ -3081,8 +3082,14 @@ button {
 .origen-wordmark-image {
   display: block;
   width: 100%;
-  height: auto;
-  object-fit: contain;
+  aspect-ratio: 1090 / 296;
+  background: var(--gateway-accent);
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+  mask-size: contain;
   user-select: none;
 }
 
@@ -3094,7 +3101,7 @@ button {
   width: var(--portal-size);
   aspect-ratio: 1;
   border-radius: 50%;
-  background: var(--paper);
+  background: var(--ink);
   transform: translate(-50%, -50%);
 }
 

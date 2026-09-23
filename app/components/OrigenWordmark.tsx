@@ -30,15 +30,14 @@ export function OrigenWordmark({
           ease: ORGANIC_EASE,
         }}
       >
-        {/* The supplied wordmark is rendered at its original proportions. */}
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
+        {/* The supplied wordmark is used as a mask so its brand color is exact. */}
+        <span
           className="origen-wordmark-image"
-          src={ORIGEN_WORDMARK_ASSET}
-          width="1090"
-          height="296"
-          alt=""
-          draggable="false"
+          aria-hidden="true"
+          style={{
+            WebkitMaskImage: `url("${ORIGEN_WORDMARK_ASSET}")`,
+            maskImage: `url("${ORIGEN_WORDMARK_ASSET}")`,
+          }}
         />
       </motion.div>
     </div>

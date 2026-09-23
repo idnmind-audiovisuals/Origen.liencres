@@ -98,7 +98,7 @@ export function ReducedMotionGateway({
       data-error={errorPulse || undefined}
       data-state={phase}
       initial={false}
-      animate={{ backgroundColor: "#24231f" }}
+      animate={{ backgroundColor: unlocking ? "#24231f" : "#f2efe8" }}
       transition={{
         delay: unlocking ? GATEWAY_MOTION.reduced.blackDelay : 0,
         duration: unlocking ? GATEWAY_MOTION.reduced.blackDuration : 0,
