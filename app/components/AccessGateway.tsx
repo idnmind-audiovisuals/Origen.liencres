@@ -165,7 +165,7 @@ export function AccessGateway({
         animate={{ opacity: formVisible && !unlocking ? 1 : 0 }}
         transition={{ duration: 0.48, ease: ORGANIC_EASE }}
       >
-        <span>Origen Liencres · Costa Quebrada</span>
+        <span>Liencres · Costa Quebrada</span>
         <h1>Espacio para residencias y retiros en Cantabria</h1>
         <p>
           La casa reúne naturaleza, playa y bosque para retiros íntimos y
