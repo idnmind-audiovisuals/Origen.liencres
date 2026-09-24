@@ -270,7 +270,7 @@ test("keeps the monthly organisers' circle out of public discovery", async () =>
 });
 
 test("keeps the existing private destinations behind the gateway", async () => {
-  for (const path of ["/space", "/experience", "/residency", "/circulo-de-hombres", "/retreat-organizers-circle", "/retreat-organizers-circle?lang=es", "/retreat-organizers-circle?lang=en"]) {
+  for (const path of ["/space", "/experience", "/residency", "/circulo-de-hombres", "/empoderate", "/retreat-organizers-circle", "/retreat-organizers-circle?lang=es", "/retreat-organizers-circle?lang=en"]) {
     const response = await render(path);
     assert.equal(response.status, 307, `${path} requires an access session`);
     assert.equal(new URL(response.headers.get("location"), "http://localhost").href, "http://localhost/");
@@ -403,7 +403,7 @@ test("consolidates the duplicate Spanish organiser route", async () => {
 });
 
 test("keeps all access keys server-only and destination-scoped", async () => {
-  const [client, gateway, route, session, example, bros, invitation, editorial, instagram, experience, environment, sculpture, siteCopy, styles, robots, sitemap, brosPage, legacyBrosPage, residencyPage, spacePage, experiencePage] = await Promise.all([
+  const [client, gateway, route, session, example, bros, invitation, editorial, instagram, experience, environment, sculpture, siteCopy, styles, robots, sitemap, brosPage, legacyBrosPage, residencyPage, spacePage, experiencePage, empoderatePage, empoderate] = await Promise.all([
     readFile(new URL("../app/components/AccessKeyForm.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/components/AccessGateway.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/api/access/route.ts", import.meta.url), "utf8"),
@@ -425,6 +425,8 @@ test("keeps all access keys server-only and destination-scoped", async () => {
     readFile(new URL("../app/residency/page.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/space/page.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/experience/page.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/empoderate/page.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/components/EmpoderateState.tsx", import.meta.url), "utf8"),
   ]);
 
   assert.doesNotMatch(client, /ORIGEN_(?:BROS_|SPACE_)?ACCESS_KEY|Esencia/i);
@@ -438,10 +440,11 @@ test("keeps all access keys server-only and destination-scoped", async () => {
   assert.match(session, /process\.env\.ORIGEN_EXPERIENCE_ACCESS_KEY/);
   assert.match(session, /process\.env\.ORIGEN_HOSTS_ES_ACCESS_KEY/);
   assert.match(session, /process\.env\.ORIGEN_HOSTS_EN_ACCESS_KEY/);
-  assert.doesNotMatch(session, /["'](?:Esencia|Bros|Espacio|Experiencia|Proposito|Purpose)["']/i);
+  assert.match(session, /process\.env\.ORIGEN_EMPOWER_ACCESS_KEY/);
+  assert.doesNotMatch(session, /["'](?:Esencia|Bros|Espacio|Experiencia|Proposito|Purpose|ReBro)["']/i);
   assert.equal(
     example,
-    "ORIGEN_ACCESS_KEY=\nORIGEN_BROS_ACCESS_KEY=\nORIGEN_SPACE_ACCESS_KEY=\nORIGEN_EXPERIENCE_ACCESS_KEY=\nORIGEN_HOSTS_ES_ACCESS_KEY=\nORIGEN_HOSTS_EN_ACCESS_KEY=\nAIRBNB_ICAL_URL=\nSTRIPE_SECRET_KEY=\n",
+    "ORIGEN_ACCESS_KEY=\nORIGEN_BROS_ACCESS_KEY=\nORIGEN_SPACE_ACCESS_KEY=\nORIGEN_EXPERIENCE_ACCESS_KEY=\nORIGEN_HOSTS_ES_ACCESS_KEY=\nORIGEN_HOSTS_EN_ACCESS_KEY=\nORIGEN_EMPOWER_ACCESS_KEY=\nAIRBNB_ICAL_URL=\nSTRIPE_SECRET_KEY=\n",
   );
   assert.match(
     bros,
@@ -518,7 +521,7 @@ test("keeps all access keys server-only and destination-scoped", async () => {
   assert.match(sculpture, /experience-emblem-layer--back/);
   assert.match(sculpture, /experience-return-dot/);
   assert.doesNotMatch(sculpture, /experience-sculpture-(?:halo|ring|core)/);
-  assert.doesNotMatch(styles, /experience-(?:atlantic|rock|coast|forest)\.webp/);
+  assert.doesNotMatch(experience, /experience-(?:atlantic|rock|coast|forest)\.webp/);
   assert.doesNotMatch(`${bros}${invitation}${experience}`, /↗/);
   assert.match(invitation, /scroll-reveal/);
   assert.match(editorial, /scroll-reveal-list/);
@@ -536,6 +539,12 @@ test("keeps all access keys server-only and destination-scoped", async () => {
   assert.match(residencyPage, /requireOrigenAccess\("residency"\)/);
   assert.match(spacePage, /requireOrigenAccess\("space"\)/);
   assert.match(experiencePage, /requireOrigenAccess\("experience"\)/);
+  assert.match(empoderatePage, /requireOrigenAccess\("empoderate"\)/);
+  assert.match(empoderate, /EMPODÉRATE/);
+  assert.match(empoderate, /Tres días entre hombres/);
+  assert.match(empoderate, /Formulario de solicitud próximamente/);
+  assert.doesNotMatch(empoderate, /ReBro|ORIGEN_EMPOWER_ACCESS_KEY/);
+  assert.match(styles, /\.empower-page/);
 
   const packageJson = await readFile(new URL("package.json", templateRoot), "utf8");
   assert.match(packageJson, /framer-motion/);

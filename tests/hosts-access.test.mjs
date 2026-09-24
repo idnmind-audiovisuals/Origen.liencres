@@ -10,6 +10,7 @@ const fixtures = [
   { scope: "experience", env: "ORIGEN_EXPERIENCE_ACCESS_KEY", destination: "/experience" },
   { scope: "hosts-es", env: "ORIGEN_HOSTS_ES_ACCESS_KEY", destination: "/retreat-organizers-circle?lang=es", language: "es" },
   { scope: "hosts-en", env: "ORIGEN_HOSTS_EN_ACCESS_KEY", destination: "/retreat-organizers-circle?lang=en", language: "en" },
+  { scope: "empoderate", env: "ORIGEN_EMPOWER_ACCESS_KEY", destination: "/empoderate" },
 ].map((fixture) => ({ ...fixture, key: "Test-" + randomUUID() }));
 
 for (const fixture of fixtures) process.env[fixture.env] = fixture.key;
@@ -40,7 +41,7 @@ function assertGatewayRedirect(response) {
   assert.equal(new URL(response.headers.get("location"), "http://localhost").pathname, "/");
 }
 
-test("all six keys keep case-insensitive, signed, destination-scoped access", async () => {
+test("all keys keep case-insensitive, signed, destination-scoped access", async () => {
   for (const fixture of fixtures) {
     for (const candidate of [fixture.key, fixture.key.toUpperCase(), "  " + fixture.key.toLowerCase() + "  "]) {
       const response = await login(candidate, "origen_language=" + (fixture.language === "es" ? "en" : "es"));

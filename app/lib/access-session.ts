@@ -59,6 +59,7 @@ function getAccessKey(scope: AccessScope) {
     experience: process.env.ORIGEN_EXPERIENCE_ACCESS_KEY,
     "hosts-es": process.env.ORIGEN_HOSTS_ES_ACCESS_KEY,
     "hosts-en": process.env.ORIGEN_HOSTS_EN_ACCESS_KEY,
+    empoderate: process.env.ORIGEN_EMPOWER_ACCESS_KEY,
   }[scope];
 
   return value?.trim() ?? "";

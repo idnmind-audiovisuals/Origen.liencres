@@ -6,6 +6,7 @@ import { AccessKeyForm } from "./AccessKeyForm";
 import { BrosState } from "./BrosState";
 import { HostsCircleState } from "./HostsCircleState";
 import { ExperienceState } from "./ExperienceState";
+import { EmpoderateState } from "./EmpoderateState";
 import { OpenedState } from "./OpenedState";
 import { OrigenSymbolAnimation } from "./OrigenSymbolAnimation";
 import { OrigenWordmark } from "./OrigenWordmark";
@@ -128,6 +129,10 @@ export function AccessGateway({
 
   if (state === "opened" && destination === "/experience") {
     return <ExperienceState development={development} onReset={resetSession} />;
+  }
+
+  if (state === "opened" && destination === "/empoderate") {
+    return <EmpoderateState development={development} onReset={resetSession} />;
   }
 
   const hostsLanguage = getHostsCircleLanguage(destination);

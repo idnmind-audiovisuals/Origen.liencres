@@ -5,6 +5,7 @@ export const ACCESS_SCOPES = [
   "experience",
   "hosts-es",
   "hosts-en",
+  "empoderate",
 ] as const;
 
 export type AccessScope = (typeof ACCESS_SCOPES)[number];
@@ -16,6 +17,7 @@ export const ACCESS_DESTINATION_BY_SCOPE = {
   experience: "/experience",
   "hosts-es": "/retreat-organizers-circle?lang=es",
   "hosts-en": "/retreat-organizers-circle?lang=en",
+  empoderate: "/empoderate",
 } as const satisfies Record<AccessScope, string>;
 
 export type AccessDestination =

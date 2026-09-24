@@ -6,6 +6,7 @@ import { AccessKeyForm } from "./AccessKeyForm";
 import { BrosState } from "./BrosState";
 import { HostsCircleState } from "./HostsCircleState";
 import { ExperienceState } from "./ExperienceState";
+import { EmpoderateState } from "./EmpoderateState";
 import { GatewayCrescentArtwork } from "./GatewayCrescentArtwork";
 import { OpenedState } from "./OpenedState";
 import { OrigenWordmark } from "./OrigenWordmark";
@@ -84,6 +85,10 @@ export function ReducedMotionGateway({
 
   if (phase === "opened" && destination === "/experience") {
     return <ExperienceState development={development} onReset={resetSession} />;
+  }
+
+  if (phase === "opened" && destination === "/empoderate") {
+    return <EmpoderateState development={development} onReset={resetSession} />;
   }
 
   const hostsLanguage = getHostsCircleLanguage(destination);
