@@ -5403,9 +5403,18 @@ button {
   max-width: 12ch;
   margin: 18px 0 22px;
   font-size: clamp(64px, 12.5vw, 188px);
-  font-weight: 540;
+  font-weight: 280;
   line-height: 0.84;
   letter-spacing: -0.075em;
+}
+
+.empower-hero h1 span {
+  display: block;
+}
+
+.empower-hero h1 span:last-child {
+  margin-left: 0.25em;
+  font-weight: 700;
 }
 
 .empower-intro {

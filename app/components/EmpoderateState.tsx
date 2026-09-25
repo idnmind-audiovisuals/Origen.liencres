@@ -181,7 +181,10 @@ export function EmpoderateState({ development, onReset }: EmpoderateStateProps) 
           }}
         >
           <p className="empower-kicker">RETIRO DE HOMBRES</p>
-          <h1 id="empower-title">Retiro Bros</h1>
+          <h1 id="empower-title">
+            <span>Retiro</span>
+            <span>Bros</span>
+          </h1>
           <p className="empower-intro">
             Tres días entre hombres para salir del ruido, conocerte mejor y
             volver con más claridad sobre cómo quieres vivir.
