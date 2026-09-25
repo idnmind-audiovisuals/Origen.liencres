@@ -3,7 +3,7 @@ import { EmpoderateState } from "../components/EmpoderateState";
 import { requireOrigenAccess } from "../lib/require-access";
 import { PROTECTED_PAGE_ROBOTS } from "../lib/seo";
 
-const title = "EMPODÉRATE — BROS × ORIGEN";
+const title = "BROS — Retiro de hombres | Origen Liencres";
 const description =
   "Tres días entre hombres en Liencres para salir del ruido, conocerte mejor y volver con claridad.";
 

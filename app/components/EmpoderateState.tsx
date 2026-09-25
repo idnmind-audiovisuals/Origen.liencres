@@ -119,7 +119,7 @@ export function EmpoderateState({ development, onReset }: EmpoderateStateProps) 
 
   useEffect(() => {
     document.documentElement.lang = "es";
-    document.title = "EMPODÉRATE — BROS × ORIGEN";
+    document.title = "BROS — Retiro de hombres | Origen Liencres";
   }, []);
 
   return (
@@ -132,7 +132,7 @@ export function EmpoderateState({ development, onReset }: EmpoderateStateProps) 
       transition={{ duration: backgroundDuration, ease: CINEMATIC_ENTRY_EASE }}
     >
       <p className="sr-only" role="status" aria-live="polite">
-        Acceso concedido. Bienvenido a EMPODÉRATE.
+        Acceso concedido. Bienvenido al retiro BROS.
       </p>
 
       {!reducedMotion ? (
@@ -180,15 +180,15 @@ export function EmpoderateState({ development, onReset }: EmpoderateStateProps) 
             ease: CINEMATIC_ENTRY_EASE,
           }}
         >
-          <p className="empower-kicker">BROS × ORIGEN</p>
-          <h1 id="empower-title">EMPODÉRATE</h1>
+          <p className="empower-kicker">RETIRO DE HOMBRES</p>
+          <h1 id="empower-title">BROS</h1>
           <p className="empower-intro">
             Tres días entre hombres para salir del ruido, conocerte mejor y
             volver con más claridad sobre cómo quieres vivir.
           </p>
           <div className="empower-hero-meta">
             <span>Liencres · Cantabria</span>
-            <span>Finales de noviembre · 7 plazas</span>
+            <span>20, 21, 22 NOV · 7 HOMBRES SELECTOS</span>
           </div>
           <a className="empower-button empower-button--light" href="#solicitud">
             Solicitar plaza
@@ -344,9 +344,9 @@ export function EmpoderateState({ development, onReset }: EmpoderateStateProps) 
         <Reveal className="empower-info-list">
           <dl>
             <div><dt>Lugar</dt><dd>Origen Liencres · Cantabria</dd></div>
-            <div><dt>Fechas</dt><dd>Finales de noviembre</dd></div>
+            <div><dt>Fechas</dt><dd>20, 21 y 22 de noviembre</dd></div>
             <div><dt>Duración</dt><dd>Viernes — Domingo</dd></div>
-            <div><dt>Grupo</dt><dd>7 participantes</dd></div>
+            <div><dt>Grupo</dt><dd>7 hombres selectos</dd></div>
             <div><dt>Incluye</dt><dd>Alojamiento y comidas</dd></div>
             <div><dt>Acuerdo</dt><dd>Sin alcohol ni drogas</dd></div>
             <div><dt>Precio</dt><dd>555 €</dd></div>
