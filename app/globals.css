@@ -5236,7 +5236,7 @@ button {
 .empower-page {
   --empower-ink: #171713;
   --empower-paper: #fffaf2;
-  --empower-green: #68763d;
+  --empower-accent: #406c90;
   --empower-line: rgb(255 250 242 / 0.28);
   position: fixed;
   inset: 0;
@@ -5252,7 +5252,7 @@ button {
   font-style: normal;
   scroll-behavior: smooth;
   scrollbar-width: thin;
-  scrollbar-color: var(--empower-green) transparent;
+  scrollbar-color: var(--empower-accent) transparent;
 }
 
 .empower-page * {
@@ -5290,7 +5290,7 @@ button {
   right: 0;
   left: 0;
   height: 3px;
-  background: #d4a64f;
+  background: var(--empower-accent);
   transform-origin: 0 50%;
 }
 
@@ -5428,8 +5428,8 @@ button {
 
 .empower-button:hover {
   color: var(--empower-paper);
-  background: var(--empower-green);
-  border-color: var(--empower-green);
+  background: var(--empower-accent);
+  border-color: var(--empower-accent);
   transform: translateY(-2px);
 }
 
@@ -5464,7 +5464,7 @@ button {
 
 .empower-moment-lead h2 span {
   display: block;
-  color: var(--empower-green);
+  color: var(--empower-accent);
 }
 
 .empower-moment-grid {
@@ -5541,7 +5541,7 @@ button {
 
 .empower-dimensions span,
 .empower-day > span {
-  color: #b1b6a0;
+  color: var(--empower-accent);
   font-size: 10px;
   font-weight: 650;
   letter-spacing: 0.18em;
@@ -5588,7 +5588,7 @@ button {
 
 .empower-day h3 {
   margin: 80px 0 28px;
-  color: var(--empower-green);
+  color: var(--empower-accent);
   font-size: clamp(38px, 4.5vw, 67px);
   font-weight: 520;
   letter-spacing: -0.06em;
@@ -5654,7 +5654,7 @@ button {
 }
 
 .empower-bros-plain {
-  color: #d4a64f;
+  color: var(--empower-accent);
   font-weight: 650;
 }
 
@@ -5703,7 +5703,7 @@ button {
 }
 
 .empower-place-rhythm {
-  color: var(--empower-green);
+  color: var(--empower-accent);
   font-weight: 650;
 }
 
@@ -5759,7 +5759,7 @@ button {
 }
 
 .empower-seven-number {
-  color: #d4a64f;
+  color: var(--empower-accent);
   font-size: clamp(260px, 39vw, 580px);
   font-weight: 500;
   line-height: 0.72;
@@ -5801,7 +5801,7 @@ button {
 }
 
 .empower-info-title > p:last-child {
-  color: var(--empower-green);
+  color: var(--empower-accent);
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.2em;
@@ -5839,14 +5839,14 @@ button {
 
 .empower-info-list .empower-button:hover {
   color: var(--empower-paper);
-  background: var(--empower-green);
-  border-color: var(--empower-green);
+  background: var(--empower-accent);
+  border-color: var(--empower-accent);
 }
 
 .empower-application {
   padding-block: clamp(105px, 12vw, 175px);
   background:
-    linear-gradient(130deg, rgb(104 118 61 / 0.2), transparent 42%),
+    linear-gradient(130deg, rgb(64 108 144 / 0.2), transparent 42%),
     rgb(13 14 12 / 0.78);
   border-top: 1px solid var(--empower-line);
   scroll-margin-top: 0;
@@ -5875,7 +5875,7 @@ button {
 .empower-application-intro strong {
   display: block;
   margin-top: 36px;
-  color: var(--empower-green);
+  color: var(--empower-accent);
   font-size: 12px;
   letter-spacing: 0.17em;
   text-transform: uppercase;
@@ -5918,7 +5918,7 @@ button {
 
 .empower-form input:focus,
 .empower-form textarea:focus {
-  border-color: var(--empower-green);
+  border-color: var(--empower-accent);
 }
 
 .empower-form button {
@@ -5991,7 +5991,7 @@ button {
 }
 
 .empower-closing-copy > strong {
-  color: #d4a64f;
+  color: var(--empower-accent);
   font-size: clamp(38px, 6vw, 86px);
   font-weight: 540;
   letter-spacing: -0.055em;
@@ -6006,7 +6006,7 @@ button {
 
 .empower-closing-copy > .empower-closing-subtitle {
   margin-top: 2px;
-  color: #d4a64f;
+  color: var(--empower-accent);
   font-size: clamp(24px, 3vw, 44px);
   font-weight: 520;
   letter-spacing: -0.035em;
