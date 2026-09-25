@@ -201,14 +201,14 @@ export function EmpoderateState({ development, onReset }: EmpoderateStateProps) 
         <Reveal className="empower-moment-lead">
           <p className="empower-eyebrow">El momento</p>
           <h2 id="moment-title">
-            Puede que tu vida esté bien.
-            <span>Pero sabes que puede haber algo más.</span>
+            Sabes que puede haber algo más
+            <span>y que todo empieza por tu masculinidad.</span>
           </h2>
         </Reveal>
         <div className="empower-moment-grid">
           <Reveal className="empower-everyday">
-            <p>Tienes trabajo. Amigos. Proyectos.</p>
-            <p>Entrenas. Viajas. Quizá tienes pareja.</p>
+            <p>Tienes el trabajo. Amigos. Proyectos.</p>
+            <p>Entrenas. Viajas. Pero...</p>
           </Reveal>
           <div className="empower-questions">
             {QUESTIONS.map((question, index) => (

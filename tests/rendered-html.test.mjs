@@ -575,6 +575,11 @@ test("keeps all access keys server-only and destination-scoped", async () => {
   assert.match(styles, /\.empower-page[\s\S]*url\("\/origen-bros-slate\.png"\)/);
   assert.match(empoderate, /Tres días entre hombres/);
   assert.match(empoderate, /Queremos hombres normales viviendo algo extraordinario\./);
+  assert.match(empoderate, /Sabes que puede haber algo más/);
+  assert.match(empoderate, /y que todo empieza por tu masculinidad\./);
+  assert.match(empoderate, /Tienes el trabajo\. Amigos\. Proyectos\./);
+  assert.match(empoderate, /Entrenas\. Viajas\. Pero\.\.\./);
+  assert.doesNotMatch(empoderate, /Puede que tu vida esté bien|Quizá tienes pareja/);
   assert.match(empoderate, /<p className="empower-kicker">RETIRO DE HOMBRES<\/p>/);
   assert.match(empoderate, /<h1 id="empower-title">BROS<\/h1>/);
   assert.match(empoderate, /20, 21, 22 SEPT · 7 PLAZAS SELECTAS/);
