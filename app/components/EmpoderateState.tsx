@@ -287,9 +287,11 @@ export function EmpoderateState({ development, onReset }: EmpoderateStateProps) 
         <Reveal className="empower-seven-inner">
           <p className="empower-seven-number" aria-hidden="true">7</p>
           <div>
-            <h2 id="seven-title">Solo siete hombres.</h2>
-            <p>Un grupo suficientemente pequeño para que nadie pase desapercibido.</p>
-            <p>Para conocernos. Para crear confianza. Para ir más profundo.</p>
+            <h2 id="seven-title">Grupo selecto de 7 personas.</h2>
+            <p>
+              Serán seleccionadas únicamente siete personas con un perfil
+              extraordinario para poder profundizar y vivir una experiencia única.
+            </p>
             <a className="empower-button empower-button--light" href="#solicitud">
               Quiero formar parte
               <i className="external-link-dot" aria-hidden="true" />

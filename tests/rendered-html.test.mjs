@@ -542,6 +542,9 @@ test("keeps all access keys server-only and destination-scoped", async () => {
   assert.match(empoderatePage, /requireOrigenAccess\("empoderate"\)/);
   assert.match(empoderate, /EMPODÉRATE/);
   assert.match(empoderate, /<dd>555 €<\/dd>/);
+  assert.match(empoderate, /Grupo selecto de 7 personas\./);
+  assert.match(empoderate, /perfil\s+extraordinario para poder profundizar y vivir una experiencia única/);
+  assert.doesNotMatch(empoderate, /Solo siete hombres/);
   assert.match(styles, /\.empower-page[\s\S]*url\("\/origen-bros-slate\.png"\)/);
   assert.match(empoderate, /Tres días entre hombres/);
   assert.match(empoderate, /Formulario de solicitud próximamente/);
