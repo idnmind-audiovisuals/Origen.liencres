@@ -575,6 +575,10 @@ test("keeps all access keys server-only and destination-scoped", async () => {
   assert.match(styles, /\.empower-page[\s\S]*url\("\/origen-bros-slate\.png"\)/);
   assert.match(empoderate, /Tres días entre hombres/);
   assert.match(empoderate, /Queremos hombres normales viviendo algo extraordinario\./);
+  assert.match(empoderate, /explorar lo que significa ser un hombre juntos\./);
+  assert.match(empoderate, /Hombres siendo hombres, hablando sobre cosas de las que normalmente/);
+  assert.match(empoderate, /Compitiendo, jugando y amándonos\./);
+  assert.doesNotMatch(empoderate, /No venimos a enseñarte|Hombres hablando con hombres|empower-bros-extraordinary/);
   assert.match(empoderate, /Sabes que puede haber algo más/);
   assert.match(empoderate, /y que todo empieza por tu masculinidad\./);
   assert.match(empoderate, /Tienes el trabajo\. Amigos\. Proyectos\./);

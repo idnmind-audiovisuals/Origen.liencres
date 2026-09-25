@@ -276,16 +276,12 @@ export function EmpoderateState({ development, onReset }: EmpoderateStateProps) 
         <div className="empower-bros-overlay" aria-hidden="true" />
         <Reveal className="empower-bros-copy">
           <p className="empower-eyebrow">BROS</p>
-          <h2 id="bros-philosophy-title">No venimos a enseñarte cómo ser un hombre.</h2>
-          <p>Venimos a crear un espacio donde podamos explorarlo juntos.</p>
+          <h2 id="bros-philosophy-title">Queremos hombres normales viviendo algo extraordinario.</h2>
+          <p>Venimos a crear un espacio donde podamos explorar lo que significa ser un hombre juntos.</p>
           <p className="empower-bros-plain">Sin personajes. Sin gurús. Sin postureo espiritual.</p>
-          <p className="empower-bros-extraordinary">
-            Queremos hombres normales viviendo algo extraordinario.
-          </p>
           <p>
-            Hombres hablando con hombres sobre cosas de las que normalmente no
-            hablamos. Y también entrenando, comiendo, riéndonos, jugando y
-            metiéndonos al mar.
+            Hombres siendo hombres, hablando sobre cosas de las que normalmente
+            no hablamos. Compitiendo, jugando y amándonos.
           </p>
         </Reveal>
       </section>
