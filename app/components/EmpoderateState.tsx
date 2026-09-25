@@ -10,7 +10,10 @@ import {
 import { useEffect, useLayoutEffect, useRef } from "react";
 import { GatewayBrandLink } from "./GatewayBrandLink";
 import { InstagramLink } from "./InstagramLink";
-import { CINEMATIC_ENTRY_EASE } from "../lib/gateway-motion";
+import {
+  CINEMATIC_ENTRY_EASE,
+  GATEWAY_MOTION,
+} from "../lib/gateway-motion";
 
 type EmpoderateStateProps = {
   development: boolean;
@@ -77,11 +80,11 @@ function Reveal({ children, className = "" }: { children: React.ReactNode; class
   const reducedMotion = useReducedMotion();
   return (
     <motion.div
-      className={className}
-      initial={reducedMotion ? false : { opacity: 0, y: 54 }}
-      whileInView={reducedMotion ? undefined : { opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.16 }}
-      transition={{ duration: 1.05, ease: CINEMATIC_ENTRY_EASE }}
+      className={`empower-text-reveal ${className}`.trim()}
+      initial={reducedMotion ? false : { opacity: 0, y: 72, filter: "blur(9px)" }}
+      whileInView={reducedMotion ? undefined : { opacity: 1, y: 0, filter: "blur(0px)" }}
+      viewport={{ once: true, amount: 0.14 }}
+      transition={{ duration: 1.25, ease: CINEMATIC_ENTRY_EASE }}
     >
       {children}
     </motion.div>
@@ -103,6 +106,10 @@ export function EmpoderateState({ development, onReset }: EmpoderateStateProps) 
     damping: 25,
     mass: 0.45,
   });
+  const backgroundDuration = reducedMotion
+    ? GATEWAY_MOTION.opened.reducedBackgroundDuration
+    : GATEWAY_MOTION.opened.backgroundDuration;
+  const contentDelay = reducedMotion ? 0 : GATEWAY_MOTION.opened.textDelay;
 
   useLayoutEffect(() => {
     if (pageRef.current) pageRef.current.scrollTop = 0;
@@ -116,7 +123,14 @@ export function EmpoderateState({ development, onReset }: EmpoderateStateProps) 
   }, []);
 
   return (
-    <main ref={pageRef} className="empower-page" lang="es">
+    <motion.main
+      ref={pageRef}
+      className="empower-page"
+      lang="es"
+      initial={{ backgroundColor: "#24231f" }}
+      animate={{ backgroundColor: "#151411" }}
+      transition={{ duration: backgroundDuration, ease: CINEMATIC_ENTRY_EASE }}
+    >
       <p className="sr-only" role="status" aria-live="polite">
         Acceso concedido. Bienvenido a EMPODÉRATE.
       </p>
@@ -129,7 +143,16 @@ export function EmpoderateState({ development, onReset }: EmpoderateStateProps) 
         />
       ) : null}
 
-      <header className="empower-header">
+      <motion.header
+        className="empower-header"
+        initial={reducedMotion ? false : { opacity: 0, y: -14 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{
+          delay: reducedMotion ? 0 : contentDelay * 0.55,
+          duration: reducedMotion ? 0.08 : 0.9,
+          ease: CINEMATIC_ENTRY_EASE,
+        }}
+      >
         <GatewayBrandLink
           className="empower-brand"
           label="Origen — volver al acceso"
@@ -138,7 +161,7 @@ export function EmpoderateState({ development, onReset }: EmpoderateStateProps) 
         {development && onReset ? (
           <button type="button" onClick={onReset}>Cerrar</button>
         ) : null}
-      </header>
+      </motion.header>
 
       <section className="empower-hero" aria-labelledby="empower-title">
         <motion.div
@@ -147,7 +170,16 @@ export function EmpoderateState({ development, onReset }: EmpoderateStateProps) 
           style={reducedMotion ? undefined : { y: heroImageY }}
         />
         <div className="empower-hero-shade" aria-hidden="true" />
-        <div className="empower-hero-copy">
+        <motion.div
+          className="empower-hero-copy"
+          initial={reducedMotion ? false : { opacity: 0, y: 34, filter: "blur(8px)" }}
+          animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+          transition={{
+            delay: contentDelay,
+            duration: reducedMotion ? 0.08 : 1.2,
+            ease: CINEMATIC_ENTRY_EASE,
+          }}
+        >
           <p className="empower-kicker">BROS × ORIGEN</p>
           <h1 id="empower-title">EMPODÉRATE</h1>
           <p className="empower-intro">
@@ -162,7 +194,7 @@ export function EmpoderateState({ development, onReset }: EmpoderateStateProps) 
             Solicitar plaza
             <i className="external-link-dot" aria-hidden="true" />
           </a>
-        </div>
+        </motion.div>
       </section>
 
       <section className="empower-moment empower-shell" aria-labelledby="moment-title">
@@ -182,8 +214,8 @@ export function EmpoderateState({ development, onReset }: EmpoderateStateProps) 
             {QUESTIONS.map((question, index) => (
               <motion.p
                 key={question}
-                initial={reducedMotion ? false : { opacity: 0, x: 30 }}
-                whileInView={reducedMotion ? undefined : { opacity: 1, x: 0 }}
+                initial={reducedMotion ? false : { opacity: 0, x: 30, filter: "blur(7px)" }}
+                whileInView={reducedMotion ? undefined : { opacity: 1, x: 0, filter: "blur(0px)" }}
                 viewport={{ once: true, amount: 0.5 }}
                 transition={{ duration: 0.8, delay: index * 0.08, ease: CINEMATIC_ENTRY_EASE }}
               >
@@ -207,8 +239,8 @@ export function EmpoderateState({ development, onReset }: EmpoderateStateProps) 
             {DIMENSIONS.map(([title, body], index) => (
               <motion.article
                 key={title}
-                initial={reducedMotion ? false : { opacity: 0, y: 44 }}
-                whileInView={reducedMotion ? undefined : { opacity: 1, y: 0 }}
+                initial={reducedMotion ? false : { opacity: 0, y: 44, filter: "blur(7px)" }}
+                whileInView={reducedMotion ? undefined : { opacity: 1, y: 0, filter: "blur(0px)" }}
                 viewport={{ once: true, amount: 0.36 }}
                 transition={{ duration: 0.9, delay: index * 0.06, ease: CINEMATIC_ENTRY_EASE }}
               >
@@ -378,6 +410,6 @@ export function EmpoderateState({ development, onReset }: EmpoderateStateProps) 
         <InstagramLink />
         <span>Liencres · Cantabria</span>
       </footer>
-    </main>
+    </motion.main>
   );
 }

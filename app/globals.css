@@ -5247,7 +5247,9 @@ button {
   background:
     linear-gradient(rgb(21 20 17 / 0.16), rgb(21 20 17 / 0.24)),
     var(--empower-paper) url("/origen-bros-slate.png") center / cover fixed no-repeat;
-  font-family: var(--font-montserrat), Montserrat, sans-serif;
+  font-family: "Montserrat Variable", Montserrat, "Avenir Next", Avenir, sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
   scroll-behavior: smooth;
   scrollbar-width: thin;
   scrollbar-color: var(--empower-green) transparent;
@@ -5255,6 +5257,15 @@ button {
 
 .empower-page * {
   box-sizing: border-box;
+}
+
+.empower-page :where(h1, h2, h3, p, a, span, strong, dt, dd, label, input, textarea, button) {
+  font-family: inherit;
+}
+
+.empower-text-reveal {
+  backface-visibility: hidden;
+  will-change: opacity, transform, filter;
 }
 
 .empower-page h1,
@@ -6240,6 +6251,12 @@ button {
   .empower-button {
     transform: none !important;
     transition: none !important;
+  }
+
+  .empower-text-reveal {
+    filter: none !important;
+    transform: none !important;
+    will-change: auto;
   }
 }
 
