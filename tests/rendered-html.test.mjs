@@ -576,6 +576,8 @@ test("keeps all access keys server-only and destination-scoped", async () => {
   assert.match(empoderate, /<p className="empower-kicker">RETIRO DE HOMBRES<\/p>/);
   assert.match(empoderate, /<h1 id="empower-title">BROS<\/h1>/);
   assert.match(empoderate, /20, 21, 22 NOV · 7 HOMBRES SELECTOS/);
+  assert.match(empoderate, /<strong>EMPODERA<\/strong>/);
+  assert.match(empoderate, /className="empower-closing-subtitle">Tu masculinidad<\/span>/);
   assert.match(empoderate, /<dt>Grupo<\/dt><dd>7 hombres selectos<\/dd>/);
   assert.doesNotMatch(empoderate, /Finales de noviembre · 7 plazas/);
   assert.match(empoderate, /src: "\/origen-rebros-bedroom\.jpg"/);

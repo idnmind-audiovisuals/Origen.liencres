@@ -394,8 +394,9 @@ export function EmpoderateState({ development, onReset }: EmpoderateStateProps) 
         <Reveal className="empower-closing-copy">
           <h2 id="closing-title">No necesitas tener todas las respuestas.</h2>
           <p>Quizá solo necesitas crear el espacio para hacerte mejores preguntas.</p>
-          <strong>EMPODÉRATE</strong>
-          <span>BROS × ORIGEN · LIENCRES · CANTABRIA</span>
+          <strong>EMPODERA</strong>
+          <span className="empower-closing-subtitle">Tu masculinidad</span>
+          <span className="empower-closing-meta">BROS × ORIGEN · LIENCRES · CANTABRIA</span>
           <a className="empower-button empower-button--light" href="#solicitud">
             Solicitar plaza
             <i className="external-link-dot" aria-hidden="true" />
