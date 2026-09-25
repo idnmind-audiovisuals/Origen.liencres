@@ -97,7 +97,7 @@ export function HouseBookingLanding() {
   return (
     <main className="retreat-public-page retreat-public-page--esencia booking-page" lang="es">
       <header className="retreat-public-header">
-        <GatewayBrandLink className="retreat-public-brand" label="Origen — volver a la entrada" />
+        <GatewayBrandLink className="retreat-public-brand" label="Origen — volver a la entrada" variant="black" />
         <nav aria-label="Navegación">
           <a href="#la-casa">La casa</a>
           <a href="#galeria">Fotos</a>

@@ -44,7 +44,7 @@ export function OrganizerLanding({ slug }: { slug: OrganizerSlug }) {
   return (
     <main className="retreat-public-page retreat-public-page--esencia organizer-page" lang={copy.language}>
       <header className="retreat-public-header">
-        <GatewayBrandLink className="retreat-public-brand" label={spanish ? "Origen — volver a la entrada" : "Origen — return to the gateway"} />
+        <GatewayBrandLink className="retreat-public-brand" label={spanish ? "Origen — volver a la entrada" : "Origen — return to the gateway"} variant="black" />
         <nav aria-label={spanish ? "Navegación" : "Navigation"}>
           <Link href={overview}>{spanish ? "El espacio" : "The space"}</Link>
           <Link className="organizer-header-cta" href={slug === "organizar-retiro" || slug === "host-your-retreat" ? "#host" : commercialPage}>

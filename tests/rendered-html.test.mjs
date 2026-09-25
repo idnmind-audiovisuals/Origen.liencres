@@ -277,19 +277,44 @@ test("keeps the existing private destinations behind the gateway", async () => {
   }
 });
 
-test("uses a black wordmark with a white inner O on every light-page header", async () => {
-  const styles = await readFile(new URL("../app/globals.css", import.meta.url), "utf8");
-  const filterRule = styles.match(/\.invitation-brand img,\s*\.editorial-brand img,\s*\.retreat-public-brand img\s*\{([^}]+)\}/);
-  assert.ok(filterRule, "Invitations, editorial and public pages share the same light logo");
-  assert.match(filterRule[1], /filter: grayscale\(1\) invert\(1\) contrast\(2\);/);
-  assert.doesNotMatch(filterRule[1], /transform:|background:/, "No resizing or background is added to the logo");
-  assert.doesNotMatch(styles, /\.retreat-public-page--esencia \.retreat-public-brand img\s*\{/, "No route-specific override can restore the white lettering");
+test("uses the approved horizontal wordmarks on every page header", async () => {
+  const [styles, brand, brandLink, invitation, editorial, organizer, booking, publicLanding, publicFaq, bros, experience, empoderate, hosts] = await Promise.all([
+    readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
+    readFile(new URL("../app/lib/brand.ts", import.meta.url), "utf8"),
+    readFile(new URL("../app/components/GatewayBrandLink.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/components/OpenedState.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/components/EditorialPage.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/components/OrganizerLanding.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/components/HouseBookingLanding.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/components/PublicRetreatLanding.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/components/PublicRetreatFaq.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/components/BrosState.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/components/ExperienceState.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/components/EmpoderateState.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/components/HostsCircleState.tsx", import.meta.url), "utf8"),
+  ]);
+
+  assert.match(brand, /ORIGEN_HEADER_WORDMARK_WHITE_ASSET[\s\S]*origen-wordmark-horizontal-white\.png/);
+  assert.match(brand, /ORIGEN_HEADER_WORDMARK_BLACK_ASSET[\s\S]*origen-wordmark-horizontal-black\.png/);
+  assert.match(brandLink, /variant = "white"/);
+  assert.match(brandLink, /variant === "black"[\s\S]*ORIGEN_HEADER_WORDMARK_BLACK_ASSET/);
+  for (const lightPage of [invitation, editorial, organizer, booking]) {
+    assert.match(lightPage, /<GatewayBrandLink[\s\S]{0,240}variant="black"/);
+  }
+  assert.match(publicLanding, /src=\{ORIGEN_HEADER_WORDMARK_BLACK_ASSET\}/);
+  assert.match(publicFaq, /src=\{ORIGEN_HEADER_WORDMARK_BLACK_ASSET\}/);
+  for (const darkPage of [bros, experience, empoderate, hosts]) {
+    assert.match(darkPage, /<GatewayBrandLink/);
+    assert.doesNotMatch(darkPage, /<GatewayBrandLink[\s\S]{0,240}variant="black"/);
+  }
+  assert.doesNotMatch(styles, /filter: grayscale\(1\) invert\(1\) contrast\(2\)/);
+  assert.doesNotMatch(styles, /\.empower-brand\s*\{[^}]*filter:/);
   for (const selector of ["invitation-brand", "editorial-brand", "retreat-public-brand"]) {
     const standaloneRule = [...styles.matchAll(new RegExp(`\\.${selector} img \\{([^}]+)\\}`, "g"))].at(-1);
     assert.ok(standaloneRule);
     assert.match(standaloneRule[1], /width: 100%;/);
     assert.match(standaloneRule[1], /height: auto;/);
-    assert.doesNotMatch(standaloneRule[1], /filter:/, `${selector} keeps the shared palette`);
+    assert.doesNotMatch(standaloneRule[1], /filter:/, `${selector} uses the supplied transparent asset directly`);
   }
   const experienceRule = styles.match(/\.experience-brand img\s*\{([^}]+)\}/);
   assert.ok(experienceRule);

@@ -55,6 +55,7 @@ export function EditorialPage({
           <GatewayBrandLink
             className="editorial-brand"
             label={shared.brandLabel}
+            variant="black"
           />
 
           <div className="editorial-header-actions">

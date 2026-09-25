@@ -120,6 +120,7 @@ export function OpenedState({
           <GatewayBrandLink
             className="invitation-brand"
             label={copy.brandLabel}
+            variant="black"
           />
 
           <div className="invitation-header-actions">

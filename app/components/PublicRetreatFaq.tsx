@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ORIGEN_WORDMARK_ASSET } from "../lib/brand";
+import { ORIGEN_HEADER_WORDMARK_BLACK_ASSET } from "../lib/brand";
 import { InstagramLink } from "./InstagramLink";
 import {
   HOST_APPLICATION_URL,
@@ -29,7 +29,7 @@ export function PublicRetreatFaq({ language }: { language: RetreatLanguage }) {
       <header className="retreat-public-header">
         <Link className="retreat-public-brand" href="/" aria-label="Origen Liencres">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={ORIGEN_WORDMARK_ASSET} width="1090" height="296" alt="Origen" />
+          <img src={ORIGEN_HEADER_WORDMARK_BLACK_ASSET} width="2098" height="750" alt="Origen" />
         </Link>
         <nav aria-label={language === "es" ? "Navegación" : "Navigation"}>
           <Link href={copy.backHref}>{copy.backLabel}</Link>
