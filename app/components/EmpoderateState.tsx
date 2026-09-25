@@ -188,7 +188,7 @@ export function EmpoderateState({ development, onReset }: EmpoderateStateProps) 
           </p>
           <div className="empower-hero-meta">
             <span>Liencres · Cantabria</span>
-            <span>20, 21, 22 NOV · 7 HOMBRES SELECTOS</span>
+            <span>20, 21, 22 SEPT · 7 PLAZAS SELECTAS</span>
           </div>
           <a className="empower-button empower-button--light" href="#solicitud">
             Solicitar plaza
@@ -225,7 +225,7 @@ export function EmpoderateState({ development, onReset }: EmpoderateStateProps) 
           </div>
         </div>
         <Reveal className="empower-moment-close">
-          EMPODÉRATE es un espacio para parar y explorar esas preguntas junto a otros hombres.
+          BROS es un espacio para parar y explorar esas preguntas junto a otros hombres.
         </Reveal>
       </section>
 
@@ -336,15 +336,15 @@ export function EmpoderateState({ development, onReset }: EmpoderateStateProps) 
       <section className="empower-information empower-shell" aria-labelledby="info-title">
         <Reveal className="empower-info-title">
           <p className="empower-eyebrow">Información</p>
-          <h2 id="info-title">EMPODÉRATE</h2>
+          <h2 id="info-title">BROS</h2>
           <p>BROS × ORIGEN</p>
         </Reveal>
         <Reveal className="empower-info-list">
           <dl>
             <div><dt>Lugar</dt><dd>Origen Liencres · Cantabria</dd></div>
-            <div><dt>Fechas</dt><dd>20, 21 y 22 de noviembre</dd></div>
+            <div><dt>Fechas</dt><dd>20, 21 y 22 de septiembre</dd></div>
             <div><dt>Duración</dt><dd>Viernes — Domingo</dd></div>
-            <div><dt>Grupo</dt><dd>7 hombres selectos</dd></div>
+            <div><dt>Grupo</dt><dd>7 plazas selectas</dd></div>
             <div><dt>Incluye</dt><dd>Alojamiento y comidas</dd></div>
             <div><dt>Acuerdo</dt><dd>Sin alcohol ni drogas</dd></div>
             <div><dt>Precio</dt><dd>555 €</dd></div>
@@ -378,7 +378,7 @@ export function EmpoderateState({ development, onReset }: EmpoderateStateProps) 
               <label>¿A qué te dedicas?<textarea name="work" rows={2} required /></label>
               <label>¿Qué momento estás viviendo?<textarea name="moment" rows={3} required /></label>
               <label>¿Qué te gustaría explorar durante estos tres días?<textarea name="explore" rows={3} required /></label>
-              <label>¿Por qué te interesa EMPODÉRATE?<textarea name="why" rows={3} required /></label>
+              <label>¿Por qué te interesa este retiro?<textarea name="why" rows={3} required /></label>
               <button type="button" disabled aria-describedby="empower-form-note">
                 Enviar solicitud
                 <i className="external-link-dot" aria-hidden="true" />
@@ -405,7 +405,7 @@ export function EmpoderateState({ development, onReset }: EmpoderateStateProps) 
       </section>
 
       <footer className="empower-footer">
-        <span>EMPODÉRATE · BROS × ORIGEN</span>
+        <span>BROS × ORIGEN</span>
         <InstagramLink />
         <span>Liencres · Cantabria</span>
       </footer>
