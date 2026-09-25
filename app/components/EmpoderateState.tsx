@@ -251,7 +251,6 @@ export function EmpoderateState({ development, onReset }: EmpoderateStateProps) 
             ))}
           </div>
         </div>
-        <div className="empower-image-break empower-image-break--forest" role="img" aria-label="Bosque costero de Liencres" />
       </section>
 
       <section className="empower-journey empower-shell" aria-labelledby="journey-title">
@@ -274,7 +273,6 @@ export function EmpoderateState({ development, onReset }: EmpoderateStateProps) 
       </section>
 
       <section className="empower-bros" aria-labelledby="bros-philosophy-title">
-        <div className="empower-bros-media" aria-hidden="true" />
         <div className="empower-bros-overlay" aria-hidden="true" />
         <Reveal className="empower-bros-copy">
           <p className="empower-eyebrow">BROS</p>

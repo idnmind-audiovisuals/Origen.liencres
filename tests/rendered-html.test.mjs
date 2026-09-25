@@ -580,6 +580,13 @@ test("keeps all access keys server-only and destination-scoped", async () => {
   assert.doesNotMatch(empoderate, /Finales de noviembre · 7 plazas/);
   assert.match(empoderate, /src: "\/origen-rebros-bedroom\.jpg"/);
   assert.doesNotMatch(empoderate, /b3c60d82-07b7-4f84-9080-c331a39599f7/);
+  assert.doesNotMatch(empoderate, /empower-image-break|empower-bros-media/);
+  assert.doesNotMatch(styles, /\.empower-image-break(?:--forest)?\s*\{/);
+  assert.doesNotMatch(styles, /\.empower-bros-media/);
+  const empowerClosingRule = styles.match(/\.empower-closing\s*\{([^}]+)\}/);
+  assert.ok(empowerClosingRule);
+  assert.match(empowerClosingRule[1], /background: transparent;/);
+  assert.doesNotMatch(empowerClosingRule[1], /url\(/);
   assert.match(empoderate, /filter: "blur\(9px\)"/);
   assert.match(empoderate, /GATEWAY_MOTION\.opened\.textDelay/);
   assert.match(styles, /\.empower-page[\s\S]*font-family: "Montserrat Variable"/);

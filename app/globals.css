@@ -5560,19 +5560,6 @@ button {
   line-height: 1.5;
 }
 
-.empower-image-break {
-  min-height: min(78vw, 850px);
-  background-position: center;
-  background-size: cover;
-}
-
-.empower-image-break--forest {
-  background-image:
-    linear-gradient(180deg, rgb(23 23 19 / 0.12), rgb(23 23 19 / 0.32)),
-    url("/experience-forest.webp");
-  filter: saturate(0.78) contrast(1.04);
-}
-
 .empower-journey {
   padding-block: clamp(110px, 13vw, 190px);
 }
@@ -5628,23 +5615,16 @@ button {
   place-items: center;
   overflow: hidden;
   color: var(--empower-paper);
-  background: #0d120f;
+  background: transparent;
 }
 
-.empower-bros-media,
 .empower-bros-overlay {
   position: absolute;
   inset: 0;
 }
 
-.empower-bros-media {
-  background: url("/experience-atlantic.webp") center / cover no-repeat;
-  filter: saturate(0.62) contrast(1.1) brightness(0.58);
-  transform: scale(1.02);
-}
-
 .empower-bros-overlay {
-  background: linear-gradient(90deg, rgb(8 12 9 / 0.88), rgb(8 12 9 / 0.12) 76%);
+  background: linear-gradient(90deg, rgb(8 12 9 / 0.58), rgb(8 12 9 / 0.08) 76%);
 }
 
 .empower-bros-copy {
@@ -5974,7 +5954,7 @@ button {
   place-items: center;
   overflow: hidden;
   color: var(--empower-paper);
-  background: url("/experience-rock.webp") center / cover no-repeat;
+  background: transparent;
 }
 
 .empower-closing-shade {
@@ -6188,16 +6168,8 @@ button {
     grid-column: 2;
   }
 
-  .empower-image-break {
-    min-height: 76svh;
-  }
-
   .empower-bros {
     min-height: 100svh;
-  }
-
-  .empower-bros-media {
-    background-position: 58% center;
   }
 
   .empower-bros-copy h2 {
