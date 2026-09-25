@@ -585,6 +585,8 @@ test("keeps all access keys server-only and destination-scoped", async () => {
   assert.match(empoderate, /20, 21, 22 SEPT · 7 PLAZAS SELECTAS/);
   assert.match(empoderate, /<strong>EMPODERA<\/strong>/);
   assert.match(empoderate, /className="empower-closing-subtitle">Tu masculinidad<\/span>/);
+  assert.match(empoderate, /Quizá solo necesitas el espacio para vivirlas\./);
+  assert.doesNotMatch(empoderate, /crear el espacio para hacerte mejores preguntas/);
   assert.match(empoderate, /<dt>Fechas<\/dt><dd>20, 21 y 22 de septiembre<\/dd>/);
   assert.match(empoderate, /<dt>Grupo<\/dt><dd>7 plazas selectas<\/dd>/);
   assert.doesNotMatch(empoderate, /EMPODÉRATE|Finales de noviembre|NOV ·|de noviembre|7 hombres selectos/);

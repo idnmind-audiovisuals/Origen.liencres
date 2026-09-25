@@ -393,7 +393,7 @@ export function EmpoderateState({ development, onReset }: EmpoderateStateProps) 
         <div className="empower-closing-shade" aria-hidden="true" />
         <Reveal className="empower-closing-copy">
           <h2 id="closing-title">No necesitas tener todas las respuestas.</h2>
-          <p>Quizá solo necesitas crear el espacio para hacerte mejores preguntas.</p>
+          <p>Quizá solo necesitas el espacio para vivirlas.</p>
           <strong>EMPODERA</strong>
           <span className="empower-closing-subtitle">Tu masculinidad</span>
           <span className="empower-closing-meta">BROS × ORIGEN · LIENCRES · CANTABRIA</span>
