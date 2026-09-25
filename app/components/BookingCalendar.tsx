@@ -357,7 +357,7 @@ export function BookingCalendar() {
             disabled={!paymentReady}
           />
           <RevolutPaymentAction
-            label={quote ? `Enviar anticipo en Revolut · ${formatEuros(quote.depositCents)}` : `Anticipo · ${RETREAT_DEPOSIT_PER_NIGHT_EUR} € por noche`}
+            label={quote ? `Enviar anticipo · ${formatEuros(quote.depositCents)}` : `Anticipo · ${RETREAT_DEPOSIT_PER_NIGHT_EUR} € por noche`}
             className="booking-deposit"
             disabled={!paymentReady || !depositEligible}
           />

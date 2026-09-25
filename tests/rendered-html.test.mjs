@@ -232,7 +232,7 @@ test("keeps Airbnb and Stripe credentials server-side and degrades safely before
   assert.doesNotMatch(client, /AIRBNB_ICAL_URL/);
   assert.match(client, /https:\/\/revolut\.me\/mariogonzalezdia/);
   assert.match(client, /Pagar estancia en Revolut/);
-  assert.match(client, /Enviar anticipo en Revolut · \$\{formatEuros\(quote\.depositCents\)\}/);
+  assert.match(client, /Enviar anticipo · \$\{formatEuros\(quote\.depositCents\)\}/);
   assert.match(client, /El anticipo es de \{RETREAT_DEPOSIT_PER_NIGHT_EUR\} € por noche/);
   assert.match(client, /He confirmado con Origen las fechas y el importe/);
   assert.doesNotMatch(client, /StripeCheckoutButton|StripePaymentStatus/);
