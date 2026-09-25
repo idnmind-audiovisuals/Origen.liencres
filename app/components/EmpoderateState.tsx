@@ -191,7 +191,7 @@ export function EmpoderateState({ development, onReset }: EmpoderateStateProps) 
           </p>
           <div className="empower-hero-meta">
             <span>Liencres · Cantabria</span>
-            <span>20, 21, 22 SEPT · 7 PLAZAS SELECTAS</span>
+            <span>20, 21, 22 NOV · 7 PLAZAS SELECTAS</span>
           </div>
           <a className="empower-button empower-button--light" href="#solicitud">
             Solicitar plaza
