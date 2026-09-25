@@ -75,10 +75,10 @@ export function PublicRetreatLanding({
           <figure className="retreat-public-hero-media">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/experience-coast.webp"
-              width="1536"
-              height="1024"
-              alt="Costa Quebrada cliffs beside the sea in Liencres, Cantabria"
+              src="/retreats-spain-costa-quebrada.jpg"
+              width="500"
+              height="333"
+              alt="The Urros rock formations rising from the Cantabrian Sea at Costa Quebrada"
             />
             <figcaption>{copy.landscapeCaption}</figcaption>
           </figure>
@@ -126,11 +126,11 @@ export function PublicRetreatLanding({
           <figure>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/experience-forest.webp"
-              width="1536"
-              height="1024"
+              src="/retreats-spain-coastal-beach.jpg"
+              width="333"
+              height="448"
               loading="lazy"
-              alt="A path through the coastal forest of Liencres"
+              alt="A wild Cantabrian beach beneath a dramatic sunset sky near Liencres"
             />
           </figure>
         ) : null}

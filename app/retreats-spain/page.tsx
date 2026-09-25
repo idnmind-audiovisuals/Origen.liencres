@@ -33,10 +33,10 @@ export const metadata: Metadata = {
     alternateLocale: ["es_ES"],
     images: [
       {
-        url: "/experience-coast.webp",
-        width: 1536,
-        height: 1024,
-        alt: "Costa Quebrada cliffs in Liencres, Cantabria",
+        url: "/retreats-spain-costa-quebrada.jpg",
+        width: 500,
+        height: 333,
+        alt: "The Urros rock formations on the Costa Quebrada coast in Cantabria",
       },
     ],
   },
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title,
     description,
-    images: ["/experience-coast.webp"],
+    images: ["/retreats-spain-costa-quebrada.jpg"],
   },
 };
 

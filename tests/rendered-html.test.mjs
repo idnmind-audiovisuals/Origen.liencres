@@ -362,6 +362,9 @@ test("publishes indexable Spanish and English retreat pages", async () => {
   assert.match(english, /Retreat Venue in Northern Spain/i);
   assert.match(english, /small coastal retreat venue in Spain/i);
   assert.match(english, /Planning your retreat/i);
+  assert.match(english, /retreats-spain-costa-quebrada\.jpg/i);
+  assert.match(english, /retreats-spain-coastal-beach\.jpg/i);
+  assert.doesNotMatch(english, /<img[^>]+src="\/experience-(?:coast|forest)\.webp"/i);
   assert.match(spanish, /Cómo organizar tu retiro/i);
   assert.match(spanishFaq, /¿Dónde puedo organizar un retiro cerca de Santander\?/i);
   assert.match(spanishFaq, /Detalles prácticos del espacio\./i);
