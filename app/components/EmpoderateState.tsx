@@ -64,8 +64,8 @@ const HOUSE_IMAGES = [
     alt: "Espacio compartido de Origen Liencres",
   },
   {
-    src: "https://a0.muscache.com/im/pictures/hosting/Hosting-23250801/original/a09bcf6c-b2cd-49f4-869e-bbdb4be31da8.jpeg?im_w=720",
-    alt: "Casa de Origen Liencres preparada para el grupo",
+    src: "/origen-rebros-house-exterior.avif",
+    alt: "Vista exterior de la casa Origen en Liencres al atardecer",
   },
 ] as const;
 

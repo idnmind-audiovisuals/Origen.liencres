@@ -595,6 +595,8 @@ test("keeps all access keys server-only and destination-scoped", async () => {
   assert.match(empoderate, /<dt>Grupo<\/dt><dd>7 plazas selectas<\/dd>/);
   assert.doesNotMatch(empoderate, /EMPODÉRATE|Finales de noviembre|NOV ·|de noviembre|7 hombres selectos/);
   assert.match(empoderate, /src: "\/origen-rebros-bedroom\.jpg"/);
+  assert.match(empoderate, /src: "\/origen-rebros-house-exterior\.avif"/);
+  assert.doesNotMatch(empoderate, /a09bcf6c-b2cd-49f4-869e-bbdb4be31da8/);
   assert.doesNotMatch(empoderate, /b3c60d82-07b7-4f84-9080-c331a39599f7/);
   assert.doesNotMatch(empoderate, /empower-image-break|empower-bros-media/);
   assert.doesNotMatch(styles, /\.empower-image-break(?:--forest)?\s*\{/);
