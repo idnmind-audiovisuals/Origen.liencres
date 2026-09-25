@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
 
 export default async function EmpoderatePage() {
-  redirect("/retirorebros");
+  redirect("/retirobros");
 }

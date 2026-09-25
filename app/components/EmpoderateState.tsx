@@ -119,7 +119,7 @@ export function EmpoderateState({ development, onReset }: EmpoderateStateProps) 
 
   useEffect(() => {
     document.documentElement.lang = "es";
-    document.title = "BROS — Retiro de hombres | Origen Liencres";
+    document.title = "Retiro Bros | Origen Liencres";
   }, []);
 
   return (
@@ -181,7 +181,7 @@ export function EmpoderateState({ development, onReset }: EmpoderateStateProps) 
           }}
         >
           <p className="empower-kicker">RETIRO DE HOMBRES</p>
-          <h1 id="empower-title">BROS</h1>
+          <h1 id="empower-title">Retiro Bros</h1>
           <p className="empower-intro">
             Tres días entre hombres para salir del ruido, conocerte mejor y
             volver con más claridad sobre cómo quieres vivir.
@@ -357,8 +357,7 @@ export function EmpoderateState({ development, onReset }: EmpoderateStateProps) 
           <Reveal className="empower-application-intro">
             <p className="empower-eyebrow">Solicitud</p>
             <h2 id="application-title">¿Te llama?</h2>
-            <p>No queremos llenar plazas sin más.</p>
-            <p>Queremos crear un grupo que tenga sentido.</p>
+            <p>Estamos buscando a los elegidos para esta experiencia tan potente.</p>
             <strong>Solo 7 plazas.</strong>
           </Reveal>
           <Reveal className="empower-form-wrap">

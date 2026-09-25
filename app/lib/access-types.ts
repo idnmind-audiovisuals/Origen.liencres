@@ -17,7 +17,7 @@ export const ACCESS_DESTINATION_BY_SCOPE = {
   experience: "/experience",
   "hosts-es": "/retreat-organizers-circle?lang=es",
   "hosts-en": "/retreat-organizers-circle?lang=en",
-  empoderate: "/retirorebros",
+  empoderate: "/retirobros",
 } as const satisfies Record<AccessScope, string>;
 
 export type AccessDestination =

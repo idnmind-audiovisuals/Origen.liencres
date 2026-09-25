@@ -131,7 +131,7 @@ export function AccessGateway({
     return <ExperienceState development={development} onReset={resetSession} />;
   }
 
-  if (state === "opened" && destination === "/retirorebros") {
+  if (state === "opened" && destination === "/retirobros") {
     return <EmpoderateState development={development} onReset={resetSession} />;
   }
 
