@@ -10,7 +10,7 @@ const fixtures = [
   { scope: "experience", env: "ORIGEN_EXPERIENCE_ACCESS_KEY", destination: "/experience" },
   { scope: "hosts-es", env: "ORIGEN_HOSTS_ES_ACCESS_KEY", destination: "/retreat-organizers-circle?lang=es", language: "es" },
   { scope: "hosts-en", env: "ORIGEN_HOSTS_EN_ACCESS_KEY", destination: "/retreat-organizers-circle?lang=en", language: "en" },
-  { scope: "empoderate", env: "ORIGEN_EMPOWER_ACCESS_KEY", destination: "/empoderate" },
+  { scope: "empoderate", env: "ORIGEN_EMPOWER_ACCESS_KEY", destination: "/retirorebros" },
 ].map((fixture) => ({ ...fixture, key: "Test-" + randomUUID() }));
 
 for (const fixture of fixtures) process.env[fixture.env] = fixture.key;

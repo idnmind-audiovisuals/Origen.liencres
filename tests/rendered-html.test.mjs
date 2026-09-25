@@ -270,7 +270,7 @@ test("keeps the monthly organisers' circle out of public discovery", async () =>
 });
 
 test("keeps the existing private destinations behind the gateway", async () => {
-  for (const path of ["/space", "/experience", "/residency", "/circulo-de-hombres", "/empoderate", "/retreat-organizers-circle", "/retreat-organizers-circle?lang=es", "/retreat-organizers-circle?lang=en"]) {
+  for (const path of ["/space", "/experience", "/residency", "/circulo-de-hombres", "/retirorebros", "/retreat-organizers-circle", "/retreat-organizers-circle?lang=es", "/retreat-organizers-circle?lang=en"]) {
     const response = await render(path);
     assert.equal(response.status, 307, `${path} requires an access session`);
     assert.equal(new URL(response.headers.get("location"), "http://localhost").href, "http://localhost/");
@@ -425,7 +425,7 @@ test("keeps all access keys server-only and destination-scoped", async () => {
     readFile(new URL("../app/residency/page.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/space/page.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/experience/page.tsx", import.meta.url), "utf8"),
-    readFile(new URL("../app/empoderate/page.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/retirorebros/page.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/components/EmpoderateState.tsx", import.meta.url), "utf8"),
   ]);
 

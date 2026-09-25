@@ -87,7 +87,7 @@ export function ReducedMotionGateway({
     return <ExperienceState development={development} onReset={resetSession} />;
   }
 
-  if (phase === "opened" && destination === "/empoderate") {
+  if (phase === "opened" && destination === "/retirorebros") {
     return <EmpoderateState development={development} onReset={resetSession} />;
   }
 
