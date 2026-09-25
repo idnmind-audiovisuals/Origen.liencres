@@ -56,8 +56,8 @@ const JOURNEY = [
 
 const HOUSE_IMAGES = [
   {
-    src: "https://a0.muscache.com/im/pictures/hosting/Hosting-23250801/original/b3c60d82-07b7-4f84-9080-c331a39599f7.png?im_w=1440",
-    alt: "Origen Liencres entre el jardín y la costa de Cantabria",
+    src: "/origen-rebros-bedroom.jpg",
+    alt: "Dormitorio de la casa Origen en Liencres",
   },
   {
     src: "https://a0.muscache.com/im/pictures/hosting/Hosting-23250801/original/3b1e8c34-f170-45e9-8ebe-d880261a3235.jpeg?im_w=720",

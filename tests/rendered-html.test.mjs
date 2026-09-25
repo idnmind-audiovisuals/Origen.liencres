@@ -573,6 +573,8 @@ test("keeps all access keys server-only and destination-scoped", async () => {
   assert.match(styles, /\.empower-page[\s\S]*url\("\/origen-bros-slate\.png"\)/);
   assert.match(empoderate, /Tres días entre hombres/);
   assert.match(empoderate, /Queremos hombres normales viviendo algo extraordinario\./);
+  assert.match(empoderate, /src: "\/origen-rebros-bedroom\.jpg"/);
+  assert.doesNotMatch(empoderate, /b3c60d82-07b7-4f84-9080-c331a39599f7/);
   assert.match(empoderate, /filter: "blur\(9px\)"/);
   assert.match(empoderate, /GATEWAY_MOTION\.opened\.textDelay/);
   assert.match(styles, /\.empower-page[\s\S]*font-family: "Montserrat Variable"/);
