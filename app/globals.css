@@ -5235,9 +5235,9 @@ button {
 /* EMPODÉRATE — Origen on the outside, BROS on the inside. */
 .empower-page {
   --empower-ink: #171713;
-  --empower-paper: #f2efe8;
+  --empower-paper: #fffaf2;
   --empower-green: #68763d;
-  --empower-line: rgb(242 239 232 / 0.28);
+  --empower-line: rgb(255 250 242 / 0.28);
   position: fixed;
   inset: 0;
   z-index: 80;
@@ -5306,7 +5306,7 @@ button {
   min-height: 92px;
   padding: 22px 40px;
   color: var(--empower-paper);
-  border-bottom: 1px solid rgb(242 239 232 / 0.34);
+  border-bottom: 1px solid rgb(255 250 242 / 0.34);
 }
 
 .empower-brand {
@@ -5532,11 +5532,11 @@ button {
   gap: 24px;
   align-items: baseline;
   padding: 30px 0;
-  border-top: 1px solid rgb(242 239 232 / 0.26);
+  border-top: 1px solid rgb(255 250 242 / 0.26);
 }
 
 .empower-dimensions article:last-child {
-  border-bottom: 1px solid rgb(242 239 232 / 0.26);
+  border-bottom: 1px solid rgb(255 250 242 / 0.26);
 }
 
 .empower-dimensions span,
@@ -5908,7 +5908,7 @@ button {
   color: var(--empower-paper);
   background: transparent;
   border: 0;
-  border-bottom: 1px solid rgb(242 239 232 / 0.48);
+  border-bottom: 1px solid rgb(255 250 242 / 0.48);
   border-radius: 0;
   outline: none;
   font: 500 16px/1.45 var(--font-montserrat), Montserrat, sans-serif;
@@ -5942,7 +5942,7 @@ button {
 }
 
 .empower-form #empower-form-note {
-  color: rgb(242 239 232 / 0.68);
+  color: rgb(255 250 242 / 0.68);
   font-size: 11px;
   line-height: 1.5;
 }

@@ -592,6 +592,7 @@ test("keeps all access keys server-only and destination-scoped", async () => {
   assert.match(empoderate, /filter: "blur\(9px\)"/);
   assert.match(empoderate, /GATEWAY_MOTION\.opened\.textDelay/);
   assert.match(styles, /\.empower-page[\s\S]*font-family: "Montserrat Variable"/);
+  assert.match(styles, /--empower-paper: #fffaf2;/);
   assert.match(styles, /\.empower-text-reveal[\s\S]*will-change: opacity, transform, filter/);
   assert.match(empoderate, /Formulario de solicitud próximamente/);
   assert.doesNotMatch(empoderate, /ReBro|ORIGEN_EMPOWER_ACCESS_KEY/);
