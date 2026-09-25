@@ -312,7 +312,7 @@ export function EmpoderateState({ development, onReset }: EmpoderateStateProps) 
             <div><dt>Grupo</dt><dd>7 participantes</dd></div>
             <div><dt>Incluye</dt><dd>Alojamiento y comidas</dd></div>
             <div><dt>Acuerdo</dt><dd>Sin alcohol ni drogas</dd></div>
-            <div><dt>Precio</dt><dd>Por confirmar</dd></div>
+            <div><dt>Precio</dt><dd>555 €</dd></div>
           </dl>
           <a className="empower-button" href="#solicitud">
             Solicitar plaza
