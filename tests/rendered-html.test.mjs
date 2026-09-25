@@ -547,6 +547,7 @@ test("keeps all access keys server-only and destination-scoped", async () => {
   assert.doesNotMatch(empoderate, /Solo siete hombres/);
   assert.match(styles, /\.empower-page[\s\S]*url\("\/origen-bros-slate\.png"\)/);
   assert.match(empoderate, /Tres días entre hombres/);
+  assert.match(empoderate, /Queremos hombres normales viviendo algo extraordinario\./);
   assert.match(empoderate, /Formulario de solicitud próximamente/);
   assert.doesNotMatch(empoderate, /ReBro|ORIGEN_EMPOWER_ACCESS_KEY/);
   assert.match(styles, /\.empower-page/);

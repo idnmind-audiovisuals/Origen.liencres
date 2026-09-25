@@ -249,6 +249,9 @@ export function EmpoderateState({ development, onReset }: EmpoderateStateProps) 
           <h2 id="bros-philosophy-title">No venimos a enseñarte cómo ser un hombre.</h2>
           <p>Venimos a crear un espacio donde podamos explorarlo juntos.</p>
           <p className="empower-bros-plain">Sin personajes. Sin gurús. Sin postureo espiritual.</p>
+          <p className="empower-bros-extraordinary">
+            Queremos hombres normales viviendo algo extraordinario.
+          </p>
           <p>
             Hombres hablando con hombres sobre cosas de las que normalmente no
             hablamos. Y también entrenando, comiendo, riéndonos, jugando y

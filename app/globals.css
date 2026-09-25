@@ -5676,6 +5676,15 @@ button {
   font-weight: 650;
 }
 
+.empower-bros-copy > .empower-bros-extraordinary {
+  max-width: 17ch;
+  margin-block: clamp(48px, 6vw, 82px);
+  font-size: clamp(34px, 4.8vw, 72px);
+  font-weight: 520;
+  letter-spacing: -0.055em;
+  line-height: 1.02;
+}
+
 .empower-place {
   padding-block: clamp(110px, 13vw, 190px);
 }
