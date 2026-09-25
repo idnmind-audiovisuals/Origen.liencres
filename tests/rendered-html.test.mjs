@@ -595,6 +595,9 @@ test("keeps all access keys server-only and destination-scoped", async () => {
   assert.match(styles, /--empower-paper: #fffaf2;/);
   assert.match(styles, /--empower-accent: #406c90;/);
   assert.doesNotMatch(styles, /--empower-green:/);
+  assert.match(styles, /\.empower-page::\-webkit-scrollbar\s*\{[\s\S]*?width: 0;[\s\S]*?height: 0;/);
+  assert.match(styles, /@media \(max-width: 620px\)[\s\S]*?--empower-side-gap: 32px;/);
+  assert.match(styles, /\.empower-gallery-item\s*\{[\s\S]*?aspect-ratio: 4 \/ 3;/);
   assert.match(styles, /\.empower-text-reveal[\s\S]*will-change: opacity, transform, filter/);
   assert.match(empoderate, /Formulario de solicitud próximamente/);
   assert.doesNotMatch(empoderate, /ReBro|ORIGEN_EMPOWER_ACCESS_KEY/);
