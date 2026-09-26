@@ -191,7 +191,7 @@ export function EmpoderateState({ development, onReset }: EmpoderateStateProps) 
           </p>
           <div className="empower-hero-meta">
             <span>Liencres · Cantabria</span>
-            <span>20, 21, 22 NOV · 7 PLAZAS SELECTAS</span>
+            <span>11, 12, 13 DIC · 7 PLAZAS SELECTAS</span>
           </div>
           <a className="empower-button empower-button--light" href="#solicitud">
             Solicitar plaza
@@ -341,7 +341,7 @@ export function EmpoderateState({ development, onReset }: EmpoderateStateProps) 
         <Reveal className="empower-info-list">
           <dl>
             <div><dt>Lugar</dt><dd>Origen Liencres · Cantabria</dd></div>
-            <div><dt>Fechas</dt><dd>20, 21 y 22 de septiembre</dd></div>
+            <div><dt>Fechas</dt><dd>11, 12 y 13 de diciembre</dd></div>
             <div><dt>Duración</dt><dd>Viernes — Domingo</dd></div>
             <div><dt>Grupo</dt><dd>7 plazas selectas</dd></div>
             <div><dt>Incluye</dt><dd>Alojamiento y comidas</dd></div>
