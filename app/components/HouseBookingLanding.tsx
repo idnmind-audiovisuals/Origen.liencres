@@ -96,6 +96,10 @@ export function HouseBookingLanding() {
 
   return (
     <main className="retreat-public-page retreat-public-page--esencia booking-page" lang="es">
+      <aside className="booking-launch-banner" aria-label="Oferta de lanzamiento">
+        <p><strong>−30 % · Precio de lanzamiento</strong><span>Para reservas confirmadas durante octubre</span></p>
+        <a href="#reservar">Ver disponibilidad<span aria-hidden="true">↓</span></a>
+      </aside>
       <header className="retreat-public-header">
         <GatewayBrandLink className="retreat-public-brand" label="Origen — volver a la entrada" variant="black" />
         <nav aria-label="Navegación">
@@ -133,7 +137,7 @@ export function HouseBookingLanding() {
       <section className="booking-listing-summary scroll-reveal" aria-labelledby="booking-listing-title">
         <div>
           <p className="retreat-public-eyebrow">Casa completa en Liencres</p>
-          <h2 id="booking-listing-title">Origen · Un espacio privado para tu grupo.</h2>
+          <h2 id="booking-listing-title">Un espacio íntimo para tu grupo</h2>
           <p>9 huéspedes · 3 habitaciones · 7 camas · 2 baños</p>
         </div>
         <a href={ORIGEN_AIRBNB_URL} target="_blank" rel="noreferrer">

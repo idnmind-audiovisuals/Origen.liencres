@@ -151,6 +151,8 @@ test("presents the house, availability and secure booking on the Spanish commerc
 
   assert.match(html, /<main class="retreat-public-page retreat-public-page--esencia booking-page" lang="es">/);
   assert.match(html, /<h1 id="booking-hero-title">Un espacio para tu retiro<\/h1>/);
+  assert.match(html, /−30 % · Precio de lanzamiento/);
+  assert.match(html, /Para reservas confirmadas durante octubre/);
   assert.equal([...html.matchAll(/<h1\b/g)].length, 1);
   assert.match(html, /id="galeria"/);
   assert.equal([...html.matchAll(/<figure\b/g)].length, 5);
@@ -158,6 +160,8 @@ test("presents the house, availability and secure booking on the Spanish commerc
   assert.match(html, /a0\.muscache\.com\/im\/pictures\/hosting\/Hosting-23250801/);
   assert.match(html, /9 huéspedes/);
   assert.match(html, /3 habitaciones · 7 camas/);
+  assert.match(html, /Un espacio íntimo para tu grupo/);
+  assert.doesNotMatch(html, /Origen · Un espacio privado para tu grupo/);
   assert.doesNotMatch(html, /id="booking-details-title"/);
   assert.doesNotMatch(html, /id="booking-rooms-title"/);
   assert.doesNotMatch(html, /id="booking-amenities-title"/);
@@ -186,18 +190,26 @@ test("presents the house, availability and secure booking on the Spanish commerc
 });
 
 test("quotes the same length discounts and peak-season surcharge shown at checkout", () => {
-  assert.equal(calculateRetreatQuote("2027-05-01", "2027-05-02")?.totalCents, 39_000);
-  assert.equal(calculateRetreatQuote("2027-05-01", "2027-05-02")?.depositCents, 10_000);
-  assert.equal(calculateRetreatQuote("2027-05-01", "2027-05-04")?.totalCents, 93_600);
-  assert.equal(calculateRetreatQuote("2027-05-01", "2027-05-04")?.depositCents, 30_000);
-  assert.equal(calculateRetreatQuote("2027-05-01", "2027-05-04")?.balanceDueCents, 63_600);
-  assert.equal(calculateRetreatQuote("2027-05-01", "2027-05-08")?.totalCents, 191_100);
-  assert.equal(calculateRetreatQuote("2027-05-01", "2027-05-08")?.depositCents, 70_000);
-  assert.equal(calculateRetreatQuote("2027-07-01", "2027-07-02")?.totalCents, 50_700);
-  assert.equal(calculateRetreatQuote("2027-07-01", "2027-07-04")?.totalCents, 121_680);
-  assert.equal(calculateRetreatQuote("2027-12-20", "2027-12-21")?.totalCents, 50_700);
-  assert.equal(calculateRetreatQuote("2027-06-30", "2027-07-02")?.highSeasonNights, 1);
-  assert.equal(calculateRetreatQuote("2027-02-30", "2027-03-03"), null);
+  const regularBookingDate = new Date("2026-11-01T12:00:00Z");
+  assert.equal(calculateRetreatQuote("2027-05-01", "2027-05-02", regularBookingDate)?.totalCents, 39_000);
+  assert.equal(calculateRetreatQuote("2027-05-01", "2027-05-02", regularBookingDate)?.depositCents, 10_000);
+  assert.equal(calculateRetreatQuote("2027-05-01", "2027-05-04", regularBookingDate)?.totalCents, 93_600);
+  assert.equal(calculateRetreatQuote("2027-05-01", "2027-05-04", regularBookingDate)?.depositCents, 30_000);
+  assert.equal(calculateRetreatQuote("2027-05-01", "2027-05-04", regularBookingDate)?.balanceDueCents, 63_600);
+  assert.equal(calculateRetreatQuote("2027-05-01", "2027-05-08", regularBookingDate)?.totalCents, 191_100);
+  assert.equal(calculateRetreatQuote("2027-05-01", "2027-05-08", regularBookingDate)?.depositCents, 70_000);
+  assert.equal(calculateRetreatQuote("2027-07-01", "2027-07-02", regularBookingDate)?.totalCents, 50_700);
+  assert.equal(calculateRetreatQuote("2027-07-01", "2027-07-04", regularBookingDate)?.totalCents, 121_680);
+  assert.equal(calculateRetreatQuote("2027-12-20", "2027-12-21", regularBookingDate)?.totalCents, 50_700);
+  assert.equal(calculateRetreatQuote("2027-06-30", "2027-07-02", regularBookingDate)?.highSeasonNights, 1);
+  assert.equal(calculateRetreatQuote("2027-02-30", "2027-03-03", regularBookingDate), null);
+
+  const octoberBookingDate = new Date("2026-10-15T12:00:00Z");
+  const launchQuote = calculateRetreatQuote("2027-05-01", "2027-05-02", octoberBookingDate);
+  assert.equal(launchQuote?.discountSource, "launch");
+  assert.equal(launchQuote?.discountPercent, 30);
+  assert.equal(launchQuote?.discountCents, 11_700);
+  assert.equal(launchQuote?.totalCents, 27_300);
 });
 
 test("keeps Airbnb and Stripe credentials server-side and degrades safely before configuration", async () => {
@@ -403,8 +415,9 @@ test("server-renders the Origen gateway", async () => {
     /<title>Origen Liencres \| Espacio para retiros en Cantabria<\/title>/i,
   );
   assert.match(html, /Espacio para residencias y retiros en Cantabria/i);
+  assert.match(html, /placeholder="Key to open"/i);
   assert.match(html, /La casa reúne naturaleza, playa y bosque para retiros íntimos y residencias creativas/i);
-  assert.match(html, /residencias creativas\.<\/p><a href="https:\/\/www\.origenliencres\.com\/retiro">Organiza tu retiro<i class="external-link-dot" aria-hidden="true"><\/i><\/a>/);
+  assert.match(html, /residencias creativas\.<\/p><a href="\/retiro">Organiza tu retiro<i class="external-link-dot" aria-hidden="true"><\/i><\/a>/);
   assert.doesNotMatch(html, /Conocer el espacio/i);
   assert.match(html, /origen-favicon\.png/i);
   assert.match(html, /rel="canonical" href="https:\/\/www\.origenliencres\.com\/"/i);
@@ -418,7 +431,7 @@ test("server-renders the Origen gateway", async () => {
 test("both gateway variants link to the public retreat venue page below the introduction", async () => {
   for (const component of ["AccessGateway", "ReducedMotionGateway"]) {
     const source = await readFile(new URL(`../app/components/${component}.tsx`, import.meta.url), "utf8");
-    assert.match(source, /residencias creativas\.\s*<\/p>\s*<a href="https:\/\/www\.origenliencres\.com\/retiro">\s*Organiza tu retiro\s*<i className="external-link-dot" aria-hidden="true" \/>/, component);
+    assert.match(source, /residencias creativas\.\s*<\/p>\s*<a href="\/retiro">\s*Organiza tu retiro\s*<i className="external-link-dot" aria-hidden="true" \/>/, component);
   }
 });
 
@@ -463,7 +476,7 @@ test("keeps all access keys server-only and destination-scoped", async () => {
   ]);
 
   assert.doesNotMatch(client, /ORIGEN_(?:BROS_|SPACE_)?ACCESS_KEY|Esencia/i);
-  assert.match(gateway, /href="https:\/\/www\.origenliencres\.com\/retiro"/);
+  assert.match(gateway, /href="\/retiro"/);
   assert.match(gateway, /Organiza tu retiro/);
   assert.match(route, /matchAccessKey/);
   assert.match(route, /destination/);

@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { ORIGEN_AIRBNB_URL, HOST_APPLICATION_URL } from "../lib/public-retreat-content";
 import {
   calculateRetreatQuote,
+  RETREAT_LAUNCH_DISCOUNT_PERCENT,
   RETREAT_BASE_NIGHT_EUR,
   RETREAT_DEPOSIT_PER_NIGHT_EUR,
   RETREAT_MAX_GUESTS,
@@ -272,8 +273,10 @@ export function BookingCalendar() {
           <h2 id="booking-title">Encuentra tus fechas.</h2>
         </div>
         <p>
-          Tarifa base: {RETREAT_BASE_NIGHT_EUR} € por noche. A partir de 3 noches,
-          20 % de descuento; desde 7 noches, 30 %. Las noches de julio, agosto y
+          Precio de lanzamiento: {RETREAT_LAUNCH_DISCOUNT_PERCENT} % de descuento
+          para reservas confirmadas durante octubre. A partir de 3 noches,
+          20 % de descuento; desde 7 noches, 30 % (las promociones no son
+          acumulables y se aplica siempre la mayor). Las noches de julio, agosto y
           del 20 de diciembre al 6 de enero llevan un recargo del 30 %. El
           importe estimado se muestra antes de abrir Revolut.
         </p>
@@ -330,7 +333,12 @@ export function BookingCalendar() {
               <>
                 <div><dt>{quote.nights} {quote.nights === 1 ? "noche" : "noches"} × {RETREAT_BASE_NIGHT_EUR} €</dt><dd>{formatEuros(quote.baseCents)}</dd></div>
                 {quote.highSeasonNights ? <div><dt>Temporada alta · {quote.highSeasonNights} {quote.highSeasonNights === 1 ? "noche" : "noches"} (+30 %)</dt><dd>+{formatEuros(quote.highSeasonSurchargeCents)}</dd></div> : null}
-                {quote.discountPercent ? <div><dt>Descuento por estancia · {quote.discountPercent} %</dt><dd>−{formatEuros(quote.discountCents)}</dd></div> : null}
+                {quote.discountPercent ? (
+                  <div>
+                    <dt>{quote.discountSource === "launch" ? "Precio de lanzamiento" : "Descuento por estancia"} · {quote.discountPercent} %</dt>
+                    <dd>−{formatEuros(quote.discountCents)}</dd>
+                  </div>
+                ) : null}
               </>
             ) : null}
             <div>

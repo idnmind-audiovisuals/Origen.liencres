@@ -176,7 +176,7 @@ export function AccessGateway({
           La casa reúne naturaleza, playa y bosque para retiros íntimos y
           residencias creativas.
         </p>
-        <a href="https://www.origenliencres.com/retiro">
+        <a href="/retiro">
           Organiza tu retiro
           <i className="external-link-dot" aria-hidden="true" />
         </a>

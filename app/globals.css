@@ -20,6 +20,43 @@
   --booking-line: rgb(36 35 31 / 0.18);
 }
 
+.booking-launch-banner {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  min-height: 48px;
+  padding: 10px clamp(22px, 4vw, 64px);
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  color: #24231f;
+  background: #d4a64f;
+}
+
+.booking-launch-banner p {
+  display: flex;
+  align-items: baseline;
+  gap: clamp(12px, 2vw, 30px);
+  font-size: clamp(11px, 0.9vw, 14px);
+  letter-spacing: 0.04em;
+}
+
+.booking-launch-banner strong,
+.booking-launch-banner a {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.booking-launch-banner a {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid rgb(36 35 31 / 0.55);
+}
+
 .booking-hero,
 .booking-gallery,
 .booking-listing-summary,
@@ -840,6 +877,21 @@
 }
 
 @media (max-width: 700px) {
+  .booking-launch-banner {
+    min-height: 72px;
+    padding-block: 13px;
+  }
+
+  .booking-launch-banner p {
+    flex-direction: column;
+    gap: 4px;
+    line-height: 1.35;
+  }
+
+  .booking-launch-banner a {
+    font-size: 8px;
+  }
+
   .booking-hero,
   .booking-gallery,
   .booking-listing-summary,
@@ -3128,12 +3180,12 @@ button {
   min-height: 28px;
   padding: 3px 2px 6px;
   border: 0;
-  border-bottom: 1px solid rgb(36 35 31 / 0.28);
+  border-bottom: 1px solid rgb(242 239 232 / 0.58);
   border-radius: 0;
   outline: 0;
-  color: var(--ink);
+  color: var(--paper);
   background: transparent;
-  caret-color: var(--ink);
+  caret-color: var(--paper);
   font-size: clamp(13px, calc(var(--symbol-size) * 0.041), 17px);
   font-weight: 410;
   letter-spacing: 0.17em;
@@ -3144,7 +3196,7 @@ button {
 }
 
 .access-credential input::placeholder {
-  color: var(--ink);
+  color: var(--paper);
   font-size: clamp(10px, calc(var(--symbol-size) * 0.035), 14px);
   font-weight: 480;
   letter-spacing: 0.16em;
@@ -3152,8 +3204,8 @@ button {
 }
 
 .access-credential input:focus-visible {
-  border-bottom-color: rgb(36 35 31 / 0.72);
-  box-shadow: 0 2px 0 -1px rgb(36 35 31 / 0.5);
+  border-bottom-color: var(--paper);
+  box-shadow: 0 2px 0 -1px rgb(242 239 232 / 0.72);
 }
 
 .access-credential input:disabled {
