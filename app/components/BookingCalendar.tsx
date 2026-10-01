@@ -273,17 +273,16 @@ export function BookingCalendar() {
           <h2 id="booking-title">Encuentra tus fechas.</h2>
         </div>
         <p>
-          Precio de lanzamiento: {RETREAT_LAUNCH_DISCOUNT_PERCENT} % de descuento
-          para reservas confirmadas durante octubre. A partir de 3 noches,
-          20 % de descuento; desde 7 noches, 30 % (las promociones no son
-          acumulables y se aplica siempre la mayor). Las noches de julio, agosto y
-          del 20 de diciembre al 6 de enero llevan un recargo del 30 %. El
-          importe estimado se muestra antes de abrir Revolut.
+          {RETREAT_BASE_NIGHT_EUR} € por noche · Descuentos y recargos aplicados automáticamente.
         </p>
       </div>
 
       <div className="booking-layout">
         <div className="booking-calendar-card">
+          <div className="booking-calendar-offer">
+            <strong>−{RETREAT_LAUNCH_DISCOUNT_PERCENT} %</strong>
+            <span>Reservas confirmadas durante octubre</span>
+          </div>
           <div className="booking-calendar-nav">
             <button type="button" onClick={() => setVisibleMonth(addMonths(visibleMonth, -1))} disabled={!canMoveBack} aria-label="Mes anterior">←</button>
             <p>{loading ? "Actualizando calendario…" : calendarConnected ? "Conectado con Airbnb" : "Disponibilidad final en Airbnb"}</p>

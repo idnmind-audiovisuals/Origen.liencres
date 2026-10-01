@@ -413,6 +413,31 @@
   background: #f2efe8;
 }
 
+.booking-calendar-offer {
+  display: flex;
+  min-height: 48px;
+  margin: calc(clamp(22px, 3.2vw, 48px) * -1) calc(clamp(22px, 3.2vw, 48px) * -1) 34px;
+  padding: 10px clamp(16px, 2.3vw, 34px);
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  background: #d4a64f;
+}
+
+.booking-calendar-offer strong {
+  font-size: clamp(18px, 1.7vw, 26px);
+  font-weight: 620;
+  letter-spacing: -0.03em;
+}
+
+.booking-calendar-offer span {
+  font-size: 9px;
+  font-weight: 650;
+  letter-spacing: 0.13em;
+  text-align: right;
+  text-transform: uppercase;
+}
+
 .booking-calendar-nav {
   display: grid;
   margin-bottom: 34px;
@@ -890,6 +915,16 @@
 
   .booking-launch-banner a {
     font-size: 8px;
+  }
+
+  .booking-calendar-offer {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .booking-calendar-offer span {
+    text-align: left;
   }
 
   .booking-hero,
@@ -5878,6 +5913,26 @@ button {
 
 .empower-info-list dd {
   font-size: 17px;
+}
+
+.empower-info-list .empower-info-price {
+  padding-block: clamp(28px, 3vw, 44px);
+  align-items: end;
+  color: var(--empower-paper);
+  background: linear-gradient(90deg, rgb(64 108 144 / 0.18), transparent 72%);
+}
+
+.empower-info-price dt {
+  padding-bottom: 6px;
+  color: var(--empower-accent);
+  font-size: clamp(12px, 1vw, 15px);
+}
+
+.empower-info-price dd {
+  font-size: clamp(42px, 5vw, 72px);
+  font-weight: 520;
+  letter-spacing: -0.055em;
+  line-height: 0.82;
 }
 
 .empower-info-list .empower-button {

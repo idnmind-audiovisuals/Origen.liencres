@@ -259,8 +259,7 @@ export function EmpoderateState({ development, onReset }: EmpoderateStateProps) 
         </Reveal>
         <div className="empower-moment-grid">
           <Reveal className="empower-everyday">
-            <p>Tienes el trabajo. Amigos. Proyectos.</p>
-            <p>Entrenas. Viajas. Pero...</p>
+            <p>Tienes el trabajo. Amigos. Proyectos. Entrenas. Viajas. Pero...</p>
           </Reveal>
           <div className="empower-questions">
             {QUESTIONS.map((question, index) => (
@@ -395,7 +394,7 @@ export function EmpoderateState({ development, onReset }: EmpoderateStateProps) 
             <div><dt>Grupo</dt><dd>7 plazas selectas</dd></div>
             <div><dt>Incluye</dt><dd>Alojamiento y comidas</dd></div>
             <div><dt>Acuerdo</dt><dd>Sin alcohol ni drogas</dd></div>
-            <div><dt>Precio</dt><dd>555 €</dd></div>
+            <div className="empower-info-price"><dt>Precio</dt><dd>555 €</dd></div>
           </dl>
           <a className="empower-button" href="#solicitud">
             Solicitar plaza

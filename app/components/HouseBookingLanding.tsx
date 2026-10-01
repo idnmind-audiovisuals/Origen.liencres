@@ -138,7 +138,7 @@ export function HouseBookingLanding() {
         <div>
           <p className="retreat-public-eyebrow">Casa completa en Liencres</p>
           <h2 id="booking-listing-title">Un espacio íntimo para tu grupo</h2>
-          <p>9 huéspedes · 3 habitaciones · 7 camas · 2 baños</p>
+          <p>9 huéspedes · 3 habitaciones · 7 camas · 2 baños · 1 shala · salón común</p>
         </div>
         <a href={ORIGEN_AIRBNB_URL} target="_blank" rel="noreferrer">
           Reseñas verificadas en Airbnb

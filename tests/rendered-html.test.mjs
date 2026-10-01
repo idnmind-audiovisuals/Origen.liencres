@@ -153,13 +153,16 @@ test("presents the house, availability and secure booking on the Spanish commerc
   assert.match(html, /<h1 id="booking-hero-title">Un espacio para tu retiro<\/h1>/);
   assert.match(html, /−30 % · Precio de lanzamiento/);
   assert.match(html, /Para reservas confirmadas durante octubre/);
+  assert.match(html, /class="booking-calendar-offer"/);
+  assert.match(html, /390<!-- --> € por noche · Descuentos y recargos aplicados automáticamente/);
+  assert.doesNotMatch(html, /las promociones no son acumulables/i);
   assert.equal([...html.matchAll(/<h1\b/g)].length, 1);
   assert.match(html, /id="galeria"/);
   assert.equal([...html.matchAll(/<figure\b/g)].length, 5);
   assert.match(html, /src="\/origen-rebros-bedroom\.jpg"/);
   assert.match(html, /a0\.muscache\.com\/im\/pictures\/hosting\/Hosting-23250801/);
   assert.match(html, /9 huéspedes/);
-  assert.match(html, /3 habitaciones · 7 camas/);
+  assert.match(html, /3 habitaciones · 7 camas · 2 baños · 1 shala · salón común/);
   assert.match(html, /Un espacio íntimo para tu grupo/);
   assert.doesNotMatch(html, /Origen · Un espacio privado para tu grupo/);
   assert.doesNotMatch(html, /id="booking-details-title"/);
@@ -599,7 +602,8 @@ test("keeps all access keys server-only and destination-scoped", async () => {
   assert.doesNotMatch(empoderate, /No venimos a enseñarte|Hombres hablando con hombres|empower-bros-extraordinary/);
   assert.match(empoderate, /Sabes que puede haber algo más/);
   assert.match(empoderate, /y que todo empieza por tu masculinidad\./);
-  assert.match(empoderate, /Tienes el trabajo\. Amigos\. Proyectos\./);
+  assert.match(empoderate, /Tienes el trabajo\. Amigos\. Proyectos\. Entrenas\. Viajas\. Pero\.\.\./);
+  assert.match(empoderate, /className="empower-info-price"/);
   assert.match(empoderate, /Entrenas\. Viajas\. Pero\.\.\./);
   assert.doesNotMatch(empoderate, /Puede que tu vida esté bien|Quizá tienes pareja/);
   assert.match(empoderate, /<p className="empower-kicker">RETIRO DE HOMBRES<\/p>/);
