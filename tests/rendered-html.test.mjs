@@ -154,6 +154,7 @@ test("presents the house, availability and secure booking on the Spanish commerc
   assert.equal([...html.matchAll(/<h1\b/g)].length, 1);
   assert.match(html, /id="galeria"/);
   assert.equal([...html.matchAll(/<figure\b/g)].length, 5);
+  assert.match(html, /src="\/origen-rebros-bedroom\.jpg"/);
   assert.match(html, /a0\.muscache\.com\/im\/pictures\/hosting\/Hosting-23250801/);
   assert.match(html, /9 huéspedes/);
   assert.match(html, /3 habitaciones · 7 camas/);
@@ -162,12 +163,14 @@ test("presents the house, availability and secure booking on the Spanish commerc
   assert.doesNotMatch(html, /id="booking-amenities-title"/);
   assert.match(html, /id="booking-host-title"/);
   assert.match(html, /src="\/origen-host-mark\.png"/);
-  assert.match(html, /id="booking-reviews-title"/);
+  assert.doesNotMatch(html, /id="booking-reviews-title"/);
   assert.match(html, /Reseñas verificadas en Airbnb/);
   assert.match(html, /id="reservar"/);
   assert.match(html, /Encuentra tus fechas\./);
   assert.match(html, /Reserva la casa completa\./);
-  assert.match(html, /497<!-- --> € por noche/);
+  assert.match(html, /390<!-- --> € por noche/);
+  assert.match(html, /Antes de pagar, confirma las fechas con/);
+  assert.match(html, /href="mailto:origen\.liencres@gmail\.com"/);
   assert.match(html, /class="booking-date-trigger"/);
   assert.match(html, /Comprobar en Airbnb/);
   assert.match(html, /rel="canonical" href="https:\/\/www\.origenliencres\.com\/retiro"/);
@@ -183,16 +186,16 @@ test("presents the house, availability and secure booking on the Spanish commerc
 });
 
 test("quotes the same length discounts and peak-season surcharge shown at checkout", () => {
-  assert.equal(calculateRetreatQuote("2027-05-01", "2027-05-02")?.totalCents, 49_700);
+  assert.equal(calculateRetreatQuote("2027-05-01", "2027-05-02")?.totalCents, 39_000);
   assert.equal(calculateRetreatQuote("2027-05-01", "2027-05-02")?.depositCents, 10_000);
-  assert.equal(calculateRetreatQuote("2027-05-01", "2027-05-04")?.totalCents, 119_280);
+  assert.equal(calculateRetreatQuote("2027-05-01", "2027-05-04")?.totalCents, 93_600);
   assert.equal(calculateRetreatQuote("2027-05-01", "2027-05-04")?.depositCents, 30_000);
-  assert.equal(calculateRetreatQuote("2027-05-01", "2027-05-04")?.balanceDueCents, 89_280);
-  assert.equal(calculateRetreatQuote("2027-05-01", "2027-05-08")?.totalCents, 243_530);
+  assert.equal(calculateRetreatQuote("2027-05-01", "2027-05-04")?.balanceDueCents, 63_600);
+  assert.equal(calculateRetreatQuote("2027-05-01", "2027-05-08")?.totalCents, 191_100);
   assert.equal(calculateRetreatQuote("2027-05-01", "2027-05-08")?.depositCents, 70_000);
-  assert.equal(calculateRetreatQuote("2027-07-01", "2027-07-02")?.totalCents, 64_610);
-  assert.equal(calculateRetreatQuote("2027-07-01", "2027-07-04")?.totalCents, 155_064);
-  assert.equal(calculateRetreatQuote("2027-12-20", "2027-12-21")?.totalCents, 64_610);
+  assert.equal(calculateRetreatQuote("2027-07-01", "2027-07-02")?.totalCents, 50_700);
+  assert.equal(calculateRetreatQuote("2027-07-01", "2027-07-04")?.totalCents, 121_680);
+  assert.equal(calculateRetreatQuote("2027-12-20", "2027-12-21")?.totalCents, 50_700);
   assert.equal(calculateRetreatQuote("2027-06-30", "2027-07-02")?.highSeasonNights, 1);
   assert.equal(calculateRetreatQuote("2027-02-30", "2027-03-03"), null);
 });
@@ -228,13 +231,15 @@ test("keeps Airbnb and Stripe credentials server-side and degrades safely before
     readFile(new URL("../app/components/StripeCheckoutButton.tsx", import.meta.url), "utf8"),
   ]);
   assert.match(route, /loadAirbnbAvailability/);
+  assert.match(route, /loadAirbnbAvailability\(\{ fresh: true \}\)/);
+  assert.match(route, /"Cache-Control": "no-store"/);
   assert.match(calendar, /process\.env\.AIRBNB_ICAL_URL/);
   assert.doesNotMatch(client, /AIRBNB_ICAL_URL/);
   assert.match(client, /https:\/\/revolut\.me\/mariogonzalezdia/);
   assert.match(client, /Pagar estancia en Revolut/);
   assert.match(client, /Enviar anticipo · \$\{formatEuros\(quote\.depositCents\)\}/);
   assert.match(client, /El anticipo es de \{RETREAT_DEPOSIT_PER_NIGHT_EUR\} € por noche/);
-  assert.match(client, /He confirmado con Origen las fechas y el importe/);
+  assert.match(client, /He confirmado con Origen las fechas/);
   assert.doesNotMatch(client, /StripeCheckoutButton|StripePaymentStatus/);
   assert.match(calendar, /revalidate: 10_800/);
   assert.match(stripeRoute, /process\.env\.STRIPE_SECRET_KEY/);
@@ -472,7 +477,7 @@ test("keeps all access keys server-only and destination-scoped", async () => {
   assert.doesNotMatch(session, /["'](?:Esencia|Bros|Espacio|Experiencia|Proposito|Purpose|ReBro)["']/i);
   assert.equal(
     example,
-    "ORIGEN_ACCESS_KEY=\nORIGEN_BROS_ACCESS_KEY=\nORIGEN_SPACE_ACCESS_KEY=\nORIGEN_EXPERIENCE_ACCESS_KEY=\nORIGEN_HOSTS_ES_ACCESS_KEY=\nORIGEN_HOSTS_EN_ACCESS_KEY=\nORIGEN_EMPOWER_ACCESS_KEY=\nAIRBNB_ICAL_URL=\nSTRIPE_SECRET_KEY=\n",
+    "ORIGEN_ACCESS_KEY=\nORIGEN_BROS_ACCESS_KEY=\nORIGEN_SPACE_ACCESS_KEY=\nORIGEN_EXPERIENCE_ACCESS_KEY=\nORIGEN_HOSTS_ES_ACCESS_KEY=\nORIGEN_HOSTS_EN_ACCESS_KEY=\nORIGEN_EMPOWER_ACCESS_KEY=\nAIRBNB_ICAL_URL=\nSTRIPE_SECRET_KEY=\nRESEND_API_KEY=\nRETREAT_APPLICATION_FROM_EMAIL=\n",
   );
   assert.match(
     bros,
@@ -585,15 +590,15 @@ test("keeps all access keys server-only and destination-scoped", async () => {
   assert.match(empoderate, /Entrenas\. Viajas\. Pero\.\.\./);
   assert.doesNotMatch(empoderate, /Puede que tu vida esté bien|Quizá tienes pareja/);
   assert.match(empoderate, /<p className="empower-kicker">RETIRO DE HOMBRES<\/p>/);
-  assert.match(empoderate, /<h1 id="empower-title">BROS<\/h1>/);
-  assert.match(empoderate, /20, 21, 22 SEPT · 7 PLAZAS SELECTAS/);
+  assert.match(empoderate, /<h1 id="empower-title">[\s\S]*<span>Retiro<\/span>[\s\S]*<span>Bros<\/span>[\s\S]*<\/h1>/);
+  assert.match(empoderate, /11, 12, 13 DIC · 7 PLAZAS SELECTAS/);
   assert.match(empoderate, /<strong>EMPODERA<\/strong>/);
   assert.match(empoderate, /className="empower-closing-subtitle">Tu masculinidad<\/span>/);
   assert.match(empoderate, /Quizá solo necesitas el espacio para vivirlas\./);
   assert.doesNotMatch(empoderate, /crear el espacio para hacerte mejores preguntas/);
-  assert.match(empoderate, /<dt>Fechas<\/dt><dd>20, 21 y 22 de septiembre<\/dd>/);
+  assert.match(empoderate, /<dt>Fechas<\/dt><dd>11, 12 y 13 de diciembre<\/dd>/);
   assert.match(empoderate, /<dt>Grupo<\/dt><dd>7 plazas selectas<\/dd>/);
-  assert.doesNotMatch(empoderate, /EMPODÉRATE|Finales de noviembre|NOV ·|de noviembre|7 hombres selectos/);
+  assert.doesNotMatch(empoderate, /EMPODÉRATE|Finales de noviembre|NOV ·|de noviembre|7 hombres selectos|20, 21, 22 SEPT/);
   assert.match(empoderate, /src: "\/origen-rebros-bedroom\.jpg"/);
   assert.match(empoderate, /src: "\/origen-rebros-house-exterior\.avif"/);
   assert.doesNotMatch(empoderate, /a09bcf6c-b2cd-49f4-869e-bbdb4be31da8/);
@@ -615,7 +620,8 @@ test("keeps all access keys server-only and destination-scoped", async () => {
   assert.match(styles, /@media \(max-width: 620px\)[\s\S]*?--empower-side-gap: 32px;/);
   assert.match(styles, /\.empower-gallery-item\s*\{[\s\S]*?aspect-ratio: 4 \/ 3;/);
   assert.match(styles, /\.empower-text-reveal[\s\S]*will-change: opacity, transform, filter/);
-  assert.match(empoderate, /Formulario de solicitud próximamente/);
+  assert.match(empoderate, /fetch\("\/api\/retreat-bros-application"/);
+  assert.match(empoderate, /Enviar solicitud/);
   assert.doesNotMatch(empoderate, /ReBro|ORIGEN_EMPOWER_ACCESS_KEY/);
   assert.match(styles, /\.empower-page/);
 

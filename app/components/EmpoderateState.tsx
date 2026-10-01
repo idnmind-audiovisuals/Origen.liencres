@@ -7,7 +7,8 @@ import {
   useSpring,
   useTransform,
 } from "framer-motion";
-import { useEffect, useLayoutEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import type { FormEvent } from "react";
 import { GatewayBrandLink } from "./GatewayBrandLink";
 import { InstagramLink } from "./InstagramLink";
 import {
@@ -93,6 +94,11 @@ function Reveal({ children, className = "" }: { children: React.ReactNode; class
 
 export function EmpoderateState({ development, onReset }: EmpoderateStateProps) {
   const pageRef = useRef<HTMLElement>(null);
+  const formStartedAt = useRef(0);
+  const [formStatus, setFormStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+  const [formMessage, setFormMessage] = useState(
+    "Usaremos tus datos únicamente para valorar y responder a tu solicitud.",
+  );
   const reducedMotion = useReducedMotion();
   const { scrollYProgress } = useScroll({ container: pageRef });
   const heroImageOffset = useTransform(scrollYProgress, [0, 0.2], [0, 110]);
@@ -120,7 +126,50 @@ export function EmpoderateState({ development, onReset }: EmpoderateStateProps) 
   useEffect(() => {
     document.documentElement.lang = "es";
     document.title = "Retiro Bros | Origen Liencres";
+    formStartedAt.current = Date.now();
   }, []);
+
+  async function submitApplication(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+    setFormStatus("sending");
+    setFormMessage("Enviando tu solicitud…");
+
+    try {
+      const response = await fetch("/api/retreat-bros-application", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formData.get("name"),
+          age: formData.get("age"),
+          city: formData.get("city"),
+          contact: formData.get("contact"),
+          work: formData.get("work"),
+          moment: formData.get("moment"),
+          explore: formData.get("explore"),
+          why: formData.get("why"),
+          website: formData.get("website"),
+          consent: formData.get("consent") === "on",
+          startedAt: formStartedAt.current,
+        }),
+      });
+      const result = (await response.json()) as { error?: string };
+      if (!response.ok) throw new Error(result.error ?? "No hemos podido enviar la solicitud.");
+
+      form.reset();
+      formStartedAt.current = Date.now();
+      setFormStatus("success");
+      setFormMessage("Solicitud recibida. Revisaremos tu perfil y contactaremos contigo.");
+    } catch (error) {
+      setFormStatus("error");
+      setFormMessage(
+        error instanceof Error
+          ? error.message
+          : "No hemos podido enviar la solicitud. Inténtalo de nuevo.",
+      );
+    }
+  }
 
   return (
     <motion.main
@@ -364,24 +413,38 @@ export function EmpoderateState({ development, onReset }: EmpoderateStateProps) 
             <strong>Solo 7 plazas.</strong>
           </Reveal>
           <Reveal className="empower-form-wrap">
-            <form className="empower-form" aria-describedby="empower-form-note">
+            <form
+              className="empower-form"
+              aria-describedby="empower-form-note"
+              onSubmit={submitApplication}
+            >
+              <label className="empower-form-trap" aria-hidden="true">
+                No completar
+                <input name="website" autoComplete="off" tabIndex={-1} />
+              </label>
               <div className="empower-form-row">
-                <label>Nombre<input name="name" autoComplete="name" required /></label>
-                <label>Edad<input name="age" inputMode="numeric" required /></label>
+                <label>Nombre<input name="name" autoComplete="name" maxLength={80} required /></label>
+                <label>Edad<input name="age" type="number" inputMode="numeric" min={18} max={100} required /></label>
               </div>
               <div className="empower-form-row">
-                <label>Ciudad<input name="city" autoComplete="address-level2" required /></label>
-                <label>WhatsApp / Email<input name="contact" autoComplete="email" required /></label>
+                <label>Ciudad<input name="city" autoComplete="address-level2" maxLength={80} required /></label>
+                <label>WhatsApp / Email<input name="contact" maxLength={120} required /></label>
               </div>
-              <label>¿A qué te dedicas?<textarea name="work" rows={2} required /></label>
-              <label>¿Qué momento estás viviendo?<textarea name="moment" rows={3} required /></label>
-              <label>¿Qué te gustaría explorar durante estos tres días?<textarea name="explore" rows={3} required /></label>
-              <label>¿Por qué te interesa este retiro?<textarea name="why" rows={3} required /></label>
-              <button type="button" disabled aria-describedby="empower-form-note">
-                Enviar solicitud
+              <label>¿A qué te dedicas?<textarea name="work" rows={2} maxLength={1000} required /></label>
+              <label>¿Qué momento estás viviendo?<textarea name="moment" rows={3} maxLength={2000} required /></label>
+              <label>¿Qué te gustaría explorar durante estos tres días?<textarea name="explore" rows={3} maxLength={2000} required /></label>
+              <label>¿Por qué te interesa este retiro?<textarea name="why" rows={3} maxLength={2000} required /></label>
+              <label className="empower-form-consent">
+                <input name="consent" type="checkbox" required />
+                <span>Autorizo a Origen a usar estos datos únicamente para valorar y responder a mi solicitud.</span>
+              </label>
+              <button type="submit" disabled={formStatus === "sending"} aria-describedby="empower-form-note">
+                {formStatus === "sending" ? "Enviando…" : "Enviar solicitud"}
                 <i className="external-link-dot" aria-hidden="true" />
               </button>
-              <p id="empower-form-note">Formulario de solicitud próximamente.</p>
+              <p id="empower-form-note" role="status" data-state={formStatus} aria-live="polite">
+                {formMessage}
+              </p>
             </form>
           </Reveal>
         </div>

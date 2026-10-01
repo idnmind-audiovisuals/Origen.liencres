@@ -12,8 +12,8 @@ import {
 
 const HOUSE_PHOTOS = [
   {
-    src: "https://a0.muscache.com/im/pictures/hosting/Hosting-23250801/original/b3c60d82-07b7-4f84-9080-c331a39599f7.png?im_w=1440",
-    alt: "Origen Liencres, casa para retiros en Cantabria",
+    src: "/origen-rebros-bedroom.jpg",
+    alt: "Dormitorio de Origen Liencres con techo de madera",
   },
   {
     src: "https://a0.muscache.com/im/pictures/hosting/Hosting-23250801/original/3b1e8c34-f170-45e9-8ebe-d880261a3235.jpeg?im_w=720",
@@ -120,7 +120,7 @@ export function HouseBookingLanding() {
       <section className="booking-gallery" id="galeria" aria-label="Fotografías de Origen Liencres">
         {HOUSE_PHOTOS.map((photo, index) => (
           <figure key={photo.src} className={index === 0 ? "booking-gallery-main" : ""}>
-            {/* The photos belong to the linked Origen Airbnb listing. */}
+            {/* The gallery combines Origen's own photography with images from its Airbnb listing. */}
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={photo.src} alt={photo.alt} loading={index === 0 ? "eager" : "lazy"} />
           </figure>
@@ -174,23 +174,6 @@ export function HouseBookingLanding() {
           </p>
           <a href={HOST_APPLICATION_URL} target="_blank" rel="noreferrer">
             Hablar con el anfitrión
-            <span className="external-link-dot" aria-hidden="true" />
-          </a>
-        </div>
-      </section>
-
-      <section className="booking-reviews scroll-reveal" aria-labelledby="booking-reviews-title">
-        <div>
-          <p className="retreat-public-eyebrow">Reseñas</p>
-          <h2 id="booking-reviews-title">Opiniones reales, en su fuente original.</h2>
-        </div>
-        <div>
-          <p>
-            Consulta en Airbnb las reseñas verificadas y actualizadas de quienes ya
-            se han alojado en el espacio.
-          </p>
-          <a className="retreat-public-primary" href={ORIGEN_AIRBNB_URL} target="_blank" rel="noreferrer">
-            Leer reseñas en Airbnb
             <span className="external-link-dot" aria-hidden="true" />
           </a>
         </div>

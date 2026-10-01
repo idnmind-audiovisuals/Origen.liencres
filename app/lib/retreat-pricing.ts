@@ -1,4 +1,4 @@
-export const RETREAT_BASE_NIGHT_EUR = 497;
+export const RETREAT_BASE_NIGHT_EUR = 390;
 export const RETREAT_DEPOSIT_PER_NIGHT_EUR = 100;
 export const RETREAT_MAX_GUESTS = 9;
 export const RETREAT_MAX_NIGHTS = 60;

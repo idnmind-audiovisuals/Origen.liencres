@@ -42,7 +42,7 @@ export function GatewayCrescentArtwork({
         height="244"
         filter={`url(#${filterId})`}
       />
-      <circle cx="141.5" cy="170" r="24" fill="var(--ink)" />
+      <circle cx="141.5" cy="170" r="24" fill="var(--gateway-accent)" />
     </svg>
   );
 }

@@ -203,7 +203,7 @@ export function BookingCalendar() {
     }
     setDeparture(value);
     setOpenPicker(null);
-    setMessage("Fechas seleccionadas. Confirma disponibilidad e importe con Origen antes de pagar.");
+    setMessage("Fechas seleccionadas. Confirma las fechas con Origen antes de pagar.");
   }
 
   function openDatePicker(field: "arrival" | "departure") {
@@ -339,8 +339,7 @@ export function BookingCalendar() {
             </div>
           </dl>
           <p className="booking-payment-note">
-            Antes de pagar, confirma las fechas y el importe con Origen en el <a href="tel:+34622181691">+34 622 18 16 91</a>.
-            {calendarConnected ? " El calendario puede tardar en sincronizarse." : " La disponibilidad no está verificada automáticamente."}
+            Antes de pagar, confirma las fechas con <a href="mailto:origen.liencres@gmail.com">origen.liencres@gmail.com</a>.
           </p>
           <label className="booking-payment-confirmation">
             <input
@@ -349,7 +348,7 @@ export function BookingCalendar() {
               disabled={!quote}
               onChange={(event) => setPaymentConfirmed(event.target.checked)}
             />
-            <span>He confirmado con Origen las fechas y el importe.</span>
+            <span>He confirmado con Origen las fechas.</span>
           </label>
           <RevolutPaymentAction
             label={quote ? `Pagar estancia en Revolut · ${formatEuros(quote.totalCents)}` : "Selecciona fechas para pagar"}

@@ -5,7 +5,7 @@ export const dynamic = "force-dynamic";
 
 export async function GET() {
   try {
-    const availability = await loadAirbnbAvailability();
+    const availability = await loadAirbnbAvailability({ fresh: true });
     return NextResponse.json(
       {
         ...availability,
@@ -15,9 +15,7 @@ export async function GET() {
       },
       {
         headers: {
-          "Cache-Control": availability.configured
-            ? "public, s-maxage=10800, stale-while-revalidate=3600"
-            : "public, s-maxage=300",
+          "Cache-Control": "no-store",
         },
       },
     );
