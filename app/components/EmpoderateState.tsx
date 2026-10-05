@@ -37,7 +37,7 @@ const JOURNEY = [
   },
   {
     day: "Sábado",
-    title: "Atravesar",
+    title: "Vivirlo",
     lines: [
       "Movimiento.",
       "Desafío.",
@@ -145,6 +145,7 @@ export function EmpoderateState({ development, onReset }: EmpoderateStateProps) 
           age: formData.get("age"),
           city: formData.get("city"),
           contact: formData.get("contact"),
+          social: formData.get("social"),
           work: formData.get("work"),
           moment: formData.get("moment"),
           explore: formData.get("explore"),
@@ -306,8 +307,8 @@ export function EmpoderateState({ development, onReset }: EmpoderateStateProps) 
 
       <section className="empower-journey empower-shell" aria-labelledby="journey-title">
         <Reveal className="empower-section-heading">
-          <p className="empower-eyebrow">El viaje</p>
-          <h2 id="journey-title">Llegar. Atravesar. Volver.</h2>
+          <p className="empower-eyebrow">Propósito</p>
+          <h2 id="journey-title">Abundancia · Dirección · Acción.</h2>
         </Reveal>
         <div className="empower-days">
           {JOURNEY.map((day, index) => (
@@ -316,7 +317,7 @@ export function EmpoderateState({ development, onReset }: EmpoderateStateProps) 
               <h3>{day.title}</h3>
               <p>{day.lines.join(" ")}</p>
               {day.day === "Domingo" ? (
-                <strong>Volver a casa con algo concreto que llevar a tu vida.</strong>
+                <strong>Conócete mejor y ten claridad sobre tu vida.</strong>
               ) : null}
             </Reveal>
           ))}
@@ -327,12 +328,12 @@ export function EmpoderateState({ development, onReset }: EmpoderateStateProps) 
         <div className="empower-bros-overlay" aria-hidden="true" />
         <Reveal className="empower-bros-copy">
           <p className="empower-eyebrow">BROS</p>
-          <h2 id="bros-philosophy-title">Queremos hombres normales viviendo algo extraordinario.</h2>
-          <p>Venimos a crear un espacio donde podamos explorar lo que significa ser un hombre juntos.</p>
+          <h2 id="bros-philosophy-title">Hombres normales viviendo de forma extraordinaria.</h2>
+          <p>Un espacio donde puedas explorar lo que significa ser un hombre con el mejor acompañamiento.</p>
           <p className="empower-bros-plain">Sin personajes. Sin gurús. Sin postureo espiritual.</p>
           <p>
             Hombres siendo hombres, hablando sobre cosas de las que normalmente
-            no hablamos. Compitiendo, jugando y amándonos.
+            no hablamos. Compitiendo, jugando, compartiendo y amando lo que somos.
           </p>
         </Reveal>
       </section>
@@ -342,7 +343,7 @@ export function EmpoderateState({ development, onReset }: EmpoderateStateProps) 
           <p className="empower-eyebrow">El lugar</p>
           <h2 id="place-title">Origen</h2>
           <p className="empower-place-lead">Entre el mar y los acantilados de Costa Quebrada.</p>
-          <p>Durante tres días, este espacio será nuestra casa.</p>
+          <p>Durante tres días, este espacio será TU casa.</p>
           <p className="empower-place-rhythm">Naturaleza. Fuego. Movimiento. Conversación. Comida compartida. Silencio.</p>
           <strong>Liencres · Cantabria</strong>
         </Reveal>
@@ -429,6 +430,10 @@ export function EmpoderateState({ development, onReset }: EmpoderateStateProps) 
                 <label>Ciudad<input name="city" autoComplete="address-level2" maxLength={80} required /></label>
                 <label>WhatsApp / Email<input name="contact" maxLength={120} required /></label>
               </div>
+              <label>
+                Usuario en redes sociales
+                <input name="social" placeholder="@tuusuario" maxLength={160} required />
+              </label>
               <label>¿A qué te dedicas?<textarea name="work" rows={2} maxLength={1000} required /></label>
               <label>¿Qué momento estás viviendo?<textarea name="moment" rows={3} maxLength={2000} required /></label>
               <label>¿Qué te gustaría explorar durante estos tres días?<textarea name="explore" rows={3} maxLength={2000} required /></label>

@@ -595,10 +595,14 @@ test("keeps all access keys server-only and destination-scoped", async () => {
   assert.doesNotMatch(empoderate, /Solo siete hombres/);
   assert.match(styles, /\.empower-page[\s\S]*url\("\/origen-bros-slate\.png"\)/);
   assert.match(empoderate, /Tres días entre hombres/);
-  assert.match(empoderate, /Queremos hombres normales viviendo algo extraordinario\./);
-  assert.match(empoderate, /explorar lo que significa ser un hombre juntos\./);
+  assert.match(empoderate, /Abundancia · Dirección · Acción\./);
+  assert.match(empoderate, /title: "Vivirlo"/);
+  assert.match(empoderate, /Conócete mejor y ten claridad sobre tu vida\./);
+  assert.match(empoderate, /Hombres normales viviendo de forma extraordinaria\./);
+  assert.match(empoderate, /explorar lo que significa ser un hombre con el mejor acompañamiento\./);
   assert.match(empoderate, /Hombres siendo hombres, hablando sobre cosas de las que normalmente/);
-  assert.match(empoderate, /Compitiendo, jugando y amándonos\./);
+  assert.match(empoderate, /Compitiendo, jugando, compartiendo y amando lo que somos\./);
+  assert.match(empoderate, /Durante tres días, este espacio será TU casa\./);
   assert.doesNotMatch(empoderate, /No venimos a enseñarte|Hombres hablando con hombres|empower-bros-extraordinary/);
   assert.match(empoderate, /Sabes que puede haber algo más/);
   assert.match(empoderate, /y que todo empieza por tu masculinidad\./);
@@ -638,6 +642,8 @@ test("keeps all access keys server-only and destination-scoped", async () => {
   assert.match(styles, /\.empower-gallery-item\s*\{[\s\S]*?aspect-ratio: 4 \/ 3;/);
   assert.match(styles, /\.empower-text-reveal[\s\S]*will-change: opacity, transform, filter/);
   assert.match(empoderate, /fetch\("\/api\/retreat-bros-application"/);
+  assert.match(empoderate, /Usuario en redes sociales/);
+  assert.match(empoderate, /social: formData\.get\("social"\)/);
   assert.match(empoderate, /Enviar solicitud/);
   assert.doesNotMatch(empoderate, /ReBro|ORIGEN_EMPOWER_ACCESS_KEY/);
   assert.match(styles, /\.empower-page/);

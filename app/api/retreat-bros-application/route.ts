@@ -10,6 +10,7 @@ type ApplicationRequest = {
   age?: unknown;
   city?: unknown;
   contact?: unknown;
+  social?: unknown;
   work?: unknown;
   moment?: unknown;
   explore?: unknown;
@@ -58,13 +59,14 @@ export async function POST(request: Request) {
   const age = Number(clean(body.age, 3));
   const city = clean(body.city, 80);
   const contact = clean(body.contact, 120);
+  const social = clean(body.social, 160);
   const work = clean(body.work, 1000);
   const moment = clean(body.moment, 2000);
   const explore = clean(body.explore, 2000);
   const why = clean(body.why, 2000);
   const startedAt = Number(body.startedAt);
 
-  if (!name || !city || !contact || !work || !moment || !explore || !why) {
+  if (!name || !city || !contact || !social || !work || !moment || !explore || !why) {
     return error("Completa todos los campos antes de enviar la solicitud.");
   }
   if (!Number.isInteger(age) || age < 18 || age > 100) {
@@ -89,6 +91,7 @@ export async function POST(request: Request) {
     line("Edad", String(age)),
     line("Ciudad", city),
     line("WhatsApp / Email", contact),
+    line("Usuario en redes sociales", social),
     line("¿A qué se dedica?", work),
     line("Momento actual", moment),
     line("Qué quiere explorar", explore),
@@ -100,6 +103,7 @@ export async function POST(request: Request) {
     `Edad: ${age}`,
     `Ciudad: ${city}`,
     `WhatsApp / Email: ${contact}`,
+    `Usuario en redes sociales: ${social}`,
     `¿A qué se dedica?: ${work}`,
     `Momento actual: ${moment}`,
     `Qué quiere explorar: ${explore}`,
