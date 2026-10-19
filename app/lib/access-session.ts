@@ -87,7 +87,7 @@ export async function matchAccessKey(
 
   let match: AccessScope | null = null;
   configuredKeys.forEach(({ scope, value }, index) => {
-    if (value && safeEqual(candidateDigest, expectedDigests[index])) {
+    if (!match && value && safeEqual(candidateDigest, expectedDigests[index])) {
       match = scope;
     }
   });

@@ -26,7 +26,7 @@ ORIGEN_HOSTS_ES_ACCESS_KEY=your-spanish-hosts-key
 ORIGEN_HOSTS_EN_ACCESS_KEY=your-english-hosts-key
 ```
 
-Do not prefix these variables with `NEXT_PUBLIC_`. Validation and cookie signing run only on the server. `ORIGEN_ACCESS_KEY` opens `/residency`; `ORIGEN_BROS_ACCESS_KEY` opens `/circulo-de-hombres`; `ORIGEN_SPACE_ACCESS_KEY` opens `/space`; and `ORIGEN_EXPERIENCE_ACCESS_KEY` opens `/experience`. The two `ORIGEN_HOSTS_…` keys open `/retreat-organizers-circle?lang=es` and `/retreat-organizers-circle?lang=en`, respectively. All keys ignore letter case and surrounding whitespace. Keep the configured values distinct.
+Do not prefix these variables with `NEXT_PUBLIC_`. Validation and cookie signing run only on the server. `ORIGEN_ACCESS_KEY` opens `/residency`; `ORIGEN_BROS_ACCESS_KEY` opens `/circulo-de-hombres`; `ORIGEN_SPACE_ACCESS_KEY` opens `/space`; and `ORIGEN_EXPERIENCE_ACCESS_KEY` opens `/experience`. The two `ORIGEN_HOSTS_…` keys open `/retreat-organizers-circle?lang=es` and `/retreat-organizers-circle?lang=en`, respectively. All keys ignore letter case and surrounding whitespace. If a value is shared accidentally, the earlier destination in `ACCESS_SCOPES` takes priority; this ensures the Bros key opens `/circulo-de-hombres` instead of the retreat page.
 
 The access cookie is HTTP-only, signed, same-site, scoped to the selected destination, and lasts for the current browser session. A session for one destination cannot open another protected destination. Both Hosts scopes authorize the same circle, including its language toggle. The Hosts password selects the initial language even if an older language preference exists.
 

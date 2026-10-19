@@ -70,6 +70,27 @@ test("all keys keep case-insensitive, signed, destination-scoped access", async 
   }
 });
 
+test("the Bros key takes priority over a duplicate retreat key", async () => {
+  const bros = fixtures.find((fixture) => fixture.scope === "bros");
+  const retreat = fixtures.find((fixture) => fixture.scope === "empoderate");
+  const originalBrosKey = process.env[bros.env];
+  const originalRetreatKey = process.env[retreat.env];
+  process.env[bros.env] = "Duplicate-Bros-Key";
+  process.env[retreat.env] = "Duplicate-Bros-Key";
+
+  try {
+    const response = await login("Duplicate-Bros-Key");
+    assert.equal(response.status, 200);
+    assert.deepEqual(await response.json(), {
+      ok: true,
+      destination: "/circulo-de-hombres",
+    });
+  } finally {
+    process.env[bros.env] = originalBrosKey;
+    process.env[retreat.env] = originalRetreatKey;
+  }
+});
+
 test("both circle translations render after access with matching copy and pending registration", async () => {
   for (const fixture of fixtures.filter((item) => item.language)) {
     const loginResponse = await login(fixture.key);
