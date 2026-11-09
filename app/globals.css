@@ -5007,13 +5007,19 @@ button {
 }
 
 .women-circle-texture {
+  position: fixed;
+  z-index: 0;
+  inset: 0;
   background-color: var(--paper);
   background-image:
-    linear-gradient(rgb(239 217 208 / 0.86), rgb(239 217 208 / 0.93)),
-    url("/costa-quebrada-porcelain.jpg");
+    linear-gradient(135deg, rgb(239 217 208 / 0.78), rgb(239 217 208 / 0.9)),
+    url("/women-circle-organic.jpg?v=2");
   background-position: center;
+  background-repeat: no-repeat;
   background-size: cover;
-  filter: saturate(0.82) brightness(1.03);
+  filter: saturate(0.58) brightness(1.06);
+  pointer-events: none;
+  transform: translateZ(0);
 }
 
 .women-circle-page .bros-scroll-progress {
@@ -5056,6 +5062,20 @@ button {
 
 .women-circle-page .bros-footer p {
   color: rgb(145 54 59 / 0.66);
+}
+
+.women-circle-actions {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.women-circle-actions strong {
+  font-size: clamp(28px, 3.4vw, 56px);
+}
+
+@media (max-width: 760px) {
+  .women-circle-actions {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* Origen Hosts uses the existing Bros slate, typography and fixed texture. */

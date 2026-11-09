@@ -12,7 +12,7 @@ import { GatewayBrandLink } from "./GatewayBrandLink";
 import { InstagramLink } from "./InstagramLink";
 
 const CONTACT_URL =
-  "mailto:origen.liencres@gmail.com?subject=C%C3%ADrculo%20de%20mujeres%20en%20Origen";
+  "https://chat.whatsapp.com/KW3qQoKiLUk4LZIA0xZD5E?s=cl&p=i&mlu=0";
 
 const PRACTICES = [
   {
@@ -30,7 +30,6 @@ const PRACTICES = [
 ] as const;
 
 const INTENTIONS = [
-  "Escucharse con más calma y claridad.",
   "Sentirse acompañadas por otras mujeres.",
   "Habitar el cuerpo con presencia y cuidado.",
   "Compartir lo que normalmente sostenemos en silencio.",
@@ -140,14 +139,22 @@ export function WomensCircleState() {
           <div className="bros-hero-title">
             <p>Presencia · Cuidado · Expresión</p>
             <h1 id="women-circle-title">
-              <span>Origen</span>
-              <span>Mujeres</span>
+              <span>Círculo de</span>
+              <span>mujeres</span>
             </h1>
           </div>
           <div className="bros-hero-aside">
-            <p>Un espacio íntimo para volver a ti y encontrarnos.</p>
+            <p>
+              Un espacio íntimo para volver a ti y encontrarte con otras
+              mujeres.
+            </p>
             <p className="bros-place">Martes · 18:00–20:00 · Origen</p>
-            <a className="bros-primary-action" href={CONTACT_URL}>
+            <a
+              className="bros-primary-action"
+              href={CONTACT_URL}
+              target="_blank"
+              rel="noreferrer"
+            >
               Quiero participar
               <span className="external-link-dot" aria-hidden="true" />
             </a>
@@ -159,12 +166,12 @@ export function WomensCircleState() {
           aria-labelledby="women-manifesto-title"
           {...reveal}
         >
-          <h2 id="women-manifesto-title">Llegar como eres.</h2>
+          <h2 id="women-manifesto-title">Un espacio para ti.</h2>
           <div className="bros-manifesto-copy">
-            <p>Sin tener que sostenerlo todo.</p>
-            <p>Sin tener que explicarte.</p>
+            <p>Para escuchar tu cuerpo.</p>
+            <p>Para dar voz a lo que sientes.</p>
             <p className="bros-manifesto-turn">
-              Con espacio para escuchar, compartir y estar.
+              Para compartir desde el cuidado y encontrarte con otras mujeres.
             </p>
           </div>
         </motion.section>
@@ -258,14 +265,23 @@ export function WomensCircleState() {
           aria-label="Participar en el círculo de mujeres"
           {...reveal}
         >
-          <a href={CONTACT_URL}>
+          <a href={CONTACT_URL} target="_blank" rel="noreferrer">
             <small>Martes · 18:00–20:00</small>
             <strong>Quiero participar</strong>
             <span className="external-link-dot" aria-hidden="true" />
           </a>
           <a href="https://www.instagram.com/origenliencres/" target="_blank" rel="noreferrer">
-            <small>Conoce Origen</small>
-            <strong>Instagram</strong>
+            <small>Origen Liencres</small>
+            <strong>Conoce el espacio</strong>
+            <span className="external-link-dot" aria-hidden="true" />
+          </a>
+          <a
+            href="https://www.instagram.com/ekarapsychology/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <small>Quién sostiene</small>
+            <strong>Conoce a Belén</strong>
             <span className="external-link-dot" aria-hidden="true" />
           </a>
         </motion.nav>

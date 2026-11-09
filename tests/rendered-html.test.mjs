@@ -313,8 +313,17 @@ test("publishes the warm weekly women’s circle page", async () => {
   assert.match(html, /Presencia · Cuidado · Expresión/);
   assert.match(html, /Martes · 18:00–20:00 · Origen/);
   assert.match(html, /Cada martes, de 18:00 a 20:00/);
+  assert.match(html, /Círculo de/);
+  assert.match(html, /Un espacio íntimo para volver a ti y encontrarte con otras/);
+  assert.match(html, /Un espacio para ti/);
   assert.match(html, /Quiero participar/);
-  assert.match(html, /href="mailto:origen\.liencres@gmail\.com/);
+  assert.match(html, /href="https:\/\/chat\.whatsapp\.com\/KW3qQoKiLUk4LZIA0xZD5E\?s=cl&amp;p=i&amp;mlu=0"/);
+  assert.match(html, /Conoce el espacio/);
+  assert.match(html, /href="https:\/\/www\.instagram\.com\/origenliencres\/"/);
+  assert.match(html, /Quién sostiene/);
+  assert.match(html, /Conoce a Belén/);
+  assert.match(html, /href="https:\/\/www\.instagram\.com\/ekarapsychology\/"/);
+  assert.doesNotMatch(html, /Escucharse con más calma y claridad/);
   assert.doesNotMatch(html, /Un espacio que está tomando forma/);
 });
 
