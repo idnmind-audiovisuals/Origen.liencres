@@ -4998,9 +4998,9 @@ button {
 
 /* Women’s circle — the same editorial rhythm in a warmer, softer register. */
 .women-circle-page {
-  --ink: #91363b;
+  --ink: #742a34;
   --paper: #efd9d0;
-  --bros-line: rgb(145 54 59 / 0.3);
+  --bros-line: rgb(116 42 52 / 0.36);
 
   color: var(--ink);
   background: var(--paper);
@@ -5012,18 +5012,18 @@ button {
   inset: 0;
   background-color: var(--paper);
   background-image:
-    linear-gradient(135deg, rgb(239 217 208 / 0.34), rgb(239 217 208 / 0.54)),
+    linear-gradient(135deg, rgb(239 217 208 / 0.48), rgb(239 217 208 / 0.68)),
     url("/women-circle-organic.jpg?v=4");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  filter: saturate(0.9) brightness(1.01);
+  filter: saturate(0.78) brightness(1.05);
   pointer-events: none;
   transform: translateZ(0);
 }
 
 .women-circle-page .bros-scroll-progress {
-  background: #91363b;
+  background: var(--ink);
 }
 
 .women-circle-page .bros-brand img {
@@ -5051,17 +5051,17 @@ button {
 }
 
 .women-circle-page .bros-place {
-  color: rgb(145 54 59 / 0.76);
+  color: rgb(116 42 52 / 0.84);
 }
 
 .women-circle-page .bros-actions a:hover,
 .women-circle-page .bros-actions a:focus-visible {
   color: #f8e9e2;
-  background: #91363b;
+  background: var(--ink);
 }
 
 .women-circle-page .bros-footer p {
-  color: rgb(145 54 59 / 0.66);
+  color: rgb(116 42 52 / 0.76);
 }
 
 .women-circle-actions {
