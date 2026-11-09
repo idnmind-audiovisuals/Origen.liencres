@@ -14,6 +14,7 @@ import {
   CINEMATIC_ENTRY_EASE,
   GATEWAY_MOTION,
 } from "../lib/gateway-motion";
+import { MEN_CIRCLE_FAQS } from "../lib/circle-seo";
 
 type BrosStateProps = {
   development: boolean;
@@ -122,7 +123,6 @@ export function BrosState({ development, onReset }: BrosStateProps) {
 
   useEffect(() => {
     document.documentElement.lang = "es";
-    document.title = "Círculo de hombres — Origen";
   }, []);
 
   return (
@@ -391,6 +391,28 @@ export function BrosState({ development, onReset }: BrosStateProps) {
             <p>
               Solo necesitas la disposición de presentarte con honestidad.
             </p>
+          </div>
+        </motion.section>
+
+        <motion.section
+          className="bros-faq bros-section-reveal"
+          aria-labelledby="mens-circle-faq-title"
+          initial={reducedMotion ? false : { opacity: 0, y: 72 }}
+          whileInView={reducedMotion ? undefined : { opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.12, root: pageRef }}
+          transition={{ duration: 1.3, ease: CINEMATIC_ENTRY_EASE }}
+        >
+          <div className="bros-section-heading">
+            <p>Información práctica</p>
+            <h2 id="mens-circle-faq-title">Preguntas frecuentes</h2>
+          </div>
+          <div className="bros-faq-list">
+            {MEN_CIRCLE_FAQS.map((item) => (
+              <details key={item.question}>
+                <summary>{item.question}</summary>
+                <p>{item.answer}</p>
+              </details>
+            ))}
           </div>
         </motion.section>
 

@@ -8,6 +8,7 @@ import {
 } from "framer-motion";
 import { useEffect, useLayoutEffect, useRef } from "react";
 import { CINEMATIC_ENTRY_EASE, GATEWAY_MOTION } from "../lib/gateway-motion";
+import { WOMEN_CIRCLE_FAQS } from "../lib/circle-seo";
 import { GatewayBrandLink } from "./GatewayBrandLink";
 import { InstagramLink } from "./InstagramLink";
 
@@ -74,7 +75,6 @@ export function WomensCircleState() {
 
   useEffect(() => {
     document.documentElement.lang = "es";
-    document.title = "Círculo de mujeres — Origen Liencres";
   }, []);
 
   const reveal = reducedMotion
@@ -258,6 +258,25 @@ export function WomensCircleState() {
               </div>
             ))}
           </dl>
+        </motion.section>
+
+        <motion.section
+          className="bros-faq bros-section-reveal"
+          aria-labelledby="womens-circle-faq-title"
+          {...reveal}
+        >
+          <div className="bros-section-heading">
+            <p>Información práctica</p>
+            <h2 id="womens-circle-faq-title">Preguntas frecuentes</h2>
+          </div>
+          <div className="bros-faq-list">
+            {WOMEN_CIRCLE_FAQS.map((item) => (
+              <details key={item.question}>
+                <summary>{item.question}</summary>
+                <p>{item.answer}</p>
+              </details>
+            ))}
+          </div>
         </motion.section>
 
         <motion.nav

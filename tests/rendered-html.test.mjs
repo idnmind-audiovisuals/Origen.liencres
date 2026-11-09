@@ -327,6 +327,36 @@ test("publishes the warm weekly women’s circle page", async () => {
   assert.doesNotMatch(html, /Un espacio que está tomando forma/);
 });
 
+test("publishes local SEO and machine-readable facts for both circles", async () => {
+  const [menResponse, womenResponse, styles] = await Promise.all([
+    render("/circulo-de-hombres"),
+    render("/circulo-de-mujeres"),
+    readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
+  ]);
+  assert.equal(menResponse.status, 200);
+  assert.equal(womenResponse.status, 200);
+
+  const [men, women] = await Promise.all([
+    menResponse.text(),
+    womenResponse.text(),
+  ]);
+
+  assert.match(men, /<title>Círculo de hombres en Cantabria \| Origen Bros<\/title>/);
+  assert.match(men, /Círculo semanal de hombres en Origen Liencres/);
+  assert.match(men, /¿Qué es el círculo de hombres de Origen\?/);
+  assert.match(men, /"@type":"FAQPage"/);
+  assert.match(men, /"@type":"Service"/);
+
+  assert.match(women, /<title>Círculo de mujeres en Cantabria \| Origen Liencres<\/title>/);
+  assert.match(women, /Cada martes de 18:00 a 20:00/);
+  assert.match(women, /¿Qué es el círculo de mujeres de Origen\?/);
+  assert.match(women, /"opens":"18:00","closes":"20:00"/);
+  assert.match(women, /women-circle-organic\.jpg\?v=4/);
+
+  assert.match(styles, /animation-timeline:\s*view\(block\)/);
+  assert.match(styles, /@media \(prefers-reduced-motion: reduce\)/);
+});
+
 test("uses the approved horizontal wordmarks on every page header", async () => {
   const [styles, brand, brandLink, invitation, editorial, organizer, booking, publicLanding, publicFaq, bros, experience, empoderate, hosts] = await Promise.all([
     readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
