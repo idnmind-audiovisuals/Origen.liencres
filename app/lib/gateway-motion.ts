@@ -14,7 +14,7 @@ export const CONCENTRIC_ZOOM_EASE: [number, number, number, number] = [
   0.72, 0, 0.28, 1,
 ];
 
-const BLACK_SCREEN_SECONDS = 1;
+const BLACK_SCREEN_SECONDS = 0.72;
 const INTRO_PACE = 1.2;
 const afterBlack = (seconds: number) =>
   BLACK_SCREEN_SECONDS + seconds * INTRO_PACE;
@@ -43,16 +43,16 @@ export const GATEWAY_MOTION = {
     displacement: 3,
   },
   success: {
-    interfaceFade: 0.48,
-    reactionDuration: 0.58,
-    symbolCloneDelay: 0.38,
+    interfaceFade: 0.32,
+    reactionDuration: 0.46,
+    symbolCloneDelay: 0.22,
     symbolCloneFade: 0.22,
-    zoomDelay: 0.72,
-    zoomDuration: 2.08,
+    zoomDelay: 0.38,
+    zoomDuration: 1.86,
     handoffScale: 1.035,
     coverageOverscan: 1.14,
     innerCoverageOverscan: 1.04,
-    blackHold: 0.5,
+    blackHold: 0.2,
   },
   reduced: {
     reveal: 0.2,
@@ -62,9 +62,9 @@ export const GATEWAY_MOTION = {
     openedDelayMs: 550,
   },
   opened: {
-    backgroundDuration: 0.95,
-    textDelay: 0.62,
-    textDuration: 0.55,
+    backgroundDuration: 0.9,
+    textDelay: 0.18,
+    textDuration: 0.68,
     reducedBackgroundDuration: 0.12,
   },
 } as const;

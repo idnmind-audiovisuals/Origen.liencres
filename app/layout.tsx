@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "@fontsource-variable/montserrat";
 import "./globals.css";
+import { PersistentSectionMenu } from "./components/PersistentSectionMenu";
 import { ORIGEN_FAVICON_ASSET } from "./lib/brand";
 import {
   ORIGEN_INSTAGRAM_URL,
@@ -189,6 +190,7 @@ export default function RootLayout({
     <html lang="es">
       <body>
         {children}
+        <PersistentSectionMenu />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

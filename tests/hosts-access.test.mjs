@@ -60,12 +60,18 @@ test("all keys keep case-insensitive, signed, destination-scoped access", async 
     const response = await login(fixture.key);
     const cookie = cookieHeader(response);
     const home = await request("/", { headers: { cookie } });
-    assert.equal(home.status, 307);
-    const destination = new URL(home.headers.get("location"), "http://localhost");
-    assert.equal(destination.pathname + destination.search, fixture.destination);
+    assert.equal(home.status, 200);
+    assert.match(await home.text(), /class="gateway"/);
+    const destination = await request(fixture.destination, { headers: { cookie } });
+    assert.equal(destination.status, 200);
     for (const other of fixtures) {
       if (other.scope === fixture.scope || (fixture.language && other.language)) continue;
-      assertGatewayRedirect(await request(other.destination, { headers: { cookie } }));
+      const otherResponse = await request(other.destination, { headers: { cookie } });
+      if (["/circulo-de-hombres", "/residency"].includes(other.destination)) {
+        assert.equal(otherResponse.status, 200);
+      } else {
+        assertGatewayRedirect(otherResponse);
+      }
     }
   }
 });
@@ -163,6 +169,8 @@ test("wrong keys, forged sessions and direct links cannot enter; logout clears a
     method: "POST", headers: { "content-type": "application/json" }, body: "{",
   });
   assert.equal(malformed.status, 400);
+  assert.equal((await request("/circulo-de-hombres")).status, 200);
+  assert.equal((await request("/residency")).status, 200);
   for (const language of ["en", "es"]) {
     assertGatewayRedirect(await request("/retreat-organizers-circle?lang=" + language));
     const redirect = await request("/retreat-organizers-circle?lang=" + language, {
@@ -187,15 +195,17 @@ test("wrong keys, forged sessions and direct links cannot enter; logout clears a
   process.env.ORIGEN_HOSTS_ES_ACCESS_KEY = fixtures[4].key;
 });
 
-test("both animation paths render the new destination only after success", async () => {
+test("both animation paths reveal the public home without a password", async () => {
   for (const filename of ["AccessGateway.tsx", "ReducedMotionGateway.tsx"]) {
     const source = await readFile(new URL("../app/components/" + filename, import.meta.url), "utf8");
-    assert.match(source, /getHostsCircleLanguage\(destination\)/);
-    assert.match(source, /(?:state|phase) === "opened" && hostsLanguage/);
-    assert.match(source, /<HostsCircleState initialLanguage=\{hostsLanguage\}/);
-    assert.match(source, /GATEWAY_MOTION/);
-    assert.doesNotMatch(source, /Proposito|Purpose|ORIGEN_HOSTS_.*ACCESS_KEY/);
+    assert.match(source, /<OrigenHomeState\s*\/>/);
+    assert.doesNotMatch(source, /AccessKeyForm|type="password"|fetch\("\/api\/access"/);
+    assert.doesNotMatch(source, /Proposito|Purpose|ORIGEN_.*ACCESS_KEY/);
   }
+  const cinematic = await readFile(new URL("../app/components/AccessGateway.tsx", import.meta.url), "utf8");
+  assert.match(cinematic, /<SuccessTransition active=\{unlocking\}\s*\/>/);
+  assert.match(cinematic, /setState\("unlocking"\)/);
+  assert.doesNotMatch(cinematic, /gateway-opening-copy|Origen is opening|<OrigenWordmark/);
   const brand = await readFile(new URL("../app/components/GatewayBrandLink.tsx", import.meta.url), "utf8");
   assert.match(brand, /fetch\("\/api\/access", \{ method: "DELETE" \}\)/);
   assert.match(brand, /window\.location\.replace\("\/"\)/);

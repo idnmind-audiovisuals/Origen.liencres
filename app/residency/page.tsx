@@ -4,9 +4,7 @@ import {
   getLanguageParam,
   type LanguageSearchParams,
 } from "../lib/language";
-import { requireOrigenAccess } from "../lib/require-access";
 import { getRequestLanguage } from "../lib/request-language";
-import { PROTECTED_PAGE_ROBOTS } from "../lib/seo";
 
 export async function generateMetadata({
   searchParams,
@@ -20,13 +18,13 @@ export async function generateMetadata({
         title: "Origen Residency — Retiro en Cantabria",
         description:
           "Una residencia de cinco días en Liencres, Cantabria, entre el océano, el bosque y Costa Quebrada.",
-        robots: PROTECTED_PAGE_ROBOTS,
+        alternates: { canonical: "/residency?lang=es" },
       }
     : {
         title: "Origen Residency — Retreat in Northern Spain",
         description:
           "A five-day residency in Liencres, Cantabria, between the Atlantic Ocean, coastal forest and Costa Quebrada.",
-        robots: PROTECTED_PAGE_ROBOTS,
+        alternates: { canonical: "/residency" },
       };
 }
 
@@ -35,7 +33,6 @@ export default async function ResidencyPage({
 }: {
   searchParams: LanguageSearchParams;
 }) {
-  await requireOrigenAccess("residency");
   const params = await searchParams;
   const initialLanguage = await getRequestLanguage(
     getLanguageParam(params.lang),

@@ -1139,6 +1139,470 @@ button {
   outline-offset: 7px;
 }
 
+.gateway-home .gateway-public-entry {
+  bottom: max(104px, calc(env(safe-area-inset-bottom) + 92px));
+}
+
+.gateway-home-menu {
+  position: fixed;
+  z-index: 12;
+  right: max(22px, env(safe-area-inset-right));
+  bottom: max(18px, env(safe-area-inset-bottom));
+  left: max(22px, env(safe-area-inset-left));
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  border-top: 1px solid rgb(36 35 31 / 0.28);
+}
+
+.gateway-home-menu a {
+  display: grid;
+  min-width: 0;
+  min-height: 62px;
+  padding: 13px 14px 10px;
+  align-content: space-between;
+  color: var(--ink);
+  border-right: 1px solid rgb(36 35 31 / 0.16);
+  text-decoration: none;
+  transition:
+    color 280ms ease,
+    background-color 280ms ease;
+}
+
+.gateway-home-menu a:first-child {
+  border-left: 1px solid rgb(36 35 31 / 0.16);
+}
+
+.gateway-home-menu a span {
+  opacity: 0.46;
+  font-size: 7px;
+  font-weight: 580;
+  letter-spacing: 0.16em;
+}
+
+.gateway-home-menu a strong {
+  overflow: hidden;
+  font-size: clamp(8px, 0.72vw, 11px);
+  font-weight: 520;
+  letter-spacing: 0.055em;
+  line-height: 1.25;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.gateway-home-menu a:hover,
+.gateway-home-menu a:focus-visible {
+  color: var(--paper);
+  background: var(--ink);
+  outline: 0;
+}
+
+.gateway-home-menu a:focus-visible {
+  box-shadow: inset 0 0 0 2px var(--gateway-accent);
+}
+
+.origen-home-page {
+  position: fixed;
+  inset: 0;
+  isolation: isolate;
+  width: 100%;
+  min-height: 100dvh;
+  padding:
+    max(26px, env(safe-area-inset-top))
+    max(28px, env(safe-area-inset-right))
+    max(104px, calc(env(safe-area-inset-bottom) + 92px))
+    max(28px, env(safe-area-inset-left));
+  overflow: hidden;
+  color: var(--ink);
+}
+
+.origen-home-texture {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  background:
+    linear-gradient(rgb(242 239 232 / 0.9), rgb(242 239 232 / 0.9)),
+    url("/costa-quebrada-porcelain.jpg") center / cover;
+  pointer-events: none;
+}
+
+.origen-home-content {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  width: 100%;
+  height: 100%;
+  grid-template-rows: auto 1fr;
+}
+
+.origen-home-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 28px;
+}
+
+.origen-home-header img {
+  display: block;
+  width: clamp(118px, 12vw, 190px);
+  height: auto;
+}
+
+.origen-home-header p,
+.origen-home-copy > p {
+  margin: 0;
+  opacity: 0.58;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.origen-home-header p {
+  padding-top: 4px;
+}
+
+.origen-home-hero {
+  display: grid;
+  min-height: 0;
+  padding: clamp(26px, 4vh, 54px) 0 clamp(20px, 3vh, 42px);
+  grid-template-columns: minmax(0, 0.95fr) minmax(340px, 0.65fr);
+  align-items: stretch;
+  gap: clamp(42px, 6vw, 96px);
+}
+
+.origen-home-copy {
+  align-self: end;
+}
+
+.origen-home-hero h1 {
+  max-width: 8.2ch;
+  margin: 22px 0 0;
+  font-size: clamp(64px, 7.4vw, 124px);
+  font-weight: 290;
+  letter-spacing: -0.075em;
+  line-height: 0.88;
+  text-wrap: balance;
+}
+
+.origen-home-intro {
+  max-width: 470px;
+  margin-top: clamp(30px, 4vh, 52px);
+}
+
+.origen-home-intro > p {
+  max-width: 460px;
+  margin: 0;
+  font-size: clamp(15px, 1.3vw, 20px);
+  line-height: 1.68;
+}
+
+.origen-home-intro > small {
+  display: block;
+  margin-top: 16px;
+  opacity: 0.58;
+  font-size: 8px;
+  font-weight: 620;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.origen-home-intro > a {
+  display: inline-flex;
+  min-height: 48px;
+  margin-top: 34px;
+  padding: 0 18px;
+  align-items: center;
+  gap: 18px;
+  color: var(--paper);
+  background: var(--ink);
+  font-size: 9px;
+  font-weight: 650;
+  letter-spacing: 0.15em;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition:
+    color 260ms ease,
+    background-color 260ms ease;
+}
+
+.origen-home-intro > a span {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--gateway-accent);
+}
+
+.origen-home-intro > a:hover,
+.origen-home-intro > a:focus-visible {
+  color: var(--ink);
+  background: var(--gateway-accent);
+  outline: 0;
+}
+
+.origen-home-intro > a:hover span,
+.origen-home-intro > a:focus-visible span {
+  background: var(--ink);
+}
+
+.origen-home-space-image {
+  position: relative;
+  min-height: min(66vh, 720px);
+  margin: 0;
+  overflow: hidden;
+  background: #d8d0c4;
+}
+
+.origen-home-space-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.origen-home-space-image figcaption {
+  position: absolute;
+  right: 16px;
+  bottom: 14px;
+  padding: 7px 9px;
+  color: #f2efe8;
+  background: rgb(21 20 17 / 0.62);
+  font-size: 7px;
+  font-weight: 620;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.site-section-menu {
+  --site-menu-edge: clamp(20px, 4.5vw, 72px);
+  --site-menu-size: clamp(44px, 3.3vw, 48px);
+
+  position: fixed;
+  z-index: 120;
+  right: max(var(--site-menu-edge), env(safe-area-inset-right));
+  top: max(20px, env(safe-area-inset-top));
+  pointer-events: none;
+}
+
+.site-section-menu > button {
+  position: relative;
+  z-index: 2;
+  display: inline-flex;
+  width: var(--site-menu-size);
+  height: var(--site-menu-size);
+  padding: 12px;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  cursor: pointer;
+  mix-blend-mode: difference;
+  pointer-events: auto;
+}
+
+.site-section-menu > button i {
+  position: relative;
+  display: block;
+  width: clamp(22px, 1.8vw, 26px);
+  height: 14px;
+}
+
+.site-section-menu > button i::before,
+.site-section-menu > button i::after {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: currentColor;
+  content: "";
+  transition: transform 260ms ease, top 260ms ease;
+}
+
+.site-section-menu > button i::before {
+  top: 2px;
+}
+
+.site-section-menu > button i::after {
+  top: 10px;
+}
+
+.site-section-menu.is-open > button i::before,
+.site-section-menu.is-open > button i::after {
+  top: 6px;
+}
+
+.site-section-menu.is-open > button i::before {
+  transform: rotate(45deg);
+}
+
+.site-section-menu.is-open > button i::after {
+  transform: rotate(-45deg);
+}
+
+.site-section-menu nav {
+  position: absolute;
+  right: 0;
+  top: calc(var(--site-menu-size) + 8px);
+  display: grid;
+  width: min(430px, calc(100vw - 36px));
+  color: var(--ink);
+  border: 1px solid rgb(36 35 31 / 0.18);
+  background: rgb(242 239 232 / 0.98);
+  box-shadow: 0 22px 70px rgb(0 0 0 / 0.2);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(12px);
+  transition:
+    opacity 280ms ease,
+    transform 360ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.site-section-menu.is-open nav {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.site-section-menu nav a {
+  display: grid;
+  min-height: 58px;
+  padding: 11px 16px;
+  grid-template-columns: 38px 1fr;
+  align-items: center;
+  color: inherit;
+  border-bottom: 1px solid rgb(36 35 31 / 0.14);
+  text-decoration: none;
+}
+
+.site-section-menu nav a:last-child {
+  border-bottom: 0;
+}
+
+.site-section-menu nav a span {
+  opacity: 0.42;
+  font-size: 7px;
+  letter-spacing: 0.12em;
+}
+
+.site-section-menu nav a strong {
+  font-size: clamp(13px, 1.2vw, 17px);
+  font-weight: 480;
+  letter-spacing: -0.025em;
+}
+
+.site-section-menu nav a:hover,
+.site-section-menu nav a:focus-visible,
+.site-section-menu nav a[aria-current="page"] {
+  color: var(--paper);
+  background: var(--ink);
+  outline: 0;
+}
+
+.site-section-menu nav a[aria-current="page"] span {
+  color: var(--gateway-accent);
+  opacity: 1;
+}
+
+.home-section-placeholder {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  min-height: 100dvh;
+  padding:
+    max(28px, env(safe-area-inset-top))
+    max(28px, env(safe-area-inset-right))
+    max(28px, env(safe-area-inset-bottom))
+    max(28px, env(safe-area-inset-left));
+  grid-template-rows: auto 1fr;
+  overflow: hidden;
+  color: var(--ink);
+  background:
+    linear-gradient(rgb(242 239 232 / 0.84), rgb(242 239 232 / 0.84)),
+    url("/costa-quebrada-porcelain.jpg") center / cover;
+}
+
+.home-section-placeholder header {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 28px;
+}
+
+.home-section-placeholder header a {
+  width: clamp(118px, 12vw, 190px);
+}
+
+.home-section-placeholder header img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.home-section-placeholder header p,
+.home-section-placeholder section > p:first-child {
+  margin: 0;
+  opacity: 0.58;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.home-section-placeholder section {
+  position: relative;
+  z-index: 1;
+  width: min(900px, 100%);
+  align-self: end;
+  padding-bottom: clamp(22px, 5vh, 70px);
+}
+
+.home-section-placeholder h1 {
+  max-width: 10ch;
+  margin: 24px 0 0;
+  font-size: clamp(54px, 8vw, 132px);
+  font-weight: 310;
+  letter-spacing: -0.07em;
+  line-height: 0.9;
+  text-wrap: balance;
+}
+
+.home-section-placeholder section > p:nth-child(3) {
+  max-width: 580px;
+  margin: 38px 0 0;
+  font-size: clamp(15px, 1.35vw, 20px);
+  line-height: 1.7;
+}
+
+.home-section-placeholder section > a {
+  display: inline-flex;
+  margin-top: 42px;
+  align-items: center;
+  gap: 16px;
+  color: inherit;
+  font-size: 9px;
+  font-weight: 650;
+  letter-spacing: 0.15em;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.home-section-placeholder section > a span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--gateway-accent);
+  transition: transform 240ms ease;
+}
+
+.home-section-placeholder section > a:hover span,
+.home-section-placeholder section > a:focus-visible span {
+  transform: scale(1.7);
+}
+
 @keyframes origen-scroll-reveal {
   from {
     opacity: 0;
@@ -4098,6 +4562,7 @@ button {
 
 .bros-manifesto,
 .bros-circle,
+.bros-accountability,
 .bros-intentions,
 .bros-agreements,
 .bros-needs,
@@ -4138,6 +4603,7 @@ button {
 }
 
 .bros-circle,
+.bros-accountability,
 .bros-intentions,
 .bros-agreements,
 .bros-needs,
@@ -4162,6 +4628,66 @@ button {
   font-weight: 330;
   letter-spacing: -0.034em;
   line-height: 1.28;
+}
+
+.bros-accountability-content {
+  max-width: 850px;
+}
+
+.bros-accountability-content > p {
+  max-width: 730px;
+  margin: 0;
+  font-size: clamp(19px, 2.2vw, 34px);
+  font-weight: 330;
+  letter-spacing: -0.034em;
+  line-height: 1.28;
+}
+
+.bros-accountability-content > a {
+  position: relative;
+  display: grid;
+  min-height: clamp(150px, 18vw, 250px);
+  margin-top: clamp(58px, 7vw, 100px);
+  padding: clamp(22px, 2.6vw, 38px) 0;
+  border-top: 1px solid var(--bros-line);
+  border-bottom: 1px solid var(--bros-line);
+  align-content: space-between;
+  color: var(--ink);
+  text-decoration: none;
+  transition: padding 280ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.bros-accountability-content > a small {
+  font-size: clamp(8px, 0.7vw, 11px);
+  font-weight: 520;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.bros-accountability-content > a strong {
+  font-size: clamp(42px, 6vw, 96px);
+  font-weight: 320;
+  letter-spacing: -0.06em;
+  line-height: 0.9;
+}
+
+.bros-accountability-content > a > span {
+  position: absolute;
+  top: clamp(22px, 2.6vw, 38px);
+  right: 0;
+  font-size: clamp(18px, 2vw, 30px);
+  transition: transform 280ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.bros-accountability-content > a:hover,
+.bros-accountability-content > a:focus-visible {
+  padding-inline: 16px;
+  outline: 0;
+}
+
+.bros-accountability-content > a:hover > span,
+.bros-accountability-content > a:focus-visible > span {
+  transform: translate(5px, -5px);
 }
 
 .bros-practices,
@@ -4457,6 +4983,7 @@ button {
 .bros-page .bros-hero-aside a,
 .bros-page .bros-manifesto,
 .bros-page .bros-circle,
+.bros-page .bros-accountability,
 .bros-page .bros-intentions,
 .bros-page .bros-agreements,
 .bros-page .bros-needs,
@@ -4467,6 +4994,68 @@ button {
 .bros-page .bros-actions,
 .bros-page .bros-actions a + a {
   border-color: var(--bros-line);
+}
+
+/* Women’s circle — the same editorial rhythm in a warmer, softer register. */
+.women-circle-page {
+  --ink: #91363b;
+  --paper: #efd9d0;
+  --bros-line: rgb(145 54 59 / 0.3);
+
+  color: var(--ink);
+  background: var(--paper);
+}
+
+.women-circle-texture {
+  background-color: var(--paper);
+  background-image:
+    linear-gradient(rgb(239 217 208 / 0.86), rgb(239 217 208 / 0.93)),
+    url("/costa-quebrada-porcelain.jpg");
+  background-position: center;
+  background-size: cover;
+  filter: saturate(0.82) brightness(1.03);
+}
+
+.women-circle-page .bros-scroll-progress {
+  background: #91363b;
+}
+
+.women-circle-page .bros-brand img {
+  filter: brightness(0) saturate(100%) invert(25%) sepia(25%) saturate(2040%) hue-rotate(312deg) brightness(93%) contrast(87%);
+}
+
+.women-circle-page .bros-hero-title h1,
+.women-circle-page .bros-section-heading h2 {
+  text-transform: none;
+}
+
+.women-circle-page .bros-hero-title h1 span:last-child {
+  margin-left: 0.12em;
+  font-weight: 330;
+  letter-spacing: -0.065em;
+}
+
+.women-circle-page .bros-manifesto-copy p {
+  font-weight: 300;
+}
+
+.women-circle-page .bros-manifesto-copy .bros-manifesto-turn {
+  max-width: 19ch;
+  font-style: italic;
+}
+
+.women-circle-page .bros-place {
+  color: rgb(145 54 59 / 0.76);
+}
+
+.women-circle-page .bros-actions a:hover,
+.women-circle-page .bros-actions a:focus-visible {
+  color: #f8e9e2;
+  background: #91363b;
+}
+
+.women-circle-page .bros-footer p {
+  color: rgb(145 54 59 / 0.66);
 }
 
 /* Origen Hosts uses the existing Bros slate, typography and fixed texture. */
@@ -4841,6 +5430,155 @@ button {
 }
 
 @media (max-width: 760px) {
+  .gateway-home .gateway-public-entry {
+    right: 20px;
+    bottom: calc(max(92px, env(safe-area-inset-bottom) + 84px));
+    max-width: min(275px, calc(100vw - 40px));
+  }
+
+  .gateway-home .gateway-public-entry p {
+    display: none;
+  }
+
+  .gateway-home-menu {
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    padding: 0 0 env(safe-area-inset-bottom);
+    overflow-x: auto;
+    border-top-color: rgb(36 35 31 / 0.22);
+    background: rgb(242 239 232 / 0.94);
+    scrollbar-width: none;
+    scroll-snap-type: x proximity;
+  }
+
+  .gateway-home-menu::-webkit-scrollbar {
+    display: none;
+  }
+
+  .gateway-home-menu a {
+    min-width: min(46vw, 190px);
+    min-height: 70px;
+    flex: 0 0 auto;
+    padding: 13px 16px 11px;
+    scroll-snap-align: start;
+  }
+
+  .gateway-home-menu a:first-child {
+    border-left: 0;
+  }
+
+  .gateway-home-menu a strong {
+    font-size: 9px;
+  }
+
+  .origen-home-page {
+    padding:
+      max(22px, env(safe-area-inset-top))
+      max(20px, env(safe-area-inset-right))
+      max(98px, calc(env(safe-area-inset-bottom) + 84px))
+      max(20px, env(safe-area-inset-left));
+  }
+
+  .origen-home-header img {
+    width: 112px;
+  }
+
+  .origen-home-header p {
+    max-width: 120px;
+    text-align: right;
+  }
+
+  .origen-home-hero {
+    display: grid;
+    padding: clamp(24px, 3vh, 34px) 0 clamp(10px, 2vh, 20px);
+    grid-template-columns: 1fr;
+    grid-template-rows: minmax(180px, 27vh) auto;
+    gap: clamp(24px, 3.5vh, 34px);
+  }
+
+  .origen-home-space-image {
+    order: -1;
+    min-height: 0;
+    height: 100%;
+  }
+
+  .origen-home-hero h1 {
+    max-width: 9ch;
+    margin-top: 13px;
+    font-size: clamp(45px, 13.5vw, 66px);
+  }
+
+  .origen-home-intro {
+    margin-top: 22px;
+  }
+
+  .origen-home-intro > p {
+    max-width: 335px;
+    font-size: 13px;
+    line-height: 1.55;
+  }
+
+  .origen-home-intro > small {
+    margin-top: 12px;
+  }
+
+  .origen-home-intro > a {
+    min-height: 44px;
+    margin-top: 18px;
+  }
+
+  .site-section-menu {
+    --site-menu-edge: 20px;
+    --site-menu-size: 44px;
+
+    top: max(14px, env(safe-area-inset-top));
+  }
+
+  .site-section-menu > button {
+    padding: 11px;
+  }
+
+  .site-section-menu nav {
+    top: calc(var(--site-menu-size) + 6px);
+    width: min(360px, calc(100vw - 24px));
+  }
+
+  .home-section-placeholder {
+    padding:
+      max(22px, env(safe-area-inset-top))
+      max(20px, env(safe-area-inset-right))
+      max(22px, env(safe-area-inset-bottom))
+      max(20px, env(safe-area-inset-left));
+  }
+
+  .home-section-placeholder header a {
+    width: 112px;
+  }
+
+  .home-section-placeholder header p {
+    max-width: 110px;
+    text-align: right;
+  }
+
+  .home-section-placeholder section {
+    padding-bottom: clamp(14px, 4vh, 42px);
+  }
+
+  .home-section-placeholder h1 {
+    margin-top: 18px;
+    font-size: clamp(48px, 15vw, 78px);
+  }
+
+  .home-section-placeholder section > p:nth-child(3) {
+    margin-top: 28px;
+  }
+
+  .home-section-placeholder section > a {
+    margin-top: 30px;
+  }
+
   .access-credential {
     top: 43%;
   }
@@ -4913,6 +5651,7 @@ button {
 
   .bros-manifesto,
   .bros-circle,
+  .bros-accountability,
   .bros-intentions,
   .bros-agreements,
   .bros-needs,
@@ -4935,6 +5674,7 @@ button {
   }
 
   .bros-circle,
+  .bros-accountability,
   .bros-intentions,
   .bros-agreements,
   .bros-needs,
@@ -7839,5 +8579,49 @@ button {
 
   .experience-mist {
     opacity: 0.68 !important;
+  }
+}
+
+/* Shared header rhythm: every inner page reserves the same responsive menu lane. */
+:where(
+  .bros-header,
+  .invitation-header,
+  .editorial-header,
+  .retreat-public-header,
+  .home-section-placeholder header
+) {
+  padding-right: clamp(58px, 5.4vw, 86px);
+}
+
+.experience-header {
+  right: max(
+    calc(clamp(20px, 4.5vw, 72px) + clamp(58px, 5.4vw, 86px)),
+    env(safe-area-inset-right)
+  );
+}
+
+.empower-header {
+  padding-right: calc(
+    clamp(20px, 4.5vw, 72px) + clamp(58px, 5.4vw, 86px)
+  );
+}
+
+@media (max-width: 760px) {
+  :where(
+    .bros-header,
+    .invitation-header,
+    .editorial-header,
+    .retreat-public-header,
+    .home-section-placeholder header
+  ) {
+    padding-right: 56px;
+  }
+
+  .experience-header {
+    right: max(76px, calc(env(safe-area-inset-right) + 56px));
+  }
+
+  .empower-header {
+    padding-right: 76px;
   }
 }

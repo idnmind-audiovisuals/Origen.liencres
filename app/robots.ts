@@ -5,9 +5,7 @@ const SITE_URL = "https://www.origenliencres.com";
 const protectedRoutes = [
   "/api/",
   "/bros",
-  "/circulo-de-hombres",
   "/experience",
-  "/residency",
   "/retreat-organizers-circle",
   "/space",
   "/story",

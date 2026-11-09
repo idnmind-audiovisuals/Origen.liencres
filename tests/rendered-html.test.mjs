@@ -64,7 +64,7 @@ test("publishes focused SEO crawl directives", async () => {
   assert.match(robotsResponse.headers.get("content-type") ?? "", /^text\/plain\b/i);
   const robots = await robotsResponse.text();
   assert.match(robots, /Sitemap: https:\/\/www\.origenliencres\.com\/sitemap\.xml/i);
-  assert.match(robots, /Disallow: \/residency/i);
+  assert.doesNotMatch(robots, /Disallow: \/(?:residency|circulo-de-hombres)/i);
   assert.match(robots, /User-Agent: OAI-SearchBot/i);
   assert.match(robots, /User-Agent: Googlebot/i);
   assert.match(robots, /User-Agent: Bingbot/i);
@@ -77,6 +77,10 @@ test("publishes focused SEO crawl directives", async () => {
   assert.match(sitemap, /\/retreats-spain/i);
   assert.match(sitemap, /\/host-your-retreat/i);
   assert.match(sitemap, /\/retiro/i);
+  assert.match(sitemap, /\/circulo-de-hombres/i);
+  assert.match(sitemap, /\/circulo-de-mujeres/i);
+  assert.match(sitemap, /\/residency/i);
+  assert.match(sitemap, /\/eventos/i);
   assert.doesNotMatch(sitemap, /<loc>https:\/\/www\.origenliencres\.com\/organizar-retiro<\/loc>/i);
   assert.match(sitemap, /hreflang="es-ES"/i);
   const urls = [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map((match) => match[1]);
@@ -289,12 +293,29 @@ test("keeps the monthly organisers' circle out of public discovery", async () =>
   assert.match(robots, /Disallow: \/retreat-organizers-circle/);
 });
 
-test("keeps the existing private destinations behind the gateway", async () => {
-  for (const path of ["/space", "/experience", "/residency", "/circulo-de-hombres", "/retirobros", "/retreat-organizers-circle", "/retreat-organizers-circle?lang=es", "/retreat-organizers-circle?lang=en"]) {
+test("publishes the home menu destinations while keeping specialist pages private", async () => {
+  for (const path of ["/", "/circulo-de-hombres", "/circulo-de-mujeres", "/residency", "/retiro", "/eventos"]) {
+    const response = await render(path);
+    assert.equal(response.status, 200, `${path} is public`);
+  }
+  for (const path of ["/space", "/experience", "/retirobros", "/retreat-organizers-circle", "/retreat-organizers-circle?lang=es", "/retreat-organizers-circle?lang=en"]) {
     const response = await render(path);
     assert.equal(response.status, 307, `${path} requires an access session`);
     assert.equal(new URL(response.headers.get("location"), "http://localhost").href, "http://localhost/");
   }
+});
+
+test("publishes the warm weekly women’s circle page", async () => {
+  const response = await render("/circulo-de-mujeres");
+  assert.equal(response.status, 200);
+  const html = await response.text();
+  assert.match(html, /class="bros-page women-circle-page"/);
+  assert.match(html, /Presencia · Cuidado · Expresión/);
+  assert.match(html, /Martes · 18:00–20:00 · Origen/);
+  assert.match(html, /Cada martes, de 18:00 a 20:00/);
+  assert.match(html, /Quiero participar/);
+  assert.match(html, /href="mailto:origen\.liencres@gmail\.com/);
+  assert.doesNotMatch(html, /Un espacio que está tomando forma/);
 });
 
 test("uses the approved horizontal wordmarks on every page header", async () => {
@@ -417,11 +438,9 @@ test("server-renders the Origen gateway", async () => {
     html,
     /<title>Origen Liencres \| Espacio para retiros en Cantabria<\/title>/i,
   );
-  assert.match(html, /Espacio para residencias y retiros en Cantabria/i);
-  assert.match(html, /placeholder="Key to open"/i);
-  assert.match(html, /La casa reúne naturaleza, playa y bosque para retiros íntimos y residencias creativas/i);
-  assert.match(html, /residencias creativas\.<\/p><a href="\/retiro">Organiza tu retiro<i class="external-link-dot" aria-hidden="true"><\/i><\/a>/);
-  assert.doesNotMatch(html, /Conocer el espacio/i);
+  assert.match(html, /Alojamiento turístico y espacio para retiros, residencias y grupos privados/i);
+  assert.doesNotMatch(html, /placeholder="Key to open"|type="password"/i);
+  assert.doesNotMatch(html, /Origen is opening|gateway-opening-copy/i);
   assert.match(html, /origen-favicon\.png/i);
   assert.match(html, /rel="canonical" href="https:\/\/www\.origenliencres\.com\/"/i);
   assert.match(html, /application\/ld\+json/i);
@@ -431,10 +450,33 @@ test("server-renders the Origen gateway", async () => {
   assert.doesNotMatch(html, /codex-preview|react-loading-skeleton/i);
 });
 
-test("both gateway variants link to the public retreat venue page below the introduction", async () => {
+test("both gateway variants complete automatically into the public home", async () => {
   for (const component of ["AccessGateway", "ReducedMotionGateway"]) {
     const source = await readFile(new URL(`../app/components/${component}.tsx`, import.meta.url), "utf8");
-    assert.match(source, /residencias creativas\.\s*<\/p>\s*<a href="\/retiro">\s*Organiza tu retiro\s*<i className="external-link-dot" aria-hidden="true" \/>/, component);
+    assert.match(source, /<OrigenHomeState\s*\/>/, component);
+    assert.doesNotMatch(source, /AccessKeyForm|Key to open|type="password"/, component);
+  }
+  const [home, navigation, menu, layout] = await Promise.all([
+    readFile(new URL("../app/components/OrigenHomeState.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/components/HomeNavigation.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/components/PersistentSectionMenu.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),
+  ]);
+  assert.match(home, /A space of possibilities\./);
+  assert.match(home, /href="\/retiro#reservar"/);
+  assert.match(home, /origen-rebros-house-exterior\.avif/);
+  assert.match(home, /9 guests · 3 bedrooms · 1 shala/);
+  assert.match(home, /<HomeNavigation/);
+  assert.match(menu, /HOME_LINKS\.map/);
+  assert.match(layout, /<PersistentSectionMenu\s*\/>/);
+  for (const [href, label] of [
+    ["/circulo-de-hombres", "Círculo de hombres"],
+    ["/circulo-de-mujeres", "Círculo de mujeres"],
+    ["/residency", "Residencias"],
+    ["/retiro", "Retiros"],
+    ["/eventos", "Eventos"],
+  ]) {
+    assert.match(navigation, new RegExp(`href: "${href}", label: "${label}"`));
   }
 });
 
@@ -452,9 +494,11 @@ test("consolidates the duplicate Spanish organiser route", async () => {
 });
 
 test("keeps all access keys server-only and destination-scoped", async () => {
-  const [client, gateway, route, session, example, bros, invitation, editorial, instagram, experience, environment, sculpture, siteCopy, styles, robots, sitemap, brosPage, legacyBrosPage, residencyPage, spacePage, experiencePage, empoderatePage, empoderate] = await Promise.all([
+  const [client, gateway, origenHome, homeNavigation, route, session, example, bros, invitation, editorial, instagram, experience, environment, sculpture, siteCopy, styles, robots, sitemap, brosPage, legacyBrosPage, residencyPage, spacePage, experiencePage, empoderatePage, empoderate] = await Promise.all([
     readFile(new URL("../app/components/AccessKeyForm.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/components/AccessGateway.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/components/OrigenHomeState.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/components/HomeNavigation.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/api/access/route.ts", import.meta.url), "utf8"),
     readFile(new URL("../app/lib/access-session.ts", import.meta.url), "utf8"),
     readFile(new URL("../.env.example", import.meta.url), "utf8"),
@@ -479,8 +523,15 @@ test("keeps all access keys server-only and destination-scoped", async () => {
   ]);
 
   assert.doesNotMatch(client, /ORIGEN_(?:BROS_|SPACE_)?ACCESS_KEY|Esencia/i);
-  assert.match(gateway, /href="\/retiro"/);
-  assert.match(gateway, /Organiza tu retiro/);
+  assert.match(gateway, /<OrigenHomeState\s*\/>/);
+  assert.doesNotMatch(gateway, /AccessKeyForm|fetch\("\/api\/access"/);
+  assert.match(origenHome, /A space of possibilities\./);
+  assert.match(origenHome, /Book the space/);
+  assert.match(homeNavigation, /href: "\/circulo-de-hombres"/);
+  assert.match(homeNavigation, /href: "\/circulo-de-mujeres"/);
+  assert.match(homeNavigation, /href: "\/residency"/);
+  assert.match(homeNavigation, /href: "\/retiro"/);
+  assert.match(homeNavigation, /href: "\/eventos"/);
   assert.match(route, /matchAccessKey/);
   assert.match(route, /destination/);
   assert.match(session, /process\.env\.ORIGEN_ACCESS_KEY/);
@@ -507,6 +558,9 @@ test("keeps all access keys server-only and destination-scoped", async () => {
   assert.doesNotMatch(bros, /STRIPE_SECRET_KEY|STRIPE_BROS_MONTHLY_PRICE_ID/);
   assert.match(bros, /<strong>100 €<\/strong>/);
   assert.match(bros, /Pagar con Revolut/);
+  assert.match(bros, /Accountability semanal/);
+  assert.match(bros, /Martes · 7:30/);
+  assert.match(bros, /docs\.google\.com\/spreadsheets\/d\/16jDB2CLi3YJVzIDIMzufYeu-XyzK4dOoJTMHzTBAyTY/);
   assert.match(bros, /no renueva el pago automáticamente/);
   assert.match(
     invitation,
@@ -583,9 +637,9 @@ test("keeps all access keys server-only and destination-scoped", async () => {
   assert.match(robots, /\/api\//);
   assert.match(sitemap, /https:\/\/www\.origenliencres\.com/);
   assert.match(sitemap, /"es-ES"/);
-  assert.match(brosPage, /requireOrigenAccess\("bros"\)/);
+  assert.doesNotMatch(brosPage, /requireOrigenAccess/);
   assert.match(legacyBrosPage, /redirect\("\/circulo-de-hombres"\)/);
-  assert.match(residencyPage, /requireOrigenAccess\("residency"\)/);
+  assert.doesNotMatch(residencyPage, /requireOrigenAccess/);
   assert.match(spacePage, /requireOrigenAccess\("space"\)/);
   assert.match(experiencePage, /requireOrigenAccess\("experience"\)/);
   assert.match(empoderatePage, /requireOrigenAccess\("empoderate"\)/);

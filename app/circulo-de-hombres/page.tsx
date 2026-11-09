@@ -1,18 +1,14 @@
 import type { Metadata } from "next";
 import { BrosState } from "../components/BrosState";
-import { requireOrigenAccess } from "../lib/require-access";
-import { PROTECTED_PAGE_ROBOTS } from "../lib/seo";
 
 const title = "Círculo de hombres — Origen";
 const description =
   "Un espacio de autenticidad para hombres, presencia, responsabilidad y crecimiento en Liencres.";
 
-export const dynamic = "force-dynamic";
-
 export const metadata: Metadata = {
   title,
   description,
-  robots: PROTECTED_PAGE_ROBOTS,
+  alternates: { canonical: "/circulo-de-hombres" },
   openGraph: {
     type: "website",
     title,
@@ -28,8 +24,6 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function MensCirclePage() {
-  await requireOrigenAccess("bros");
-
+export default function MensCirclePage() {
   return <BrosState development={false} />;
 }

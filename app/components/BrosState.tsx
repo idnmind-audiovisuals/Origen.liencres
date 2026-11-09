@@ -24,6 +24,8 @@ const APPLICATION_FORM_URL =
   "https://docs.google.com/forms/d/e/1FAIpQLSd2uhreU_NDgC3-H9wOfcsP2w9Q_lixIq4Er_BsEMTTNB7W5g/viewform";
 const WHATSAPP_URL =
   "https://chat.whatsapp.com/F7Yg8F7zx1R3jA5ltgvKwS?s=cl&p=i&mlu=4";
+const ACCOUNTABILITY_URL =
+  "https://docs.google.com/spreadsheets/d/16jDB2CLi3YJVzIDIMzufYeu-XyzK4dOoJTMHzTBAyTY/edit?usp=sharing";
 const MANIFESTO = [
   "No para competir.",
   "No para impresionar.",
@@ -268,6 +270,36 @@ export function BrosState({ development, onReset }: BrosStateProps) {
                 </motion.li>
               ))}
             </ol>
+          </div>
+        </motion.section>
+
+        <motion.section
+          className="bros-accountability bros-section-reveal"
+          aria-labelledby="accountability-title"
+          initial={reducedMotion ? false : { opacity: 0, y: 72 }}
+          whileInView={reducedMotion ? undefined : { opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.16, root: pageRef }}
+          transition={{ duration: 1.3, ease: CINEMATIC_ENTRY_EASE }}
+        >
+          <div className="bros-section-heading">
+            <p>Accountability semanal</p>
+            <h2 id="accountability-title">Cumplir lo que dices.</h2>
+          </div>
+          <div className="bros-accountability-content">
+            <p>
+              Un encuentro breve para revisar compromisos, compartir avances y
+              elegir una acción concreta para la semana. Con seguimiento, apoyo
+              y responsabilidad compartida.
+            </p>
+            <a
+              href={ACCOUNTABILITY_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <small>Encuentro semanal</small>
+              <strong>Martes · 7:30</strong>
+              <span className="external-link-dot" aria-hidden="true" />
+            </a>
           </div>
         </motion.section>
 

@@ -9,9 +9,33 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     {
       url: `${SITE_URL}/`,
-      lastModified,
+      lastModified: new Date("2026-11-09T00:00:00+01:00"),
       changeFrequency: "monthly",
-      priority: 0.6,
+      priority: 1,
+    },
+    {
+      url: `${SITE_URL}/circulo-de-hombres`,
+      lastModified: new Date("2026-11-09T00:00:00+01:00"),
+      changeFrequency: "monthly",
+      priority: 0.82,
+    },
+    {
+      url: `${SITE_URL}/circulo-de-mujeres`,
+      lastModified: new Date("2026-11-09T00:00:00+01:00"),
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
+      url: `${SITE_URL}/residency`,
+      lastModified: new Date("2026-11-09T00:00:00+01:00"),
+      changeFrequency: "monthly",
+      priority: 0.82,
+    },
+    {
+      url: `${SITE_URL}/eventos`,
+      lastModified: new Date("2026-11-09T00:00:00+01:00"),
+      changeFrequency: "monthly",
+      priority: 0.7,
     },
     {
       url: `${SITE_URL}/retiros-cantabria`,
