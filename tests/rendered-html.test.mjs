@@ -351,7 +351,7 @@ test("publishes local SEO and machine-readable facts for both circles", async ()
   assert.match(women, /Cada martes de 18:00 a 20:00/);
   assert.match(women, /¿Qué es el círculo de mujeres de Origen\?/);
   assert.match(women, /"opens":"18:00","closes":"20:00"/);
-  assert.match(women, /women-circle-organic\.jpg\?v=4/);
+  assert.match(women, /women-circle-organic\.jpg\?v=5/);
 
   assert.match(styles, /animation-timeline:\s*view\(block\)/);
   assert.match(styles, /@media \(prefers-reduced-motion: reduce\)/);

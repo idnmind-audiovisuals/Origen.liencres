@@ -33,9 +33,9 @@ export const metadata: Metadata = {
     locale: "es_ES",
     images: [
       {
-        url: "/women-circle-organic.jpg?v=4",
-        width: 1677,
-        height: 938,
+        url: "/women-circle-organic.jpg?v=5",
+        width: 643,
+        height: 360,
         alt: "Círculo de mujeres en Origen Liencres, Cantabria",
       },
     ],
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: WOMEN_CIRCLE_TITLE,
     description: WOMEN_CIRCLE_DESCRIPTION,
-    images: ["/women-circle-organic.jpg?v=4"],
+    images: ["/women-circle-organic.jpg?v=5"],
   },
 };
 
@@ -62,9 +62,9 @@ const structuredData = {
       about: { "@id": `${PAGE_URL}#service` },
       primaryImageOfPage: {
         "@type": "ImageObject",
-        url: `${SITE_URL}/women-circle-organic.jpg?v=4`,
-        width: 1677,
-        height: 938,
+        url: `${SITE_URL}/women-circle-organic.jpg?v=5`,
+        width: 643,
+        height: 360,
       },
     },
     {

@@ -3538,6 +3538,13 @@ button {
   will-change: transform, opacity;
 }
 
+.symbol-arrival {
+  position: absolute;
+  inset: 0;
+  transform-origin: 50% 50%;
+  will-change: transform, opacity;
+}
+
 .unlock-response {
   position: absolute;
   inset: 0;
@@ -3827,7 +3834,7 @@ button {
   aspect-ratio: 1;
   border-radius: 50%;
   transform-origin: 50% 50%;
-  will-change: transform;
+  will-change: transform, background-color;
   background: var(--paper);
 }
 
@@ -5012,12 +5019,12 @@ button {
   inset: 0;
   background-color: var(--paper);
   background-image:
-    linear-gradient(135deg, rgb(239 217 208 / 0.48), rgb(239 217 208 / 0.68)),
-    url("/women-circle-organic.jpg?v=4");
+    linear-gradient(135deg, rgb(239 217 208 / 0.4), rgb(239 217 208 / 0.6)),
+    url("/women-circle-organic.jpg?v=5");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  filter: saturate(0.78) brightness(1.05);
+  filter: saturate(0.82) brightness(1.06);
   pointer-events: none;
   transform: translateZ(0);
 }
