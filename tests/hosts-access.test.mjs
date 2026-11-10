@@ -4,8 +4,8 @@ import { randomUUID } from "node:crypto";
 import test from "node:test";
 
 const fixtures = [
-  { scope: "residency", env: "ORIGEN_ACCESS_KEY", destination: "/residency" },
-  { scope: "bros", env: "ORIGEN_BROS_ACCESS_KEY", destination: "/circulo-de-hombres" },
+  { scope: "residency", env: "ORIGEN_ACCESS_KEY", destination: "/residencia" },
+  { scope: "bros", env: "ORIGEN_BROS_ACCESS_KEY", destination: "/circulo-de-hombres-cantabria" },
   { scope: "space", env: "ORIGEN_SPACE_ACCESS_KEY", destination: "/space" },
   { scope: "experience", env: "ORIGEN_EXPERIENCE_ACCESS_KEY", destination: "/experience" },
   { scope: "hosts-es", env: "ORIGEN_HOSTS_ES_ACCESS_KEY", destination: "/retreat-organizers-circle?lang=es", language: "es" },
@@ -67,7 +67,7 @@ test("all keys keep case-insensitive, signed, destination-scoped access", async 
     for (const other of fixtures) {
       if (other.scope === fixture.scope || (fixture.language && other.language)) continue;
       const otherResponse = await request(other.destination, { headers: { cookie } });
-      if (["/circulo-de-hombres", "/residency"].includes(other.destination)) {
+      if (["/circulo-de-hombres-cantabria", "/residencia"].includes(other.destination)) {
         assert.equal(otherResponse.status, 200);
       } else {
         assertGatewayRedirect(otherResponse);
@@ -89,7 +89,7 @@ test("the Bros key takes priority over a duplicate retreat key", async () => {
     assert.equal(response.status, 200);
     assert.deepEqual(await response.json(), {
       ok: true,
-      destination: "/circulo-de-hombres",
+      destination: "/circulo-de-hombres-cantabria",
     });
   } finally {
     process.env[bros.env] = originalBrosKey;
@@ -169,8 +169,8 @@ test("wrong keys, forged sessions and direct links cannot enter; logout clears a
     method: "POST", headers: { "content-type": "application/json" }, body: "{",
   });
   assert.equal(malformed.status, 400);
-  assert.equal((await request("/circulo-de-hombres")).status, 200);
-  assert.equal((await request("/residency")).status, 200);
+  assert.equal((await request("/circulo-de-hombres-cantabria")).status, 200);
+  assert.equal((await request("/residencia")).status, 200);
   for (const language of ["en", "es"]) {
     assertGatewayRedirect(await request("/retreat-organizers-circle?lang=" + language));
     const redirect = await request("/retreat-organizers-circle?lang=" + language, {

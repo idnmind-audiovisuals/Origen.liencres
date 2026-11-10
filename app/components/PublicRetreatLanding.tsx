@@ -30,7 +30,7 @@ export function PublicRetreatLanding({
         <nav aria-label={language === "es" ? "Navegación" : "Navigation"}>
           <Link href={copy.faqHref}>{copy.faqLabel}</Link>
           {language === "es" ? (
-            <Link href="/retiro">
+            <Link href="/retiros-en-cantabria">
               Organizar
             </Link>
           ) : (
@@ -66,7 +66,7 @@ export function PublicRetreatLanding({
                 </div>
               ))}
             </dl>
-            <Link className="retreat-public-primary" href="/retiro">
+            <Link className="retreat-public-primary" href="/retiros-en-cantabria">
               {copy.cta}
               <span className="external-link-dot" aria-hidden="true" />
             </Link>

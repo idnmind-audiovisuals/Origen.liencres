@@ -302,7 +302,7 @@ export const organizerPages: Record<OrganizerSlug, OrganizerCopy> = {
 };
 
 // Keep one clear search intent per indexable route. The legacy Spanish routes
-// redirect to `/retiro`, the canonical accommodation and booking page.
+// redirect to `/retiros-en-cantabria`, the canonical accommodation and booking page.
 export const organizerSlugs: OrganizerSlug[] = [
   "retreat-venue-spain",
   "espacio-retiros-cantabria",
@@ -316,7 +316,7 @@ export function organizerLanguageAlternates(slug: OrganizerSlug) {
   if (page.alternate === "retiro") {
     return {
       en: `${PUBLIC_SITE_URL}/${slug}`,
-      "es-ES": `${PUBLIC_SITE_URL}/retiro`,
+      "es-ES": `${PUBLIC_SITE_URL}/retiros-en-cantabria`,
     };
   }
   const alternate = organizerPages[page.alternate];

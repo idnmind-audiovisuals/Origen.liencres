@@ -65,7 +65,7 @@ export function OrigenHomeState() {
                 residencies, circles and meaningful stays.
               </p>
               <small>9 guests · 3 bedrooms · 1 shala</small>
-              <Link href="/retiro#reservar">
+              <Link href="/retiros-en-cantabria#reservar">
                 Book the space
                 <span aria-hidden="true" />
               </Link>

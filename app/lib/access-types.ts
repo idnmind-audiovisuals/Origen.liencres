@@ -11,8 +11,8 @@ export const ACCESS_SCOPES = [
 export type AccessScope = (typeof ACCESS_SCOPES)[number];
 
 export const ACCESS_DESTINATION_BY_SCOPE = {
-  residency: "/residency",
-  bros: "/circulo-de-hombres",
+  residency: "/residencia",
+  bros: "/circulo-de-hombres-cantabria",
   space: "/space",
   experience: "/experience",
   "hosts-es": "/retreat-organizers-circle?lang=es",

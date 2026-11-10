@@ -1,5 +1,5 @@
 import { permanentRedirect } from "next/navigation";
 
 export default function EspacioRetirosPage() {
-  permanentRedirect("/retiro");
+  permanentRedirect("/retiros-en-cantabria");
 }

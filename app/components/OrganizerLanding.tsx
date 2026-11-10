@@ -10,7 +10,7 @@ export function OrganizerLanding({ slug }: { slug: OrganizerSlug }) {
   const spanish = copy.language === "es";
   const overview = spanish ? "/retiros-cantabria" : "/retreats-spain";
   const faq = spanish ? "/retiros-cantabria/preguntas-frecuentes" : "/retreats-spain/faq";
-  const commercialPage = spanish ? "/retiro" : "/host-your-retreat";
+  const commercialPage = spanish ? "/retiros-en-cantabria" : "/host-your-retreat";
   const url = `${PUBLIC_SITE_URL}/${slug}`;
   const structuredData = {
     "@context": "https://schema.org",

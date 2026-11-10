@@ -45,7 +45,7 @@ const AMENITIES = [
 ] as const;
 
 export function HouseBookingLanding() {
-  const url = `${PUBLIC_SITE_URL}/retiro`;
+  const url = `${PUBLIC_SITE_URL}/retiros-en-cantabria`;
   const structuredData = {
     "@context": "https://schema.org",
     "@graph": [

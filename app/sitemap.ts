@@ -14,25 +14,25 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1,
     },
     {
-      url: `${SITE_URL}/circulo-de-hombres`,
+      url: `${SITE_URL}/circulo-de-hombres-cantabria`,
       lastModified: new Date("2026-11-09T00:00:00+01:00"),
       changeFrequency: "weekly",
       priority: 0.82,
     },
     {
-      url: `${SITE_URL}/circulo-de-mujeres`,
+      url: `${SITE_URL}/circulo-de-mujeres-cantabria`,
       lastModified: new Date("2026-11-09T00:00:00+01:00"),
       changeFrequency: "weekly",
       priority: 0.82,
     },
     {
-      url: `${SITE_URL}/residency`,
+      url: `${SITE_URL}/residencia`,
       lastModified: new Date("2026-11-09T00:00:00+01:00"),
       changeFrequency: "monthly",
       priority: 0.82,
     },
     {
-      url: `${SITE_URL}/eventos`,
+      url: `${SITE_URL}/eventos-bienestar-cantabria`,
       lastModified: new Date("2026-11-09T00:00:00+01:00"),
       changeFrequency: "monthly",
       priority: 0.7,
@@ -88,15 +88,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
       },
     },
     {
-      url: `${SITE_URL}/retiro`,
+      url: `${SITE_URL}/retiros-en-cantabria`,
       lastModified: new Date("2026-09-19T00:00:00+02:00"),
       changeFrequency: "weekly",
       priority: 0.95,
       alternates: {
         languages: {
-          "es-ES": `${SITE_URL}/retiro`,
+          "es-ES": `${SITE_URL}/retiros-en-cantabria`,
           en: `${SITE_URL}/host-your-retreat`,
-          "x-default": `${SITE_URL}/retiro`,
+          "x-default": `${SITE_URL}/retiros-en-cantabria`,
         },
       },
     },

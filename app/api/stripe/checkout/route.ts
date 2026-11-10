@@ -83,8 +83,8 @@ export async function POST(request: Request) {
   if (body.kind === "bros_monthly") {
     const params = new URLSearchParams({
       mode: "subscription",
-      success_url: `${PUBLIC_SITE_URL}/circulo-de-hombres?subscription_session={CHECKOUT_SESSION_ID}#suscripcion`,
-      cancel_url: `${PUBLIC_SITE_URL}/circulo-de-hombres?subscription=cancelled#suscripcion`,
+      success_url: `${PUBLIC_SITE_URL}/circulo-de-hombres-cantabria?subscription_session={CHECKOUT_SESSION_ID}#suscripcion`,
+      cancel_url: `${PUBLIC_SITE_URL}/circulo-de-hombres-cantabria?subscription=cancelled#suscripcion`,
       "line_items[0][price_data][currency]": "eur",
       "line_items[0][price_data][unit_amount]": "10000",
       "line_items[0][price_data][recurring][interval]": "month",
@@ -159,8 +159,8 @@ export async function POST(request: Request) {
   const kindLabel = body.kind === "retreat_full" ? "full_stay" : "deposit";
   const params = new URLSearchParams({
     mode: "payment",
-    success_url: `${PUBLIC_SITE_URL}/retiro?payment_session={CHECKOUT_SESSION_ID}#reservar`,
-    cancel_url: `${PUBLIC_SITE_URL}/retiro?payment=cancelled#reservar`,
+    success_url: `${PUBLIC_SITE_URL}/retiros-en-cantabria?payment_session={CHECKOUT_SESSION_ID}#reservar`,
+    cancel_url: `${PUBLIC_SITE_URL}/retiros-en-cantabria?payment=cancelled#reservar`,
     submit_type: "book",
     customer_creation: "always",
     client_reference_id: `origen-${arrival}-${departure}-${kindLabel}`,
