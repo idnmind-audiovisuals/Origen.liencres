@@ -42,7 +42,8 @@ export function AccessGateway() {
     if (state !== "unlocking") return;
     const opened = window.setTimeout(
       () => setState("opened"),
-      (GATEWAY_MOTION.success.totalDuration +
+      (GATEWAY_MOTION.success.zoomDelay +
+        GATEWAY_MOTION.success.zoomDuration +
         GATEWAY_MOTION.success.blackHold) *
         1000,
     );
