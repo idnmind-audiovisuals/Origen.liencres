@@ -5,9 +5,9 @@ export type OrganizerSlug =
   | "retreat-venue-spain"
   | "espacio-retiros-cantabria"
   | "creative-residency-spain"
-  | "host-your-retreat"
+  | "host-your-retreat-cantabria"
   | "espacio-retiros"
-  | "organizar-retiro";
+  | "organiza-tu-retiro-cantabria";
 
 type OrganizerSection = {
   eyebrow: string;
@@ -34,7 +34,7 @@ type OrganizerCopy = {
   closingBody: string;
   serviceName: string;
   serviceType: string;
-  alternate?: OrganizerSlug | "retiro";
+  alternate?: OrganizerSlug;
 };
 
 // Public, intent-specific pages. Password-protected experiences stay separate.
@@ -170,7 +170,7 @@ export const organizerPages: Record<OrganizerSlug, OrganizerCopy> = {
     serviceName: "Self-directed creative residency venue at Origen Liencres",
     serviceType: "Creative residency venue hire",
   },
-  "host-your-retreat": {
+  "host-your-retreat-cantabria": {
     language: "en",
     title: "Host Your Retreat in Cantabria, Spain | Origen Liencres",
     description: "A practical guide for retreat leaders: plan dates, rooming, practice and logistics for a private retreat of up to 8 guests at Origen near Santander.",
@@ -211,7 +211,7 @@ export const organizerPages: Record<OrganizerSlug, OrganizerCopy> = {
     closingBody: "Send your intention, possible dates and group size through the host form. A clear proposal helps us understand what you need.",
     serviceName: "Private retreat venue hire at Origen Liencres",
     serviceType: "Private retreat venue hire",
-    alternate: "retiro",
+    alternate: "organiza-tu-retiro-cantabria",
   },
   "espacio-retiros": {
     language: "es",
@@ -256,7 +256,7 @@ export const organizerPages: Record<OrganizerSlug, OrganizerCopy> = {
     serviceName: "Espacio para retiros y encuentros de grupos privados en Origen",
     serviceType: "Alquiler de espacio para retiros y prácticas de grupo",
   },
-  "organizar-retiro": {
+  "organiza-tu-retiro-cantabria": {
     language: "es",
     title: "Organizar un Retiro en Cantabria: Guía para Anfitriones | Origen",
     description: "Prepara tu retiro en Origen: fechas, grupo, alojamiento, práctica y logística. Guía para facilitadores que buscan un espacio privado cerca de Santander.",
@@ -297,28 +297,20 @@ export const organizerPages: Record<OrganizerSlug, OrganizerCopy> = {
     closingBody: "Envía tu intención, las fechas posibles y el tamaño del grupo. Una propuesta clara nos ayuda a entender lo que necesitas.",
     serviceName: "Alquiler privado de espacio para retiros en Origen Liencres",
     serviceType: "Alquiler privado de espacio para retiros",
-    alternate: "host-your-retreat",
+    alternate: "host-your-retreat-cantabria",
   },
 };
 
-// Keep one clear search intent per indexable route. The legacy Spanish routes
-// redirect to `/retiros-en-cantabria`, the canonical accommodation and booking page.
+// Keep one clear search intent in each language. Legacy retreat and venue URLs
+// permanently redirect to these organiser-focused pages.
 export const organizerSlugs: OrganizerSlug[] = [
-  "retreat-venue-spain",
-  "espacio-retiros-cantabria",
-  "creative-residency-spain",
-  "host-your-retreat",
+  "organiza-tu-retiro-cantabria",
+  "host-your-retreat-cantabria",
 ];
 
 export function organizerLanguageAlternates(slug: OrganizerSlug) {
   const page = organizerPages[slug];
   if (!page.alternate) return undefined;
-  if (page.alternate === "retiro") {
-    return {
-      en: `${PUBLIC_SITE_URL}/${slug}`,
-      "es-ES": `${PUBLIC_SITE_URL}/retiros-en-cantabria`,
-    };
-  }
   const alternate = organizerPages[page.alternate];
   return {
     [page.language === "es" ? "es-ES" : "en"]: `${PUBLIC_SITE_URL}/${slug}`,

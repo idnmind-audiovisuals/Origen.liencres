@@ -32,7 +32,12 @@ export function EditorialPage({
     usePersistentLanguage(initialLanguage);
   const copy = EDITORIAL_COPY[page][language];
   const shared = SHARED_EDITORIAL_COPY[language];
-  const originPath = origin === "space" ? "/space" : "/residencia";
+  const originPath =
+    origin === "space"
+      ? "/space"
+      : language === "es"
+        ? "/residencias"
+        : "/residencies";
   const originLabel = origin === "space" ? shared.space : shared.residency;
 
   useEffect(() => {

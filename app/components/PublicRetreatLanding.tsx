@@ -6,6 +6,7 @@ import {
   HOST_APPLICATION_URL,
   ORIGEN_AIRBNB_URL,
   ORIGEN_MAPS_URL,
+  PUBLIC_SITE_URL,
   retreatLandingCopy,
   type RetreatLanguage,
 } from "../lib/public-retreat-content";
@@ -16,6 +17,48 @@ export function PublicRetreatLanding({
   language: RetreatLanguage;
 }) {
   const copy = retreatLandingCopy[language];
+  const spanish = language === "es";
+  const path = spanish ? "/retiros" : "/retreats";
+  const url = `${PUBLIC_SITE_URL}${path}`;
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "@id": `${url}#page`,
+        url,
+        name: copy.title,
+        description: copy.lead,
+        inLanguage: spanish ? "es-ES" : "en",
+        isPartOf: { "@id": `${PUBLIC_SITE_URL}/#website` },
+        mainEntity: { "@id": `${url}#service` },
+        breadcrumb: { "@id": `${url}#breadcrumb` },
+      },
+      {
+        "@type": "Service",
+        "@id": `${url}#service`,
+        name: spanish
+          ? "Alquiler de centro y espacio para retiros en Cantabria"
+          : "Private retreat venue hire in Cantabria",
+        description: copy.lead,
+        serviceType: spanish ? "Espacio para organizar retiros" : "Private retreat venue hire",
+        provider: { "@id": `${PUBLIC_SITE_URL}/#retreat-space` },
+        areaServed: { "@type": "AdministrativeArea", name: "Cantabria, Spain" },
+        audience: {
+          "@type": "Audience",
+          audienceType: spanish ? "Facilitadores y organizadores de retiros" : "Retreat facilitators and organisers",
+        },
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": `${url}#breadcrumb`,
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Origen Liencres", item: `${PUBLIC_SITE_URL}/` },
+          { "@type": "ListItem", position: 2, name: copy.title, item: url },
+        ],
+      },
+    ],
+  };
 
   return (
     <main
@@ -30,11 +73,11 @@ export function PublicRetreatLanding({
         <nav aria-label={language === "es" ? "Navegación" : "Navigation"}>
           <Link href={copy.faqHref}>{copy.faqLabel}</Link>
           {language === "es" ? (
-            <Link href="/retiros-en-cantabria">
+            <Link href="/organiza-tu-retiro-cantabria">
               Organizar
             </Link>
           ) : (
-            <Link href="/host-your-retreat">Host</Link>
+            <Link href="/host-your-retreat-cantabria">Host</Link>
           )}
           <a href={ORIGEN_MAPS_URL} target="_blank" rel="noreferrer">Maps</a>
           <Link className="retreat-language-link" href={copy.alternateHref}>
@@ -49,7 +92,7 @@ export function PublicRetreatLanding({
           <h1 id="retreat-public-title">{copy.title}</h1>
           <p className="retreat-public-lead">{copy.lead}</p>
           {language === "en" ? (
-            <Link className="retreat-public-primary" href="/host-your-retreat">
+            <Link className="retreat-public-primary" href="/host-your-retreat-cantabria">
               {copy.cta}
               <span className="external-link-dot" aria-hidden="true" />
             </Link>
@@ -66,7 +109,7 @@ export function PublicRetreatLanding({
                 </div>
               ))}
             </dl>
-            <Link className="retreat-public-primary" href="/retiros-en-cantabria">
+            <Link className="retreat-public-primary" href="/organiza-tu-retiro-cantabria">
               {copy.cta}
               <span className="external-link-dot" aria-hidden="true" />
             </Link>
@@ -186,6 +229,7 @@ export function PublicRetreatLanding({
           <p>{copy.footerLine}</p>
         </div>
       </footer>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData).replace(/</g, "\\u003c") }} />
     </main>
   );
 }

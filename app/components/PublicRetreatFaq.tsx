@@ -89,8 +89,8 @@ export function PublicRetreatFaq({ language }: { language: RetreatLanguage }) {
       </section>
 
       <nav className="retreat-public-links retreat-faq-links scroll-reveal" aria-label={language === "es" ? "Información práctica de Origen" : "Practical Origen information"}>
-        <Link href="/retiros-en-cantabria">{copy.bookingCta}</Link>
-        <Link href={language === "es" ? "/espacio-retiros-cantabria" : "/retreat-venue-spain"}>{copy.spaceCta}</Link>
+        <Link href={language === "es" ? "/organiza-tu-retiro-cantabria" : "/host-your-retreat-cantabria"}>{copy.bookingCta}</Link>
+        <Link href={language === "es" ? "/retiros" : "/retreats"}>{copy.spaceCta}</Link>
         <a href={ORIGEN_AIRBNB_URL} target="_blank" rel="noreferrer">{copy.airbnbCta}</a>
         <a href={ORIGEN_MAPS_URL} target="_blank" rel="noreferrer">{copy.mapCta}</a>
       </nav>

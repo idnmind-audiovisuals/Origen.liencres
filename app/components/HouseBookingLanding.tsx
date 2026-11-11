@@ -45,7 +45,7 @@ const AMENITIES = [
 ] as const;
 
 export function HouseBookingLanding() {
-  const url = `${PUBLIC_SITE_URL}/retiros-en-cantabria`;
+  const url = `${PUBLIC_SITE_URL}/organiza-tu-retiro-cantabria`;
   const structuredData = {
     "@context": "https://schema.org",
     "@graph": [
@@ -87,7 +87,7 @@ export function HouseBookingLanding() {
         "@type": "BreadcrumbList",
         itemListElement: [
           { "@type": "ListItem", position: 1, name: "Origen Liencres", item: `${PUBLIC_SITE_URL}/` },
-          { "@type": "ListItem", position: 2, name: "Retiros en Cantabria", item: `${PUBLIC_SITE_URL}/retiros-cantabria` },
+          { "@type": "ListItem", position: 2, name: "Organiza tu retiro en Cantabria", item: `${PUBLIC_SITE_URL}/organiza-tu-retiro-cantabria` },
           { "@type": "ListItem", position: 3, name: "Retiro", item: url },
         ],
       },
@@ -106,7 +106,7 @@ export function HouseBookingLanding() {
           <a href="#la-casa">La casa</a>
           <a href="#galeria">Fotos</a>
           <a href="#reservar">Disponibilidad</a>
-          <Link className="retreat-language-link" href="/host-your-retreat" hrefLang="en" lang="en" aria-label="View retreat hosting information in English">EN</Link>
+          <Link className="retreat-language-link" href="/host-your-retreat-cantabria" hrefLang="en" lang="en" aria-label="View retreat hosting information in English">EN</Link>
         </nav>
       </header>
 
@@ -195,8 +195,8 @@ export function HouseBookingLanding() {
       </section>
 
       <nav className="retreat-public-links scroll-reveal" aria-label="Más información de Origen">
-        <Link href="/retiros-cantabria">Retiros en Cantabria</Link>
-        <Link href="/espacio-retiros-cantabria">Detalles del espacio</Link>
+        <Link href="/organiza-tu-retiro-cantabria">Organiza tu retiro</Link>
+        <Link href="/organiza-tu-retiro-cantabria">Detalles del espacio</Link>
         <Link href="/retiros-cantabria/preguntas-frecuentes">Preguntas frecuentes</Link>
       </nav>
 

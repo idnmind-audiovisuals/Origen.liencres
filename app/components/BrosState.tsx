@@ -7,6 +7,7 @@ import {
   useSpring,
   useTransform,
 } from "framer-motion";
+import Link from "next/link";
 import { useEffect, useLayoutEffect, useRef } from "react";
 import { GatewayBrandLink } from "./GatewayBrandLink";
 import { InstagramLink } from "./InstagramLink";
@@ -201,6 +202,11 @@ export function BrosState({ development, onReset }: BrosStateProps) {
               UNIRME
               <span className="external-link-dot" aria-hidden="true" />
             </a>
+            <Link className="bros-dashboard-link" href="/circulo-de-hombres-cantabria/dashboard">
+              <small>Seguimiento personal</small>
+              <strong>Mi dashboard</strong>
+              <span aria-hidden="true">→</span>
+            </Link>
           </div>
         </motion.section>
 

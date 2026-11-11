@@ -13,8 +13,8 @@ type HomeNavigationProps = {
 export const HOME_LINKS = [
   { href: "/circulo-de-hombres-cantabria", label: "Círculo de hombres" },
   { href: "/circulo-de-mujeres-cantabria", label: "Círculo de mujeres" },
-  { href: "/residencia", label: "Residencias" },
-  { href: "/retiros-en-cantabria", label: "Retiros" },
+  { href: "/residencias", label: "Residencias" },
+  { href: "/retiros", label: "Retiros" },
   { href: "/eventos-bienestar-cantabria", label: "Eventos" },
 ] as const;
 

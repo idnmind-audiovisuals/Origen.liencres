@@ -12,18 +12,18 @@ export const retreatLandingCopy = {
   es: {
     htmlLang: "es",
     alternateLabel: "EN",
-    alternateHref: "/retreats-spain",
+    alternateHref: "/retreats",
     faqLabel: "Preguntas",
     faqHref: "/retiros-cantabria/preguntas-frecuentes",
     eyebrow: "Origen Liencres · Cantabria",
-    title: "Espacio para retiros en Cantabria",
+    title: "Centro y espacio para retiros en Cantabria",
     lead:
       "Origen es un espacio para organizar retiros en Cantabria, en Liencres, cerca de Santander. Un lugar privado para grupos pequeños entre el océano, el bosque y los acantilados de Costa Quebrada.",
     cta: "Organiza tu retiro",
     introEyebrow: "Qué es Origen",
     introTitle: "Un lugar creado para reunir, practicar y volver a lo esencial.",
     introParagraphs: [
-      "Origen Liencres acoge retiros de bienestar, residencias creativas, encuentros de embodiment y experiencias cocreadas en el norte de España.",
+      "Origen Liencres es un centro para retiros de bienestar, residencias creativas, encuentros de embodiment y experiencias cocreadas en el norte de España. Esta página está dirigida a facilitadores y organizadores que traen su propio grupo y programa.",
       "La casa ofrece alojamiento para grupos de hasta 8 personas, espacios compartidos y una amplia sala de práctica abierta a la naturaleza. El espacio completo puede reservarse para que cada grupo viva su proceso con privacidad.",
     ],
     facts: [
@@ -83,7 +83,7 @@ export const retreatLandingCopy = {
   en: {
     htmlLang: "en",
     alternateLabel: "ES",
-    alternateHref: "/retiros-cantabria",
+    alternateHref: "/retiros",
     faqLabel: "Questions",
     faqHref: "/retreats-spain/faq",
     eyebrow: "Origen Liencres · Cantabria",
@@ -94,7 +94,7 @@ export const retreatLandingCopy = {
     introEyebrow: "What Origen is",
     introTitle: "A place created to gather, practise and return to what is essential.",
     introParagraphs: [
-      "For international facilitators looking for a retreat venue in Northern Spain, Origen offers a distinctive combination of coast, beach, forest and the geological landscape of Costa Quebrada.",
+      "For international facilitators looking for a retreat centre or venue in Northern Spain, Origen offers a distinctive combination of coast, beach, forest and the geological landscape of Costa Quebrada. This page is for organisers bringing their own group and programme.",
       "The house accommodates groups of up to 8 guests, with shared living areas and a spacious nature-facing practice room. One group can privately hire the entire venue for a focused retreat or creative residency.",
     ],
     facts: [

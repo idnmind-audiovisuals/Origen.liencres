@@ -2,29 +2,27 @@ import type { Language } from "./language";
 
 export const RESIDENCY_COPY = {
   en: {
-    status: "Access opened. Origen Residency invitation.",
+    status: "Origen artistic residencies in Cantabria.",
     brandLabel: "Origen — return to the opening gateway",
-    availability: "10 spots available",
-    tagline: "Surrendering to the human essence",
-    title: ["Origen", "Residency"],
+    availability: "For residency organisers",
+    tagline: "A place to host the creative residency you design.",
+    title: ["Artistic", "Residencies"],
     details: [
-      { term: "Duration", value: "5 days" },
-      {
-        term: "Dates",
-        value: "TBC",
-        ariaLabel: "Dates to be confirmed",
-      },
-      { term: "Place", value: "Liencres, Spain" },
+      { term: "Format", value: "Your group · your programme" },
+      { term: "Capacity", value: "Up to 8 overnight guests" },
+      { term: "Place", value: "Liencres, Cantabria" },
     ],
-    programEyebrow: "Five days together",
-    programTitle: "The residency",
+    programEyebrow: "Host between the sea and forest",
+    programTitle: "A home for the residency you organise",
+    programDescription:
+      "For curators, facilitators and creative leaders bringing their own group and programme. Origen provides the private venue; you shape the residency.",
     experiences: [
-      "Nature adventures",
-      "Ecstatic Dance",
-      "Contact Improv",
-      "Tantric nights under the stars",
-      "Cocreated experiences",
-      "Open Doors Day",
+      "Private accommodation for your group",
+      "Shared work and conversation spaces",
+      "An open shala for movement and group sessions",
+      "Ocean, cliffs and coastal forest nearby",
+      "Flexible dates subject to availability",
+      "A proposal reviewed with the organiser",
     ],
     linksLabel: "Residency links",
     stay: "Stay",
@@ -33,8 +31,8 @@ export const RESIDENCY_COPY = {
     maps: "Maps",
     story: "Story",
     vision: "Vision",
-    joinEyebrow: "Application form",
-    join: "JOIN",
+    joinEyebrow: "Organiser proposal",
+    join: "SEND PROPOSAL",
     interestEyebrow: "WhatsApp",
     interest: "INTERESTED",
     footerLocation: "Origen · Liencres",
@@ -42,29 +40,27 @@ export const RESIDENCY_COPY = {
     reset: "reset session",
   },
   es: {
-    status: "Acceso concedido. Invitación a la Residencia Origen.",
+    status: "Residencias artísticas de Origen en Cantabria.",
     brandLabel: "Origen — volver al acceso inicial",
-    availability: "10 plazas disponibles",
-    tagline: "Un espacio para que la esencia emerja.",
-    title: ["Residencia", "Origen"],
+    availability: "Para organizadores de residencias",
+    tagline: "Un lugar para organizar la residencia creativa que tú diseñas.",
+    title: ["Residencias", "Artísticas"],
     details: [
-      { term: "Duración", value: "5 días" },
-      {
-        term: "Fechas",
-        value: "TBC",
-        ariaLabel: "Fechas por confirmar",
-      },
-      { term: "Lugar", value: "Liencres, España" },
+      { term: "Formato", value: "Tu grupo · tu programa" },
+      { term: "Capacidad", value: "Hasta 8 personas alojadas" },
+      { term: "Lugar", value: "Liencres, Cantabria" },
     ],
-    programEyebrow: "Cinco días juntos",
-    programTitle: "La residencia",
+    programEyebrow: "Organizar entre el mar y el bosque",
+    programTitle: "Una casa para la residencia que organizas",
+    programDescription:
+      "Para comisarios, facilitadores y líderes creativos que traen su propio grupo y programa. Origen aporta el espacio privado; tú das forma a la residencia.",
     experiences: [
-      "Aventuras en la naturaleza",
-      "Danza extática",
-      "Contact Improvisación",
-      "Noches tántricas bajo las estrellas",
-      "Experiencias cocreadas",
-      "Día de puertas abiertas",
+      "Alojamiento privado para tu grupo",
+      "Espacios compartidos de trabajo y conversación",
+      "Shala abierta para movimiento y sesiones grupales",
+      "Océano, acantilados y bosque costero cerca",
+      "Fechas flexibles sujetas a disponibilidad",
+      "Una propuesta revisada con quien organiza",
     ],
     linksLabel: "Enlaces de la residencia",
     stay: "Alojamiento",
@@ -73,8 +69,8 @@ export const RESIDENCY_COPY = {
     maps: "Mapa",
     story: "Historia",
     vision: "Visión",
-    joinEyebrow: "Formulario de inscripción",
-    join: "UNIRME",
+    joinEyebrow: "Propuesta del organizador",
+    join: "ENVIAR PROPUESTA",
     interestEyebrow: "WhatsApp",
     interest: "ME INTERESA",
     footerLocation: "Origen · Liencres",
@@ -82,6 +78,116 @@ export const RESIDENCY_COPY = {
     reset: "reiniciar sesión",
   },
 } as const satisfies Record<Language, object>;
+
+export const COWORKING_RESIDENCY_COPY = {
+  en: {
+    ...RESIDENCY_COPY.en,
+    status: "Origen coworking residencies in Cantabria.",
+    availability: "For coworking organisers",
+    tagline: "Host a focused work residency for your community or team.",
+    title: ["Coworking", "Residencies"],
+    details: [
+      { term: "Format", value: "Your cohort · your rhythm" },
+      { term: "Capacity", value: "Up to 8 overnight guests" },
+      { term: "Place", value: "Liencres, Cantabria" },
+    ],
+    programEyebrow: "Deep work by the Cantabrian Sea",
+    programTitle: "A private base for the cohort you organise",
+    programDescription:
+      "For community builders, team leads and facilitators organising a coliving and coworking stay. You lead the group; Origen provides the setting.",
+    experiences: [
+      "Private accommodation for one cohort",
+      "Quiet spaces for focused work",
+      "Shared accountability and group sessions",
+      "Kitchen and common living areas",
+      "Nature and recovery after work",
+      "Planning reviewed before dates are confirmed",
+    ],
+  },
+  es: {
+    ...RESIDENCY_COPY.es,
+    status: "Residencias coworking de Origen en Cantabria.",
+    availability: "Para organizadores de coworking",
+    tagline: "Organiza una residencia de trabajo para tu comunidad o equipo.",
+    title: ["Residencias", "Coworking"],
+    details: [
+      { term: "Formato", value: "Tu grupo · tu ritmo" },
+      { term: "Capacidad", value: "Hasta 8 personas alojadas" },
+      { term: "Lugar", value: "Liencres, Cantabria" },
+    ],
+    programEyebrow: "Trabajo profundo junto al Cantábrico",
+    programTitle: "Una base privada para el grupo que organizas",
+    programDescription:
+      "Para responsables de comunidad, equipos y facilitadores que organizan una estancia de coliving y coworking. Tú lideras el grupo; Origen aporta el entorno.",
+    experiences: [
+      "Alojamiento privado para un único grupo",
+      "Espacios tranquilos para trabajar con foco",
+      "Accountability y sesiones compartidas",
+      "Cocina y zonas comunes",
+      "Naturaleza y descanso después del trabajo",
+      "Planificación revisada antes de confirmar fechas",
+    ],
+  },
+} as const satisfies Record<Language, object>;
+
+export const ENTREPRENEUR_RESIDENCY_COPY = {
+  en: {
+    ...RESIDENCY_COPY.en,
+    status: "Origen entrepreneur residencies in Cantabria.",
+    availability: "For programme organisers",
+    tagline: "Host a focused founder residency with your own programme.",
+    title: ["Entrepreneur", "Residencies"],
+    details: [
+      { term: "Format", value: "Your cohort · your programme" },
+      { term: "Capacity", value: "Up to 8 overnight guests" },
+      { term: "Place", value: "Liencres, Cantabria" },
+    ],
+    programEyebrow: "Build with perspective",
+    programTitle: "A venue for the founder programme you lead",
+    programDescription:
+      "For accelerator leads, mentors and community organisers bringing a selected group of founders. Origen hosts the stay; you direct the programme.",
+    experiences: [
+      "Private accommodation for your cohort",
+      "Spaces for strategy and peer feedback",
+      "Shala for workshops and group sessions",
+      "A trusted small-group environment",
+      "Nature, movement and recovery",
+      "Dates and conditions agreed with the organiser",
+    ],
+  },
+  es: {
+    ...RESIDENCY_COPY.es,
+    status: "Residencias emprendedoras de Origen en Cantabria.",
+    availability: "Para organizadores de programas",
+    tagline: "Organiza una residencia para emprendedores con tu propio programa.",
+    title: ["Residencias", "Emprendedoras"],
+    details: [
+      { term: "Formato", value: "Tu grupo · tu programa" },
+      { term: "Capacidad", value: "Hasta 8 personas alojadas" },
+      { term: "Lugar", value: "Liencres, Cantabria" },
+    ],
+    programEyebrow: "Construir con perspectiva",
+    programTitle: "Un espacio para el programa de emprendimiento que lideras",
+    programDescription:
+      "Para responsables de aceleradoras, mentores y comunidades que traen un grupo seleccionado. Origen acoge la estancia; tú diriges el programa.",
+    experiences: [
+      "Alojamiento privado para tu grupo",
+      "Espacios para estrategia y feedback entre pares",
+      "Shala para talleres y sesiones grupales",
+      "Un entorno de confianza y grupo reducido",
+      "Naturaleza, movimiento y descanso",
+      "Fechas y condiciones acordadas con quien organiza",
+    ],
+  },
+} as const satisfies Record<Language, object>;
+
+export const RESIDENCY_COPIES = {
+  artistic: RESIDENCY_COPY,
+  coworking: COWORKING_RESIDENCY_COPY,
+  entrepreneur: ENTREPRENEUR_RESIDENCY_COPY,
+} as const;
+
+export type ResidencyFocus = keyof typeof RESIDENCY_COPIES;
 
 export const SPACE_COPY = {
   en: {

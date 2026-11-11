@@ -47,7 +47,7 @@ const structuredData = {
       "@type": ["LodgingBusiness", "LocalBusiness"],
       "@id": `${SITE_URL}/#retreat-space`,
       name: "Origen Liencres",
-      url: `${SITE_URL}/retiros-cantabria`,
+      url: `${SITE_URL}/retiros`,
       image: [
         `${SITE_URL}/og.png`,
         `${SITE_URL}/experience-coast.webp`,

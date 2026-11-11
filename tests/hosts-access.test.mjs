@@ -4,7 +4,7 @@ import { randomUUID } from "node:crypto";
 import test from "node:test";
 
 const fixtures = [
-  { scope: "residency", env: "ORIGEN_ACCESS_KEY", destination: "/residencia" },
+  { scope: "residency", env: "ORIGEN_ACCESS_KEY", destination: "/residencias" },
   { scope: "bros", env: "ORIGEN_BROS_ACCESS_KEY", destination: "/circulo-de-hombres-cantabria" },
   { scope: "space", env: "ORIGEN_SPACE_ACCESS_KEY", destination: "/space" },
   { scope: "experience", env: "ORIGEN_EXPERIENCE_ACCESS_KEY", destination: "/experience" },
@@ -67,7 +67,7 @@ test("all keys keep case-insensitive, signed, destination-scoped access", async 
     for (const other of fixtures) {
       if (other.scope === fixture.scope || (fixture.language && other.language)) continue;
       const otherResponse = await request(other.destination, { headers: { cookie } });
-      if (["/circulo-de-hombres-cantabria", "/residencia"].includes(other.destination)) {
+      if (["/circulo-de-hombres-cantabria", "/residencias"].includes(other.destination)) {
         assert.equal(otherResponse.status, 200);
       } else {
         assertGatewayRedirect(otherResponse);
@@ -135,7 +135,7 @@ test("both circle translations render after access with matching copy and pendin
       assert.match(html, /Formulario de participación próximamente/);
       assert.match(html, /hora peninsular española/);
       assert.match(html, /Cambiar a inglés/);
-      assert.match(html, /href="\/espacio-retiros-cantabria"/);
+      assert.match(html, /href="\/organiza-tu-retiro-cantabria"/);
       assert.doesNotMatch(html, /Who holds space for you|Joining form coming soon/);
     } else {
       assert.match(html, /Retreat Organisers Circle — Retreat Hosts/);
@@ -147,7 +147,7 @@ test("both circle translations render after access with matching copy and pendin
       assert.match(html, /One win\./);
       assert.match(html, /Joining form coming soon/);
       assert.match(html, /Switch to Spanish/);
-      assert.match(html, /href="\/retreat-venue-spain"/);
+      assert.match(html, /href="\/host-your-retreat-cantabria"/);
       assert.doesNotMatch(html, /¿Quién sostiene tu espacio|Formulario de participación próximamente/);
     }
     // Language is a preference, not a second authorization boundary.
@@ -170,7 +170,7 @@ test("wrong keys, forged sessions and direct links cannot enter; logout clears a
   });
   assert.equal(malformed.status, 400);
   assert.equal((await request("/circulo-de-hombres-cantabria")).status, 200);
-  assert.equal((await request("/residencia")).status, 200);
+  assert.equal((await request("/residencias")).status, 200);
   for (const language of ["en", "es"]) {
     assertGatewayRedirect(await request("/retreat-organizers-circle?lang=" + language));
     const redirect = await request("/retreat-organizers-circle?lang=" + language, {

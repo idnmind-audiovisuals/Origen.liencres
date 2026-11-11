@@ -7,7 +7,7 @@ export const retreatFaqCopy = {
     intro:
       "Respuestas directas para facilitadores y grupos que buscan un espacio de retiro pequeño, privado y próximo al mar en el norte de España.",
     backLabel: "Retiros Cantabria",
-    backHref: "/retiros-cantabria",
+    backHref: "/retiros",
     alternateLabel: "EN",
     alternateHref: "/retreats-spain/faq",
     practicalEyebrow: "Antes de organizar",
@@ -96,7 +96,7 @@ export const retreatFaqCopy = {
     intro:
       "Direct answers for facilitators and groups looking for a small, private retreat venue close to the sea in Cantabria.",
     backLabel: "Retreats Spain",
-    backHref: "/retreats-spain",
+    backHref: "/retreats",
     alternateLabel: "ES",
     alternateHref: "/retiros-cantabria/preguntas-frecuentes",
     practicalEyebrow: "Before you organise",

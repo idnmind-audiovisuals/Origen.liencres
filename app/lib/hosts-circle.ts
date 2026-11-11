@@ -142,7 +142,7 @@ export const HOSTS_CIRCLE_COPY = {
     formPending: "Joining form coming soon",
     formNote: "Registration is not open yet. The form and participation details will be added here.",
     venueLink: "Discover the Origen venue",
-    venueHref: "/retreat-venue-spain",
+    venueHref: "/host-your-retreat-cantabria",
   },
   es: {
     title: "Círculo de organizadores de retiros — Retreat Hosts",
@@ -233,6 +233,6 @@ export const HOSTS_CIRCLE_COPY = {
     formPending: "Formulario de participación próximamente",
     formNote: "Las inscripciones aún no están abiertas. Aquí añadiremos el formulario y los detalles de participación.",
     venueLink: "Conoce el espacio Origen",
-    venueHref: "/espacio-retiros-cantabria",
+    venueHref: "/organiza-tu-retiro-cantabria",
   },
 } as const satisfies Record<Language, CircleCopy>;

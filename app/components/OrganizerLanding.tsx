@@ -8,9 +8,9 @@ import { InstagramLink } from "./InstagramLink";
 export function OrganizerLanding({ slug }: { slug: OrganizerSlug }) {
   const copy = organizerPages[slug];
   const spanish = copy.language === "es";
-  const overview = spanish ? "/retiros-cantabria" : "/retreats-spain";
+  const overview = spanish ? "/retiros" : "/retreats";
   const faq = spanish ? "/retiros-cantabria/preguntas-frecuentes" : "/retreats-spain/faq";
-  const commercialPage = spanish ? "/retiros-en-cantabria" : "/host-your-retreat";
+  const commercialPage = spanish ? "/organiza-tu-retiro-cantabria" : "/host-your-retreat-cantabria";
   const url = `${PUBLIC_SITE_URL}/${slug}`;
   const structuredData = {
     "@context": "https://schema.org",
@@ -47,7 +47,7 @@ export function OrganizerLanding({ slug }: { slug: OrganizerSlug }) {
         <GatewayBrandLink className="retreat-public-brand" label={spanish ? "Origen — volver a la entrada" : "Origen — return to the gateway"} variant="black" />
         <nav aria-label={spanish ? "Navegación" : "Navigation"}>
           <Link href={overview}>{spanish ? "El espacio" : "The space"}</Link>
-          <Link className="organizer-header-cta" href={slug === "organizar-retiro" || slug === "host-your-retreat" ? "#host" : commercialPage}>
+          <Link className="organizer-header-cta" href={slug === "organiza-tu-retiro-cantabria" || slug === "host-your-retreat-cantabria" ? "#host" : commercialPage}>
             <span aria-hidden="true" />{spanish ? "Organizar" : "Host"}
           </Link>
           {copy.alternate ? (
@@ -156,7 +156,7 @@ export function OrganizerLanding({ slug }: { slug: OrganizerSlug }) {
         <div>
           <p>{spanish ? "Retiros · Residencias · Grupos privados" : "Retreats · Residencies · Private groups"}</p>
           {!copy.alternate ? (
-            <Link className="organizer-other-language" href={spanish ? "/retreats-spain" : "/retiros-cantabria"} lang={spanish ? "en" : "es"}>
+            <Link className="organizer-other-language" href={spanish ? "/host-your-retreat-cantabria" : "/organiza-tu-retiro-cantabria"} lang={spanish ? "en" : "es"}>
               {spanish ? "Discover Origen in English" : "Conoce Origen en español"}
             </Link>
           ) : null}

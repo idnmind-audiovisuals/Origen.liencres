@@ -1,19 +1,13 @@
 import type { Metadata } from "next";
-import { HomeSectionPlaceholder } from "../components/HomeSectionPlaceholder";
+import { EventOrganizerLanding } from "../components/EventOrganizerLanding";
 
 export const metadata: Metadata = {
-  title: "Eventos — Origen Liencres",
-  description:
-    "Próximos encuentros y eventos en Origen Liencres, Cantabria.",
-  alternates: { canonical: "/eventos-bienestar-cantabria" },
+  title: "Organizar eventos de bienestar en Cantabria | Origen",
+  description: "Espacio íntimo en Liencres para organizadores, facilitadores y marcas que producen eventos privados de bienestar y comunidad en Cantabria.",
+  alternates: { canonical: "/eventos-bienestar-cantabria", languages: { "es-ES": "/eventos-bienestar-cantabria", en: "/wellness-events-cantabria", "x-default": "/eventos-bienestar-cantabria" } },
+  robots: { index: true, follow: true },
 };
 
-export default function EventsPage() {
-  return (
-    <HomeSectionPlaceholder
-      eyebrow="Eventos"
-      title="Próximos encuentros en Origen."
-      description="Estamos preparando la agenda. Las nuevas fechas y propuestas aparecerán aquí."
-    />
-  );
+export default function WellnessEventsCantabriaPage() {
+  return <EventOrganizerLanding language="es" />;
 }

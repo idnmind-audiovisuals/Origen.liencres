@@ -1,8 +1,5 @@
-import { OrganizerLanding } from "../components/OrganizerLanding";
-import { organizerMetadata } from "../lib/organizer-content";
+import { permanentRedirect } from "next/navigation";
 
-export const metadata = organizerMetadata("host-your-retreat");
-
-export default function HostYourRetreatPage() {
-  return <OrganizerLanding slug="host-your-retreat" />;
+export default function LegacyHostYourRetreatPage() {
+  permanentRedirect("/host-your-retreat-cantabria");
 }

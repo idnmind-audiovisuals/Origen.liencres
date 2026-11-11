@@ -14,20 +14,24 @@ import {
   GATEWAY_MOTION,
 } from "../lib/gateway-motion";
 import { localizedHref, type Language } from "../lib/language";
-import { RESIDENCY_COPY, SPACE_COPY } from "../lib/site-copy";
+import {
+  RESIDENCY_COPIES,
+  SPACE_COPY,
+  type ResidencyFocus,
+} from "../lib/site-copy";
 
 type OpenedStateProps = {
   development: boolean;
   initialLanguage: Language;
   onReset?: () => void;
+  residencyFocus?: ResidencyFocus;
+  residencyLanguageHrefs?: Record<Language, string>;
   variant: "residency" | "space";
 };
 
 const SPACE_URL =
   "https://es-l.airbnb.com/rooms/23250801?source_impression_id=p3_1785061106_P3QhtYkp0415WTpb&modal=PHOTO_TOUR_SCROLLABLE";
 const MAPS_URL = "https://maps.app.goo.gl/CcDJ15DKT4QvTdW4A";
-const RESIDENCY_APPLICATION_FORM_URL =
-  "https://docs.google.com/forms/d/e/1FAIpQLScHDNpewNDGJQalw3Dvpz3hm2RzsIV1bdzRrpRHZ3ShApJJEA/viewform?usp=publish-editor";
 const SPACE_APPLICATION_FORM_URL =
   "https://docs.google.com/forms/d/e/1FAIpQLSf9DrIbIV4OKiswKQhuKsssMyVvuP_l8CROR0ijH0_WUQSpIw/viewform?usp=publish-editor";
 const WHATSAPP_URL =
@@ -37,6 +41,8 @@ export function OpenedState({
   development,
   initialLanguage,
   onReset,
+  residencyFocus = "artistic",
+  residencyLanguageHrefs,
   variant,
 }: OpenedStateProps) {
   const pageRef = useRef<HTMLElement>(null);
@@ -44,11 +50,10 @@ export function OpenedState({
   const { language, changeLanguage } =
     usePersistentLanguage(initialLanguage);
   const copy =
-    variant === "space" ? SPACE_COPY[language] : RESIDENCY_COPY[language];
-  const applicationFormUrl =
     variant === "space"
-      ? SPACE_APPLICATION_FORM_URL
-      : RESIDENCY_APPLICATION_FORM_URL;
+      ? SPACE_COPY[language]
+      : RESIDENCY_COPIES[residencyFocus][language];
+  const applicationFormUrl = SPACE_APPLICATION_FORM_URL;
   const backgroundDuration = reducedMotion
     ? GATEWAY_MOTION.opened.reducedBackgroundDuration
     : GATEWAY_MOTION.opened.backgroundDuration;
@@ -76,10 +81,28 @@ export function OpenedState({
       return;
     }
 
-    document.title = language === "es"
-      ? "Residencia Origen — Liencres"
-      : "Origen Residency — Liencres";
-  }, [language, variant]);
+    const residencyTitles: Record<ResidencyFocus, Record<Language, string>> = {
+      artistic: {
+        es: "Residencias artísticas en Cantabria — Origen",
+        en: "Artist Residencies in Cantabria — Origen",
+      },
+      coworking: {
+        es: "Residencias coworking en Cantabria — Origen",
+        en: "Coworking Residencies in Cantabria — Origen",
+      },
+      entrepreneur: {
+        es: "Residencias emprendedoras en Cantabria — Origen",
+        en: "Entrepreneur Residencies in Cantabria — Origen",
+      },
+    };
+    document.title = residencyTitles[residencyFocus][language];
+  }, [language, residencyFocus, variant]);
+
+  const handleLanguageChange = (nextLanguage: Language) => {
+    changeLanguage(nextLanguage);
+    const destination = residencyLanguageHrefs?.[nextLanguage];
+    if (destination) window.location.assign(destination);
+  };
 
   return (
     <motion.main
@@ -130,7 +153,7 @@ export function OpenedState({
             </p>
             <LanguageToggle
               language={language}
-              onChange={changeLanguage}
+              onChange={handleLanguageChange}
             />
           </div>
         </header>
@@ -168,7 +191,7 @@ export function OpenedState({
             >
               <span>
                 <small>{copy.joinEyebrow}</small>
-                <strong>{variant === "residency" ? "JOIN" : copy.join}</strong>
+                <strong>{copy.join}</strong>
               </span>
               <span className="external-link-dot" aria-hidden="true" />
             </a>

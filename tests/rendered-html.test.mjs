@@ -6,10 +6,8 @@ import { calculateRetreatQuote } from "../app/lib/retreat-pricing.ts";
 const templateRoot = new URL("../", import.meta.url);
 
 const genericOrganizerRoutes = [
-  { slug: "retreat-venue-spain", language: "en", heading: "Retreat venue in Spain.", alternate: "espacio-retiros-cantabria" },
-  { slug: "espacio-retiros-cantabria", language: "es", heading: "Tu retiro en Cantabria.", alternate: "retreat-venue-spain" },
-  { slug: "creative-residency-spain", language: "en", heading: "Space for a creative residency." },
-  { slug: "host-your-retreat", language: "en", heading: "Host your retreat in Cantabria.", alternate: "retiros-en-cantabria" },
+  { slug: "organiza-tu-retiro-cantabria", language: "es", heading: "Organiza tu retiro en Origen.", alternate: "host-your-retreat-cantabria" },
+  { slug: "host-your-retreat-cantabria", language: "en", heading: "Host your retreat in Cantabria.", alternate: "organiza-tu-retiro-cantabria" },
 ];
 
 const organizerRoutes = [
@@ -73,15 +71,27 @@ test("publishes focused SEO crawl directives", async () => {
   assert.match(sitemapResponse.headers.get("content-type") ?? "", /xml/i);
   const sitemap = await sitemapResponse.text();
   assert.match(sitemap, /https:\/\/www\.origenliencres\.com\//i);
-  assert.match(sitemap, /\/retiros-cantabria/i);
-  assert.match(sitemap, /\/retreats-spain/i);
-  assert.match(sitemap, /\/host-your-retreat/i);
-  assert.match(sitemap, /\/retiros-en-cantabria/i);
+  assert.match(sitemap, /\/organiza-tu-retiro-cantabria/i);
+  assert.match(sitemap, /\/host-your-retreat-cantabria/i);
+  assert.match(sitemap, /<loc>https:\/\/www\.origenliencres\.com\/retiros<\/loc>/i);
+  assert.match(sitemap, /<loc>https:\/\/www\.origenliencres\.com\/retreats<\/loc>/i);
   assert.match(sitemap, /\/circulo-de-hombres-cantabria/i);
   assert.match(sitemap, /\/circulo-de-mujeres-cantabria/i);
-  assert.match(sitemap, /\/residencia/i);
+  for (const residencyPath of [
+    "/residencias",
+    "/residencies",
+    "/residencias-artisticas-cantabria",
+    "/artist-residencies-cantabria",
+    "/residencias-coworking-cantabria",
+    "/coworking-residencies-cantabria",
+    "/residencias-emprendedoras-cantabria",
+    "/entrepreneur-residencies-cantabria",
+  ]) {
+    assert.match(sitemap, new RegExp(residencyPath));
+  }
   assert.match(sitemap, /\/eventos-bienestar-cantabria/i);
-  assert.doesNotMatch(sitemap, /<loc>https:\/\/www\.origenliencres\.com\/(?:retiro|residency|eventos|circulo-de-hombres|circulo-de-mujeres)<\/loc>/i);
+  assert.match(sitemap, /\/wellness-events-cantabria/i);
+  assert.doesNotMatch(sitemap, /<loc>https:\/\/www\.origenliencres\.com\/(?:retiro|residencia|residency|eventos|circulo-de-hombres|circulo-de-mujeres)<\/loc>/i);
   assert.doesNotMatch(sitemap, /<loc>https:\/\/www\.origenliencres\.com\/organizar-retiro<\/loc>/i);
   assert.match(sitemap, /hreflang="es-ES"/i);
   const urls = [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map((match) => match[1]);
@@ -92,7 +102,7 @@ test("publishes focused SEO crawl directives", async () => {
   }
 });
 
-test("publishes four distinct, public editorial organiser pages in the URL's language", async () => {
+test("publishes one canonical organiser retreat page in each language", async () => {
   const titles = new Set();
   const descriptions = new Set();
   for (const route of genericOrganizerRoutes) {
@@ -144,57 +154,31 @@ test("publishes four distinct, public editorial organiser pages in the URL's lan
       assert.ok(html.includes(`href="/${related.slug}"`), `Related page ${related.slug} is reachable`);
     }
   }
-  assert.equal(titles.size, genericOrganizerRoutes.length, "Every intent has a unique title");
-  assert.equal(descriptions.size, genericOrganizerRoutes.length, "Every intent has a unique description");
+  assert.equal(titles.size, genericOrganizerRoutes.length, "Every language has a unique title");
+  assert.equal(descriptions.size, genericOrganizerRoutes.length, "Every language has a unique description");
 });
 
-test("presents the house, availability and secure booking on the Spanish commercial page", async () => {
-  const response = await render("/retiros-en-cantabria");
+test("presents the retreat venue explicitly to organisers", async () => {
+  const response = await render("/organiza-tu-retiro-cantabria");
   assert.equal(response.status, 200);
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
   const html = await response.text();
 
-  assert.match(html, /<main class="retreat-public-page retreat-public-page--esencia booking-page" lang="es">/);
-  assert.match(html, /<h1 id="booking-hero-title">Un espacio para tu retiro<\/h1>/);
-  assert.match(html, /−30 % · Precio de lanzamiento/);
-  assert.match(html, /Para reservas confirmadas durante octubre/);
-  assert.match(html, /class="booking-calendar-offer"/);
-  assert.match(html, /390<!-- --> € por noche · Descuentos y recargos aplicados automáticamente/);
-  assert.doesNotMatch(html, /las promociones no son acumulables/i);
-  assert.equal([...html.matchAll(/<h1\b/g)].length, 1);
-  assert.match(html, /id="galeria"/);
-  assert.equal([...html.matchAll(/<figure\b/g)].length, 5);
-  assert.match(html, /src="\/origen-rebros-bedroom\.jpg"/);
-  assert.match(html, /a0\.muscache\.com\/im\/pictures\/hosting\/Hosting-23250801/);
-  assert.match(html, /9 huéspedes/);
-  assert.match(html, /3 habitaciones · 7 camas · 2 baños · 1 shala · salón común/);
-  assert.match(html, /Un espacio íntimo para tu grupo/);
-  assert.doesNotMatch(html, /Origen · Un espacio privado para tu grupo/);
-  assert.doesNotMatch(html, /id="booking-details-title"/);
-  assert.doesNotMatch(html, /id="booking-rooms-title"/);
-  assert.doesNotMatch(html, /id="booking-amenities-title"/);
-  assert.match(html, /id="booking-host-title"/);
-  assert.match(html, /src="\/origen-host-mark\.png"/);
-  assert.doesNotMatch(html, /id="booking-reviews-title"/);
-  assert.match(html, /Reseñas verificadas en Airbnb/);
-  assert.match(html, /id="reservar"/);
-  assert.match(html, /Encuentra tus fechas\./);
-  assert.match(html, /Reserva la casa completa\./);
-  assert.match(html, /390<!-- --> € por noche/);
-  assert.match(html, /Antes de pagar, confirma las fechas con/);
-  assert.match(html, /href="mailto:origen\.liencres@gmail\.com"/);
-  assert.match(html, /class="booking-date-trigger"/);
-  assert.match(html, /Comprobar en Airbnb/);
-  assert.match(html, /rel="canonical" href="https:\/\/www\.origenliencres\.com\/retiros-en-cantabria"/);
-  assert.match(html, /hrefLang="en" href="https:\/\/www\.origenliencres\.com\/host-your-retreat"/);
+  assert.match(html, /<main class="retreat-public-page retreat-public-page--esencia organizer-page" lang="es">/);
+  assert.match(html, /<h1 id="organizer-title">Organiza tu retiro en Origen\.<\/h1>/);
+  assert.match(html, /Esta guía es para facilitadores/);
+  assert.match(html, /Tu grupo · tu programa/i);
+  assert.match(html, /El primer paso es una consulta, no una reserva inmediata/);
+  assert.match(html, /Hasta 8 personas alojadas/);
+  assert.match(html, /id="planning"/);
+  assert.match(html, /id="host"/);
+  assert.match(html, /Enviar propuesta|Organiza tu retiro/);
+  assert.doesNotMatch(html, /Precio de lanzamiento|booking-date-trigger|Comprar plaza/i);
+  assert.match(html, /rel="canonical" href="https:\/\/www\.origenliencres\.com\/organiza-tu-retiro-cantabria"/);
+  assert.ok(html.includes(`hrefLang="en" href="${publicOrigin}/host-your-retreat-cantabria"`) || html.includes(`hreflang="en" href="${publicOrigin}/host-your-retreat-cantabria"`));
   assert.match(meta(html, "robots"), /index, follow/);
-  assert.equal(meta(html, "og:url"), `${publicOrigin}/retiros-en-cantabria`);
-  assert.match(meta(html, "og:image"), /a0\.muscache\.com/);
-  const graphs = [...html.matchAll(/<script type="application\/ld\+json">(.*?)<\/script>/gs)].map((match) => JSON.parse(match[1]));
-  const graph = graphs.find((data) => data["@graph"]?.some((item) => item["@id"] === `${publicOrigin}/retiros-en-cantabria#page`));
-  assert.ok(graph, "Booking page structured data is valid JSON");
-  assert.ok(graph["@graph"].some((item) => item["@type"] === "Service"));
-  assert.ok(graph["@graph"].some((item) => item["@type"] === "LodgingBusiness"));
+  assert.equal(meta(html, "og:url"), `${publicOrigin}/organiza-tu-retiro-cantabria`);
+  assert.match(html, /"@type":"Service"/);
 });
 
 test("quotes the same length discounts and peak-season surcharge shown at checkout", () => {
@@ -277,12 +261,17 @@ test("keeps Airbnb and Stripe credentials server-side and degrades safely before
   assert.equal(invalidSession.status, 400);
 });
 
-test("connects the existing discovery pages to all organiser pages", async () => {
-  for (const [path, language] of [["/retiros-cantabria", "es"], ["/retreats-spain", "en"]]) {
-    const html = await (await render(path)).text();
-    for (const { slug } of organizerRoutes.filter((route) => route.language === language)) {
-      assert.ok(html.includes(`href="/${slug}"`), `${path} links to /${slug}`);
+test("connects the residency hubs to every organiser-focused subpage", async () => {
+  for (const [path, language] of [["/residencias", "es"], ["/residencies", "en"]]) {
+    const response = await render(path);
+    assert.equal(response.status, 200);
+    const html = await response.text();
+    for (const residencyPath of language === "es"
+      ? ["residencias-artisticas-cantabria", "residencias-coworking-cantabria", "residencias-emprendedoras-cantabria"]
+      : ["artist-residencies-cantabria", "coworking-residencies-cantabria", "entrepreneur-residencies-cantabria"]) {
+      assert.ok(html.includes(`href="/${residencyPath}"`), `${path} links to /${residencyPath}`);
     }
+    assert.match(html, language === "es" ? /quienes organizan/i : /for organisers/i);
     assert.doesNotMatch(html, /href="\/retreat-organizers-circle"/);
   }
 });
@@ -295,7 +284,25 @@ test("keeps the monthly organisers' circle out of public discovery", async () =>
 });
 
 test("publishes the home menu destinations while keeping specialist pages private", async () => {
-  for (const path of ["/", "/circulo-de-hombres-cantabria", "/circulo-de-mujeres-cantabria", "/residencia", "/retiros-en-cantabria", "/eventos-bienestar-cantabria"]) {
+  for (const path of [
+    "/",
+    "/circulo-de-hombres-cantabria",
+    "/circulo-de-mujeres-cantabria",
+    "/residencias",
+    "/residencies",
+    "/residencias-artisticas-cantabria",
+    "/artist-residencies-cantabria",
+    "/residencias-coworking-cantabria",
+    "/coworking-residencies-cantabria",
+    "/residencias-emprendedoras-cantabria",
+    "/entrepreneur-residencies-cantabria",
+    "/retiros",
+    "/retreats",
+    "/organiza-tu-retiro-cantabria",
+    "/host-your-retreat-cantabria",
+    "/eventos-bienestar-cantabria",
+    "/wellness-events-cantabria",
+  ]) {
     const response = await render(path);
     assert.equal(response.status, 200, `${path} is public`);
   }
@@ -304,6 +311,87 @@ test("publishes the home menu destinations while keeping specialist pages privat
     assert.equal(response.status, 307, `${path} requires an access session`);
     assert.equal(new URL(response.headers.get("location"), "http://localhost").href, "http://localhost/");
   }
+});
+
+test("publishes three distinct residency intents in Spanish and English", async () => {
+  for (const [spanishPath, englishPath, spanishHeading, englishHeading] of [
+    ["/residencias-artisticas-cantabria", "/artist-residencies-cantabria", "Residencias", "Artistic"],
+    ["/residencias-coworking-cantabria", "/coworking-residencies-cantabria", "Coworking", "Coworking"],
+    ["/residencias-emprendedoras-cantabria", "/entrepreneur-residencies-cantabria", "Emprendedoras", "Entrepreneur"],
+  ]) {
+    const [spanishResponse, englishResponse] = await Promise.all([
+      render(spanishPath),
+      render(englishPath),
+    ]);
+    assert.equal(spanishResponse.status, 200, spanishPath);
+    assert.equal(englishResponse.status, 200, englishPath);
+    const [spanish, english] = await Promise.all([
+      spanishResponse.text(),
+      englishResponse.text(),
+    ]);
+    assert.match(spanish, new RegExp(spanishHeading, "i"));
+    assert.match(english, new RegExp(englishHeading, "i"));
+    assert.match(spanish, new RegExp(`rel="canonical" href="${publicOrigin}${spanishPath}"`));
+    assert.match(english, new RegExp(`rel="canonical" href="${publicOrigin}${englishPath}"`));
+    assert.ok(spanish.includes(`hrefLang="en" href="${publicOrigin}${englishPath}"`) || spanish.includes(`hreflang="en" href="${publicOrigin}${englishPath}"`));
+    assert.ok(english.includes(`hrefLang="es-ES" href="${publicOrigin}${spanishPath}"`) || english.includes(`hreflang="es-ES" href="${publicOrigin}${spanishPath}"`));
+    assert.match(spanish, /"@type":"Service"/);
+    assert.match(english, /"@type":"Service"/);
+    assert.match(spanish, /organizadores|organizas|quien organiza/i);
+    assert.match(english, /organisers|organizers|you organise/i);
+    assert.match(spanish, /Tu grupo · tu programa|Tu grupo · tu ritmo/i);
+    assert.match(english, /Your group · your programme|Your cohort · your rhythm|Your cohort · your programme/i);
+    assert.match(spanish, /1FAIpQLSf9DrIbIV4OKiswKQhuKsssMyVvuP_l8CROR0ijH0_WUQSpIw/);
+  }
+});
+
+test("publishes a search-focused retreat centre page and English counterpart", async () => {
+  const [spanishResponse, englishResponse] = await Promise.all([
+    render("/retiros"),
+    render("/retreats"),
+  ]);
+  assert.equal(spanishResponse.status, 200);
+  assert.equal(englishResponse.status, 200);
+  const [spanish, english] = await Promise.all([
+    spanishResponse.text(),
+    englishResponse.text(),
+  ]);
+
+  assert.match(spanish, /<h1 id="retreat-public-title">Centro y espacio para retiros en Cantabria<\/h1>/i);
+  assert.match(meta(spanish, "description"), /centro y espacio privado para organizar retiros en Cantabria/i);
+  assert.match(spanish, /facilitadores y organizadores que traen su propio grupo y programa/i);
+  assert.match(spanish, /rel="canonical" href="https:\/\/www\.origenliencres\.com\/retiros"/i);
+  assert.ok(spanish.includes(`hrefLang="en" href="${publicOrigin}/retreats"`) || spanish.includes(`hreflang="en" href="${publicOrigin}/retreats"`));
+  assert.match(spanish, /href="\/organiza-tu-retiro-cantabria"/i);
+  assert.match(spanish, /"@type":"Service"/);
+  assert.match(spanish, /"audienceType":"Facilitadores y organizadores de retiros"/);
+
+  assert.match(english, /<h1 id="retreat-public-title">Retreat Venue in Northern Spain<\/h1>/i);
+  assert.match(english, /organisers bringing their own group and programme/i);
+  assert.match(english, /rel="canonical" href="https:\/\/www\.origenliencres\.com\/retreats"/i);
+  assert.ok(english.includes(`hrefLang="es-ES" href="${publicOrigin}/retiros"`) || english.includes(`hreflang="es-ES" href="${publicOrigin}/retiros"`));
+  assert.match(english, /href="\/host-your-retreat-cantabria"/i);
+});
+
+test("provides a private local dashboard for the men's circle process", async () => {
+  const response = await render("/circulo-de-hombres-cantabria/dashboard");
+  assert.equal(response.status, 200);
+  const html = await response.text();
+  assert.match(html, /Tu proceso,/i);
+  assert.match(html, /Registro de sesiones/i);
+  assert.match(html, /Intenciones y temas a trabajar/i);
+  assert.match(html, /Reflexiones generales/i);
+  assert.match(html, /Lo que puedo ofrecer/i);
+  assert.match(html, /El apoyo que necesito/i);
+  assert.match(meta(html, "robots"), /noindex, nofollow/i);
+
+  const [dashboard, circle] = await Promise.all([
+    readFile(new URL("../app/components/MensCircleDashboard.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/components/BrosState.tsx", import.meta.url), "utf8"),
+  ]);
+  assert.match(dashboard, /window\.localStorage/);
+  assert.match(dashboard, /origen-bros-dashboard-v1/);
+  assert.match(circle, /href="\/circulo-de-hombres-cantabria\/dashboard"/);
 });
 
 test("publishes the warm weekly women’s circle page", async () => {
@@ -402,70 +490,34 @@ test("uses the approved horizontal wordmarks on every page header", async () => 
   assert.doesNotMatch(experienceRule[1], /filter:/, "The dark experience header is unchanged");
 });
 
-test("publishes indexable Spanish and English retreat pages", async () => {
-  const [spanishResponse, englishResponse, spanishFaqResponse, englishFaqResponse, hostResponse] =
-    await Promise.all([
-      render("/retiros-cantabria"),
-      render("/retreats-spain"),
-      render("/retiros-cantabria/preguntas-frecuentes"),
-      render("/retreats-spain/faq"),
-      render("/host-your-retreat"),
-    ]);
+test("publishes indexable organiser pages for retreats and events in both languages", async () => {
+  const routes = [
+    ["/organiza-tu-retiro-cantabria", /Organiza tu retiro en Origen/i, /facilitadores que tienen una práctica/i],
+    ["/host-your-retreat-cantabria", /Host your retreat in Cantabria/i, /facilitators and retreat leaders/i],
+    ["/eventos-bienestar-cantabria", /Organiza tu evento de bienestar en Cantabria/i, /quien organiza, facilita y reúne/i],
+    ["/wellness-events-cantabria", /Host your wellness event in Cantabria/i, /person organising, facilitating and bringing/i],
+  ];
 
-  for (const response of [spanishResponse, englishResponse, spanishFaqResponse, englishFaqResponse, hostResponse]) {
-    assert.equal(response.status, 200);
-    assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
+  for (const [path, heading, organiserCopy] of routes) {
+    const response = await render(path);
+    assert.equal(response.status, 200, path);
+    const html = await response.text();
+    assert.match(html, heading);
+    assert.match(html, organiserCopy);
+    assert.match(html, /1FAIpQLSf9DrIbIV4OKiswKQhuKsssMyVvuP_l8CROR0ijH0_WUQSpIw/);
+    assert.match(html, /"@type":"Service"/);
+    assert.match(meta(html, "robots"), /index, follow/);
+    assert.match(html, new RegExp(`rel="canonical" href="${publicOrigin}${path}"`));
   }
 
-  const [spanish, english, spanishFaq, englishFaq, host] = await Promise.all([
-    spanishResponse.text(),
-    englishResponse.text(),
-    spanishFaqResponse.text(),
-    englishFaqResponse.text(),
-    hostResponse.text(),
+  const [spanishFaq, englishFaq] = await Promise.all([
+    (await render("/retiros-cantabria/preguntas-frecuentes")).text(),
+    (await render("/retreats-spain/faq")).text(),
   ]);
-
-  assert.match(spanish, /Espacio para retiros en Cantabria/i);
-  assert.match(spanish, /Origen es un espacio para organizar retiros en Cantabria/i);
-  assert.match(spanish, /Organiza tu retiro/i);
-  assert.doesNotMatch(spanish, /Host your retreat/i);
-  assert.match(spanish, />Organizar</i);
-  assert.match(
-    spanish,
-    /https:\/\/docs\.google\.com\/forms\/d\/e\/1FAIpQLSf9DrIbIV4OKiswKQhuKsssMyVvuP_l8CROR0ijH0_WUQSpIw\/viewform\?usp=publish-editor/i,
-  );
-  assert.match(spanish, />Google Maps</i);
-  assert.match(spanish, />Preguntas frecuentes</i);
-  assert.match(spanish, /retreat-public-page--esencia/i);
-  assert.doesNotMatch(spanish, /<figure\b/i);
-  assert.match(spanish, /rel="canonical" href="https:\/\/www\.origenliencres\.com\/retiros-cantabria"/i);
-  assert.match(spanish, /hreflang="en" href="https:\/\/www\.origenliencres\.com\/retreats-spain"/i);
-  assert.match(english, /Retreat Venue in Northern Spain/i);
-  assert.match(english, /small coastal retreat venue in Spain/i);
-  assert.match(english, /Planning your retreat/i);
-  assert.match(english, /retreats-spain-costa-quebrada\.jpg/i);
-  assert.match(english, /retreats-spain-coastal-beach\.jpg/i);
-  assert.doesNotMatch(english, /<img[^>]+src="\/experience-(?:coast|forest)\.webp"/i);
-  assert.match(spanish, /Cómo organizar tu retiro/i);
-  assert.match(spanishFaq, /¿Dónde puedo organizar un retiro cerca de Santander\?/i);
-  assert.match(spanishFaq, /Detalles prácticos del espacio\./i);
-  assert.match(spanishFaq, /Alojamiento para el grupo/i);
-  assert.match(spanishFaq, /Shala abierta a la naturaleza/i);
-  assert.match(spanishFaq, /Costa y bosque/i);
-  assert.match(spanishFaq, /Cerca de Santander/i);
-  assert.match(spanishFaq, /¿Se trata de un retiro programado o de un espacio\?/i);
   assert.match(spanishFaq, /Esta página está dirigida a organizadores que traen su propio grupo y programa/i);
-  assert.match(spanishFaq, /href="\/retiros-en-cantabria"/i);
-  assert.match(spanishFaq, /href="\/espacio-retiros-cantabria"/i);
-  assert.match(spanishFaq, /es-l\.airbnb\.com\/rooms\/23250801/i);
-  assert.match(spanishFaq, /maps\.app\.goo\.gl\/CcDJ15DKT4QvTdW4A/i);
-  assert.match(spanishFaq, /"@type":"FAQPage"/i);
-  assert.match(englishFaq, /Where can I host a retreat near Santander\?/i);
-  assert.match(englishFaq, /Practical venue details\./i);
+  assert.match(spanishFaq, /href="\/organiza-tu-retiro-cantabria"/i);
   assert.match(englishFaq, /Is this a scheduled retreat or a venue\?/i);
-  assert.match(englishFaq, /"@type":"FAQPage"/i);
-  assert.match(host, /Host your retreat in Cantabria/i);
-  assert.match(host, /Private retreat venue hire at Origen Liencres/i);
+  assert.match(englishFaq, /href="\/host-your-retreat-cantabria"/i);
 });
 
 test("server-renders the Origen gateway", async () => {
@@ -503,7 +555,7 @@ test("both gateway variants complete automatically into the public home", async 
     readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),
   ]);
   assert.match(home, /A space of possibilities\./);
-  assert.match(home, /href="\/retiros-en-cantabria#reservar"/);
+  assert.match(home, /href="\/organiza-tu-retiro-cantabria#host"/);
   assert.match(home, /origen-rebros-house-exterior\.avif/);
   assert.match(home, /9 guests · 3 bedrooms · 1 shala/);
   assert.match(home, /<HomeNavigation/);
@@ -512,21 +564,24 @@ test("both gateway variants complete automatically into the public home", async 
   for (const [href, label] of [
     ["/circulo-de-hombres-cantabria", "Círculo de hombres"],
     ["/circulo-de-mujeres-cantabria", "Círculo de mujeres"],
-    ["/residencia", "Residencias"],
-    ["/retiros-en-cantabria", "Retiros"],
+    ["/residencias", "Residencias"],
+    ["/retiros", "Retiros"],
     ["/eventos-bienestar-cantabria", "Eventos"],
   ]) {
     assert.match(navigation, new RegExp(`href: "${href}", label: "${label}"`));
   }
 });
 
-test("consolidates the duplicate Spanish organiser route", async () => {
-  for (const legacyRoute of ["/espacio-retiros", "/organizar-retiro"]) {
+test("consolidates duplicate Spanish retreat routes by search intent", async () => {
+  for (const [legacyRoute, destination] of [
+    ["/espacio-retiros", "/retiros"],
+    ["/organizar-retiro", "/organiza-tu-retiro-cantabria"],
+  ]) {
     const response = await render(legacyRoute);
     assert.equal(response.status, 308);
     assert.equal(
       new URL(response.headers.get("location"), "http://localhost").href,
-      "http://localhost/retiros-en-cantabria",
+      `http://localhost${destination}`,
     );
   }
   const sitemap = await (await render("/sitemap.xml")).text();
@@ -535,8 +590,16 @@ test("consolidates the duplicate Spanish organiser route", async () => {
 
 test("permanently redirects every renamed public route", async () => {
   for (const [legacyRoute, destination] of [
-    ["/residency", "/residencia"],
-    ["/retiro", "/retiros-en-cantabria"],
+    ["/residencia", "/residencias"],
+    ["/residency", "/residencies"],
+    ["/retiro", "/retiros"],
+    ["/retiros-en-cantabria", "/retiros"],
+    ["/retiros-cantabria", "/retiros"],
+    ["/espacio-retiros-cantabria", "/retiros"],
+    ["/host-your-retreat", "/host-your-retreat-cantabria"],
+    ["/retreats-spain", "/retreats"],
+    ["/retreat-venue-spain", "/retreats"],
+    ["/creative-residency-spain", "/artist-residencies-cantabria"],
     ["/eventos", "/eventos-bienestar-cantabria"],
     ["/circulo-de-hombres", "/circulo-de-hombres-cantabria"],
     ["/circulo-de-mujeres", "/circulo-de-mujeres-cantabria"],
@@ -572,7 +635,7 @@ test("keeps all access keys server-only and destination-scoped", async () => {
     readFile(new URL("../app/sitemap.ts", import.meta.url), "utf8"),
     readFile(new URL("../app/circulo-de-hombres-cantabria/page.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/bros/page.tsx", import.meta.url), "utf8"),
-    readFile(new URL("../app/residencia/page.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/residencias-artisticas-cantabria/page.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/space/page.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/experience/page.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/retirobros/page.tsx", import.meta.url), "utf8"),
@@ -586,8 +649,8 @@ test("keeps all access keys server-only and destination-scoped", async () => {
   assert.match(origenHome, /Book the space/);
   assert.match(homeNavigation, /href: "\/circulo-de-hombres-cantabria"/);
   assert.match(homeNavigation, /href: "\/circulo-de-mujeres-cantabria"/);
-  assert.match(homeNavigation, /href: "\/residencia"/);
-  assert.match(homeNavigation, /href: "\/retiros-en-cantabria"/);
+  assert.match(homeNavigation, /href: "\/residencias"/);
+  assert.match(homeNavigation, /href: "\/retiros"/);
   assert.match(homeNavigation, /href: "\/eventos-bienestar-cantabria"/);
   assert.match(route, /matchAccessKey/);
   assert.match(route, /destination/);
@@ -621,16 +684,12 @@ test("keeps all access keys server-only and destination-scoped", async () => {
   assert.match(bros, /no renueva el pago automáticamente/);
   assert.match(
     invitation,
-    /https:\/\/docs\.google\.com\/forms\/d\/e\/1FAIpQLScHDNpewNDGJQalw3Dvpz3hm2RzsIV1bdzRrpRHZ3ShApJJEA\/viewform\?usp=publish-editor["']/,
-  );
-  assert.match(
-    invitation,
     /https:\/\/docs\.google\.com\/forms\/d\/e\/1FAIpQLSf9DrIbIV4OKiswKQhuKsssMyVvuP_l8CROR0ijH0_WUQSpIw\/viewform\?usp=publish-editor["']/,
   );
-  assert.match(invitation, /href=\{applicationFormUrl\}[\s\S]*variant === "residency" \? "JOIN" : copy\.join/);
+  assert.match(invitation, /href=\{applicationFormUrl\}[\s\S]*<strong>\{copy\.join\}<\/strong>/);
   assert.match(
     siteCopy,
-    /export const RESIDENCY_COPY =[\s\S]*join: "JOIN"[\s\S]*export const SPACE_COPY =[\s\S]*join: "HOST"/,
+    /export const RESIDENCY_COPY =[\s\S]*join: "ENVIAR PROPUESTA"[\s\S]*export const SPACE_COPY =[\s\S]*join: "HOST"/,
   );
   assert.match(siteCopy, /A retreat space designed for deep connection/);
   assert.match(siteCopy, /A home for 8ppl retreats/);

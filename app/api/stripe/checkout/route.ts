@@ -159,8 +159,8 @@ export async function POST(request: Request) {
   const kindLabel = body.kind === "retreat_full" ? "full_stay" : "deposit";
   const params = new URLSearchParams({
     mode: "payment",
-    success_url: `${PUBLIC_SITE_URL}/retiros-en-cantabria?payment_session={CHECKOUT_SESSION_ID}#reservar`,
-    cancel_url: `${PUBLIC_SITE_URL}/retiros-en-cantabria?payment=cancelled#reservar`,
+    success_url: `${PUBLIC_SITE_URL}/organiza-tu-retiro-cantabria?payment_session={CHECKOUT_SESSION_ID}#host`,
+    cancel_url: `${PUBLIC_SITE_URL}/organiza-tu-retiro-cantabria?payment=cancelled#host`,
     submit_type: "book",
     customer_creation: "always",
     client_reference_id: `origen-${arrival}-${departure}-${kindLabel}`,
