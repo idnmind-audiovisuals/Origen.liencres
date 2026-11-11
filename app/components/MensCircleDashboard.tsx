@@ -147,7 +147,7 @@ export function MensCircleDashboard() {
     <main className="bros-dashboard-page">
       <header className="bros-dashboard-header">
         <GatewayBrandLink className="bros-dashboard-brand" label="Origen Bros" />
-        <div><span>Espacio personal</span><Link href="/circulo-de-hombres-cantabria">Volver al círculo</Link></div>
+        <div><span>Espacio personal</span><Link href="/circulo-de-hombres-cantabria">Salir del dashboard</Link></div>
       </header>
 
       <section className="bros-dashboard-hero" aria-labelledby="dashboard-title">
@@ -156,7 +156,7 @@ export function MensCircleDashboard() {
       </section>
 
       <nav className="bros-dashboard-nav" aria-label="Secciones del dashboard">
-        <a href="#sesiones">Sesiones</a><a href="#intenciones">Intenciones</a><a href="#reflexiones">Reflexiones</a><a href="#inspiraciones">Inspiraciones</a><a href="#apoyo">Apoyo</a>
+        <a href="#sesiones">Sesiones</a><a href="#intenciones">Intenciones</a><a href="#reflexiones">Reflexiones</a><a href="#inspiraciones">Inspiraciones</a><a href="#apoyo">Apoyo</a><Link className="bros-dashboard-nav-exit" href="/circulo-de-hombres-cantabria">Salir</Link>
       </nav>
 
       <section className="bros-dashboard-stats" aria-label="Resumen del proceso">

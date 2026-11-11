@@ -383,6 +383,8 @@ test("provides a private local dashboard for the men's circle process", async ()
   assert.match(html, /Reflexiones generales/i);
   assert.match(html, /Lo que puedo ofrecer/i);
   assert.match(html, /El apoyo que necesito/i);
+  assert.match(html, /Salir del dashboard/i);
+  assert.match(html, /href="\/circulo-de-hombres-cantabria" class="bros-dashboard-nav-exit">Salir<\/a>/i);
   assert.match(meta(html, "robots"), /noindex, nofollow/i);
 
   const [dashboard, circle] = await Promise.all([

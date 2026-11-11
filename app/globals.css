@@ -6249,6 +6249,11 @@ button {
   transition: color 180ms ease, background 180ms ease;
 }
 .bros-dashboard-nav a:hover { color: var(--dashboard-ink); background: rgb(255 255 255 / 0.05); }
+.bros-dashboard-nav .bros-dashboard-nav-exit {
+  margin-left: auto;
+  color: var(--dashboard-ink);
+  border-left: 1px solid var(--dashboard-line);
+}
 
 .bros-dashboard-stats {
   display: grid;
@@ -6386,6 +6391,7 @@ button {
   .bros-dashboard-session-form > button { grid-column: auto; }
   .bros-dashboard-session-form > button { width: 100%; }
   .bros-dashboard-inline-form { grid-template-columns: 1fr; }
+  .bros-dashboard-nav .bros-dashboard-nav-exit { margin-left: 12px; }
   .bros-dashboard-inline-form button { width: 100%; }
   .bros-dashboard-session-list article header { display: grid; }
   .bros-dashboard-support-grid { grid-template-columns: 1fr; gap: 0; }
