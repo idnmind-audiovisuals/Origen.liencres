@@ -6148,6 +6148,7 @@ button {
     linear-gradient(145deg, #151513, #0e0f10 55%, #14171a);
   font-family: "Montserrat Variable", Montserrat, sans-serif;
   color-scheme: dark;
+  scroll-behavior: smooth;
 }
 
 .bros-dashboard-page :where(a, button, input, select, textarea):focus-visible {
@@ -6336,6 +6337,13 @@ button {
   cursor: pointer;
 }
 .bros-dashboard-session-form > button { grid-column: 1 / -1; justify-self: start; min-width: 190px; }
+.bros-dashboard-form-error {
+  grid-column: 1 / -1;
+  margin: 0;
+  color: #f1aaa4;
+  font-size: 12px;
+  line-height: 1.5;
+}
 
 .bros-dashboard-session-list { display: grid; gap: 1px; margin-top: 32px; background: var(--dashboard-line); }
 .bros-dashboard-session-list article { padding: clamp(24px, 4vw, 54px); background: #111314; }
@@ -6356,6 +6364,38 @@ button {
 
 .bros-dashboard-journal { display: grid; gap: 20px; max-width: 960px; }
 .bros-dashboard-journal textarea { min-height: 260px; padding: 24px; border: 1px solid var(--dashboard-line); background: rgb(255 255 255 / 0.025); }
+.bros-dashboard-save-note {
+  margin: 16px 0 0;
+  color: var(--dashboard-muted);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+}
+.bros-dashboard-save-note.is-error { color: #f1aaa4; }
+
+.bros-dashboard-back-to-menu {
+  position: fixed;
+  left: clamp(18px, 3vw, 44px);
+  bottom: clamp(18px, 3vw, 38px);
+  z-index: 42;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 44px;
+  padding: 11px 16px;
+  border: 1px solid rgb(247 242 233 / 0.26);
+  color: var(--dashboard-ink);
+  background: rgb(14 15 16 / 0.84);
+  box-shadow: 0 12px 32px rgb(0 0 0 / 0.24);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  font-size: 10px;
+  font-weight: 650;
+  letter-spacing: 0.1em;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+.bros-dashboard-back-to-menu span { color: #82a9c9; font-size: 15px; }
+.bros-dashboard-back-to-menu:hover { border-color: #82a9c9; }
 
 .bros-dashboard-support-grid {
   display: grid;
@@ -6388,7 +6428,8 @@ button {
   .bros-dashboard-panel h2 { font-size: clamp(40px, 12vw, 58px); }
   .bros-dashboard-session-form { grid-template-columns: 1fr; }
   .bros-dashboard-session-form .is-wide,
-  .bros-dashboard-session-form > button { grid-column: auto; }
+  .bros-dashboard-session-form > button,
+  .bros-dashboard-form-error { grid-column: auto; }
   .bros-dashboard-session-form > button { width: 100%; }
   .bros-dashboard-inline-form { grid-template-columns: 1fr; }
   .bros-dashboard-nav .bros-dashboard-nav-exit { margin-left: 12px; }
@@ -6396,6 +6437,10 @@ button {
   .bros-dashboard-session-list article header { display: grid; }
   .bros-dashboard-support-grid { grid-template-columns: 1fr; gap: 0; }
   .bros-dashboard-footer { display: grid; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bros-dashboard-page { scroll-behavior: auto; }
 }
 
 /* ReBros — Origen on the outside, BROS on the inside. */

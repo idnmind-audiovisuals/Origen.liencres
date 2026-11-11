@@ -94,10 +94,12 @@ function ListSection({
 export function MensCircleDashboard() {
   const [data, setData] = useState<DashboardData>(EMPTY_DATA);
   const [ready, setReady] = useState(false);
+  const [saveStatus, setSaveStatus] = useState<"loading" | "saved" | "error">("loading");
   const [sessionDate, setSessionDate] = useState("");
   const [presence, setPresence] = useState(3);
   const [theme, setTheme] = useState("");
   const [reflection, setReflection] = useState("");
+  const [sessionError, setSessionError] = useState("");
 
   useEffect(() => {
     try {
@@ -112,7 +114,12 @@ export function MensCircleDashboard() {
 
   useEffect(() => {
     if (!ready) return;
-    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    try {
+      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      setSaveStatus("saved");
+    } catch {
+      setSaveStatus("error");
+    }
   }, [data, ready]);
 
   const averagePresence = useMemo(() => {
@@ -122,7 +129,15 @@ export function MensCircleDashboard() {
 
   function addSession(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (!sessionDate || (!theme.trim() && !reflection.trim())) return;
+    if (!sessionDate) {
+      setSessionError("Elige una fecha para guardar la sesión.");
+      return;
+    }
+    if (!theme.trim() && !reflection.trim()) {
+      setSessionError("Añade un tema o una reflexión antes de guardar.");
+      return;
+    }
+    setSessionError("");
     setData((current) => ({
       ...current,
       sessions: [{ id: createId(), date: sessionDate, presence, theme: theme.trim(), reflection: reflection.trim() }, ...current.sessions],
@@ -155,7 +170,7 @@ export function MensCircleDashboard() {
         <p>Un lugar privado para registrar lo vivido, reconocer patrones y pedir el apoyo que necesitas. La información se guarda únicamente en este dispositivo.</p>
       </section>
 
-      <nav className="bros-dashboard-nav" aria-label="Secciones del dashboard">
+      <nav className="bros-dashboard-nav" id="dashboard-menu" aria-label="Secciones del dashboard">
         <a href="#sesiones">Sesiones</a><a href="#intenciones">Intenciones</a><a href="#reflexiones">Reflexiones</a><a href="#inspiraciones">Inspiraciones</a><a href="#apoyo">Apoyo</a><Link className="bros-dashboard-nav-exit" href="/circulo-de-hombres-cantabria">Salir</Link>
       </nav>
 
@@ -167,11 +182,12 @@ export function MensCircleDashboard() {
 
       <section className="bros-dashboard-panel bros-dashboard-sessions" id="sesiones" aria-labelledby="sessions-title">
         <p className="bros-dashboard-eyebrow">Evolución de cada encuentro</p><h2 id="sessions-title">Registro de sesiones.</h2>
-        <form className="bros-dashboard-session-form" onSubmit={addSession}>
+        <form className="bros-dashboard-session-form" onSubmit={addSession} aria-describedby={sessionError ? "session-form-error" : undefined}>
           <label>Fecha<input type="date" value={sessionDate} onChange={(event) => setSessionDate(event.target.value)} required /></label>
           <label>Presencia<select value={presence} onChange={(event) => setPresence(Number(event.target.value))}>{[1, 2, 3, 4, 5].map((value) => <option key={value} value={value}>{value} / 5</option>)}</select></label>
           <label className="is-wide">Tema principal<input value={theme} onChange={(event) => setTheme(event.target.value)} placeholder="¿Qué estuvo vivo esta semana?" /></label>
           <label className="is-wide">Reflexión<textarea value={reflection} onChange={(event) => setReflection(event.target.value)} placeholder="¿Qué viste, sentiste o comprendiste?" rows={4} /></label>
+          {sessionError ? <p className="bros-dashboard-form-error" id="session-form-error" role="alert">{sessionError}</p> : null}
           <button type="submit">Guardar sesión</button>
         </form>
         <div className="bros-dashboard-session-list">
@@ -185,6 +201,7 @@ export function MensCircleDashboard() {
       <section className="bros-dashboard-panel" id="reflexiones" aria-labelledby="reflections-title">
         <p className="bros-dashboard-eyebrow">Mirada amplia</p><h2 id="reflections-title">Reflexiones generales.</h2>
         <label className="bros-dashboard-journal"><span>¿Qué estás aprendiendo sobre ti, tus relaciones y tu forma de vivir?</span><textarea rows={10} value={data.generalReflection} onChange={(event) => setData((current) => ({ ...current, generalReflection: event.target.value }))} placeholder="Escribe sin prisa. Se guarda automáticamente en este dispositivo." /></label>
+        <p className={`bros-dashboard-save-note is-${saveStatus}`} role="status">{saveStatus === "saved" ? "Guardado automáticamente en este dispositivo." : saveStatus === "error" ? "No se ha podido guardar en este dispositivo." : "Preparando tu espacio…"}</p>
       </section>
 
       <ListSection id="inspiraciones" eyebrow="Lo que te mueve" title="Inspiraciones." prompt="Idea, frase, libro, persona o práctica" items={data.inspirations} onAdd={(value) => updateList("inspirations", "add", value)} onRemove={(id) => updateList("inspirations", "remove", id)} />
@@ -193,6 +210,8 @@ export function MensCircleDashboard() {
         <ListSection id="ofrecer-apoyo" eyebrow="Servicio" title="Lo que puedo ofrecer." prompt="¿Cómo puedes apoyar a otro hombre?" items={data.offers} onAdd={(value) => updateList("offers", "add", value)} onRemove={(id) => updateList("offers", "remove", id)} />
         <ListSection id="pedir-apoyo" eyebrow="Vulnerabilidad" title="El apoyo que necesito." prompt="¿En qué te gustaría recibir apoyo?" items={data.requests} onAdd={(value) => updateList("requests", "add", value)} onRemove={(id) => updateList("requests", "remove", id)} />
       </div>
+
+      <a className="bros-dashboard-back-to-menu" href="#dashboard-menu"><span aria-hidden="true">↑</span> Volver al menú</a>
 
       <footer className="bros-dashboard-footer"><p>Origen Bros · Liencres</p><p>{ready ? "Guardado localmente" : "Cargando tu espacio"}</p></footer>
     </main>
