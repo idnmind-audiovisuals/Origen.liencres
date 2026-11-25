@@ -659,6 +659,17 @@ test("both gateway variants complete automatically into the public home", async 
   assert.match(home, /href="#reservar"/);
   assert.match(home, /origen-home-video-poster\.jpg/);
   assert.match(home, /<LoopingVideo[\s\S]*?src="\/origen-home-video\.mp4"/);
+  assert.match(home, /href="#fotos">Ver fotos/);
+  assert.match(home, /<section id="fotos"[\s\S]*?<\/section>\s*<BookingCalendar/);
+  for (const photo of [
+    "origen-rebros-house-exterior.avif",
+    "origen-casa-shala.webp",
+    "origen-casa-salon.webp",
+    "origen-casa-dormitorio.webp",
+  ]) {
+    assert.ok(home.includes(`src: "/${photo}"`), photo);
+    assert.ok((await readFile(new URL(`../public/${photo}`, import.meta.url))).length > 0, photo);
+  }
   assert.match(home, /9 guests · 3 bedrooms · 1 shala/);
   assert.match(home, /<HomeNavigation/);
   assert.match(menu, /HOME_LINKS\.map/);

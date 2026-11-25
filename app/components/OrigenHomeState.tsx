@@ -9,14 +9,46 @@ import { HomeNavigation } from "./HomeNavigation";
 import { LoopingVideo } from "./LoopingVideo";
 import { BookingCalendar } from "./BookingCalendar";
 
+const SPACE_PHOTOS = [
+  {
+    src: "/origen-rebros-house-exterior.avif",
+    alt: "Casa Origen Liencres con su jardín al atardecer",
+    caption: "La casa y el jardín",
+    width: 1440,
+    height: 1080,
+  },
+  {
+    src: "/origen-casa-shala.webp",
+    alt: "Shala cubierta de madera con vistas al paisaje costero de Liencres",
+    caption: "La shala",
+    width: 720,
+    height: 540,
+  },
+  {
+    src: "/origen-casa-salon.webp",
+    alt: "Salón común y cocina abierta bajo vigas de madera",
+    caption: "El salón y la cocina",
+    width: 720,
+    height: 540,
+  },
+  {
+    src: "/origen-casa-dormitorio.webp",
+    alt: "Dormitorio de Origen con cama doble y techo de madera",
+    caption: "Un dormitorio",
+    width: 960,
+    height: 1280,
+  },
+] as const;
+
 export function OrigenHomeState() {
   const reducedMotion = useReducedMotion();
   const contentDelay = reducedMotion ? 0 : GATEWAY_MOTION.opened.textDelay;
 
   useEffect(() => {
-    // The calendar is mounted after the logo animation, including on direct links.
-    if (window.location.hash === "#reservar") {
-      document.getElementById("reservar")?.scrollIntoView();
+    // These sections mount after the logo animation, including on direct links.
+    const hash = window.location.hash;
+    if (hash === "#fotos" || hash === "#reservar") {
+      document.getElementById(hash.slice(1))?.scrollIntoView();
     }
   }, []);
 
@@ -68,7 +100,10 @@ export function OrigenHomeState() {
                 Ver disponibilidad
                 <span aria-hidden="true" />
               </a>
-              <Link className="origen-home-detail-link" href="/retiros" lang="es">Conoce el espacio</Link>
+              <div className="origen-home-detail-links" lang="es">
+                <a className="origen-home-detail-link" href="#fotos">Ver fotos</a>
+                <Link className="origen-home-detail-link" href="/retiros">Conoce el espacio</Link>
+              </div>
             </div>
           </div>
           <motion.figure
@@ -94,6 +129,22 @@ export function OrigenHomeState() {
           </motion.figure>
         </section>
       </motion.div>
+
+      <section id="fotos" className="origen-home-gallery" aria-labelledby="origen-home-gallery-title" lang="es">
+        <header>
+          <p className="retreat-public-eyebrow">El espacio · Liencres</p>
+          <h2 id="origen-home-gallery-title">La casa en imágenes.</h2>
+        </header>
+        <div className="origen-home-photo-grid">
+          {SPACE_PHOTOS.map(({ src, alt, caption, width, height }) => (
+            <figure key={src}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={src} alt={alt} width={width} height={height} loading="lazy" decoding="async" />
+              <figcaption>{caption}</figcaption>
+            </figure>
+          ))}
+        </div>
+      </section>
 
       <BookingCalendar />
 
