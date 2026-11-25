@@ -3,6 +3,7 @@ import { readFile } from "node:fs/promises";
 import test from "node:test";
 import { calculateRetreatQuote } from "../app/lib/retreat-pricing.ts";
 import { GATEWAY_MOTION, getPortalZoomScale } from "../app/lib/gateway-motion.ts";
+import { plannerDefaults, retreatPlan } from "../app/lib/retreat-planner.ts";
 
 const templateRoot = new URL("../", import.meta.url);
 
@@ -173,6 +174,8 @@ test("presents the retreat venue explicitly to organisers", async () => {
   assert.match(html, /Hasta 8 personas alojadas/);
   assert.match(html, /id="planning"/);
   assert.match(html, /id="host"/);
+  assert.match(html, /href="\/organiza-tu-retiro-cantabria\/planificador"/);
+  assert.match(html, /Abrir el planificador/);
   assert.match(html, /Enviar propuesta|Organiza tu retiro/);
   assert.doesNotMatch(html, /Precio de lanzamiento|booking-date-trigger|Comprar plaza/i);
   assert.match(html, /rel="canonical" href="https:\/\/www\.origenliencres\.com\/organiza-tu-retiro-cantabria"/);
@@ -180,6 +183,54 @@ test("presents the retreat venue explicitly to organisers", async () => {
   assert.match(meta(html, "robots"), /index, follow/);
   assert.equal(meta(html, "og:url"), `${publicOrigin}/organiza-tu-retiro-cantabria`);
   assert.match(html, /"@type":"Service"/);
+});
+
+test("the planner opens publicly and adapts its guidance to the answers", async () => {
+  const response = await render("/organiza-tu-retiro-cantabria/planificador");
+  assert.equal(response.status, 200);
+  const html = await response.text();
+  assert.match(html, /Diseña tu retiro\./);
+  assert.match(html, /Paso 1 de 6/);
+  assert.match(html, /¿Para quién es, concretamente\?/);
+  const answers = {
+    ...plannerDefaults,
+    audience: "Artistas que quieren retomar una práctica creativa",
+    outcome: "terminar un primer boceto",
+    fixedCosts: "1200",
+    variableCosts: "50",
+    minimum: "6",
+    capacity: "12",
+    days: "1",
+    theme: "creatividad",
+    channel: "alianzas",
+    group: "mixto",
+    followUp: "parejas",
+  };
+  const text = retreatPlan(answers).flatMap((block) => block.lines).join("\n");
+  for (const expected of [
+    "Artistas que quieren retomar una práctica creativa",
+    "terminar un primer boceto",
+    "Inicio: 30 min",
+    "Forma tríos",
+    "ronda de ideas",
+    "tres estudios",
+    "250,00",
+    "Origen aloja hasta 9 huéspedes",
+    "pareja de seguimiento",
+  ]) assert.ok(text.includes(expected), expected);
+});
+
+test("makes the same bookable calendar available on the public venue page and home", async () => {
+  const response = await render("/retiros");
+  assert.equal(response.status, 200);
+  const html = await response.text();
+  assert.match(html, /href="#reservar">Ver disponibilidad/);
+  assert.match(html, /id="reservar"/);
+  assert.match(html, /Encuentra tus fechas/);
+  assert.doesNotMatch(html, /Reservas confirmadas durante octubre/);
+  const home = await readFile(new URL("../app/components/OrigenHomeState.tsx", import.meta.url), "utf8");
+  assert.match(home, /<BookingCalendar\s*\/>/);
+  assert.match(home, /href="#reservar"/);
 });
 
 test("quotes the same length discounts and peak-season surcharge shown at checkout", () => {
@@ -565,18 +616,31 @@ test("keeps the October formation and zooms through the dot on all screen shapes
   }
 });
 
-test("renders a click-to-play video on the men's circle page", async () => {
+test("renders a muted looping video and the five photos on the men's circle page", async () => {
   const response = await render("/circulo-de-hombres-cantabria");
   assert.equal(response.status, 200);
   const html = await response.text();
   const video = html.match(/<video\b[^>]*>[\s\S]*?<\/video>/i)?.[0];
   assert.ok(video);
   assert.match(video, /\bcontrols/);
+  assert.match(video, /\bmuted/);
+  assert.match(video, /\bloop/);
   assert.match(video, /\bplaysInline/i);
   assert.match(video, /preload="none"/);
   assert.doesNotMatch(video, /\bautoplay/i);
   assert.match(video, /poster="\/bros-martes-poster\.jpg"/);
   assert.match(video, /src="\/bros-martes\.mp4"/);
+  assert.match(html, /aria-label="Fotos del círculo de hombres"/);
+  for (const name of ["shala", "conversacion", "movimiento", "playa", "grupo"]) {
+    assert.match(html, new RegExp(`src="/bros-fotos-${name}\\.webp"`));
+  }
+});
+
+test("automatically starts muted videos only in view and when motion is allowed", async () => {
+  const source = await readFile(new URL("../app/components/LoopingVideo.tsx", import.meta.url), "utf8");
+  assert.match(source, /prefers-reduced-motion: reduce/);
+  assert.match(source, /new IntersectionObserver/);
+  assert.match(source, /video\.muted[\s\S]*video\.play\(\)/);
 });
 
 test("both gateway variants complete automatically into the public home", async () => {
@@ -592,11 +656,9 @@ test("both gateway variants complete automatically into the public home", async 
     readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),
   ]);
   assert.match(home, /A space of possibilities\./);
-  assert.match(home, /href="\/organiza-tu-retiro-cantabria#host"/);
+  assert.match(home, /href="#reservar"/);
   assert.match(home, /origen-home-video-poster\.jpg/);
-  assert.match(home, /Watch video/);
-  assert.match(home, /showModal\(\)/);
-  assert.match(home, /\{videoOpen && \([\s\S]*?<source src="\/origen-home-video\.mp4"/);
+  assert.match(home, /<LoopingVideo[\s\S]*?src="\/origen-home-video\.mp4"/);
   assert.match(home, /9 guests · 3 bedrooms · 1 shala/);
   assert.match(home, /<HomeNavigation/);
   assert.match(menu, /HOME_LINKS\.map/);
@@ -686,7 +748,7 @@ test("keeps all access keys server-only and destination-scoped", async () => {
   assert.match(gateway, /<OrigenHomeState\s*\/>/);
   assert.doesNotMatch(gateway, /AccessKeyForm|fetch\("\/api\/access"/);
   assert.match(origenHome, /A space of possibilities\./);
-  assert.match(origenHome, /Book the space/);
+  assert.match(origenHome, /Ver disponibilidad/);
   assert.match(homeNavigation, /href: "\/circulo-de-hombres-cantabria"/);
   assert.match(homeNavigation, /href: "\/circulo-de-mujeres-cantabria"/);
   assert.match(homeNavigation, /href: "\/residencias"/);

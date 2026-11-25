@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { ORIGEN_AIRBNB_URL, HOST_APPLICATION_URL } from "../lib/public-retreat-content";
 import {
   calculateRetreatQuote,
+  isOctoberLaunchBooking,
   RETREAT_LAUNCH_DISCOUNT_PERCENT,
   RETREAT_BASE_NIGHT_EUR,
   RETREAT_DEPOSIT_PER_NIGHT_EUR,
@@ -161,12 +162,14 @@ export function BookingCalendar() {
   const [unavailable, setUnavailable] = useState<UnavailableRange[]>([]);
   const [calendarConnected, setCalendarConnected] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [showLaunchOffer, setShowLaunchOffer] = useState(false);
   const [message, setMessage] = useState("Selecciona llegada y salida.");
   const [paymentConfirmed, setPaymentConfirmed] = useState(false);
   const [openPicker, setOpenPicker] = useState<"arrival" | "departure" | null>(null);
 
   useEffect(() => {
     let active = true;
+    setShowLaunchOffer(isOctoberLaunchBooking());
     fetch("/api/availability")
       .then((response) => response.json() as Promise<AvailabilityResponse>)
       .then((data) => {
@@ -266,7 +269,7 @@ export function BookingCalendar() {
   ) : null;
 
   return (
-    <section className="booking-panel" id="reservar" aria-labelledby="booking-title">
+    <section className="booking-panel" id="reservar" aria-labelledby="booking-title" lang="es">
       <div className="booking-panel-heading scroll-reveal">
         <div>
           <p className="retreat-public-eyebrow">Disponibilidad y reserva</p>
@@ -279,10 +282,12 @@ export function BookingCalendar() {
 
       <div className="booking-layout">
         <div className="booking-calendar-card">
-          <div className="booking-calendar-offer">
-            <strong>−{RETREAT_LAUNCH_DISCOUNT_PERCENT} %</strong>
-            <span>Reservas confirmadas durante octubre</span>
-          </div>
+          {showLaunchOffer && (
+            <div className="booking-calendar-offer">
+              <strong>−{RETREAT_LAUNCH_DISCOUNT_PERCENT} %</strong>
+              <span>Reservas confirmadas durante octubre</span>
+            </div>
+          )}
           <div className="booking-calendar-nav">
             <button type="button" onClick={() => setVisibleMonth(addMonths(visibleMonth, -1))} disabled={!canMoveBack} aria-label="Mes anterior">←</button>
             <p>{loading ? "Actualizando calendario…" : calendarConnected ? "Conectado con Airbnb" : "Disponibilidad final en Airbnb"}</p>
@@ -293,6 +298,9 @@ export function BookingCalendar() {
             <Month month={addMonths(visibleMonth, 1)} arrival={arrival} departure={departure} unavailable={unavailable} onSelect={selectDate} />
           </div>
           <p className="booking-calendar-message" role="status">{message}</p>
+          {!loading && !calendarConnected && (
+            <p className="booking-calendar-message">No se pudo verificar la disponibilidad aquí. Comprueba las fechas en Airbnb.</p>
+          )}
         </div>
 
         <aside className="booking-summary" aria-label="Resumen de reserva">

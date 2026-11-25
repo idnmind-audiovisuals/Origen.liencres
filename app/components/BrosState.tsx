@@ -11,6 +11,7 @@ import Link from "next/link";
 import { useEffect, useLayoutEffect, useRef } from "react";
 import { GatewayBrandLink } from "./GatewayBrandLink";
 import { InstagramLink } from "./InstagramLink";
+import { LoopingVideo } from "./LoopingVideo";
 import {
   CINEMATIC_ENTRY_EASE,
   GATEWAY_MOTION,
@@ -28,6 +29,15 @@ const WHATSAPP_URL =
   "https://chat.whatsapp.com/F7Yg8F7zx1R3jA5ltgvKwS?s=cl&p=i&mlu=4";
 const ACCOUNTABILITY_URL =
   "https://docs.google.com/spreadsheets/d/16jDB2CLi3YJVzIDIMzufYeu-XyzK4dOoJTMHzTBAyTY/edit?usp=sharing";
+
+const CIRCLE_PHOTOS = [
+  { name: "shala", alt: "Participantes de pie en círculo en la shala de Origen", width: 1180, height: 1573 },
+  { name: "conversacion", alt: "El grupo conversa sentado en la terraza de Origen", width: 880, height: 1164 },
+  { name: "movimiento", alt: "Un participante hace un ejercicio de movimiento junto al mar", width: 880, height: 1164 },
+  { name: "playa", alt: "El grupo practica movimiento en la arena", width: 880, height: 1164 },
+  { name: "grupo", alt: "Cuatro participantes sonríen juntos en la terraza de Origen. Cartel: Retiro hombres, 11–13 dic.", width: 880, height: 1172 },
+] as const;
+
 const MANIFESTO = [
   "No para competir.",
   "No para impresionar.",
@@ -284,18 +294,30 @@ export function BrosState({ development, onReset }: BrosStateProps) {
             <p>Círculo de hombres</p>
             <h2 id="bros-video-title">Bros en Origen</h2>
           </div>
-          <video
+          <LoopingVideo
             aria-labelledby="bros-video-title"
-            controls
-            playsInline
-            preload="none"
+            src="/bros-martes.mp4"
             poster="/bros-martes-poster.jpg"
             width={404}
             height={720}
           >
-            <source src="/bros-martes.mp4" type="video/mp4" />
             <p>Tu navegador no puede reproducir el vídeo. <a href="/bros-martes.mp4">Abrir el vídeo de Bros</a>.</p>
-          </video>
+          </LoopingVideo>
+          <ul className="bros-photo-gallery" aria-label="Fotos del círculo de hombres">
+            {CIRCLE_PHOTOS.map(({ name, alt, width, height }) => (
+              <li key={name}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={`/bros-fotos-${name}.webp`}
+                  alt={alt}
+                  width={width}
+                  height={height}
+                  loading="lazy"
+                  decoding="async"
+                />
+              </li>
+            ))}
+          </ul>
         </section>
 
         <motion.section

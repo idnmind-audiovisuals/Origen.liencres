@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { BookingCalendar } from "./BookingCalendar";
 import { ORIGEN_HEADER_WORDMARK_BLACK_ASSET } from "../lib/brand";
 import { InstagramLink } from "./InstagramLink";
 import { OrganizerLinks } from "./OrganizerLinks";
@@ -113,6 +114,7 @@ export function PublicRetreatLanding({
               {copy.cta}
               <span className="external-link-dot" aria-hidden="true" />
             </Link>
+            <a className="retreat-availability-link" href="#reservar">Ver disponibilidad</a>
           </div>
         ) : (
           <figure className="retreat-public-hero-media">
@@ -194,6 +196,8 @@ export function PublicRetreatLanding({
           ))}
         </div>
       </section>
+
+      {spanish ? <BookingCalendar /> : null}
 
       <section className="retreat-public-host scroll-reveal" id="host" aria-labelledby="retreat-host-title">
         <div>

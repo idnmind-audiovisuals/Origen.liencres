@@ -375,9 +375,17 @@
 }
 
 .booking-panel {
+  --booking-line: rgb(36 35 31 / 0.18);
   padding: clamp(100px, 13vw, 200px) clamp(24px, 5.5vw, 90px);
   color: #f2efe8;
   background: #24231f;
+}
+
+.retreat-availability-link {
+  display: inline-block;
+  margin-top: 18px;
+  text-decoration: underline !important;
+  text-underline-offset: 4px;
 }
 
 .booking-panel .retreat-public-eyebrow {
@@ -1212,13 +1220,16 @@ button {
     max(28px, env(safe-area-inset-right))
     max(104px, calc(env(safe-area-inset-bottom) + 92px))
     max(28px, env(safe-area-inset-left));
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scroll-padding-bottom: 110px;
+  overscroll-behavior-y: contain;
   color: var(--ink);
   background: var(--paper);
 }
 
 .origen-home-texture {
-  position: absolute;
+  position: fixed;
   z-index: 0;
   inset: 0;
   background:
@@ -1232,8 +1243,18 @@ button {
   z-index: 2;
   display: grid;
   width: 100%;
-  height: 100%;
-  grid-template-rows: auto 1fr;
+  grid-template-rows: auto auto;
+}
+
+.origen-home-page > .booking-panel {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  margin-top: clamp(56px, 8vw, 120px);
+}
+
+.gateway-home-menu--main {
+  background: var(--paper);
 }
 
 .origen-home-header {
@@ -1308,7 +1329,7 @@ button {
   text-transform: uppercase;
 }
 
-.origen-home-intro > a {
+.origen-home-intro > a:not(.origen-home-detail-link) {
   display: inline-flex;
   min-height: 48px;
   margin-top: 34px;
@@ -1327,6 +1348,15 @@ button {
     background-color 260ms ease;
 }
 
+.origen-home-detail-link {
+  display: block;
+  width: fit-content;
+  margin-top: 12px;
+  font-size: 0.875rem;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
 .origen-home-intro > a span {
   width: 7px;
   height: 7px;
@@ -1334,8 +1364,8 @@ button {
   background: var(--gateway-accent);
 }
 
-.origen-home-intro > a:hover,
-.origen-home-intro > a:focus-visible {
+.origen-home-intro > a:not(.origen-home-detail-link):hover,
+.origen-home-intro > a:not(.origen-home-detail-link):focus-visible {
   color: var(--ink);
   background: var(--gateway-accent);
   outline: 0;
@@ -1354,7 +1384,9 @@ button {
   background: #d8d0c4;
 }
 
-.origen-home-space-image img {
+.origen-home-space-image video {
+  position: absolute;
+  inset: 0;
   display: block;
   width: 100%;
   height: 100%;
@@ -1362,68 +1394,22 @@ button {
   object-position: 50% 62%;
 }
 
-.origen-home-video-trigger,
-.origen-home-video-dialog > button {
-  display: inline-flex;
-  min-height: 44px;
-  padding: 0 13px;
-  align-items: center;
-  gap: 7px;
-  border: 1px solid rgb(242 239 232 / 0.62);
-  color: var(--paper);
-  background: #24231f;
-  font-size: 0.8125rem;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.origen-home-video-trigger {
-  position: absolute;
-  left: 12px;
-  bottom: 12px;
-}
-
-.origen-home-video-trigger:is(:hover, :focus-visible),
-.origen-home-video-dialog > button:is(:hover, :focus-visible) {
-  color: var(--ink);
-  background: var(--paper);
+.origen-home-space-image video:focus-visible {
   outline: 2px solid var(--gateway-accent);
-  outline-offset: 3px;
+  outline-offset: -3px;
 }
 
-.origen-home-video-dialog {
-  position: fixed;
-  inset: 0;
-  max-width: calc(100vw - 32px);
-  max-height: calc(100dvh - 32px);
-  margin: auto;
-  padding: 8px;
-  color: var(--paper);
-  background: #151411;
-}
-
-.origen-home-video-dialog::backdrop {
-  background: rgb(21 20 17 / 0.9);
-}
-
-.origen-home-video-dialog > button {
-  display: flex;
-  margin: 0 0 8px auto;
-}
-
-.origen-home-video-dialog video {
-  display: block;
-  width: min(100%, calc((100dvh - 112px) * 9 / 16));
-  height: auto;
-  margin-inline: auto;
-  aspect-ratio: 9 / 16;
+.origen-home-space-image video:fullscreen {
+  object-fit: contain;
+  object-position: center;
 }
 
 .origen-home-space-image figcaption {
   position: absolute;
   right: 16px;
-  bottom: 14px;
+  top: 14px;
   padding: 7px 9px;
+  pointer-events: none;
   color: #f2efe8;
   background: rgb(21 20 17 / 0.62);
   font-size: 7px;
@@ -4624,6 +4610,37 @@ button {
   outline-offset: 6px;
 }
 
+.bros-photo-gallery {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: minmax(0, 2fr) repeat(2, minmax(0, 1fr));
+  gap: clamp(6px, 1vw, 16px);
+  margin: clamp(48px, 7vw, 104px) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.bros-photo-gallery li {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  background: #151411;
+}
+
+.bros-photo-gallery li:first-child {
+  grid-row: span 2;
+  aspect-ratio: auto;
+}
+
+.bros-photo-gallery img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .bros-accountability-content {
   max-width: 850px;
 }
@@ -5779,6 +5796,16 @@ button {
 
   .bros-video video {
     width: min(100%, 400px);
+  }
+
+  .bros-photo-gallery {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .bros-photo-gallery li:first-child {
+    grid-column: 1 / -1;
+    grid-row: auto;
+    aspect-ratio: 3 / 4;
   }
 
   .bros-subscription .bros-section-heading {
@@ -9101,5 +9128,193 @@ button {
   :where(.origen-home-intro, .origen-home-space-copy) {
     animation: none !important;
     translate: none !important;
+  }
+}
+
+/* Keep scroll treatments off interactive form layouts. */
+.booking-panel > .booking-layout,
+.retreat-planner-workspace {
+  animation: none !important;
+}
+
+.organizer-useful-links {
+  display: grid;
+  justify-items: start;
+  gap: 4px;
+  margin-top: 18px;
+}
+
+.organizer-planner-cta,
+.retreat-planner-actions button {
+  display: inline-flex;
+  min-height: 48px;
+  padding: 10px 18px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid currentColor;
+  background: transparent;
+  color: var(--ink);
+  font-size: 0.875rem;
+  font-weight: 620;
+  cursor: pointer;
+}
+
+.organizer-planner-cta:hover,
+.organizer-planner-cta:focus-visible,
+.retreat-planner-actions button:hover,
+.retreat-planner-actions button:focus-visible {
+  background: var(--paper);
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+}
+
+.retreat-planner-page .retreat-public-header {
+  padding-right: max(72px, env(safe-area-inset-right));
+}
+
+.retreat-planner-layout {
+  display: grid;
+  width: min(1280px, calc(100% - 64px));
+  margin-inline: auto;
+  padding-block: clamp(52px, 9vw, 130px);
+  grid-template-columns: minmax(0, 0.7fr) minmax(0, 1fr);
+  align-items: start;
+  gap: clamp(36px, 6vw, 96px);
+}
+
+.retreat-planner-intro h1 {
+  margin-block: 20px;
+  font-size: clamp(48px, 6.6vw, 98px);
+  line-height: 0.93;
+  letter-spacing: -0.067em;
+  font-weight: 330;
+}
+
+.retreat-planner-intro > p:last-child {
+  max-width: 36ch;
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
+.retreat-planner-workspace {
+  min-width: 0;
+  padding: clamp(20px, 3.3vw, 48px);
+  background: #fffaf2;
+  border: 1px solid rgb(36 35 31 / 0.22);
+}
+
+.retreat-planner-progress {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 30px;
+  font-size: 0.875rem;
+  font-weight: 590;
+}
+
+.retreat-planner-progress progress {
+  width: 100%;
+  height: 5px;
+  accent-color: #68763d;
+}
+
+.retreat-planner-workspace h2 {
+  margin-bottom: 26px;
+  font-size: clamp(28px, 3.3vw, 48px);
+  line-height: 1.08;
+  letter-spacing: -0.045em;
+  font-weight: 430;
+}
+
+.retreat-planner-field {
+  display: grid;
+  gap: 7px;
+  margin-block: 20px;
+}
+
+.retreat-planner-field label {
+  font-weight: 610;
+}
+
+.retreat-planner-field p,
+.retreat-planner-storage {
+  color: #524d44;
+  font-size: 0.875rem;
+  line-height: 1.55;
+}
+
+.retreat-planner-field :where(input, textarea, select) {
+  width: 100%;
+  min-height: 46px;
+  padding: 10px 12px;
+  border: 1px solid rgb(36 35 31 / 0.37);
+  color: var(--ink);
+  background: #fffdf9;
+  font: inherit;
+}
+
+.retreat-planner-field textarea { resize: vertical; }
+
+.retreat-planner-field select {
+  appearance: none;
+  padding-right: 36px;
+  background: #fffdf9 url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 16 16' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='m4 6 4 4 4-4' fill='none' stroke='%2324231f' stroke-width='1.5'/%3E%3C/svg%3E") no-repeat right 10px center;
+}
+
+.retreat-planner-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 28px;
+}
+
+.retreat-planner-actions .retreat-planner-primary,
+.organizer-planner-cta {
+  background: var(--gateway-accent);
+}
+
+.retreat-planner-results { margin-top: 24px; }
+
+.retreat-planner-results article {
+  padding-block: 21px;
+  border-bottom: 1px solid rgb(36 35 31 / 0.2);
+}
+
+.retreat-planner-results h3,
+.retreat-planner-checklist legend {
+  font-size: 1.125rem;
+  font-weight: 640;
+}
+
+.retreat-planner-results p {
+  margin-top: 10px;
+  line-height: 1.65;
+  overflow-wrap: anywhere;
+}
+
+.retreat-planner-checklist { margin-block: 26px; }
+
+.retreat-planner-checklist label {
+  display: flex;
+  margin-top: 13px;
+  align-items: flex-start;
+  gap: 10px;
+  line-height: 1.5;
+}
+
+.retreat-planner-checklist input {
+  width: 18px;
+  height: 18px;
+  flex: none;
+  margin-top: 3px;
+  accent-color: #68763d;
+}
+
+.retreat-planner-workspace a { text-decoration: underline; text-underline-offset: 4px; }
+.retreat-planner-workspace .retreat-planner-storage { margin-top: 26px; }
+
+@media (max-width: 760px) {
+  .retreat-planner-layout {
+    width: calc(100% - 36px);
+    grid-template-columns: minmax(0, 1fr);
   }
 }

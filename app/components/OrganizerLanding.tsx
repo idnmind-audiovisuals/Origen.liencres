@@ -70,6 +70,12 @@ export function OrganizerLanding({ slug }: { slug: OrganizerSlug }) {
             {copy.cta}<span className="external-link-dot" aria-hidden="true" />
           </a>
           <a className="organizer-jump" href="#planning">{spanish ? "Qué preparar" : "What to prepare"}</a>
+          {slug === "organiza-tu-retiro-cantabria" && (
+            <div className="organizer-useful-links">
+              <Link className="organizer-planner-cta" href="/organiza-tu-retiro-cantabria/planificador">Abrir el planificador</Link>
+              <Link className="organizer-jump" href="/retiros#reservar">Ver disponibilidad del espacio</Link>
+            </div>
+          )}
         </div>
       </section>
 

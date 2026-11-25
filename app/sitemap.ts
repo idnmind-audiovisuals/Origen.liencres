@@ -164,5 +164,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
         ...(languages ? { alternates: { languages } } : {}),
       };
     }),
+    {
+      url: `${SITE_URL}/organiza-tu-retiro-cantabria/planificador`,
+      changeFrequency: "monthly",
+      priority: 0.76,
+    },
   ];
 }

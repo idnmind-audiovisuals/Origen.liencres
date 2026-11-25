@@ -2,16 +2,23 @@
 
 import { motion, useReducedMotion } from "framer-motion";
 import Link from "next/link";
-import { useRef, useState } from "react";
+import { useEffect } from "react";
 import { ORIGEN_HEADER_WORDMARK_BLACK_ASSET } from "../lib/brand";
 import { CINEMATIC_ENTRY_EASE, GATEWAY_MOTION } from "../lib/gateway-motion";
 import { HomeNavigation } from "./HomeNavigation";
+import { LoopingVideo } from "./LoopingVideo";
+import { BookingCalendar } from "./BookingCalendar";
 
 export function OrigenHomeState() {
   const reducedMotion = useReducedMotion();
   const contentDelay = reducedMotion ? 0 : GATEWAY_MOTION.opened.textDelay;
-  const videoDialog = useRef<HTMLDialogElement>(null);
-  const [videoOpen, setVideoOpen] = useState(false);
+
+  useEffect(() => {
+    // The calendar is mounted after the logo animation, including on direct links.
+    if (window.location.hash === "#reservar") {
+      document.getElementById("reservar")?.scrollIntoView();
+    }
+  }, []);
 
   return (
     <main id="origen-home" className="origen-home-page">
@@ -47,7 +54,7 @@ export function OrigenHomeState() {
           <p>Liencres · Costa Quebrada</p>
         </header>
 
-        <section className="origen-home-hero" aria-labelledby="origen-home-title">
+        <section className="origen-home-hero" aria-labelledby="origen-home-title" lang="en">
           <div className="origen-home-copy">
             <p>The space · Origen Liencres</p>
             <h1 id="origen-home-title">A space of possibilities.</h1>
@@ -57,10 +64,11 @@ export function OrigenHomeState() {
                 residencies, circles and meaningful stays.
               </p>
               <small>9 guests · 3 bedrooms · 1 shala</small>
-              <Link href="/organiza-tu-retiro-cantabria#host">
-                Book the space
+              <a href="#reservar" lang="es">
+                Ver disponibilidad
                 <span aria-hidden="true" />
-              </Link>
+              </a>
+              <Link className="origen-home-detail-link" href="/retiros" lang="es">Conoce el espacio</Link>
             </div>
           </div>
           <motion.figure
@@ -73,56 +81,21 @@ export function OrigenHomeState() {
               ease: CINEMATIC_ENTRY_EASE,
             }}
           >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/origen-home-video-poster.jpg"
-              alt="A gathering in the shala at Origen Liencres"
+            <LoopingVideo
+              aria-label="A gathering at Origen Liencres"
+              src="/origen-home-video.mp4"
+              poster="/origen-home-video-poster.jpg"
               width={720}
               height={1280}
-            />
-            <button
-              className="origen-home-video-trigger"
-              type="button"
-              aria-haspopup="dialog"
-              onClick={() => {
-                videoDialog.current?.showModal();
-                setVideoOpen(true);
-              }}
             >
-              <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true">
-                <path fill="currentColor" d="M4 2.75v10.5L13 8z" />
-              </svg>
-              Watch video
-            </button>
+              <p><a href="/origen-home-video.mp4">Open the Origen video</a></p>
+            </LoopingVideo>
             <figcaption>Liencres · Cantabria</figcaption>
           </motion.figure>
         </section>
       </motion.div>
 
-      <dialog
-        ref={videoDialog}
-        className="origen-home-video-dialog"
-        aria-label="A moment at Origen Liencres"
-        onClose={() => setVideoOpen(false)}
-      >
-        <button type="button" onClick={() => videoDialog.current?.close()}>
-          Close
-        </button>
-        {videoOpen && (
-          <video
-            aria-label="A moment at Origen Liencres"
-            controls
-            autoPlay
-            playsInline
-            poster="/origen-home-video-poster.jpg"
-            width={720}
-            height={1280}
-          >
-            <source src="/origen-home-video.mp4" type="video/mp4" />
-            <p><a href="/origen-home-video.mp4">Open the Origen video</a></p>
-          </video>
-        )}
-      </dialog>
+      <BookingCalendar />
 
       <HomeNavigation
         visible
