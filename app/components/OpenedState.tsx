@@ -176,9 +176,7 @@ export function OpenedState({
               {copy.details.map((detail) => (
                 <div key={detail.term}>
                   <dt>{detail.term}</dt>
-                  <dd aria-label={"ariaLabel" in detail ? detail.ariaLabel : undefined}>
-                    {detail.value}
-                  </dd>
+                  <dd>{detail.value}</dd>
                 </div>
               ))}
             </dl>
