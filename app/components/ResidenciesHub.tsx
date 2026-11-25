@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { GatewayBrandLink } from "./GatewayBrandLink";
 import { InstagramLink } from "./InstagramLink";
+import { VenueShowcase } from "./VenueShowcase";
 import { HOST_APPLICATION_URL, PUBLIC_SITE_URL } from "../lib/public-retreat-content";
 import { RESIDENCY_ROUTES } from "../lib/residency-routes";
 import type { Language } from "../lib/language";
@@ -115,6 +116,8 @@ export function ResidenciesHub({ language }: { language: Language }) {
           <a className="retreat-public-primary" href={HOST_APPLICATION_URL} target="_blank" rel="noreferrer">{copy.cta}<span className="external-link-dot" aria-hidden="true" /></a>
         </div>
       </section>
+
+      {language === "es" ? <VenueShowcase /> : null}
 
       <section className="organizer-program" aria-labelledby="residency-formats-title">
         <div className="scroll-reveal">

@@ -4,7 +4,7 @@ import { GatewayBrandLink } from "../../components/GatewayBrandLink";
 import { RetreatPlanner } from "../../components/RetreatPlanner";
 
 export const metadata: Metadata = {
-  title: "Planificador de retiros paso a paso | Origen Liencres",
+  title: "Planificador gratuito de retiros | Origen Liencres",
   description: "Una guía por preguntas para facilitadores: diseña el programa, crea comunidad, encuentra participantes y prepara la logística de tu retiro.",
   alternates: { canonical: "/organiza-tu-retiro-cantabria/planificador" },
 };
@@ -20,9 +20,9 @@ export default function RetreatPlannerPage() {
       </header>
       <div className="retreat-planner-layout">
         <section className="retreat-planner-intro" aria-labelledby="retreat-planner-title">
-          <p className="retreat-public-eyebrow">Herramienta para facilitadores</p>
-          <h1 id="retreat-planner-title">Diseña tu retiro.</h1>
-          <p>Responde seis bloques de preguntas y llévate un plan adaptado a tu grupo: prácticas, rompehielos, convocatoria, costes y seguimiento.</p>
+          <p className="retreat-public-eyebrow">Origen · Para facilitadores</p>
+          <h1 id="retreat-planner-title">Planificador gratuito</h1>
+          <p>Tu idea, seis pasos y un plan para hacerla realidad.</p>
         </section>
         <RetreatPlanner />
       </div>

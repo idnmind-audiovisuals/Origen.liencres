@@ -3,6 +3,7 @@ import { BookingCalendar } from "./BookingCalendar";
 import { ORIGEN_HEADER_WORDMARK_BLACK_ASSET } from "../lib/brand";
 import { InstagramLink } from "./InstagramLink";
 import { OrganizerLinks } from "./OrganizerLinks";
+import { VenueShowcase } from "./VenueShowcase";
 import {
   HOST_APPLICATION_URL,
   ORIGEN_AIRBNB_URL,
@@ -115,6 +116,9 @@ export function PublicRetreatLanding({
               <span className="external-link-dot" aria-hidden="true" />
             </Link>
             <a className="retreat-availability-link" href="#reservar">Ver disponibilidad</a>
+            <Link className="organizer-planner-cta retreat-public-planner-cta" href="/organiza-tu-retiro-cantabria/planificador">
+              Planificador gratuito
+            </Link>
           </div>
         ) : (
           <figure className="retreat-public-hero-media">
@@ -129,6 +133,8 @@ export function PublicRetreatLanding({
           </figure>
         )}
       </section>
+
+      {spanish ? <VenueShowcase /> : null}
 
       <section className="retreat-public-intro scroll-reveal" aria-labelledby="retreat-intro-title">
         <div>

@@ -3,7 +3,7 @@ import { readFile } from "node:fs/promises";
 import test from "node:test";
 import { calculateRetreatQuote } from "../app/lib/retreat-pricing.ts";
 import { GATEWAY_MOTION, getPortalZoomScale } from "../app/lib/gateway-motion.ts";
-import { plannerDefaults, retreatPlan } from "../app/lib/retreat-planner.ts";
+import { plannerDefaults, plannerTips, retreatPlan, retreatToolbox } from "../app/lib/retreat-planner.ts";
 
 const templateRoot = new URL("../", import.meta.url);
 
@@ -175,7 +175,7 @@ test("presents the retreat venue explicitly to organisers", async () => {
   assert.match(html, /id="planning"/);
   assert.match(html, /id="host"/);
   assert.match(html, /href="\/organiza-tu-retiro-cantabria\/planificador"/);
-  assert.match(html, /Abrir el planificador/);
+  assert.match(html, /Planificador gratuito/);
   assert.match(html, /Enviar propuesta|Organiza tu retiro/);
   assert.doesNotMatch(html, /Precio de lanzamiento|booking-date-trigger|Comprar plaza/i);
   assert.match(html, /rel="canonical" href="https:\/\/www\.origenliencres\.com\/organiza-tu-retiro-cantabria"/);
@@ -189,9 +189,12 @@ test("the planner opens publicly and adapts its guidance to the answers", async 
   const response = await render("/organiza-tu-retiro-cantabria/planificador");
   assert.equal(response.status, 200);
   const html = await response.text();
-  assert.match(html, /Diseña tu retiro\./);
+  assert.match(html, /<h1 id="retreat-planner-title">Planificador gratuito<\/h1>/);
   assert.match(html, /Paso 1 de 6/);
-  assert.match(html, /¿Para quién es, concretamente\?/);
+  assert.match(html, /¿Para quién es\?/);
+  assert.match(html, /Participante ideal/);
+  assert.match(html, /Tu consejo/);
+  assert.match(html, /<summary>Añadir detalles<\/summary>/);
   const answers = {
     ...plannerDefaults,
     audience: "Artistas que quieren retomar una práctica creativa",
@@ -203,6 +206,9 @@ test("the planner opens publicly and adapts its guidance to the answers", async 
     days: "1",
     theme: "creatividad",
     channel: "alianzas",
+    audienceWhere: "Talleres abiertos de Santander",
+    obstacle: "venir-solo",
+    connection: "colaboración",
     group: "mixto",
     followUp: "parejas",
   };
@@ -214,10 +220,54 @@ test("the planner opens publicly and adapts its guidance to the answers", async 
     "Forma tríos",
     "ronda de ideas",
     "tres estudios",
+    "Talleres abiertos de Santander",
+    "venir sin conocer a nadie",
     "250,00",
     "Origen aloja hasta 9 huéspedes",
     "pareja de seguimiento",
   ]) assert.ok(text.includes(expected), expected);
+  const tips = plannerTips(answers);
+  assert.match(tips.purpose, /primer boceto/);
+  assert.match(tips.format, /llegan por primera vez/);
+  assert.match(tips.experience, /crear algo juntos/);
+  assert.match(tips.outreach, /venir sin conocer a nadie/);
+  assert.match(plannerTips({ ...answers, obstacle: "" }).outreach, /sesión de muestra/);
+  assert.match(tips.logistics, /250,00/);
+  assert.match(tips.continuity, /pareja de seguimiento/);
+  assert.match(plannerTips({ ...answers, capacity: "5" }).logistics, /no puede ser mayor que el aforo/);
+  assert.notEqual(plannerTips({ ...answers, theme: "descanso" }).purpose, tips.purpose);
+
+  const tools = Object.fromEntries(retreatToolbox(answers).map(({ id, text }) => [id, text]));
+  assert.match(tools.invitation, /Artistas que quieren retomar una práctica creativa/);
+  assert.match(tools.invitation, /¿Te encaja compartirla\?/);
+  assert.match(tools.welcome, /alguna adaptación/);
+  assert.match(tools.connection, /Rompehielos: Forma tríos/);
+  assert.match(tools["follow-up"], /terminar un primer boceto/);
+  assert.match(retreatToolbox({ ...answers, channel: "correo" })[0].text, /^Asunto:/);
+});
+
+test("shows real venue photos and the looping video on both Spanish landing pages", async () => {
+  for (const path of ["/retiros", "/residencias"]) {
+    const response = await render(path);
+    assert.equal(response.status, 200, path);
+    const html = await response.text();
+    const gallery = html.match(/<section class="venue-showcase"[^>]*>[\s\S]*?<\/section>/)?.[0];
+    assert.ok(gallery, path);
+    for (const image of ["origen-rebros-house-exterior.avif", "origen-casa-shala.webp", "origen-casa-salon.webp"]) {
+      assert.ok(gallery.includes(`src="/${image}"`), image);
+      assert.ok((await readFile(new URL(`../public/${image}`, import.meta.url))).length > 0, image);
+    }
+    const video = gallery.match(/<video\b[^>]*>[\s\S]*?<\/video>/)?.[0];
+    assert.ok(video, path);
+    assert.match(video, /src="\/origen-home-video\.mp4"/);
+    assert.match(video, /poster="\/origen-home-video-poster\.jpg"/);
+    assert.match(video, /\bloop\b/);
+    assert.match(video, /\bmuted\b/);
+    assert.match(video, /\bplaysInline\b/i);
+    if (path === "/retiros") {
+      assert.match(html, /href="\/organiza-tu-retiro-cantabria\/planificador"[^>]*>Planificador gratuito<\/a>/);
+    }
+  }
 });
 
 test("makes the same bookable calendar available on the public venue page and home", async () => {

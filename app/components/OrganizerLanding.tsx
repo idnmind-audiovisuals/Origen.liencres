@@ -72,7 +72,7 @@ export function OrganizerLanding({ slug }: { slug: OrganizerSlug }) {
           <a className="organizer-jump" href="#planning">{spanish ? "Qué preparar" : "What to prepare"}</a>
           {slug === "organiza-tu-retiro-cantabria" && (
             <div className="organizer-useful-links">
-              <Link className="organizer-planner-cta" href="/organiza-tu-retiro-cantabria/planificador">Abrir el planificador</Link>
+              <Link className="organizer-planner-cta" href="/organiza-tu-retiro-cantabria/planificador">Planificador gratuito</Link>
               <Link className="organizer-jump" href="/retiros#reservar">Ver disponibilidad del espacio</Link>
             </div>
           )}

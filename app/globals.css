@@ -8316,6 +8316,63 @@ button {
   letter-spacing: -0.025em;
 }
 
+.venue-showcase {
+  width: min(100% - clamp(44px, 9vw, 144px), 1600px);
+  margin-inline: auto;
+  padding-block: clamp(28px, 5vw, 72px);
+  border-top: 1px solid rgb(36 35 31 / 0.25);
+}
+
+.venue-showcase h2 {
+  margin-bottom: clamp(22px, 3.5vw, 50px);
+  font-size: clamp(34px, 5vw, 76px);
+  font-weight: 330;
+  letter-spacing: -0.055em;
+  line-height: 1;
+}
+
+.venue-showcase-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-areas: "house house video" "shala salon video";
+  gap: clamp(14px, 2vw, 30px);
+  align-items: start;
+}
+
+.venue-showcase-house { grid-area: house; }
+.venue-showcase-shala { grid-area: shala; }
+.venue-showcase-salon { grid-area: salon; }
+.venue-showcase-video { grid-area: video; }
+
+.venue-showcase :where(img, video) {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: #d8d0c4;
+}
+
+.venue-showcase img { aspect-ratio: 4 / 3; object-fit: cover; }
+.venue-showcase-house img { aspect-ratio: 16 / 9; }
+.venue-showcase video { aspect-ratio: 9 / 16; object-fit: contain; }
+.venue-showcase figcaption { margin-top: 9px; font-size: 0.875rem; line-height: 1.4; }
+
+@media (max-width: 900px) {
+  .venue-showcase { width: min(100% - 36px, 720px); }
+}
+
+@media (max-width: 600px) {
+  .venue-showcase-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-areas: "house house" "shala salon" "video video";
+  }
+
+  .venue-showcase-video {
+    width: min(100%, 380px);
+    margin-top: 8px;
+    justify-self: center;
+  }
+}
+
 @media (max-width: 900px) {
   .retreat-public-header,
   .retreat-public-hero,
@@ -9242,8 +9299,15 @@ button {
   margin-top: 18px;
 }
 
+.retreat-public-hero-meta .retreat-public-planner-cta {
+  width: 100%;
+  margin-top: 14px;
+  text-align: center;
+}
+
 .organizer-planner-cta,
-.retreat-planner-actions button {
+.retreat-planner-actions button,
+.retreat-planner-tool button {
   display: inline-flex;
   min-height: 48px;
   padding: 10px 18px;
@@ -9260,7 +9324,9 @@ button {
 .organizer-planner-cta:hover,
 .organizer-planner-cta:focus-visible,
 .retreat-planner-actions button:hover,
-.retreat-planner-actions button:focus-visible {
+.retreat-planner-actions button:focus-visible,
+.retreat-planner-tool button:hover,
+.retreat-planner-tool button:focus-visible {
   background: var(--paper);
   outline: 2px solid var(--ink);
   outline-offset: 3px;
@@ -9282,7 +9348,7 @@ button {
 
 .retreat-planner-intro h1 {
   margin-block: 20px;
-  font-size: clamp(48px, 6.6vw, 98px);
+  font-size: clamp(44px, 6.4vw, 92px);
   line-height: 0.93;
   letter-spacing: -0.067em;
   font-weight: 330;
@@ -9298,7 +9364,9 @@ button {
   min-width: 0;
   padding: clamp(20px, 3.3vw, 48px);
   background: #fffaf2;
-  border: 1px solid rgb(36 35 31 / 0.22);
+  border: 1px solid rgb(36 35 31 / 0.17);
+  border-top: 3px solid #68763d;
+  box-shadow: 0 16px 64px rgb(58 43 24 / 0.06);
 }
 
 .retreat-planner-progress {
@@ -9316,7 +9384,7 @@ button {
 }
 
 .retreat-planner-workspace h2 {
-  margin-bottom: 26px;
+  margin-bottom: 20px;
   font-size: clamp(28px, 3.3vw, 48px);
   line-height: 1.08;
   letter-spacing: -0.045em;
@@ -9325,15 +9393,14 @@ button {
 
 .retreat-planner-field {
   display: grid;
-  gap: 7px;
-  margin-block: 20px;
+  gap: 6px;
+  margin-block: 15px;
 }
 
 .retreat-planner-field label {
   font-weight: 610;
 }
 
-.retreat-planner-field p,
 .retreat-planner-storage {
   color: #524d44;
   font-size: 0.875rem;
@@ -9358,6 +9425,15 @@ button {
   background: #fffdf9 url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 16 16' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='m4 6 4 4 4-4' fill='none' stroke='%2324231f' stroke-width='1.5'/%3E%3C/svg%3E") no-repeat right 10px center;
 }
 
+.retreat-planner-extra { margin: 12px 0; }
+.retreat-planner-extra summary {
+  width: fit-content;
+  padding-block: 5px;
+  color: #555b3b;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
 .retreat-planner-actions {
   display: flex;
   flex-wrap: wrap;
@@ -9372,22 +9448,46 @@ button {
 
 .retreat-planner-results { margin-top: 24px; }
 
-.retreat-planner-results article {
-  padding-block: 21px;
+.retreat-planner-result {
+  padding-block: 14px;
   border-bottom: 1px solid rgb(36 35 31 / 0.2);
 }
 
-.retreat-planner-results h3,
+.retreat-planner-result summary,
 .retreat-planner-checklist legend {
   font-size: 1.125rem;
   font-weight: 640;
 }
+
+.retreat-planner-result summary { cursor: pointer; }
 
 .retreat-planner-results p {
   margin-top: 10px;
   line-height: 1.65;
   overflow-wrap: anywhere;
 }
+
+.retreat-planner-tip {
+  margin-top: 18px;
+  padding: 12px 14px;
+  border-inline-start: 3px solid #68763d;
+  background: #efeddf;
+  font-size: 0.9375rem;
+  line-height: 1.55;
+}
+
+.retreat-planner-tip h3 {
+  margin-bottom: 4px;
+  font-size: 0.875rem;
+  font-weight: 650;
+}
+
+.retreat-planner-tools { margin-top: 28px; }
+.retreat-planner-tools > h3 { margin-bottom: 12px; font-size: 1.125rem; font-weight: 640; }
+.retreat-planner-tool { padding-block: 12px; border-bottom: 1px solid rgb(36 35 31 / 0.2); }
+.retreat-planner-tool summary { min-height: 32px; cursor: pointer; font-weight: 590; }
+.retreat-planner-tool p { margin-bottom: 12px; white-space: pre-wrap; overflow-wrap: anywhere; line-height: 1.6; }
+.retreat-planner-copy-status:not(:empty) { margin-top: 10px; font-size: 0.875rem; }
 
 .retreat-planner-checklist { margin-block: 26px; }
 
@@ -9413,6 +9513,7 @@ button {
 @media (max-width: 760px) {
   .retreat-planner-layout {
     width: calc(100% - 36px);
+    padding-block: 38px 72px;
     grid-template-columns: minmax(0, 1fr);
   }
 }
