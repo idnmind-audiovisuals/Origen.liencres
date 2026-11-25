@@ -8,6 +8,12 @@ import {
 
 const SITE_URL = "https://www.origenliencres.com";
 const PAGE_URL = `${SITE_URL}/circulo-de-mujeres-cantabria`;
+const BACKGROUND_IMAGE = {
+  url: "/women-circle-gradient-hd.jpg",
+  width: 1672,
+  height: 941,
+  alt: "Textura de cuarzo rosa con vetas doradas del Círculo de Mujeres de Origen",
+};
 const WHATSAPP_URL =
   "https://chat.whatsapp.com/KW3qQoKiLUk4LZIA0xZD5E?s=cl&p=i&mlu=0";
 
@@ -31,20 +37,13 @@ export const metadata: Metadata = {
     description: WOMEN_CIRCLE_DESCRIPTION,
     siteName: "Origen Liencres",
     locale: "es_ES",
-    images: [
-      {
-        url: "/women-circle-organic.jpg?v=5",
-        width: 643,
-        height: 360,
-        alt: "Círculo de mujeres en Origen Liencres, Cantabria",
-      },
-    ],
+    images: [BACKGROUND_IMAGE],
   },
   twitter: {
     card: "summary_large_image",
     title: WOMEN_CIRCLE_TITLE,
     description: WOMEN_CIRCLE_DESCRIPTION,
-    images: ["/women-circle-organic.jpg?v=5"],
+    images: [BACKGROUND_IMAGE.url],
   },
 };
 
@@ -62,9 +61,9 @@ const structuredData = {
       about: { "@id": `${PAGE_URL}#service` },
       primaryImageOfPage: {
         "@type": "ImageObject",
-        url: `${SITE_URL}/women-circle-organic.jpg?v=5`,
-        width: 643,
-        height: 360,
+        url: `${SITE_URL}${BACKGROUND_IMAGE.url}`,
+        width: BACKGROUND_IMAGE.width,
+        height: BACKGROUND_IMAGE.height,
       },
     },
     {

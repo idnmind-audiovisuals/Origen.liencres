@@ -563,7 +563,10 @@ test("publishes local SEO and machine-readable facts for both circles", async ()
   assert.match(women, /Cada martes de 18:00 a 20:00/);
   assert.match(women, /¿Qué es el círculo de mujeres de Origen\?/);
   assert.match(women, /"opens":"18:00","closes":"20:00"/);
-  assert.match(women, /women-circle-organic\.jpg\?v=5/);
+  assert.equal(meta(women, "og:image"), `${publicOrigin}/women-circle-gradient-hd.jpg`);
+  assert.equal(meta(women, "og:image:width"), "1672");
+  assert.equal(meta(women, "og:image:height"), "941");
+  assert.match(styles, /\.women-circle-texture \{[^}]*position: fixed;[^}]*linear-gradient\([^}]*\/women-circle-gradient-hd\.jpg/s);
 
   assert.match(styles, /animation-timeline:\s*view\(block\)/);
   assert.match(styles, /@media \(prefers-reduced-motion: reduce\)/);
