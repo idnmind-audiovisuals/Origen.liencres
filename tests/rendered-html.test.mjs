@@ -223,37 +223,51 @@ test("the planner opens publicly and adapts its guidance to the answers", async 
 test("makes the same bookable calendar available on the public venue page and home", async () => {
   const response = await render("/retiros");
   assert.equal(response.status, 200);
-  const html = await response.text();
+  const html = (await response.text()).replaceAll("<!-- -->", "");
   assert.match(html, /href="#reservar">Ver disponibilidad/);
   assert.match(html, /id="reservar"/);
   assert.match(html, /Encuentra tus fechas/);
+  assert.match(html, /Tarifas por noche/);
+  assert.match(html, /<th scope="row">Baja<\/th><td>332\s+€<\/td><td>349\s+€<\/td>/);
+  assert.match(html, /<th scope="row">Alta<\/th><td>349\s+€<\/td><td>359\s+€<\/td>/);
+  assert.match(html, /En estancias de 7 noches o más/);
   assert.doesNotMatch(html, /Reservas confirmadas durante octubre/);
   const home = await readFile(new URL("../app/components/OrigenHomeState.tsx", import.meta.url), "utf8");
   assert.match(home, /<BookingCalendar\s*\/>/);
   assert.match(home, /href="#reservar"/);
 });
 
-test("quotes the same length discounts and peak-season surcharge shown at checkout", () => {
-  const regularBookingDate = new Date("2026-11-01T12:00:00Z");
-  assert.equal(calculateRetreatQuote("2027-05-01", "2027-05-02", regularBookingDate)?.totalCents, 39_000);
-  assert.equal(calculateRetreatQuote("2027-05-01", "2027-05-02", regularBookingDate)?.depositCents, 10_000);
-  assert.equal(calculateRetreatQuote("2027-05-01", "2027-05-04", regularBookingDate)?.totalCents, 93_600);
-  assert.equal(calculateRetreatQuote("2027-05-01", "2027-05-04", regularBookingDate)?.depositCents, 30_000);
-  assert.equal(calculateRetreatQuote("2027-05-01", "2027-05-04", regularBookingDate)?.balanceDueCents, 63_600);
-  assert.equal(calculateRetreatQuote("2027-05-01", "2027-05-08", regularBookingDate)?.totalCents, 191_100);
-  assert.equal(calculateRetreatQuote("2027-05-01", "2027-05-08", regularBookingDate)?.depositCents, 70_000);
-  assert.equal(calculateRetreatQuote("2027-07-01", "2027-07-02", regularBookingDate)?.totalCents, 50_700);
-  assert.equal(calculateRetreatQuote("2027-07-01", "2027-07-04", regularBookingDate)?.totalCents, 121_680);
-  assert.equal(calculateRetreatQuote("2027-12-20", "2027-12-21", regularBookingDate)?.totalCents, 50_700);
-  assert.equal(calculateRetreatQuote("2027-06-30", "2027-07-02", regularBookingDate)?.highSeasonNights, 1);
-  assert.equal(calculateRetreatQuote("2027-02-30", "2027-03-03", regularBookingDate), null);
+test("calculates seasonal rates for each overnight date, including Friday and Saturday", () => {
+  for (const [arrival, departure, totalCents] of [
+    ["2027-05-03", "2027-05-04", 33_200], // Low-season Monday
+    ["2027-05-07", "2027-05-09", 69_800], // Friday and Saturday nights; Sunday checkout
+    ["2027-05-09", "2027-05-10", 33_200], // Sunday is a weekday rate
+    ["2027-05-07", "2027-05-10", 103_000], // No three-night discount
+    ["2027-07-01", "2027-07-04", 106_700], // High-season Thursday, Friday and Saturday
+    ["2027-06-30", "2027-07-02", 68_100], // Crosses into summer
+    ["2027-08-31", "2027-09-02", 68_100], // Leaves summer
+    ["2027-12-19", "2027-12-21", 68_100], // Starts Christmas season
+    ["2027-01-06", "2027-01-08", 68_100], // Leaves Christmas season
+  ]) {
+    assert.equal(calculateRetreatQuote(arrival, departure)?.totalCents, totalCents, arrival);
+  }
+  assert.equal(calculateRetreatQuote("2027-02-30", "2027-03-03"), null);
+});
 
-  const octoberBookingDate = new Date("2026-10-15T12:00:00Z");
-  const launchQuote = calculateRetreatQuote("2027-05-01", "2027-05-02", octoberBookingDate);
-  assert.equal(launchQuote?.discountSource, "launch");
-  assert.equal(launchQuote?.discountPercent, 30);
-  assert.equal(launchQuote?.discountCents, 11_700);
-  assert.equal(launchQuote?.totalCents, 27_300);
+test("applies one 15% discount from seven nights without changing the nightly deposit", () => {
+  assert.equal(calculateRetreatQuote("2027-05-03", "2027-05-09")?.discountPercent, 0);
+  const week = calculateRetreatQuote("2027-05-03", "2027-05-10");
+  assert.equal(week?.discountPercent, 15);
+  assert.equal(week?.subtotalCents, 235_800);
+  assert.equal(week?.discountCents, 35_370);
+  assert.equal(week?.totalCents, 200_430);
+  assert.equal(week?.depositCents, 70_000);
+  assert.equal(week?.balanceDueCents, 130_430);
+  assert.deepEqual(week?.rateLines, [
+    { season: "low", dayType: "weekday", nights: 5, nightlyRateEur: 332, subtotalCents: 166_000 },
+    { season: "low", dayType: "weekend", nights: 2, nightlyRateEur: 349, subtotalCents: 69_800 },
+  ]);
+  assert.equal(calculateRetreatQuote("2027-05-03", "2027-05-11")?.totalCents, 228_650);
 });
 
 test("keeps Airbnb and Stripe credentials server-side and degrades safely before configuration", async () => {

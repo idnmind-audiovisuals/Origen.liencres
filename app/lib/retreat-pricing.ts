@@ -1,39 +1,36 @@
-export const RETREAT_BASE_NIGHT_EUR = 390;
+export const RETREAT_NIGHTLY_RATES_EUR = {
+  low: { weekday: 332, weekend: 349 },
+  high: { weekday: 349, weekend: 359 },
+} as const;
 export const RETREAT_DEPOSIT_PER_NIGHT_EUR = 100;
 export const RETREAT_MAX_GUESTS = 9;
 export const RETREAT_MAX_NIGHTS = 60;
-export const RETREAT_LAUNCH_DISCOUNT_PERCENT = 30;
-export const RETREAT_LAUNCH_YEAR = 2026;
+export const RETREAT_WEEKLY_DISCOUNT_PERCENT = 15;
+export const RETREAT_WEEKLY_MIN_NIGHTS = 7;
 
 const DAY_MS = 86_400_000;
-const BASE_NIGHT_CENTS = RETREAT_BASE_NIGHT_EUR * 100;
+const SEASONS = ["low", "high"] as const;
+const DAY_TYPES = ["weekday", "weekend"] as const;
+
+type RateLine = {
+  season: (typeof SEASONS)[number];
+  dayType: (typeof DAY_TYPES)[number];
+  nights: number;
+  nightlyRateEur: number;
+  subtotalCents: number;
+};
 
 export type RetreatQuote = {
   nights: number;
   highSeasonNights: number;
-  baseCents: number;
-  highSeasonSurchargeCents: number;
-  stayDiscountPercent: number;
-  launchDiscountPercent: number;
-  discountSource: "launch" | "stay" | null;
+  rateLines: RateLine[];
+  subtotalCents: number;
   discountPercent: number;
   discountCents: number;
   totalCents: number;
   depositCents: number;
   balanceDueCents: number;
 };
-
-export function isOctoberLaunchBooking(bookingDate = new Date()) {
-  if (!Number.isFinite(bookingDate.getTime())) return false;
-  const madridDate = new Intl.DateTimeFormat("en-CA", {
-    timeZone: "Europe/Madrid",
-    year: "numeric",
-    month: "2-digit",
-  }).formatToParts(bookingDate);
-  const year = Number(madridDate.find((part) => part.type === "year")?.value);
-  const month = Number(madridDate.find((part) => part.type === "month")?.value);
-  return year === RETREAT_LAUNCH_YEAR && month === 10;
-}
 
 function utcDate(value: string): Date | null {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return null;
@@ -56,7 +53,6 @@ function isHighSeasonNight(date: Date) {
 export function calculateRetreatQuote(
   arrival: string,
   departure: string,
-  bookingDate = new Date(),
 ): RetreatQuote | null {
   const start = utcDate(arrival);
   const end = utcDate(departure);
@@ -65,38 +61,35 @@ export function calculateRetreatQuote(
   const nights = Math.round((end.getTime() - start.getTime()) / DAY_MS);
   if (nights < 1 || nights > RETREAT_MAX_NIGHTS) return null;
 
-  let highSeasonNights = 0;
+  const counts = {
+    low: { weekday: 0, weekend: 0 },
+    high: { weekday: 0, weekend: 0 },
+  };
   for (let index = 0; index < nights; index += 1) {
-    if (isHighSeasonNight(new Date(start.getTime() + index * DAY_MS))) {
-      highSeasonNights += 1;
-    }
+    const date = new Date(start.getTime() + index * DAY_MS);
+    const season = isHighSeasonNight(date) ? "high" : "low";
+    const day = date.getUTCDay();
+    const dayType = day === 5 || day === 6 ? "weekend" : "weekday";
+    counts[season][dayType] += 1;
   }
 
-  const baseCents = nights * BASE_NIGHT_CENTS;
-  const highSeasonSurchargeCents = highSeasonNights * Math.round(BASE_NIGHT_CENTS * 0.3);
-  const subtotalCents = baseCents + highSeasonSurchargeCents;
-  const stayDiscountPercent = nights >= 7 ? 30 : nights >= 3 ? 20 : 0;
-  const launchDiscountPercent = isOctoberLaunchBooking(bookingDate)
-    ? RETREAT_LAUNCH_DISCOUNT_PERCENT
-    : 0;
-  const discountPercent = Math.max(stayDiscountPercent, launchDiscountPercent);
-  const discountSource = launchDiscountPercent >= stayDiscountPercent && launchDiscountPercent > 0
-    ? "launch"
-    : stayDiscountPercent > 0
-      ? "stay"
-      : null;
+  const rateLines = SEASONS.flatMap((season) => DAY_TYPES.flatMap((dayType) => {
+    const count = counts[season][dayType];
+    if (!count) return [];
+    const nightlyRateEur = RETREAT_NIGHTLY_RATES_EUR[season][dayType];
+    return [{ season, dayType, nights: count, nightlyRateEur, subtotalCents: count * nightlyRateEur * 100 }];
+  }));
+  const subtotalCents = rateLines.reduce((total, line) => total + line.subtotalCents, 0);
+  const discountPercent = nights >= RETREAT_WEEKLY_MIN_NIGHTS ? RETREAT_WEEKLY_DISCOUNT_PERCENT : 0;
   const discountCents = Math.round((subtotalCents * discountPercent) / 100);
   const totalCents = subtotalCents - discountCents;
   const depositCents = nights * RETREAT_DEPOSIT_PER_NIGHT_EUR * 100;
 
   return {
     nights,
-    highSeasonNights,
-    baseCents,
-    highSeasonSurchargeCents,
-    stayDiscountPercent,
-    launchDiscountPercent,
-    discountSource,
+    highSeasonNights: counts.high.weekday + counts.high.weekend,
+    rateLines,
+    subtotalCents,
     discountPercent,
     discountCents,
     totalCents,

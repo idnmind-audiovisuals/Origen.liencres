@@ -4,11 +4,11 @@ import { useEffect, useMemo, useState } from "react";
 import { ORIGEN_AIRBNB_URL, HOST_APPLICATION_URL } from "../lib/public-retreat-content";
 import {
   calculateRetreatQuote,
-  isOctoberLaunchBooking,
-  RETREAT_LAUNCH_DISCOUNT_PERCENT,
-  RETREAT_BASE_NIGHT_EUR,
   RETREAT_DEPOSIT_PER_NIGHT_EUR,
   RETREAT_MAX_GUESTS,
+  RETREAT_NIGHTLY_RATES_EUR,
+  RETREAT_WEEKLY_DISCOUNT_PERCENT,
+  RETREAT_WEEKLY_MIN_NIGHTS,
 } from "../lib/retreat-pricing";
 
 const REVOLUT_PAYMENT_URL = "https://revolut.me/mariogonzalezdia";
@@ -57,7 +57,7 @@ function formatEuros(cents: number) {
   return new Intl.NumberFormat("es-ES", {
     style: "currency",
     currency: "EUR",
-    minimumFractionDigits: 0,
+    minimumFractionDigits: cents % 100 === 0 ? 0 : 2,
     maximumFractionDigits: 2,
   }).format(cents / 100);
 }
@@ -162,14 +162,12 @@ export function BookingCalendar() {
   const [unavailable, setUnavailable] = useState<UnavailableRange[]>([]);
   const [calendarConnected, setCalendarConnected] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [showLaunchOffer, setShowLaunchOffer] = useState(false);
   const [message, setMessage] = useState("Selecciona llegada y salida.");
   const [paymentConfirmed, setPaymentConfirmed] = useState(false);
   const [openPicker, setOpenPicker] = useState<"arrival" | "departure" | null>(null);
 
   useEffect(() => {
     let active = true;
-    setShowLaunchOffer(isOctoberLaunchBooking());
     fetch("/api/availability")
       .then((response) => response.json() as Promise<AvailabilityResponse>)
       .then((data) => {
@@ -275,19 +273,27 @@ export function BookingCalendar() {
           <p className="retreat-public-eyebrow">Disponibilidad y reserva</p>
           <h2 id="booking-title">Encuentra tus fechas.</h2>
         </div>
-        <p>
-          {RETREAT_BASE_NIGHT_EUR} € por noche · Descuentos y recargos aplicados automáticamente.
-        </p>
+        <div className="booking-rates">
+          <table>
+            <caption>Tarifas por noche</caption>
+            <thead>
+              <tr><th scope="col">Temporada</th><th scope="col">Entre semana</th><th scope="col">Fin de semana</th></tr>
+            </thead>
+            <tbody>
+              <tr><th scope="row">Baja</th><td>{RETREAT_NIGHTLY_RATES_EUR.low.weekday} €</td><td>{RETREAT_NIGHTLY_RATES_EUR.low.weekend} €</td></tr>
+              <tr><th scope="row">Alta</th><td>{RETREAT_NIGHTLY_RATES_EUR.high.weekday} €</td><td>{RETREAT_NIGHTLY_RATES_EUR.high.weekend} €</td></tr>
+            </tbody>
+          </table>
+          <p>Fin de semana: viernes y sábado. Temporada alta: julio, agosto y del 20 de diciembre al 6 de enero.</p>
+        </div>
       </div>
 
       <div className="booking-layout">
         <div className="booking-calendar-card">
-          {showLaunchOffer && (
-            <div className="booking-calendar-offer">
-              <strong>−{RETREAT_LAUNCH_DISCOUNT_PERCENT} %</strong>
-              <span>Reservas confirmadas durante octubre</span>
-            </div>
-          )}
+          <div className="booking-calendar-offer">
+            <strong>−{RETREAT_WEEKLY_DISCOUNT_PERCENT} %</strong>
+            <span>En estancias de {RETREAT_WEEKLY_MIN_NIGHTS} noches o más</span>
+          </div>
           <div className="booking-calendar-nav">
             <button type="button" onClick={() => setVisibleMonth(addMonths(visibleMonth, -1))} disabled={!canMoveBack} aria-label="Mes anterior">←</button>
             <p>{loading ? "Actualizando calendario…" : calendarConnected ? "Conectado con Airbnb" : "Disponibilidad final en Airbnb"}</p>
@@ -307,7 +313,7 @@ export function BookingCalendar() {
           <div>
             <p className="retreat-public-eyebrow">Uso exclusivo</p>
             <h3>Reserva la casa completa.</h3>
-            <p>Tarifa base de {RETREAT_BASE_NIGHT_EUR} € por noche para el grupo completo, hasta {RETREAT_MAX_GUESTS} huéspedes.</p>
+            <p>Precio para el grupo completo, hasta {RETREAT_MAX_GUESTS} huéspedes.</p>
           </div>
           <dl>
             <div className="booking-date-row">
@@ -338,11 +344,20 @@ export function BookingCalendar() {
             </div>
             {quote ? (
               <>
-                <div><dt>{quote.nights} {quote.nights === 1 ? "noche" : "noches"} × {RETREAT_BASE_NIGHT_EUR} €</dt><dd>{formatEuros(quote.baseCents)}</dd></div>
-                {quote.highSeasonNights ? <div><dt>Temporada alta · {quote.highSeasonNights} {quote.highSeasonNights === 1 ? "noche" : "noches"} (+30 %)</dt><dd>+{formatEuros(quote.highSeasonSurchargeCents)}</dd></div> : null}
+                {quote.rateLines.map((line) => (
+                  <div key={`${line.season}-${line.dayType}`}>
+                    <dt>
+                      {line.nights} {line.nights === 1 ? "noche" : "noches"} × {line.nightlyRateEur} €
+                      <span className="booking-rate-line-note">
+                        Temporada {line.season === "high" ? "alta" : "baja"} · {line.dayType === "weekend" ? "fin de semana" : "entre semana"}
+                      </span>
+                    </dt>
+                    <dd>{formatEuros(line.subtotalCents)}</dd>
+                  </div>
+                ))}
                 {quote.discountPercent ? (
                   <div>
-                    <dt>{quote.discountSource === "launch" ? "Precio de lanzamiento" : "Descuento por estancia"} · {quote.discountPercent} %</dt>
+                    <dt>Descuento semanal · {quote.discountPercent} %</dt>
                     <dd>−{formatEuros(quote.discountCents)}</dd>
                   </div>
                 ) : null}
