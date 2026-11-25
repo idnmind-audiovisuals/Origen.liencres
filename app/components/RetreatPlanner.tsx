@@ -235,6 +235,10 @@ export function RetreatPlanner() {
             <button type="button" onClick={() => goTo(0)}>Editar</button>
           </div>
           {downloadStatus === "error" ? <p className="retreat-planner-copy-status" role="status">No se pudo descargar. Vuelve a intentarlo.</p> : null}
+          <aside className="retreat-planner-guide" aria-label="Siguiente paso">
+            <p>Siguiente paso</p>
+            <a href="/guia-para-organizar-tu-retiro.pdf" download>Guía para organizar tu retiro (PDF)</a>
+          </aside>
           <div className="retreat-planner-results">
             {retreatPlan(answers).map(({ title, lines }, index) => (
               <details key={title} className="retreat-planner-result" open={index === 0}>

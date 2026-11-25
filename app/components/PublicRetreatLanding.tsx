@@ -2,6 +2,7 @@ import Link from "next/link";
 import { BookingCalendar } from "./BookingCalendar";
 import { ORIGEN_HEADER_WORDMARK_BLACK_ASSET } from "../lib/brand";
 import { InstagramLink } from "./InstagramLink";
+import { HomeFooterLink } from "./HomeFooterLink";
 import { OrganizerLinks } from "./OrganizerLinks";
 import { VenueShowcase } from "./VenueShowcase";
 import {
@@ -238,6 +239,7 @@ export function PublicRetreatLanding({
         <div>
           <p>{copy.footerLine}</p>
         </div>
+        <HomeFooterLink language={language} />
       </footer>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData).replace(/</g, "\\u003c") }} />
     </main>

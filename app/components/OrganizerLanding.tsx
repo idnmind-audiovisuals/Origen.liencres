@@ -4,6 +4,7 @@ import { HOST_APPLICATION_URL, ORIGEN_AIRBNB_URL, ORIGEN_MAPS_URL, PUBLIC_SITE_U
 import { OrganizerLinks } from "./OrganizerLinks";
 import { GatewayBrandLink } from "./GatewayBrandLink";
 import { InstagramLink } from "./InstagramLink";
+import { HomeFooterLink } from "./HomeFooterLink";
 
 export function OrganizerLanding({ slug }: { slug: OrganizerSlug }) {
   const copy = organizerPages[slug];
@@ -167,6 +168,7 @@ export function OrganizerLanding({ slug }: { slug: OrganizerSlug }) {
             </Link>
           ) : null}
         </div>
+        <HomeFooterLink language={copy.language} />
       </footer>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData).replace(/</g, "\\u003c") }} />
     </main>

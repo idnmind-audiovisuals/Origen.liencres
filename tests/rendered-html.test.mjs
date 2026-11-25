@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
+import { PDFDocument } from "pdf-lib";
 import { calculateRetreatQuote } from "../app/lib/retreat-pricing.ts";
 import { GATEWAY_MOTION, getPortalZoomScale } from "../app/lib/gateway-motion.ts";
 import { plannerDefaults, plannerTips, retreatPlan, retreatToolbox } from "../app/lib/retreat-planner.ts";
@@ -244,6 +245,29 @@ test("the planner opens publicly and adapts its guidance to the answers", async 
   assert.match(tools.connection, /Rompehielos: Forma tríos/);
   assert.match(tools["follow-up"], /terminar un primer boceto/);
   assert.match(retreatToolbox({ ...answers, channel: "correo" })[0].text, /^Asunto:/);
+});
+
+test("offers a separate, printable retreat guide below the plan download", async () => {
+  const [planner, bytes] = await Promise.all([
+    readFile(new URL("../app/components/RetreatPlanner.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../public/guia-para-organizar-tu-retiro.pdf", import.meta.url)),
+  ]);
+  assert.match(planner, /Descargar mi plan \(PDF\)[\s\S]*?href="\/guia-para-organizar-tu-retiro\.pdf" download>Guía para organizar tu retiro \(PDF\)/);
+  const guide = await PDFDocument.load(bytes);
+  assert.equal(guide.getTitle(), "Guía para organizar tu retiro");
+  assert.equal(guide.getPageCount(), 6);
+});
+
+test("links back to the homepage in the main public section footers", async () => {
+  const routes = ["/retiros", "/organiza-tu-retiro-cantabria", "/residencias", "/eventos-bienestar-cantabria", "/circulo-de-hombres-cantabria", "/circulo-de-mujeres-cantabria"];
+  for (const path of routes) {
+    const response = await render(path);
+    assert.equal(response.status, 200, path);
+    const html = await response.text();
+    const footer = html.match(/<footer\b[^>]*>[\s\S]*?<\/footer>/)?.[0];
+    assert.ok(footer, path);
+    assert.match(footer, /<a\b(?=[^>]*class="site-home-footer-link")(?=[^>]*href="\/")[^>]*>Volver al inicio<\/a>/, path);
+  }
 });
 
 test("shows real venue photos and the looping video on both Spanish landing pages", async () => {
@@ -563,9 +587,10 @@ test("publishes local SEO and machine-readable facts for both circles", async ()
   assert.match(women, /Cada martes de 18:00 a 20:00/);
   assert.match(women, /¿Qué es el círculo de mujeres de Origen\?/);
   assert.match(women, /"opens":"18:00","closes":"20:00"/);
-  assert.equal(meta(women, "og:image"), `${publicOrigin}/women-circle-gradient-hd.jpg`);
-  assert.equal(meta(women, "og:image:width"), "1672");
-  assert.equal(meta(women, "og:image:height"), "941");
+  assert.equal(meta(women, "og:image"), `${publicOrigin}/women-circle-origen-share-v1.jpg`);
+  assert.equal(meta(women, "twitter:image"), meta(women, "og:image"));
+  assert.equal(meta(women, "og:image:width"), "1200");
+  assert.equal(meta(women, "og:image:height"), "630");
   assert.match(styles, /\.women-circle-texture \{[^}]*position: fixed;[^}]*linear-gradient\([^}]*\/women-circle-gradient-hd\.jpg/s);
 
   assert.match(styles, /animation-timeline:\s*view\(block\)/);

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { GatewayBrandLink } from "./GatewayBrandLink";
 import { InstagramLink } from "./InstagramLink";
+import { HomeFooterLink } from "./HomeFooterLink";
 import { HOST_APPLICATION_URL, PUBLIC_SITE_URL } from "../lib/public-retreat-content";
 import type { Language } from "../lib/language";
 
@@ -84,7 +85,10 @@ export function EventOrganizerLanding({ language }: { language: Language }) {
       <section className="organizer-program" aria-label={copy.introTitle}><ol className="scroll-reveal-list">{copy.items.map(([heading, body], index) => <li key={heading}><span className="organizer-number" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span><div><h3>{heading}</h3><p>{body}</p></div></li>)}</ol></section>
       <section className="retreat-public-details" aria-labelledby="events-planning-title"><div className="retreat-public-details-heading scroll-reveal"><h2 id="events-planning-title">{copy.planningTitle}</h2></div><div className="retreat-public-details-grid scroll-reveal-list">{copy.planning.map(([heading, body], index) => <article key={heading}><span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span><h3>{heading}</h3><p>{body}</p></article>)}</div></section>
       <section className="retreat-public-host scroll-reveal" id="propuesta" aria-labelledby="events-proposal-title"><div><h2 id="events-proposal-title">{copy.ctaTitle}</h2></div><div><p>{copy.ctaBody}</p><a className="retreat-public-primary" href={HOST_APPLICATION_URL} target="_blank" rel="noreferrer">{copy.cta}<span className="external-link-dot" aria-hidden="true" /></a></div></section>
-      <footer className="retreat-public-footer"><p>Origen Liencres · Costa Quebrada</p><InstagramLink /><p>{language === "es" ? "Para organizadores" : "For organisers"}</p></footer>
+      <footer className="retreat-public-footer">
+        <p>Origen Liencres · Costa Quebrada</p><InstagramLink /><p>{language === "es" ? "Para organizadores" : "For organisers"}</p>
+        <HomeFooterLink language={language} />
+      </footer>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData).replace(/</g, "\\u003c") }} />
     </main>
   );

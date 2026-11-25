@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { GatewayBrandLink } from "./GatewayBrandLink";
 import { InstagramLink } from "./InstagramLink";
+import { HomeFooterLink } from "./HomeFooterLink";
 import { VenueShowcase } from "./VenueShowcase";
 import { HOST_APPLICATION_URL, PUBLIC_SITE_URL } from "../lib/public-retreat-content";
 import { RESIDENCY_ROUTES } from "../lib/residency-routes";
@@ -152,7 +153,10 @@ export function ResidenciesHub({ language }: { language: Language }) {
         <div><p>{copy.ctaBody}</p><a className="retreat-public-primary" href={HOST_APPLICATION_URL} target="_blank" rel="noreferrer">{copy.cta}<span className="external-link-dot" aria-hidden="true" /></a></div>
       </section>
 
-      <footer className="retreat-public-footer"><p>Origen Liencres · Costa Quebrada</p><InstagramLink /><p>{copy.footer}</p></footer>
+      <footer className="retreat-public-footer">
+        <p>Origen Liencres · Costa Quebrada</p><InstagramLink /><p>{copy.footer}</p>
+        <HomeFooterLink language={language} />
+      </footer>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData).replace(/</g, "\\u003c") }} />
     </main>
   );

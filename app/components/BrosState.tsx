@@ -11,6 +11,7 @@ import Link from "next/link";
 import { useEffect, useLayoutEffect, useRef } from "react";
 import { GatewayBrandLink } from "./GatewayBrandLink";
 import { InstagramLink } from "./InstagramLink";
+import { HomeFooterLink } from "./HomeFooterLink";
 import { LoopingVideo } from "./LoopingVideo";
 import {
   CINEMATIC_ENTRY_EASE,
@@ -537,6 +538,7 @@ export function BrosState({ development, onReset }: BrosStateProps) {
         <footer className="bros-footer">
           <p>Origen Bros</p>
           <p>Liencres · Cantabria</p>
+          <HomeFooterLink />
         </footer>
 
         <InstagramLink />

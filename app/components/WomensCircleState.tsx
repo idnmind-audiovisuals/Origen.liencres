@@ -11,6 +11,7 @@ import { CINEMATIC_ENTRY_EASE, GATEWAY_MOTION } from "../lib/gateway-motion";
 import { WOMEN_CIRCLE_FAQS } from "../lib/circle-seo";
 import { GatewayBrandLink } from "./GatewayBrandLink";
 import { InstagramLink } from "./InstagramLink";
+import { HomeFooterLink } from "./HomeFooterLink";
 
 const CONTACT_URL =
   "https://chat.whatsapp.com/KW3qQoKiLUk4LZIA0xZD5E?s=cl&p=i&mlu=0";
@@ -308,6 +309,7 @@ export function WomensCircleState() {
         <footer className="bros-footer">
           <p>Origen · Círculo de mujeres</p>
           <p>Liencres · Cantabria</p>
+          <HomeFooterLink />
         </footer>
 
         <InstagramLink />

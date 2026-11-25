@@ -5083,6 +5083,25 @@ button {
   text-transform: uppercase;
 }
 
+.site-home-footer-link {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  color: inherit;
+  font-size: 0.875rem;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.site-home-footer-link:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 4px;
+}
+
+.bros-footer > .site-home-footer-link {
+  margin-top: -12px;
+}
+
 .bros-session-reset {
   position: static;
   display: block;
@@ -8194,6 +8213,16 @@ body:has(.women-circle-page) .site-section-menu > button {
   border-bottom: 1px solid currentColor;
 }
 
+.retreat-public-footer > .site-home-footer-link {
+  grid-column: 1 / -1;
+  justify-self: start;
+  order: 4;
+  font-size: 0.875rem;
+  letter-spacing: normal;
+  text-decoration: underline;
+  text-transform: none;
+}
+
 /* Spanish discovery page — shares the open, editorial language of Esencia. */
 .retreat-public-page--esencia {
   background: #f2efe8 url("/costa-quebrada-porcelain.jpg") center / cover fixed;
@@ -9454,6 +9483,26 @@ body:has(.women-circle-page) .site-section-menu > button {
 .retreat-planner-actions .retreat-planner-primary,
 .organizer-planner-cta {
   background: var(--gateway-accent);
+}
+
+.retreat-planner-guide {
+  margin-top: 16px;
+  padding: 12px 16px;
+  border-inline-start: 3px solid #68763d;
+  background: #efeddf;
+}
+
+.retreat-planner-guide p {
+  color: #555b3b;
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
+.retreat-planner-guide a {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  font-weight: 590;
 }
 
 .retreat-planner-results { margin-top: 24px; }
