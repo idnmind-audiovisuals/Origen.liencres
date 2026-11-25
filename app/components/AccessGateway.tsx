@@ -5,9 +5,8 @@ import { GATEWAY_MOTION } from "../lib/gateway-motion";
 import { OrigenHomeState } from "./OrigenHomeState";
 import { OrigenSymbolAnimation } from "./OrigenSymbolAnimation";
 import { ReducedMotionGateway } from "./ReducedMotionGateway";
-import { SuccessTransition } from "./SuccessTransition";
 
-type GatewayState = "forming" | "unlocking" | "opened";
+type GatewayState = "forming" | "opening" | "opened";
 
 const reducedMotionQuery = "(prefers-reduced-motion: reduce)";
 
@@ -32,38 +31,24 @@ export function AccessGateway() {
   useEffect(() => {
     if (reduced || state !== "forming") return;
     const reveal = window.setTimeout(
-      () => setState("unlocking"),
-      GATEWAY_MOTION.formRevealMs,
+      () => setState("opening"),
+      GATEWAY_MOTION.formationDurationMs,
     );
     return () => window.clearTimeout(reveal);
   }, [reduced, state]);
 
-  useEffect(() => {
-    if (state !== "unlocking") return;
-    const opened = window.setTimeout(
-      () => setState("opened"),
-      (GATEWAY_MOTION.success.zoomDelay +
-        GATEWAY_MOTION.success.zoomDuration +
-        GATEWAY_MOTION.success.blackHold) *
-        1000,
-    );
-    return () => window.clearTimeout(opened);
-  }, [state]);
-
   if (reduced) return <ReducedMotionGateway />;
   if (state === "opened") return <OrigenHomeState />;
 
-  const unlocking = state === "unlocking";
-
   return (
     <main className="gateway" data-state={state}>
-      <OrigenSymbolAnimation errorPulse={0} unlocked={unlocking} />
-
-      <SuccessTransition active={unlocking} />
+      <OrigenSymbolAnimation
+        opening={state === "opening"}
+        onOpened={() => setState("opened")}
+      />
 
       <p className="sr-only" role="status" aria-live="polite">
-        {state === "forming" ? "Formando Origen." : null}
-        {state === "unlocking" ? "Entrando en Origen." : null}
+        {state === "forming" ? "Formando Origen." : "Entrando en Origen."}
       </p>
     </main>
   );

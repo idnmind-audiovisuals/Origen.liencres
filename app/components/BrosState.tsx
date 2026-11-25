@@ -279,6 +279,25 @@ export function BrosState({ development, onReset }: BrosStateProps) {
           </div>
         </motion.section>
 
+        <section className="bros-video" aria-labelledby="bros-video-title">
+          <div className="bros-section-heading">
+            <p>Círculo de hombres</p>
+            <h2 id="bros-video-title">Bros en Origen</h2>
+          </div>
+          <video
+            aria-labelledby="bros-video-title"
+            controls
+            playsInline
+            preload="none"
+            poster="/bros-martes-poster.jpg"
+            width={404}
+            height={720}
+          >
+            <source src="/bros-martes.mp4" type="video/mp4" />
+            <p>Tu navegador no puede reproducir el vídeo. <a href="/bros-martes.mp4">Abrir el vídeo de Bros</a>.</p>
+          </video>
+        </section>
+
         <motion.section
           className="bros-accountability bros-section-reveal"
           aria-labelledby="accountability-title"

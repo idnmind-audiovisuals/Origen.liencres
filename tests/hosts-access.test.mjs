@@ -202,17 +202,15 @@ test("both animation paths reveal the public home without a password", async () 
     assert.doesNotMatch(source, /AccessKeyForm|type="password"|fetch\("\/api\/access"/);
     assert.doesNotMatch(source, /Proposito|Purpose|ORIGEN_.*ACCESS_KEY/);
   }
-  const [cinematic, transition, motion] = await Promise.all([
+  const [cinematic, transition] = await Promise.all([
     readFile(new URL("../app/components/AccessGateway.tsx", import.meta.url), "utf8"),
-    readFile(new URL("../app/components/SuccessTransition.tsx", import.meta.url), "utf8"),
-    readFile(new URL("../app/lib/gateway-motion.ts", import.meta.url), "utf8"),
+    readFile(new URL("../app/components/OrigenSymbolAnimation.tsx", import.meta.url), "utf8"),
   ]);
-  assert.match(cinematic, /<SuccessTransition active=\{unlocking\}\s*\/>/);
-  assert.match(cinematic, /setState\("unlocking"\)/);
-  assert.match(cinematic, /GATEWAY_MOTION\.success\.zoomDelay/);
-  assert.match(transition, /GATEWAY_MOTION\.success\.zoomDuration/);
-  assert.doesNotMatch(transition, /innerZoomDelay|dotZoomDelay/);
-  assert.match(motion, /zoomDelay:\s*0\.72/);
+  assert.match(cinematic, /setState\("opening"\)/);
+  assert.match(cinematic, /onOpened=\{\(\) => setState\("opened"\)\}/);
+  assert.match(transition, /className="gateway-intro-motion"/);
+  assert.match(transition, /scale: \[1, introZoom\.breathScale, zoomScale\]/);
+  assert.match(transition, /onAnimationComplete/);
   assert.doesNotMatch(cinematic, /gateway-opening-copy|Origen is opening|<OrigenWordmark/);
   const brand = await readFile(new URL("../app/components/GatewayBrandLink.tsx", import.meta.url), "utf8");
   assert.match(brand, /fetch\("\/api\/access", \{ method: "DELETE" \}\)/);

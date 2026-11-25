@@ -1214,6 +1214,7 @@ button {
     max(28px, env(safe-area-inset-left));
   overflow: hidden;
   color: var(--ink);
+  background: var(--paper);
 }
 
 .origen-home-texture {
@@ -1358,6 +1359,64 @@ button {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: 50% 62%;
+}
+
+.origen-home-video-trigger,
+.origen-home-video-dialog > button {
+  display: inline-flex;
+  min-height: 44px;
+  padding: 0 13px;
+  align-items: center;
+  gap: 7px;
+  border: 1px solid rgb(242 239 232 / 0.62);
+  color: var(--paper);
+  background: #24231f;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.origen-home-video-trigger {
+  position: absolute;
+  left: 12px;
+  bottom: 12px;
+}
+
+.origen-home-video-trigger:is(:hover, :focus-visible),
+.origen-home-video-dialog > button:is(:hover, :focus-visible) {
+  color: var(--ink);
+  background: var(--paper);
+  outline: 2px solid var(--gateway-accent);
+  outline-offset: 3px;
+}
+
+.origen-home-video-dialog {
+  position: fixed;
+  inset: 0;
+  max-width: calc(100vw - 32px);
+  max-height: calc(100dvh - 32px);
+  margin: auto;
+  padding: 8px;
+  color: var(--paper);
+  background: #151411;
+}
+
+.origen-home-video-dialog::backdrop {
+  background: rgb(21 20 17 / 0.9);
+}
+
+.origen-home-video-dialog > button {
+  display: flex;
+  margin: 0 0 8px auto;
+}
+
+.origen-home-video-dialog video {
+  display: block;
+  width: min(100%, calc((100dvh - 112px) * 9 / 16));
+  height: auto;
+  margin-inline: auto;
+  aspect-ratio: 9 / 16;
 }
 
 .origen-home-space-image figcaption {
@@ -3499,6 +3558,15 @@ button {
   background: var(--paper);
 }
 
+.gateway-intro-motion {
+  position: absolute;
+  inset: 0;
+  /* The dot is centred at (141.5, 170) in the 283 × 244 artwork. */
+  transform-origin: 50% calc(var(--symbol-center-y) + var(--symbol-size) * 48 / 283);
+  pointer-events: none;
+  will-change: transform;
+}
+
 .first-light {
   position: fixed;
   z-index: 0;
@@ -3514,8 +3582,7 @@ button {
   will-change: transform, opacity;
 }
 
-.symbol-positioner,
-.success-stage-positioner {
+.symbol-positioner {
   position: fixed;
   inset: 0;
   display: grid;
@@ -3523,9 +3590,6 @@ button {
   pointer-events: none;
   transform: translateY(var(--symbol-rest-offset-y));
   transform-origin: 50% 50%;
-}
-
-.symbol-positioner {
   z-index: 2;
 }
 
@@ -3536,13 +3600,6 @@ button {
   overflow: visible;
   transform: translateZ(0);
   will-change: transform, opacity;
-}
-
-.unlock-response {
-  position: absolute;
-  inset: 0;
-  transform-origin: 50% 50%;
-  will-change: transform;
 }
 
 .forming-disc-shell {
@@ -3579,21 +3636,15 @@ button {
 }
 
 .forming-crescent-shell,
-.transition-crescent-shell,
 .forming-crescent-art {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-}
-
-.forming-crescent-shell,
-.forming-crescent-art {
   z-index: 2;
 }
 
-.forming-crescent-shell,
-.transition-crescent-shell {
+.forming-crescent-shell {
   transform-origin: 50% 50%;
   will-change: transform, opacity;
 }
@@ -3761,78 +3812,6 @@ button {
 .access-submit:hover .submit-breath,
 .access-submit:focus-visible .submit-breath {
   opacity: 0.88;
-}
-
-.success-transition {
-  position: fixed;
-  z-index: 3;
-  inset: 0;
-  display: grid;
-  overflow: hidden;
-  place-items: center;
-  pointer-events: none;
-}
-
-.success-symbol-stage {
-  position: relative;
-  width: var(--symbol-size);
-  aspect-ratio: var(--symbol-ratio);
-  overflow: visible;
-}
-
-.transition-disc-shell,
-.transition-inner-shell {
-  position: absolute;
-  aspect-ratio: 1;
-}
-
-.transition-disc-shell {
-  z-index: 1;
-  top: 3.2787%;
-  left: 2.8269%;
-  width: 94.3463%;
-}
-
-.transition-inner-shell {
-  z-index: 2;
-  top: 21.7213%;
-  left: 8.1272%;
-  width: 83.7456%;
-}
-
-.transition-black-circle,
-.transition-white-circle {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  transform-origin: 50% 50%;
-  will-change: transform, opacity;
-}
-
-.transition-black-circle {
-  background: var(--gateway-accent);
-  box-shadow: 0 0 0 2px var(--gateway-accent);
-}
-
-.transition-white-circle {
-  background: var(--gateway-accent);
-}
-
-.transition-black-dot {
-  position: absolute;
-  z-index: 4;
-  top: 61.0656%;
-  left: 42.5795%;
-  width: 14.841%;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  transform-origin: 50% 50%;
-  will-change: transform, background-color;
-  background: var(--paper);
-}
-
-.transition-crescent-shell {
-  z-index: 3;
 }
 
 .invitation-page {
@@ -4562,6 +4541,7 @@ button {
 
 .bros-manifesto,
 .bros-circle,
+.bros-video,
 .bros-accountability,
 .bros-intentions,
 .bros-agreements,
@@ -4603,6 +4583,7 @@ button {
 }
 
 .bros-circle,
+.bros-video,
 .bros-accountability,
 .bros-intentions,
 .bros-agreements,
@@ -4628,6 +4609,19 @@ button {
   font-weight: 330;
   letter-spacing: -0.034em;
   line-height: 1.28;
+}
+
+.bros-video video {
+  display: block;
+  width: min(100%, 400px, 42svh);
+  height: auto;
+  aspect-ratio: 404 / 720;
+  background: #151411;
+  object-fit: contain;
+}
+
+.bros-video video:focus-visible {
+  outline-offset: 6px;
 }
 
 .bros-accountability-content {
@@ -4983,6 +4977,7 @@ button {
 .bros-page .bros-hero-aside a,
 .bros-page .bros-manifesto,
 .bros-page .bros-circle,
+.bros-page .bros-video,
 .bros-page .bros-accountability,
 .bros-page .bros-intentions,
 .bros-page .bros-agreements,
@@ -5740,6 +5735,7 @@ button {
 
   .bros-manifesto,
   .bros-circle,
+  .bros-video,
   .bros-accountability,
   .bros-intentions,
   .bros-agreements,
@@ -5763,6 +5759,7 @@ button {
   }
 
   .bros-circle,
+  .bros-video,
   .bros-accountability,
   .bros-intentions,
   .bros-agreements,
@@ -5774,6 +5771,14 @@ button {
   .bros-section-heading,
   .bros-needs > p {
     margin-bottom: 76px;
+  }
+
+  .bros-video .bros-section-heading {
+    margin-bottom: 32px;
+  }
+
+  .bros-video video {
+    width: min(100%, 400px);
   }
 
   .bros-subscription .bros-section-heading {

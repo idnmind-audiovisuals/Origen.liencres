@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
 import { calculateRetreatQuote } from "../app/lib/retreat-pricing.ts";
+import { GATEWAY_MOTION, getPortalZoomScale } from "../app/lib/gateway-motion.ts";
 
 const templateRoot = new URL("../", import.meta.url);
 
@@ -539,6 +540,7 @@ test("server-renders the Origen gateway", async () => {
   );
   assert.match(html, /Alojamiento turístico y espacio para retiros, residencias y grupos privados/i);
   assert.doesNotMatch(html, /placeholder="Key to open"|type="password"/i);
+  assert.match(html, /class="gateway-intro-motion"/);
   assert.doesNotMatch(html, /Origen is opening|gateway-opening-copy/i);
   assert.match(html, /origen-favicon\.png/i);
   assert.match(html, /rel="canonical" href="https:\/\/www\.origenliencres\.com\/"/i);
@@ -547,6 +549,34 @@ test("server-renders the Origen gateway", async () => {
   assert.match(html, /"latitude":43\.4571267/i);
   assert.match(html, /"telephone":"\+34622181691"/i);
   assert.doesNotMatch(html, /codex-preview|react-loading-skeleton/i);
+});
+
+test("keeps the October formation and zooms through the dot on all screen shapes", () => {
+  assert.equal(GATEWAY_MOTION.firstLight.delay, 1);
+  assert.equal(GATEWAY_MOTION.formationDurationMs, 4696);
+  assert.equal(GATEWAY_MOTION.introZoom.duration, 2.08);
+  for (const [width, height, focusY, dotSize] of [
+    [390, 844, 389, 43],
+    [844, 390, 213, 28],
+    [1920, 1080, 497, 55],
+  ]) {
+    const finalRadius = (getPortalZoomScale(width, height, focusY, dotSize) * dotSize) / 2;
+    assert.ok(finalRadius > Math.hypot(width / 2, Math.max(focusY, height - focusY)));
+  }
+});
+
+test("renders a click-to-play video on the men's circle page", async () => {
+  const response = await render("/circulo-de-hombres-cantabria");
+  assert.equal(response.status, 200);
+  const html = await response.text();
+  const video = html.match(/<video\b[^>]*>[\s\S]*?<\/video>/i)?.[0];
+  assert.ok(video);
+  assert.match(video, /\bcontrols/);
+  assert.match(video, /\bplaysInline/i);
+  assert.match(video, /preload="none"/);
+  assert.doesNotMatch(video, /\bautoplay/i);
+  assert.match(video, /poster="\/bros-martes-poster\.jpg"/);
+  assert.match(video, /src="\/bros-martes\.mp4"/);
 });
 
 test("both gateway variants complete automatically into the public home", async () => {
@@ -563,7 +593,10 @@ test("both gateway variants complete automatically into the public home", async 
   ]);
   assert.match(home, /A space of possibilities\./);
   assert.match(home, /href="\/organiza-tu-retiro-cantabria#host"/);
-  assert.match(home, /origen-rebros-house-exterior\.avif/);
+  assert.match(home, /origen-home-video-poster\.jpg/);
+  assert.match(home, /Watch video/);
+  assert.match(home, /showModal\(\)/);
+  assert.match(home, /\{videoOpen && \([\s\S]*?<source src="\/origen-home-video\.mp4"/);
   assert.match(home, /9 guests · 3 bedrooms · 1 shala/);
   assert.match(home, /<HomeNavigation/);
   assert.match(menu, /HOME_LINKS\.map/);

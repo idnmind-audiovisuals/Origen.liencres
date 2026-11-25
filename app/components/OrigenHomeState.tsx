@@ -2,6 +2,7 @@
 
 import { motion, useReducedMotion } from "framer-motion";
 import Link from "next/link";
+import { useRef, useState } from "react";
 import { ORIGEN_HEADER_WORDMARK_BLACK_ASSET } from "../lib/brand";
 import { CINEMATIC_ENTRY_EASE, GATEWAY_MOTION } from "../lib/gateway-motion";
 import { HomeNavigation } from "./HomeNavigation";
@@ -9,20 +10,11 @@ import { HomeNavigation } from "./HomeNavigation";
 export function OrigenHomeState() {
   const reducedMotion = useReducedMotion();
   const contentDelay = reducedMotion ? 0 : GATEWAY_MOTION.opened.textDelay;
+  const videoDialog = useRef<HTMLDialogElement>(null);
+  const [videoOpen, setVideoOpen] = useState(false);
 
   return (
-    <motion.main
-      id="origen-home"
-      className="origen-home-page"
-      initial={{ backgroundColor: "#151411" }}
-      animate={{ backgroundColor: "#f2efe8" }}
-      transition={{
-        duration: reducedMotion
-          ? GATEWAY_MOTION.opened.reducedBackgroundDuration
-          : GATEWAY_MOTION.opened.backgroundDuration,
-        ease: CINEMATIC_ENTRY_EASE,
-      }}
-    >
+    <main id="origen-home" className="origen-home-page">
       <motion.div
         className="origen-home-texture"
         aria-hidden="true"
@@ -82,17 +74,61 @@ export function OrigenHomeState() {
             }}
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/origen-rebros-house-exterior.avif" alt="Origen Liencres" />
+            <img
+              src="/origen-home-video-poster.jpg"
+              alt="A gathering in the shala at Origen Liencres"
+              width={720}
+              height={1280}
+            />
+            <button
+              className="origen-home-video-trigger"
+              type="button"
+              aria-haspopup="dialog"
+              onClick={() => {
+                videoDialog.current?.showModal();
+                setVideoOpen(true);
+              }}
+            >
+              <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true">
+                <path fill="currentColor" d="M4 2.75v10.5L13 8z" />
+              </svg>
+              Watch video
+            </button>
             <figcaption>Liencres · Cantabria</figcaption>
           </motion.figure>
         </section>
       </motion.div>
+
+      <dialog
+        ref={videoDialog}
+        className="origen-home-video-dialog"
+        aria-label="A moment at Origen Liencres"
+        onClose={() => setVideoOpen(false)}
+      >
+        <button type="button" onClick={() => videoDialog.current?.close()}>
+          Close
+        </button>
+        {videoOpen && (
+          <video
+            aria-label="A moment at Origen Liencres"
+            controls
+            autoPlay
+            playsInline
+            poster="/origen-home-video-poster.jpg"
+            width={720}
+            height={1280}
+          >
+            <source src="/origen-home-video.mp4" type="video/mp4" />
+            <p><a href="/origen-home-video.mp4">Open the Origen video</a></p>
+          </video>
+        )}
+      </dialog>
 
       <HomeNavigation
         visible
         reducedMotion={Boolean(reducedMotion)}
         className="gateway-home-menu--main"
       />
-    </motion.main>
+    </main>
   );
 }

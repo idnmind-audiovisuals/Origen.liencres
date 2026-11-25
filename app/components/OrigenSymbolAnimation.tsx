@@ -1,143 +1,102 @@
 "use client";
 
-import { motion, useAnimationControls } from "framer-motion";
-import { ReactNode, useEffect } from "react";
+import { motion } from "framer-motion";
+import { useLayoutEffect, useRef, useState } from "react";
 import {
   CINEMATIC_ENTRY_EASE,
+  CONCENTRIC_ZOOM_EASE,
   GATEWAY_MOTION,
+  getPortalZoomScale,
   LIGHT_EMERGENCE_EASE,
   ORGANIC_EASE,
 } from "../lib/gateway-motion";
 import { GatewayCrescentArtwork } from "./GatewayCrescentArtwork";
 
 type OrigenSymbolAnimationProps = {
-  children?: ReactNode;
-  errorPulse: number;
-  unlocked: boolean;
+  opening: boolean;
+  onOpened: () => void;
 };
 
 export function OrigenSymbolAnimation({
-  children,
-  errorPulse,
-  unlocked,
+  opening,
+  onOpened,
 }: OrigenSymbolAnimationProps) {
-  const feedbackControls = useAnimationControls();
-  const reactionProgress =
-    GATEWAY_MOTION.success.reactionDuration /
-    GATEWAY_MOTION.success.zoomDelay;
+  const canvasRef = useRef<HTMLDivElement>(null);
+  const dotRef = useRef<HTMLDivElement>(null);
+  const [zoomScale, setZoomScale] = useState(1);
 
-  useEffect(() => {
-    if (errorPulse === 0) return;
+  useLayoutEffect(() => {
+    const canvas = canvasRef.current;
+    const dot = dotRef.current;
+    if (!canvas || !dot) return;
 
-    void feedbackControls.start({
-      opacity: [1, 0.8, 1],
-      transition: {
-        duration: GATEWAY_MOTION.incorrect.duration,
-        ease: ORGANIC_EASE,
-      },
-    });
-  }, [errorPulse, feedbackControls]);
+    const measure = () => {
+      // Read layout dimensions so the measurement does not change during the zoom.
+      const originY = parseFloat(getComputedStyle(canvas).transformOrigin.split(" ")[1]);
+      setZoomScale(
+        getPortalZoomScale(canvas.clientWidth, canvas.clientHeight, originY, dot.offsetWidth),
+      );
+    };
+
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(canvas);
+    observer.observe(dot);
+    return () => observer.disconnect();
+  }, []);
+
+  const { introZoom, firstLight, innerLight, centreDot } = GATEWAY_MOTION;
+  const zoomDuration = introZoom.breathDuration + introZoom.duration;
 
   return (
-    <>
+    <motion.div
+      className="gateway-intro-motion"
+      ref={canvasRef}
+      aria-hidden="true"
+      initial={false}
+      animate={opening ? "opening" : "forming"}
+      variants={{
+        forming: { scale: 1 },
+        opening: {
+          scale: [1, introZoom.breathScale, zoomScale],
+          transition: {
+            duration: zoomDuration,
+            times: [0, introZoom.breathDuration / zoomDuration, 1],
+            ease: [CINEMATIC_ENTRY_EASE, CONCENTRIC_ZOOM_EASE],
+          },
+        },
+      }}
+      onAnimationComplete={(phase) => {
+        if (phase === "opening") onOpened();
+      }}
+    >
       <motion.div
         className="first-light"
-        aria-hidden="true"
         initial={{ opacity: 0, scale: 0.0002 }}
-        animate={{ opacity: 1, scale: GATEWAY_MOTION.firstLight.scale }}
-        transition={{
-          delay: GATEWAY_MOTION.firstLight.delay,
-          duration: GATEWAY_MOTION.firstLight.duration,
-          ease: LIGHT_EMERGENCE_EASE,
-        }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ ...firstLight, ease: LIGHT_EMERGENCE_EASE }}
       />
 
       <div className="symbol-positioner">
-        <motion.div
-          className="symbol-stage"
-          animate={feedbackControls}
-          aria-hidden={false}
-        >
+        <div className="symbol-stage">
           <motion.div
-            className="unlock-response"
-            animate={
-              unlocked
-                ? {
-                    opacity: [1, 1, 0],
-                    scale: [1, 1.018, GATEWAY_MOTION.success.handoffScale],
-                  }
-                : { opacity: 1, scale: 1 }
-            }
-            transition={
-              unlocked
-                ? {
-                    duration: GATEWAY_MOTION.success.zoomDelay,
-                    ease: CINEMATIC_ENTRY_EASE,
-                    times: [0, reactionProgress, 1],
-                  }
-                : { duration: 0.2, ease: ORGANIC_EASE }
-            }
+            className="forming-crescent-shell"
+            initial={{ opacity: 0, scale: 0.7 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ ...innerLight, ease: ORGANIC_EASE }}
           >
-            <div className="forming-disc-shell" aria-hidden="true">
-              <motion.div
-                className="forming-disc"
-                initial={{ opacity: 0, scale: 0.02 }}
-                animate={{
-                  opacity: [0, 1, 1, 1],
-                  scale: [0.02, 1, 0.985, 1],
-                }}
-                transition={{
-                  delay: GATEWAY_MOTION.darkCircle.delay,
-                  duration: GATEWAY_MOTION.darkCircle.duration,
-                  times: [0, 0.72, 0.9, 1],
-                  ease: ORGANIC_EASE,
-                }}
-              />
-            </div>
-
-            <div className="forming-inner-shell" aria-hidden="true">
-              <motion.div
-                className="forming-inner"
-                initial={{ opacity: 0, scale: 0.02 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{
-                  delay: GATEWAY_MOTION.innerLight.delay,
-                  duration: GATEWAY_MOTION.innerLight.duration,
-                  ease: ORGANIC_EASE,
-                }}
-              />
-            </div>
-
-            <motion.div
-              className="forming-crescent-shell"
-              aria-hidden="true"
-              initial={{ opacity: 0, scale: 0.96 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{
-                delay: GATEWAY_MOTION.innerLight.delay,
-                duration: GATEWAY_MOTION.innerLight.duration,
-                ease: ORGANIC_EASE,
-              }}
-            >
-              <GatewayCrescentArtwork className="forming-crescent-art" />
-            </motion.div>
-
-            <motion.div
-              className="forming-dot"
-              aria-hidden="true"
-              initial={{ opacity: 0, scale: 0.15 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{
-                delay: GATEWAY_MOTION.centreDot.delay,
-                duration: GATEWAY_MOTION.centreDot.duration,
-                ease: ORGANIC_EASE,
-              }}
-            />
+            <GatewayCrescentArtwork className="forming-crescent-art" />
           </motion.div>
 
-          {children}
-        </motion.div>
+          <motion.div
+            className="forming-dot"
+            ref={dotRef}
+            initial={{ opacity: 0, scale: 0.15 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ ...centreDot, ease: ORGANIC_EASE }}
+          />
+        </div>
       </div>
-    </>
+    </motion.div>
   );
 }
