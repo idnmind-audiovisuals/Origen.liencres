@@ -8629,6 +8629,92 @@ body:has(.women-circle-page) .site-section-menu > button {
   font-size: 12px;
 }
 
+.organizer-start-options {
+  display: grid;
+  gap: 9px;
+  margin-top: 22px;
+}
+
+.organizer-start-options .organizer-option {
+  display: flex;
+  min-height: 48px;
+  padding: 10px 13px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgb(36 35 31 / 0.46);
+  color: var(--ink);
+  background: rgb(250 246 237 / 0.54);
+  font-size: 0.875rem;
+  font-weight: 620;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.organizer-start-options .organizer-option--primary {
+  background: var(--gateway-accent);
+}
+
+.organizer-start-options .organizer-option:hover {
+  color: var(--paper);
+  background: var(--ink);
+}
+
+.organizer-visit {
+  display: grid;
+  width: min(100% - clamp(44px, 9vw, 144px), 1600px);
+  margin-inline: auto;
+  padding: clamp(25px, 4.8vw, 72px);
+  grid-template-columns: minmax(0, 0.92fr) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(26px, 5vw, 84px);
+  background: #ebe8dc;
+  border: 1px solid rgb(36 35 31 / 0.14);
+  scroll-margin-top: 24px;
+}
+
+.organizer-visit h2 {
+  font-size: clamp(36px, 5.3vw, 80px);
+  font-weight: 330;
+  line-height: 0.99;
+  letter-spacing: -0.06em;
+}
+
+.organizer-visit h2 + p {
+  max-width: 48ch;
+  margin-top: 20px;
+  font-size: clamp(1rem, 1.4vw, 1.25rem);
+  line-height: 1.55;
+}
+
+.organizer-visit-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px 20px;
+  margin-top: 26px;
+}
+
+.organizer-visit-links a:not(.organizer-planner-cta) {
+  font-size: 0.875rem;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.organizer-visit img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+@media (max-width: 900px) {
+  .organizer-visit {
+    width: min(100% - 36px, 720px);
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
 .organizer-program,
 .organizer-questions,
 .organizer-links {
@@ -9329,13 +9415,6 @@ body:has(.women-circle-page) .site-section-menu > button {
 .booking-panel > .booking-layout,
 .retreat-planner-workspace {
   animation: none !important;
-}
-
-.organizer-useful-links {
-  display: grid;
-  justify-items: start;
-  gap: 4px;
-  margin-top: 18px;
 }
 
 .retreat-public-hero-meta .retreat-public-planner-cta {

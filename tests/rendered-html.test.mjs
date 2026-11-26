@@ -120,7 +120,8 @@ test("publishes one canonical organiser retreat page in each language", async ()
     assert.ok(html.includes(`rel="canonical" href="${url}"`));
     assert.match(meta(html, "robots"), /index, follow/);
     assert.doesNotMatch(meta(html, "robots"), /noindex|nofollow/);
-    assert.doesNotMatch(html, /<figure\b|<canvas\b|type="password"/i);
+    assert.doesNotMatch(html, /<canvas\b|type="password"/i);
+    if (route.language === "en") assert.doesNotMatch(html, /<figure\b/i);
     assert.match(html, /id="planning"/);
     assert.match(html, /href="#planning"/);
     assert.equal([...html.matchAll(/<details>/g)].length, 3);
@@ -181,13 +182,30 @@ test("presents the retreat venue explicitly to organisers", async () => {
   assert.match(html, /id="host"/);
   assert.match(html, /href="\/organiza-tu-retiro-cantabria\/planificador"/);
   assert.match(html, /Planificador gratuito/);
-  assert.match(html, /Enviar propuesta|Organiza tu retiro/);
+  assert.match(html, /Cuéntanos tu proyecto/);
   assert.doesNotMatch(html, /Precio de lanzamiento|booking-date-trigger|Comprar plaza/i);
   assert.match(html, /rel="canonical" href="https:\/\/www\.origenliencres\.com\/organiza-tu-retiro-cantabria"/);
   assert.ok(html.includes(`hrefLang="en" href="${publicOrigin}/host-your-retreat-cantabria"`) || html.includes(`hreflang="en" href="${publicOrigin}/host-your-retreat-cantabria"`));
   assert.match(meta(html, "robots"), /index, follow/);
   assert.equal(meta(html, "og:url"), `${publicOrigin}/organiza-tu-retiro-cantabria`);
   assert.match(html, /"@type":"Service"/);
+});
+
+test("offers three ways to start and a tea visit by WhatsApp", async () => {
+  const html = await (await render("/organiza-tu-retiro-cantabria")).text();
+  const options = html.match(/<nav\b[^>]*class="organizer-start-options"[^>]*>([\s\S]*?)<\/nav>/)?.[1];
+  assert.ok(options);
+  const labels = [...options.matchAll(/<a\b[^>]*>([^<]*)<\/a>/g)].map((match) => match[1]);
+  assert.deepEqual(labels, ["Cuéntanos tu proyecto", "Planificador gratuito", "Descubre el espacio"]);
+  assert.match(options, /href="https:\/\/docs\.google\.com\/forms\//);
+  assert.match(options, /href="\/organiza-tu-retiro-cantabria\/planificador"/);
+  assert.match(options, /href="#descubre-el-espacio"/);
+  const visit = html.match(/<section\b[^>]*id="descubre-el-espacio"[^>]*>([\s\S]*?)<\/section>/)?.[1];
+  assert.ok(visit);
+  assert.match(visit, /Te invitamos a tomar un té en Origen Liencres/);
+  const whatsapp = new URL(decodeHtml(visit.match(/href="(https:\/\/wa\.me\/[^"]+)"/)?.[1] ?? ""));
+  assert.equal(whatsapp.pathname, "/34622181691");
+  assert.equal(whatsapp.searchParams.get("text"), "Me encantaría descubrir el espacio de Origen, ¿cuándo te vendría bien para tomar un té?");
 });
 
 test("the planner opens publicly and adapts its guidance to the answers", async () => {

@@ -265,7 +265,7 @@ export const organizerPages: Record<OrganizerSlug, OrganizerCopy> = {
     heading: "Organiza tu retiro en Origen.",
     lead: "Tú aportas la intención. Nosotros, un lugar para reunir al grupo. Empieza a preparar un retiro íntimo en Liencres, Cantabria, entre el mar y el bosque.",
     facts: [["Grupo", "Hasta 8 personas alojadas"], ["Formato", "Tu grupo · tu programa"], ["Llegada", "~25 min del aeropuerto de Santander"]],
-    cta: "Organiza tu retiro",
+    cta: "Cuéntanos tu proyecto",
     introTitle: "De la idea a una estancia bien pensada.",
     intro: [
       "Esta guía es para facilitadores que tienen una práctica, una comunidad o un grupo en mente. Origen reúne alojamiento, zonas compartidas y una shala abierta a la naturaleza en un mismo espacio privado.",

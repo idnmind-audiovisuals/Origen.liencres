@@ -6,12 +6,17 @@ import { GatewayBrandLink } from "./GatewayBrandLink";
 import { InstagramLink } from "./InstagramLink";
 import { HomeFooterLink } from "./HomeFooterLink";
 
+const ORIGEN_PHONE = "+34622181691";
+const VISIT_MESSAGE = "Me encantaría descubrir el espacio de Origen, ¿cuándo te vendría bien para tomar un té?";
+const VISIT_WHATSAPP_URL = `https://wa.me/${ORIGEN_PHONE.slice(1)}?text=${encodeURIComponent(VISIT_MESSAGE)}`;
+
 export function OrganizerLanding({ slug }: { slug: OrganizerSlug }) {
   const copy = organizerPages[slug];
   const spanish = copy.language === "es";
   const overview = spanish ? "/retiros" : "/retreats";
   const faq = spanish ? "/retiros-cantabria/preguntas-frecuentes" : "/retreats-spain/faq";
   const commercialPage = spanish ? "/organiza-tu-retiro-cantabria" : "/host-your-retreat-cantabria";
+  const showVisitOptions = slug === "organiza-tu-retiro-cantabria";
   const url = `${PUBLIC_SITE_URL}/${slug}`;
   const structuredData = {
     "@context": "https://schema.org",
@@ -48,8 +53,8 @@ export function OrganizerLanding({ slug }: { slug: OrganizerSlug }) {
         <GatewayBrandLink className="retreat-public-brand" label={spanish ? "Origen — volver a la entrada" : "Origen — return to the gateway"} variant="black" />
         <nav aria-label={spanish ? "Navegación" : "Navigation"}>
           <Link href={overview}>{spanish ? "El espacio" : "The space"}</Link>
-          <Link className="organizer-header-cta" href={slug === "organiza-tu-retiro-cantabria" || slug === "host-your-retreat-cantabria" ? "#host" : commercialPage}>
-            <span aria-hidden="true" />{spanish ? "Organizar" : "Host"}
+          <Link className="organizer-header-cta" href={showVisitOptions ? "#planning" : slug === "host-your-retreat-cantabria" ? "#host" : commercialPage}>
+            <span aria-hidden="true" />{showVisitOptions ? "Qué preparar" : spanish ? "Organizar" : "Host"}
           </Link>
           {copy.alternate ? (
             <Link className="retreat-language-link" href={`/${copy.alternate}`} hrefLang={spanish ? "en" : "es"} lang={spanish ? "en" : "es"} aria-label={spanish ? "Read this page in English" : "Leer esta página en español"}>
@@ -67,18 +72,42 @@ export function OrganizerLanding({ slug }: { slug: OrganizerSlug }) {
         </div>
         <div className="retreat-public-hero-meta">
           <dl>{copy.facts.map(([term, value]) => <div key={term}><dt>{term}</dt><dd>{value}</dd></div>)}</dl>
-          <a className="retreat-public-primary" href={HOST_APPLICATION_URL} target="_blank" rel="noreferrer">
-            {copy.cta}<span className="external-link-dot" aria-hidden="true" />
-          </a>
-          <a className="organizer-jump" href="#planning">{spanish ? "Qué preparar" : "What to prepare"}</a>
-          {slug === "organiza-tu-retiro-cantabria" && (
-            <div className="organizer-useful-links">
-              <Link className="organizer-planner-cta" href="/organiza-tu-retiro-cantabria/planificador">Planificador gratuito</Link>
-              <Link className="organizer-jump" href="/retiros#reservar">Ver disponibilidad del espacio</Link>
-            </div>
+          {showVisitOptions ? (
+            <nav className="organizer-start-options" aria-label="Elige cómo empezar">
+              <a className="organizer-option organizer-option--primary" href={HOST_APPLICATION_URL} target="_blank" rel="noreferrer">{copy.cta}</a>
+              <Link className="organizer-option" href="/organiza-tu-retiro-cantabria/planificador">Planificador gratuito</Link>
+              <a className="organizer-option" href="#descubre-el-espacio">Descubre el espacio</a>
+            </nav>
+          ) : (
+            <>
+              <a className="retreat-public-primary" href={HOST_APPLICATION_URL} target="_blank" rel="noreferrer">
+                {copy.cta}<span className="external-link-dot" aria-hidden="true" />
+              </a>
+              <a className="organizer-jump" href="#planning">{spanish ? "Qué preparar" : "What to prepare"}</a>
+            </>
           )}
         </div>
       </section>
+
+      {showVisitOptions && (
+        <section className="organizer-visit" id="descubre-el-espacio" aria-labelledby="organizer-visit-title">
+          <div>
+            <p className="retreat-public-eyebrow">Visita con cita · Liencres</p>
+            <h2 id="organizer-visit-title">Descubre el espacio.</h2>
+            <p>Te invitamos a tomar un té en Origen Liencres. Ven a conocer la casa y la shala, cuéntanos qué tienes en mente y veamos si el lugar encaja con tu grupo.</p>
+            <div className="organizer-visit-links">
+              <a className="organizer-planner-cta" href={VISIT_WHATSAPP_URL} target="_blank" rel="noreferrer">
+                Acordar una visita por WhatsApp
+              </a>
+              <Link href="/retiros#reservar">Ver disponibilidad del espacio</Link>
+            </div>
+          </div>
+          <figure>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/origen-rebros-house-exterior.avif" width="1440" height="1080" loading="lazy" decoding="async" alt="La casa y el jardín de Origen Liencres" />
+          </figure>
+        </section>
+      )}
 
       <section className="retreat-public-intro scroll-reveal" aria-labelledby="organizer-intro">
         <div>
@@ -157,7 +186,7 @@ export function OrganizerLanding({ slug }: { slug: OrganizerSlug }) {
       <footer className="retreat-public-footer">
         <address>
           Origen Liencres<br />Barrio Liencres, 585<br />39120 Liencres, Cantabria<br />
-          <a href="tel:+34622181691">+34 622 18 16 91</a>
+          <a href={`tel:${ORIGEN_PHONE}`}>+34 622 18 16 91</a>
         </address>
         <InstagramLink />
         <div>
