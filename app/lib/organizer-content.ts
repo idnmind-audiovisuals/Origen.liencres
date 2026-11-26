@@ -284,14 +284,14 @@ export const organizerPages: Record<OrganizerSlug, OrganizerCopy> = {
       items: [
         ["Las personas", "Número de participantes y equipo, preferencias de alojamiento y necesidades de accesibilidad."],
         ["La práctica", "Un esquema de horarios, materiales, sonido y características del espacio que requiere cada sesión."],
-        ["La logística", "Comidas, llegadas, desplazamientos y apoyos que quieras consultar. Confirma qué servicios se incluyen y cuáles no."],
+        ["Logística y apoyo", "Podemos aportar producción de vídeo, sistema de sonido, decoración y comidas. Si lo necesitas, también podemos ayudarte con la organización y producción del retiro. Cuéntanos qué apoyo necesitas para acordarlo por separado."],
         ["El acuerdo", "Solicita precio, calendario de pagos, condiciones de cancelación y confirmación de fechas y servicios."],
       ],
     },
     questions: [
       ["¿Puedo traer mi propio programa?", "Sí. Esta consulta está pensada para organizadores que aportan su programa y su grupo. Comparte el formato para valorar su encaje en el espacio."],
       ["¿El formulario reserva las fechas?", "No. Enviarlo inicia una conversación. Las fechas, el precio y las condiciones de reserva deben confirmarse por separado."],
-      ["¿Se incluyen comidas, traslados y facilitación?", "Esta página no anuncia un paquete con esos servicios. Consulta tus necesidades y confirma el alcance concreto de la estancia antes de reservar."],
+      ["¿Se incluyen comidas, traslados y facilitación?", "Esta página no anuncia un paquete con esos servicios, pero si necesitas apoyo, escríbenos con antelación para organizarlo como un servicio externo."],
     ],
     closingTitle: "Hagamos espacio para tu grupo.",
     closingBody: "Envía tu intención, las fechas posibles y el tamaño del grupo. Una propuesta clara nos ayuda a entender lo que necesitas.",

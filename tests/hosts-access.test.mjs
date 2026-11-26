@@ -206,12 +206,14 @@ test("both animation paths reveal the public home without a password", async () 
     readFile(new URL("../app/components/AccessGateway.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/components/OrigenSymbolAnimation.tsx", import.meta.url), "utf8"),
   ]);
-  assert.match(cinematic, /setState\("opening"\)/);
+  assert.match(cinematic, /setState\(forming \? "resting" : "opening"\)/);
+  assert.match(cinematic, /<OrigenWordmark visible=\{state === "resting"\}/);
   assert.match(cinematic, /onOpened=\{\(\) => setState\("opened"\)\}/);
   assert.match(transition, /className="gateway-intro-motion"/);
-  assert.match(transition, /scale: \[1, introZoom\.breathScale, zoomScale\]/);
+  assert.match(transition, /scale: \[\.\.\.introZoom\.crescentScales\]/);
+  assert.match(transition, /scale: getDotZoomKeyframes\(zoomScale\)/);
   assert.match(transition, /onAnimationComplete/);
-  assert.doesNotMatch(cinematic, /gateway-opening-copy|Origen is opening|<OrigenWordmark/);
+  assert.doesNotMatch(cinematic, /gateway-opening-copy|Origen is opening/);
   const brand = await readFile(new URL("../app/components/GatewayBrandLink.tsx", import.meta.url), "utf8");
   assert.match(brand, /fetch\("\/api\/access", \{ method: "DELETE" \}\)/);
   assert.match(brand, /window\.location\.replace\("\/"\)/);

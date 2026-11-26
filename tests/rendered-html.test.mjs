@@ -3,7 +3,7 @@ import { readFile } from "node:fs/promises";
 import test from "node:test";
 import { PDFDocument } from "pdf-lib";
 import { calculateRetreatQuote } from "../app/lib/retreat-pricing.ts";
-import { GATEWAY_MOTION, getPortalZoomScale } from "../app/lib/gateway-motion.ts";
+import { GATEWAY_MOTION, getDotZoomKeyframes, getPortalZoomScale } from "../app/lib/gateway-motion.ts";
 import { plannerDefaults, plannerTips, retreatPlan, retreatToolbox } from "../app/lib/retreat-planner.ts";
 
 const templateRoot = new URL("../", import.meta.url);
@@ -173,6 +173,10 @@ test("presents the retreat venue explicitly to organisers", async () => {
   assert.match(html, /Tu grupo · tu programa/i);
   assert.match(html, /El primer paso es una consulta, no una reserva inmediata/);
   assert.match(html, /Hasta 8 personas alojadas/);
+  assert.match(html, /producción de vídeo, sistema de sonido, decoración y comidas/);
+  assert.match(html, /organización y producción del retiro/);
+  assert.match(html, /¿Se incluyen comidas, traslados y facilitación\?/);
+  assert.match(html, /escríbenos con antelación para organizarlo como un servicio externo/);
   assert.match(html, /id="planning"/);
   assert.match(html, /id="host"/);
   assert.match(html, /href="\/organiza-tu-retiro-cantabria\/planificador"/);
@@ -268,6 +272,16 @@ test("links back to the homepage in the main public section footers", async () =
     assert.ok(footer, path);
     assert.match(footer, /<a\b(?=[^>]*class="site-home-footer-link")(?=[^>]*href="\/")[^>]*>Volver al inicio<\/a>/, path);
   }
+});
+
+test("uses one Google Maps destination across retreat and residency pages", async () => {
+  const url = "https://maps.app.goo.gl/BcGm3yvs8kQGfxPeA";
+  const paths = ["/retiros", "/organiza-tu-retiro-cantabria", "/retiros-cantabria/preguntas-frecuentes", "/residencias-artisticas-cantabria"];
+  for (const path of paths) {
+    const page = await (await render(path)).text();
+    assert.ok(page.includes(`href="${url}"`), path);
+  }
+  assert.ok((await (await render()).text()).includes(`"hasMap":"${url}"`));
 });
 
 test("shows real venue photos and the looping video on both Spanish landing pages", async () => {
@@ -684,6 +698,9 @@ test("server-renders the Origen gateway", async () => {
   assert.match(html, /Alojamiento turístico y espacio para retiros, residencias y grupos privados/i);
   assert.doesNotMatch(html, /placeholder="Key to open"|type="password"/i);
   assert.match(html, /class="gateway-intro-motion"/);
+  assert.match(html, /class="origen-wordmark" role="img" aria-label="Origen"/);
+  assert.match(html, /class="gateway-zoom-layer gateway-crescent-zoom"/);
+  assert.match(html, /class="gateway-zoom-layer gateway-dot-zoom"/);
   assert.doesNotMatch(html, /Origen is opening|gateway-opening-copy/i);
   assert.match(html, /origen-favicon\.png/i);
   assert.match(html, /rel="canonical" href="https:\/\/www\.origenliencres\.com\/"/i);
@@ -694,16 +711,25 @@ test("server-renders the Origen gateway", async () => {
   assert.doesNotMatch(html, /codex-preview|react-loading-skeleton/i);
 });
 
-test("keeps the October formation and zooms through the dot on all screen shapes", () => {
+test("holds the wordmark after formation and lets the dot zoom ahead of the crescent", () => {
   assert.equal(GATEWAY_MOTION.firstLight.delay, 1);
   assert.equal(GATEWAY_MOTION.formationDurationMs, 4696);
   assert.equal(GATEWAY_MOTION.introZoom.duration, 2.08);
+  assert.ok(GATEWAY_MOTION.wordmarkHoldMs > GATEWAY_MOTION.success.interfaceFade * 1000);
+  const { crescentScales, crescentTimes, dotTimes } = GATEWAY_MOTION.introZoom;
+  assert.ok(dotTimes[1] < crescentTimes[1]);
+  assert.ok(dotTimes[2] < crescentTimes[2]);
   for (const [width, height, focusY, dotSize] of [
     [390, 844, 389, 43],
     [844, 390, 213, 28],
     [1920, 1080, 497, 55],
   ]) {
-    const finalRadius = (getPortalZoomScale(width, height, focusY, dotSize) * dotSize) / 2;
+    const target = getPortalZoomScale(width, height, focusY, dotSize);
+    const frames = getDotZoomKeyframes(target);
+    assert.equal(frames[0], 1);
+    assert.equal(frames[3], target);
+    assert.ok(frames[2] > crescentScales[2]);
+    const finalRadius = (frames[3] * dotSize) / 2;
     assert.ok(finalRadius > Math.hypot(width / 2, Math.max(focusY, height - focusY)));
   }
 });
@@ -913,7 +939,7 @@ test("keeps all access keys server-only and destination-scoped", async () => {
   );
   assert.match(
     invitation,
-    /href=\{MAPS_URL\}[\s\S]*className="invitation-join"[\s\S]*localizedHref\("\/story"/,
+    /href=\{ORIGEN_MAPS_URL\}[\s\S]*className="invitation-join"[\s\S]*localizedHref\("\/story"/,
   );
   assert.match(
     instagram,

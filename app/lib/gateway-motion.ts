@@ -31,6 +31,12 @@ export function getPortalZoomScale(
   return (2 * cornerRadius * 1.07) / dotDiameter;
 }
 
+export function getDotZoomKeyframes(finalScale: number) {
+  const end = Math.max(1, finalScale);
+  const range = end - 1;
+  return [1, 1 + range * 0.015, 1 + range * 0.66, end];
+}
+
 export const GATEWAY_MOTION = {
   firstLight: {
     delay: INTRO_PAUSE_SECONDS,
@@ -45,10 +51,12 @@ export const GATEWAY_MOTION = {
     duration: 0.48 * INTRO_PACE,
   },
   formationDurationMs: afterPause(3.08) * 1000,
+  wordmarkHoldMs: 900,
   introZoom: {
-    breathDuration: 0.72,
-    breathScale: 1.035,
     duration: 2.08,
+    crescentScales: [1, 1.12, 2.4, 4.3],
+    crescentTimes: [0, 0.32, 0.77, 1],
+    dotTimes: [0, 0.21, 0.73, 1],
   },
   incorrect: {
     duration: 0.42,

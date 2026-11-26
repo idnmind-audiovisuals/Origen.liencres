@@ -9,9 +9,9 @@
   --portal-size: min(49.494dvh, calc(100vw - 32px));
   --symbol-size: calc(var(--portal-size) * 0.689284);
   --symbol-ratio: 283 / 244;
-  --symbol-center-y: 40.258dvh;
+  --symbol-center-y: calc(var(--portal-center-y) - var(--portal-size) * 0.0552);
   --symbol-rest-offset-y: calc(var(--symbol-center-y) - 50dvh);
-  --wordmark-top: 76.706dvh;
+  --wordmark-top: calc(var(--portal-center-y) + var(--portal-size) * 0.68);
   --wordmark-width: calc(var(--portal-size) * 0.586968);
 }
 
@@ -3642,14 +3642,21 @@ button {
   background: var(--paper);
 }
 
-.gateway-intro-motion {
+.gateway-intro-motion,
+.gateway-zoom-layer {
   position: absolute;
   inset: 0;
+  pointer-events: none;
+}
+
+.gateway-zoom-layer {
   /* The dot is centred at (141.5, 170) in the 283 × 244 artwork. */
   transform-origin: 50% calc(var(--symbol-center-y) + var(--symbol-size) * 48 / 283);
-  pointer-events: none;
   will-change: transform;
 }
+
+.gateway-crescent-zoom { z-index: 0; }
+.gateway-dot-zoom { z-index: 1; }
 
 .first-light {
   position: fixed;
@@ -6246,15 +6253,8 @@ body:has(.women-circle-page) .site-section-menu > button {
 
 @media (max-height: 520px) {
   :root {
-    --portal-center-y: 50%;
-    --portal-size: min(72vmin, 280px);
-    --symbol-size: calc(var(--portal-size) * 0.689284);
-    --symbol-center-y: 50dvh;
-    --symbol-rest-offset-y: 0px;
-  }
-
-  .origen-wordmark {
-    display: none;
+    --portal-center-y: 41dvh;
+    --portal-size: min(64vmin, 280px);
   }
 }
 

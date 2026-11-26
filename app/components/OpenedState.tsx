@@ -14,6 +14,7 @@ import {
   GATEWAY_MOTION,
 } from "../lib/gateway-motion";
 import { localizedHref, type Language } from "../lib/language";
+import { ORIGEN_MAPS_URL } from "../lib/public-retreat-content";
 import {
   RESIDENCY_COPIES,
   SPACE_COPY,
@@ -31,7 +32,6 @@ type OpenedStateProps = {
 
 const SPACE_URL =
   "https://es-l.airbnb.com/rooms/23250801?source_impression_id=p3_1785061106_P3QhtYkp0415WTpb&modal=PHOTO_TOUR_SCROLLABLE";
-const MAPS_URL = "https://maps.app.goo.gl/CcDJ15DKT4QvTdW4A";
 const SPACE_APPLICATION_FORM_URL =
   "https://docs.google.com/forms/d/e/1FAIpQLSf9DrIbIV4OKiswKQhuKsssMyVvuP_l8CROR0ijH0_WUQSpIw/viewform?usp=publish-editor";
 const WHATSAPP_URL =
@@ -241,7 +241,7 @@ export function OpenedState({
               </span>
               <span className="external-link-dot" aria-hidden="true" />
             </a>
-            <a href={MAPS_URL} target="_blank" rel="noreferrer">
+            <a href={ORIGEN_MAPS_URL} target="_blank" rel="noreferrer">
               <span>
                 <small>{copy.location}</small>
                 {copy.maps}

@@ -1,6 +1,6 @@
 export const PUBLIC_SITE_URL = "https://www.origenliencres.com";
 export const ORIGEN_MAPS_URL =
-  "https://maps.app.goo.gl/CcDJ15DKT4QvTdW4A";
+  "https://maps.app.goo.gl/BcGm3yvs8kQGfxPeA";
 export const ORIGEN_INSTAGRAM_URL =
   "https://www.instagram.com/origenliencres/";
 export const ORIGEN_AIRBNB_URL =

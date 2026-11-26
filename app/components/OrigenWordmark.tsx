@@ -18,6 +18,7 @@ export function OrigenWordmark({
       className="origen-wordmark"
       role="img"
       aria-label="Origen"
+      aria-hidden={!visible}
     >
       <motion.div
         className="origen-wordmark-motion"

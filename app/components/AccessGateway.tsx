@@ -4,9 +4,10 @@ import { useEffect, useState, useSyncExternalStore } from "react";
 import { GATEWAY_MOTION } from "../lib/gateway-motion";
 import { OrigenHomeState } from "./OrigenHomeState";
 import { OrigenSymbolAnimation } from "./OrigenSymbolAnimation";
+import { OrigenWordmark } from "./OrigenWordmark";
 import { ReducedMotionGateway } from "./ReducedMotionGateway";
 
-type GatewayState = "forming" | "opening" | "opened";
+type GatewayState = "forming" | "resting" | "opening" | "opened";
 
 const reducedMotionQuery = "(prefers-reduced-motion: reduce)";
 
@@ -29,10 +30,11 @@ export function AccessGateway() {
   const [state, setState] = useState<GatewayState>("forming");
 
   useEffect(() => {
-    if (reduced || state !== "forming") return;
+    if (reduced || (state !== "forming" && state !== "resting")) return;
+    const forming = state === "forming";
     const reveal = window.setTimeout(
-      () => setState("opening"),
-      GATEWAY_MOTION.formationDurationMs,
+      () => setState(forming ? "resting" : "opening"),
+      forming ? GATEWAY_MOTION.formationDurationMs : GATEWAY_MOTION.wordmarkHoldMs,
     );
     return () => window.clearTimeout(reveal);
   }, [reduced, state]);
@@ -46,9 +48,10 @@ export function AccessGateway() {
         opening={state === "opening"}
         onOpened={() => setState("opened")}
       />
+      <OrigenWordmark visible={state === "resting"} />
 
       <p className="sr-only" role="status" aria-live="polite">
-        {state === "forming" ? "Formando Origen." : "Entrando en Origen."}
+        {state === "opening" ? "Entrando en Origen." : "Origen Liencres."}
       </p>
     </main>
   );
