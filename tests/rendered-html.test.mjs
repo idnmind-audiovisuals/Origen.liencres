@@ -120,8 +120,7 @@ test("publishes one canonical organiser retreat page in each language", async ()
     assert.ok(html.includes(`rel="canonical" href="${url}"`));
     assert.match(meta(html, "robots"), /index, follow/);
     assert.doesNotMatch(meta(html, "robots"), /noindex|nofollow/);
-    assert.doesNotMatch(html, /<canvas\b|type="password"/i);
-    if (route.language === "en") assert.doesNotMatch(html, /<figure\b/i);
+    assert.doesNotMatch(html, /<figure\b|<canvas\b|type="password"/i);
     assert.match(html, /id="planning"/);
     assert.match(html, /href="#planning"/);
     assert.equal([...html.matchAll(/<details>/g)].length, 3);
@@ -202,7 +201,9 @@ test("offers three ways to start and a tea visit by WhatsApp", async () => {
   assert.match(options, /href="#descubre-el-espacio"/);
   const visit = html.match(/<section\b[^>]*id="descubre-el-espacio"[^>]*>([\s\S]*?)<\/section>/)?.[1];
   assert.ok(visit);
-  assert.match(visit, /Te invitamos a tomar un té en Origen Liencres/);
+  assert.match(visit, /class="organizer-visit-ticket"/);
+  assert.match(visit, /<h2 id="organizer-visit-title">Te invitamos a tomar un té en Origen Liencres\.<\/h2>/);
+  assert.match(visit, /class="organizer-visit-cta"[^>]*>\s*Acordar visita\s*<\/a>/);
   const whatsapp = new URL(decodeHtml(visit.match(/href="(https:\/\/wa\.me\/[^"]+)"/)?.[1] ?? ""));
   assert.equal(whatsapp.pathname, "/34622181691");
   assert.equal(whatsapp.searchParams.get("text"), "Me encantaría descubrir el espacio de Origen, ¿cuándo te vendría bien para tomar un té?");

@@ -91,21 +91,19 @@ export function OrganizerLanding({ slug }: { slug: OrganizerSlug }) {
 
       {showVisitOptions && (
         <section className="organizer-visit" id="descubre-el-espacio" aria-labelledby="organizer-visit-title">
-          <div>
-            <p className="retreat-public-eyebrow">Visita con cita · Liencres</p>
-            <h2 id="organizer-visit-title">Descubre el espacio.</h2>
-            <p>Te invitamos a tomar un té en Origen Liencres. Ven a conocer la casa y la shala, cuéntanos qué tienes en mente y veamos si el lugar encaja con tu grupo.</p>
-            <div className="organizer-visit-links">
-              <a className="organizer-planner-cta" href={VISIT_WHATSAPP_URL} target="_blank" rel="noreferrer">
-                Acordar una visita por WhatsApp
+          <div className="organizer-visit-ticket">
+            <div className="organizer-visit-ticket-main">
+              <p className="organizer-visit-label">Invitación · Visita con cita</p>
+              <h2 id="organizer-visit-title">Te invitamos a tomar un té en Origen Liencres.</h2>
+            </div>
+            <div className="organizer-visit-ticket-stub">
+              <a className="organizer-visit-cta" href={VISIT_WHATSAPP_URL} target="_blank" rel="noreferrer" aria-describedby="organizer-visit-channel">
+                Acordar visita
               </a>
-              <Link href="/retiros#reservar">Ver disponibilidad del espacio</Link>
+              <p id="organizer-visit-channel">Por WhatsApp</p>
             </div>
           </div>
-          <figure>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/origen-rebros-house-exterior.avif" width="1440" height="1080" loading="lazy" decoding="async" alt="La casa y el jardín de Origen Liencres" />
-          </figure>
+          <Link className="organizer-visit-availability" href="/retiros#reservar">Ver disponibilidad del espacio</Link>
         </section>
       )}
 

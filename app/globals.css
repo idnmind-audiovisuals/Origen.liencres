@@ -8661,57 +8661,118 @@ body:has(.women-circle-page) .site-section-menu > button {
 
 .organizer-visit {
   display: grid;
-  width: min(100% - clamp(44px, 9vw, 144px), 1600px);
+  width: min(100% - clamp(36px, 9vw, 144px), 1100px);
   margin-inline: auto;
-  padding: clamp(25px, 4.8vw, 72px);
-  grid-template-columns: minmax(0, 0.92fr) minmax(0, 1fr);
-  align-items: center;
-  gap: clamp(26px, 5vw, 84px);
-  background: #ebe8dc;
-  border: 1px solid rgb(36 35 31 / 0.14);
   scroll-margin-top: 24px;
 }
 
+.organizer-visit-ticket {
+  --ticket-edge: #b6ae94;
+  --ticket-cut: transparent 11px, #000 12px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(180px, 30%);
+  filter: drop-shadow(0 12px 22px rgb(39 35 18 / 0.07));
+}
+
+.organizer-visit-ticket-main {
+  padding: clamp(28px, 4.4vw, 66px);
+  border: 1px solid var(--ticket-edge);
+  border-inline-end: 0;
+  border-radius: 5px 0 0 5px;
+  background: #faf4e6;
+  mask:
+    radial-gradient(circle at right top, var(--ticket-cut)) top / 100% 51% no-repeat,
+    radial-gradient(circle at right bottom, var(--ticket-cut)) bottom / 100% 51% no-repeat;
+}
+
+.organizer-visit-label {
+  color: #57583b;
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.075em;
+  text-transform: uppercase;
+}
+
 .organizer-visit h2 {
-  font-size: clamp(36px, 5.3vw, 80px);
-  font-weight: 330;
-  line-height: 0.99;
-  letter-spacing: -0.06em;
+  max-width: 19ch;
+  margin-top: 18px;
+  font-size: clamp(31px, 4.5vw, 65px);
+  font-weight: 350;
+  line-height: 1.02;
+  letter-spacing: -0.055em;
+  text-wrap: balance;
 }
 
-.organizer-visit h2 + p {
-  max-width: 48ch;
-  margin-top: 20px;
-  font-size: clamp(1rem, 1.4vw, 1.25rem);
-  line-height: 1.55;
+.organizer-visit-ticket-stub {
+  display: grid;
+  padding: clamp(20px, 3vw, 44px);
+  gap: 10px;
+  place-content: center;
+  justify-items: center;
+  border: 1px solid var(--ticket-edge);
+  border-inline-start: 1px dashed #898368;
+  border-radius: 0 5px 5px 0;
+  background: #eeebdc;
+  text-align: center;
+  mask:
+    radial-gradient(circle at left top, var(--ticket-cut)) top / 100% 51% no-repeat,
+    radial-gradient(circle at left bottom, var(--ticket-cut)) bottom / 100% 51% no-repeat;
 }
 
-.organizer-visit-links {
-  display: flex;
-  flex-wrap: wrap;
+.organizer-visit-ticket-stub p {
+  color: #55553d;
+  font-size: 0.875rem;
+}
+
+.organizer-visit .organizer-visit-cta {
+  display: inline-flex;
+  min-height: 48px;
+  padding: 10px 18px;
   align-items: center;
-  gap: 14px 20px;
-  margin-top: 26px;
+  justify-content: center;
+  border-radius: 3px;
+  color: #fffaf0;
+  background: #444b2d;
+  font-size: 1rem;
+  font-weight: 620;
 }
 
-.organizer-visit-links a:not(.organizer-planner-cta) {
+.organizer-visit .organizer-visit-cta:hover {
+  background: #30371f;
+}
+
+.organizer-visit .organizer-visit-availability {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  justify-self: end;
   font-size: 0.875rem;
   text-decoration: underline;
   text-underline-offset: 4px;
 }
 
-.organizer-visit img {
-  display: block;
-  width: 100%;
-  height: auto;
-  aspect-ratio: 4 / 3;
-  object-fit: cover;
-}
-
-@media (max-width: 900px) {
-  .organizer-visit {
-    width: min(100% - 36px, 720px);
+@media (max-width: 600px) {
+  .organizer-visit-ticket {
     grid-template-columns: minmax(0, 1fr);
+  }
+
+  .organizer-visit-ticket-main {
+    border-inline-end: 1px solid var(--ticket-edge);
+    border-bottom: 0;
+    border-radius: 5px 5px 0 0;
+    mask:
+      radial-gradient(circle at left bottom, var(--ticket-cut)) left / 51% 100% no-repeat,
+      radial-gradient(circle at right bottom, var(--ticket-cut)) right / 51% 100% no-repeat;
+  }
+
+  .organizer-visit-ticket-stub {
+    padding: 24px;
+    border-inline-start: 1px solid var(--ticket-edge);
+    border-top: 1px dashed #898368;
+    border-radius: 0 0 5px 5px;
+    mask:
+      radial-gradient(circle at left top, var(--ticket-cut)) left / 51% 100% no-repeat,
+      radial-gradient(circle at right top, var(--ticket-cut)) right / 51% 100% no-repeat;
   }
 }
 
